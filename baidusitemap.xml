@@ -4,6 +4,46 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2016/04/15/A-small-trap-of-JDBC-connection-to-MySQL-in-java/</loc>
+    <lastmod>2017-05-13T00:16:21.773Z</lastmod>
+    <data>
+        <display>
+        <title>Java之JDBC连接MySQL的一点坑</title>
+        <pubTime>2016-04-15T15:51:11.000Z</pubTime>
+        
+        <tag>MySQL</tag>
+         
+         
+           
+             
+              <breadCrumb title="Database" url="http://www.codepub.cn/categories/Database/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/06/03/MySQL-dump-import-export-database-command-summary/</loc>
+    <lastmod>2017-05-13T00:15:53.380Z</lastmod>
+    <data>
+        <display>
+        <title>MySQL dump导入导出数据库命令汇总</title>
+        <pubTime>2015-06-03T10:26:46.000Z</pubTime>
+        
+        <tag>MySQL</tag>
+         
+         
+           
+             
+              <breadCrumb title="Database" url="http://www.codepub.cn/categories/Database/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2017/05/12/MySQL-pull-the-massive-data-out-of-memory-error/</loc>
     <lastmod>2017-05-12T15:12:35.126Z</lastmod>
     <data>
