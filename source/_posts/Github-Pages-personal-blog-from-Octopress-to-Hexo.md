@@ -5,7 +5,7 @@ categories: Git/GitHub
 
 ---
 
-环境&版本
+>环境&版本
 OS：win7 X64
 Hexo：V3.0.0
 Node.js：V0.12.2
@@ -55,7 +55,7 @@ $ hexo g # 生成
 $ hexo s # 启动本地服务，进行文章预览调试 
 ```
 在浏览器中输入http://localhost:4000/
-如果显示的是繁体中文，那么修改_config.xml中的language: zh-CN。
+如果显示的是繁体中文，那么修改`_config.xml`中的`language: zh-CN`。
 #### 绑定独立域名
 [购买域名](http://www.net.cn/)
 在你的域名注册提供商那里配置DNS解析，获取GitHub的IP地址[点击](https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/)，进入source目录下，添加CNAME文件
@@ -66,7 +66,7 @@ $ vim CNAME # 输入你的域名，例如codepub.cn
 $ git add CNAME
 $ git commit -m "add CNAME"
 ```
-修改_config.xml文件，添加你的Github中仓库地址，该仓库名称必须是 yourusername.github.io，添加如下内容到_config.xml中
+修改`_config.xml`文件，添加你的Github中仓库地址，该仓库名称必须是`yourusername.github.io`，添加如下内容到`_config.xml`中
 
 ``` bash
 deploy:
@@ -113,8 +113,8 @@ $ npm install hexo-deployer-git --save
 $ npm install hexo-generator-feed
 $ npm install hexo-generator-sitemap
 ```
-修改_config.yml，增加以下内容
-```
+修改`_config.yml`，增加以下内容
+```yml
 # Extensions
 Plugins:
 - hexo-generator-feed
@@ -160,7 +160,7 @@ $ hexo new page "about"
 ```
 
 #### 发表文章的markdown语法
-```
+```yml
 title: postName #文章页面上的显示名称，可以任意修改，不会出现在URL中
 date: 2013-12-02 15:30:16 #文章生成时间，一般不改，当然也可以任意修改
 categories: example #分类
@@ -171,13 +171,14 @@ description: 附加一段文章摘要，字数最好在140字以内。
 设置摘要有两种方法
 
 1、使用<!--more-->标签
-2、不使用<!--more-->标签，仅显示部分摘要。在 D:/hexo/themes/jacman/_config.xml文件中修改为
+2、不使用<!--more-->标签，仅显示部分摘要。在`D:/hexo/themes/jacman/_config.xml`文件中修改为
 index:
   expand: false ## default is unexpanding,so you can only see the short description of each post.
-  excerpt_link: Read More 
+  excerpt_link: Read More
 
 以下正文
 ```
+
 #### 使用图床
 使用[七牛云存储](http://www.qiniu.com/)
 或者采用开源的图床，使用新浪SAE平台，但是鉴于不知道能否持久，自己掂量办，[在线图床](http://qiniupicbed.sinaapp.com/)
@@ -203,7 +204,7 @@ Windows本地markdown工具：[markdownpad](http://markdownpad.com/)
 </form>
 </div>
 ```
-添加完该文件之后，要在D:/hexo/themes/jacman/_config.yml文件中启用，如下所示，添加zhifubao
+添加完该文件之后，要在`D:/hexo/themes/jacman/_config.yml`文件中启用，如下所示，添加`zhifubao`
 ```bash
 widgets:
 - category
@@ -240,10 +241,10 @@ widgets:
 [网站流量统计推荐cnzz](http://zhanzhang.cnzz.com/)
 [网站流量统计推荐百度统计](http://tongji.baidu.com/web/welcome/login)
 #### 作者信息
-需要修改与作者有关的一系列信息，修改D:/hexo/themes/jacman/_config.xml中的author/imglogo/favicon/author_img/apple_icon一系列属性即可。
+需要修改与作者有关的一系列信息，修改`D:/hexo/themes/jacman/_config.xml`中的`author/imglogo/favicon/author_img/apple_icon`一系列属性即可。
 
 #### 删除warning: LF will be replaced by CRLF警告信息
-在hexo deploy时，有时会出现这个提示信息warning: LF will be replaced by CRLF，虽然看起来挺乱糟糟的，但不影响使用，可以忽略不计。若想不提示，可以使用如下方法：
+在hexo deploy时，有时会出现这个提示信息`warning: LF will be replaced by CRLF`，虽然看起来挺乱糟糟的，但不影响使用，可以忽略不计。若想不提示，可以使用如下方法：
 切换到博客的根目录，执行如下命令：
 ```bash
 $ git config --global core.autocrlf false 
@@ -275,8 +276,8 @@ $ hexo s -g #生成预览
 ```bash
 $ npm install hexo-generator-baidu-sitemap --save
 ```
-然后在 Hexo 根目录下的 _config.yml 里配置一下
-```
+然后在 Hexo 根目录下的 `_config.yml` 里配置一下
+```yml
 baidusitemap:
  path: baidusitemap.xml
 ```
@@ -284,9 +285,9 @@ baidusitemap:
 [百度网址提交入口](http://zhanzhang.baidu.com/sitesubmit/index)
 [360网址提交入口](http://info.so.360.cn/site_submit.html)
 #### 添加百度站内搜索
-[点击进入](http://zhanzhang.baidu.com/guide/index)，点击其它工具->站内检索->现在使用->新建搜索引擎->查看代码，将代码里的id值复制，打开/d/hexo/themes/jacman/_config.xml，配置成如下即可。
+[点击进入](http://zhanzhang.baidu.com/guide/index)，点击其它工具->站内检索->现在使用->新建搜索引擎->查看代码，将代码里的id值复制，打开`/d/hexo/themes/jacman/_config.xml`，配置成如下即可。
 
-```
+```yml
 baidu_search:     ## http://zn.baidu.com/
   enable: true
   id: "1433674487421172828" ## e.g. "783281470518440642"  for your baidu search id
@@ -307,7 +308,7 @@ baidu_search:     ## http://zn.baidu.com/
 ####为jacman主题添加最新评论
 本方法针对使用hexo搭建Github Pages静态博客，并且使用jacman主题的童鞋们。
 
-首先在`\themes\jacman\layout\_widget`目录下新建`latest_comment.ejs`，放入“多说”最新评论代码，其中“多说”的最新评论代码[点我获取](http://dev.duoshuo.com/docs/4ff28d95552860f21f000010)，注意修改***var duoshuoQuery = {short_name:"您的多说二级域名"};***将其中的“short_name”设置为在多说配置的二级域名即可。在`latest_comment.ejs`的首行注意添加
+首先在`\themes\jacman\layout\_widget`目录下新建`latest_comment.ejs`，放入“多说”最新评论代码，其中“多说”的最新评论代码[点我获取](http://dev.duoshuo.com/docs/4ff28d95552860f21f000010)，注意修改`var duoshuoQuery = {short_name:"您的多说二级域名"};`将其中的“short_name”设置为在多说配置的二级域名即可。在`latest_comment.ejs`的首行注意添加
 ```html
 <p class="asidetitle">最新评论</p>
 ```
