@@ -1,0 +1,1035 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo,Github,Octopress," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="环境&amp;amp;版本OS：win7 X64Hexo：V3.0.0Node.js：V0.12.2Git：Version 1.9.5.msysgit.1 关于为什么要开博客？请参见《为什么你要写博客？》《我的博客时代》 下面就让我们一起开启使用Hexo的全新旅程吧！ 安装Node.js下载Node.js参考地址：安装Node.js 安装Git下载地址：http://git-scm.com/downloa">
+<meta name="keywords" content="Hexo,Github,Octopress">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Github Pages个人博客，从Octopress转向Hexo">
+<meta property="og:url" content="http://www.codepub.cn/2015/04/06/Github-Pages-personal-blog-from-Octopress-to-Hexo/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="环境&amp;amp;版本OS：win7 X64Hexo：V3.0.0Node.js：V0.12.2Git：Version 1.9.5.msysgit.1 关于为什么要开博客？请参见《为什么你要写博客？》《我的博客时代》 下面就让我们一起开启使用Hexo的全新旅程吧！ 安装Node.js下载Node.js参考地址：安装Node.js 安装Git下载地址：http://git-scm.com/downloa">
+<meta property="og:updated_time" content="2017-05-06T14:42:47.850Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Github Pages个人博客，从Octopress转向Hexo">
+<meta name="twitter:description" content="环境&amp;amp;版本OS：win7 X64Hexo：V3.0.0Node.js：V0.12.2Git：Version 1.9.5.msysgit.1 关于为什么要开博客？请参见《为什么你要写博客？》《我的博客时代》 下面就让我们一起开启使用Hexo的全新旅程吧！ 安装Node.js下载Node.js参考地址：安装Node.js 安装Git下载地址：http://git-scm.com/downloa">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Github Pages个人博客，从Octopress转向Hexo | IT草根 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1254721753&web_id=1254721753" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">IT草根</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-book fa-fw"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-link fa-fw"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'CEs2u-bRR6iHSt4ynbFA','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Github Pages个人博客，从Octopress转向Hexo
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-04-06T16:03:13+08:00" content="2015-04-06">
+              2015-04-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Git-GitHub/" itemprop="url" rel="index">
+                    <span itemprop="name">Git/GitHub</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+		
+		
+			<!-- 在下面的位置加上如下代码 -->
+			<span id="busuanzi_container_page_pv">&nbsp; | &nbsp; 热度&nbsp; <span id="busuanzi_value_page_pv"></span>°C</span>    
+			<!-- 在上面的位置加上如上代码 -->  
+		
+		  
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/04/06/Github-Pages-personal-blog-from-Octopress-to-Hexo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/04/06/Github-Pages-personal-blog-from-Octopress-to-Hexo/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+
+      
+        <p>环境&amp;版本<br>OS：win7 X64<br>Hexo：V3.0.0<br>Node.js：V0.12.2<br>Git：Version 1.9.5.msysgit.1</p>
+<p>关于为什么要开博客？请参见<a href="http://zhuanlan.zhihu.com/cnfeat/19743861" target="_blank" rel="external">《为什么你要写博客？》</a><a href="http://zhuanlan.zhihu.com/cnfeat/19743255" target="_blank" rel="external">《我的博客时代》</a></p>
+<p>下面就让我们一起开启使用Hexo的全新旅程吧！</p>
+<h3 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h3><p><a href="https://nodejs.org/download/" target="_blank" rel="external">下载Node.js</a><br>参考地址：<a href="http://www.w3cschool.cc/nodejs/nodejs-install-setup.html" target="_blank" rel="external">安装Node.js</a></p>
+<h3 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h3><p>下载地址：<a href="http://git-scm.com/download/" target="_blank" rel="external">http://git-scm.com/download/</a></p>
+<h3 id="注册GitHub"><a href="#注册GitHub" class="headerlink" title="注册GitHub"></a>注册GitHub</h3><p>访问：<a href="http://www.github.com/" target="_blank" rel="external">http://www.github.com/</a><br>注册过程参见：<a href="http://pchou.info/web-build/2013/01/03/build-github-blog-page-01.html" target="_blank" rel="external">一步步在GitHub上创建博客主页 全系列</a></p>
+<h3 id="配置和使用Github"><a href="#配置和使用Github" class="headerlink" title="配置和使用Github"></a>配置和使用Github</h3><p>参见：<a href="http://www.jianshu.com/p/05289a4bc8b2" target="_blank" rel="external">如何搭建一个独立博客——简明Github Pages与Hexo教程</a></p>
+<h3 id="安装Hexo及主题设置"><a href="#安装Hexo及主题设置" class="headerlink" title="安装Hexo及主题设置"></a>安装Hexo及主题设置</h3><h4 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /d/</div><div class="line">$ mkdir hexo</div><div class="line">$ <span class="built_in">cd</span> hexo</div><div class="line">$ npm install -g hexo</div><div class="line">$ hexo init</div><div class="line">$ hexo g <span class="comment"># 或者hexo generate</span></div><div class="line">$ hexo s <span class="comment"># 或者hexo server，可以在http://localhost:4000/查看</span></div></pre></td></tr></table></figure>
+<p>注意在使用npm安装hexo的时候，如果在Git Bash中出现<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sh.exe<span class="string">": npm: command not found</span></div></pre></td></tr></table></figure></p>
+<p>那么需要右击Git Bash以管理员身份运行，再次在Git Bash中输入<strong>npm install -g hexo</strong>即可。</p>
+<h4 id="复制主题"><a href="#复制主题" class="headerlink" title="复制主题"></a>复制主题</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo clean</div><div class="line">$ git <span class="built_in">clone</span> https://github.com/wuchong/jacman.git themes/jacman</div></pre></td></tr></table></figure>
+<h4 id="启用主题"><a href="#启用主题" class="headerlink" title="启用主题"></a>启用主题</h4><p>修改Hexo目录下的_config.yml配置文件中的theme属性，将其设置为jacman。</p>
+<h4 id="更新主题"><a href="#更新主题" class="headerlink" title="更新主题"></a>更新主题</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> themes/jacman</div><div class="line">$ git pull</div><div class="line">$ hexo g <span class="comment"># 生成</span></div><div class="line">$ hexo s <span class="comment"># 启动本地服务，进行文章预览调试</span></div></pre></td></tr></table></figure>
+<p>在浏览器中输入<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a><br>如果显示的是繁体中文，那么修改_config.xml中的language: zh-CN。</p>
+<h4 id="绑定独立域名"><a href="#绑定独立域名" class="headerlink" title="绑定独立域名"></a>绑定独立域名</h4><p><a href="http://www.net.cn/" target="_blank" rel="external">购买域名</a><br>在你的域名注册提供商那里配置DNS解析，获取GitHub的IP地址<a href="https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/" target="_blank" rel="external">点击</a>，进入source目录下，添加CNAME文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> <span class="built_in">source</span>/</div><div class="line">$ touch CNAME</div><div class="line">$ vim CNAME <span class="comment"># 输入你的域名，例如codepub.cn</span></div><div class="line">$ git add CNAME</div><div class="line">$ git commit -m <span class="string">"add CNAME"</span></div></pre></td></tr></table></figure></p>
+<p>修改_config.xml文件，添加你的Github中仓库地址，该仓库名称必须是 yourusername.github.io，添加如下内容到_config.xml中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">  <span class="built_in">type</span>: git</div><div class="line">  repository: git@github.com:shijiebei2009/shijiebei2009.github.io.git <span class="comment"># 注意换成自己的username</span></div><div class="line">  branch: master</div></pre></td></tr></table></figure>
+<p>不会建仓库的童鞋参见<a href="http://zipperary.com/2013/05/28/hexo-guide-2/" target="_blank" rel="external">hexo系列教程：（二）搭建hexo博客</a></p>
+<h4 id="推送到远程仓库"><a href="#推送到远程仓库" class="headerlink" title="推送到远程仓库"></a>推送到远程仓库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ git init</div><div class="line">$ git add .</div><div class="line">$ git commit -m <span class="string">"first commit"</span></div><div class="line">$ git remote add origin git@github.com:shijiebei2009/shijiebei2009.github.io.git</div><div class="line">$ git push -u origin master</div></pre></td></tr></table></figure>
+<p>如果出现<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ git push -u origin master</div><div class="line">Username <span class="keyword">for</span> <span class="string">'https://github.com'</span>: shijiebei2009</div><div class="line">Password <span class="keyword">for</span> <span class="string">'https://shijiebei2009@github.com'</span>:</div><div class="line">remote: Repository not found.</div><div class="line">fatal: repository <span class="string">'git://github.com/shijiebei2009/shijiebei2009.github.io.git/</span></div><div class="line">' not found</div></pre></td></tr></table></figure></p>
+<p>那是因为你在github网站上还没有建立该仓库导致。<br>部署<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div><div class="line">$ hexo deploy <span class="comment">#或者组合命令 hexo d -g</span></div></pre></td></tr></table></figure></p>
+<p>如果出现：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ERROR Deployer not found: git</div></pre></td></tr></table></figure></p>
+<p>需要运行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-deployer-git --save</div></pre></td></tr></table></figure></p>
+<h3 id="进阶篇-高级定制"><a href="#进阶篇-高级定制" class="headerlink" title="进阶篇-高级定制"></a>进阶篇-高级定制</h3><h4 id="添加插件"><a href="#添加插件" class="headerlink" title="添加插件"></a>添加插件</h4><p>添加sitemap和feed插件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-generator-feed</div><div class="line">$ npm install hexo-generator-sitemap</div></pre></td></tr></table></figure></p>
+<p>修改_config.yml，增加以下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"># Extensions</div><div class="line">Plugins:</div><div class="line">- hexo-generator-feed</div><div class="line">- hexo-generator-sitemap</div><div class="line"></div><div class="line">#Feed Atom</div><div class="line">feed:</div><div class="line">  type: atom</div><div class="line">  path: atom.xml</div><div class="line">  limit: 20</div><div class="line"></div><div class="line">#sitemap</div><div class="line">sitemap:</div><div class="line">  path: sitemap.xml</div></pre></td></tr></table></figure></p>
+<p>配完之后，就可以访问<code>http://codepub.cn/atom.xml</code>和<code>http://codepub.cn/sitemap.xml</code>，发现这两个文件已经成功生成了。</p>
+<h4 id="添加404公益页面"><a href="#添加404公益页面" class="headerlink" title="添加404公益页面"></a>添加404公益页面</h4><p>GitHub Pages有提供制作404页面的指引：<a href="https://help.github.com/articles/custom-404-pages" target="_blank" rel="external">Custom 404 Pages</a>。</p>
+<p>直接在根目录下创建自己的404.html或者404.md就可以。但是自定义404页面仅对绑定顶级域名的项目才起作用，GitHub默认分配的二级域名是不起作用的，使用hexo server在本机调试也是不起作用的。</p>
+<p>推荐使用<a href="http://www.qq.com/404/" target="_blank" rel="external">腾讯公益404</a>。</p>
+<h4 id="添加about页面"><a href="#添加about页面" class="headerlink" title="添加about页面"></a>添加about页面</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new page <span class="string">"about"</span></div></pre></td></tr></table></figure>
+<p>之后在\source\about\index.md目录下会生成一个index.md文件，打开输入个人信息即可，如果想要添加版权信息，可以在文件末尾添加：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"font-size:12px;border-bottom: #bbbbbb 1px solid; BORDER-LEFT: #bbbbbb 1px solid; BACKGROUND: #f6f6f6; HEIGHT: 120px; BORDER-TOP: #bbbbbb 1px solid; BORDER-RIGHT: #bbbbbb 1px solid"</span> <span class="attr">class</span>=<span class="string">shijiebei2009right</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"MARGIN-TOP: 10px; FLOAT: left; MARGIN-LEFT: 5px; MARGIN-RIGHT: 10px"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">IMG</span> <span class="attr">alt</span>=<span class="string">""</span> <span class="attr">src</span>=<span class="string">"https://avatars3.githubusercontent.com/u/4994697?v=3&amp;u=70a4ca810fb1908f2deeed95f3b962eec64e1787&amp;s=140"</span> <span class="attr">width</span>=<span class="string">90</span> <span class="attr">height</span>=<span class="string">100</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"LINE-HEIGHT: 200%; MARGIN-TOP: 10px; COLOR: #000000"</span>&gt;</span>作者： </div><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://shijiebei2009.github.io/"</span>&gt;</span>王旭<span class="tag">&lt;/<span class="name">a</span>&gt;</span> <span class="tag">&lt;<span class="name">br</span>/&gt;</span>出处： </div><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://shijiebei2009.github.io/"</span>&gt;</span>http://shijiebei2009.github.io/<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">br</span>/&gt;</span>本文基于<span class="tag">&lt;<span class="name">a</span> <span class="attr">target</span>=<span class="string">"_blank"</span> <span class="attr">title</span>=<span class="string">"Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)"</span> <span class="attr">href</span>=<span class="string">"http://creativecommons.org/licenses/by-sa/4.0/"</span>&gt;</span> 知识共享署名-相同方式共享 4.0 <span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">国际许可协议发布，欢迎转载，演绎或用于商业目的，但是必须保留本文的署名 </div><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://shijiebei2009.github.io/"</span>&gt;</span>王旭<span class="tag">&lt;/<span class="name">a</span>&gt;</span>及链接。</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="发表文章的markdown语法"><a href="#发表文章的markdown语法" class="headerlink" title="发表文章的markdown语法"></a>发表文章的markdown语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">title: postName #文章页面上的显示名称，可以任意修改，不会出现在URL中</div><div class="line">date: 2013-12-02 15:30:16 #文章生成时间，一般不改，当然也可以任意修改</div><div class="line">categories: example #分类</div><div class="line">tags: [tag1,tag2,tag3] #文章标签，可空，多标签请用格式，注意:后面有个空格</div><div class="line">description: 附加一段文章摘要，字数最好在140字以内。</div><div class="line">---</div><div class="line"></div><div class="line">设置摘要有两种方法</div><div class="line"></div><div class="line">1、使用&lt;!--more--&gt;标签</div><div class="line">2、不使用&lt;!--more--&gt;标签，仅显示部分摘要。在 D:/hexo/themes/jacman/_config.xml文件中修改为</div><div class="line">index:</div><div class="line">  expand: false ## default is unexpanding,so you can only see the short description of each post.</div><div class="line">  excerpt_link: Read More </div><div class="line"></div><div class="line">以下正文</div></pre></td></tr></table></figure>
+<h4 id="使用图床"><a href="#使用图床" class="headerlink" title="使用图床"></a>使用图床</h4><p>使用<a href="http://www.qiniu.com/" target="_blank" rel="external">七牛云存储</a><br>或者采用开源的图床，使用新浪SAE平台，但是鉴于不知道能否持久，自己掂量办，<a href="http://qiniupicbed.sinaapp.com/" target="_blank" rel="external">在线图床</a></p>
+<h4 id="markdown工具"><a href="#markdown工具" class="headerlink" title="markdown工具"></a>markdown工具</h4><p>Windows在线markdown工具：<a href="https://www.zybuluo.com/mdeditor" target="_blank" rel="external">https://www.zybuluo.com/mdeditor</a><br>Windows本地markdown工具：<a href="http://markdownpad.com/" target="_blank" rel="external">markdownpad</a></p>
+<h4 id="添加Fork-me-on-Github"><a href="#添加Fork-me-on-Github" class="headerlink" title="添加Fork me on Github"></a>添加Fork me on Github</h4><p><a href="https://github.com/blog/273-github-ribbons" target="_blank" rel="external">获取代码</a>，选择你喜欢的代码添加到hexo/themes/jacman/layout/layout.ejs的末尾即可，注意要将代码里的you改成你的Github账号名。</p>
+<h4 id="添加支付宝捐赠按钮及二维码支付"><a href="#添加支付宝捐赠按钮及二维码支付" class="headerlink" title="添加支付宝捐赠按钮及二维码支付"></a>添加支付宝捐赠按钮及二维码支付</h4><h5 id="支付宝捐赠按钮"><a href="#支付宝捐赠按钮" class="headerlink" title="支付宝捐赠按钮"></a>支付宝捐赠按钮</h5><p>在D:\hexo\themes\jacman\layout_widget目录下新建一个zhifubao.ejs文件，内容如下<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"asidetitle"</span>&gt;</span>打赏他<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"https://shenghuo.alipay.com/send/payment/fill.htm"</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">target</span>=<span class="string">"_blank"</span> <span class="attr">accept-charset</span>=<span class="string">"GBK"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"optEmail"</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">value</span>=<span class="string">"your 支付宝账号"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"payAmount"</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">value</span>=<span class="string">"默认捐赠金额(元)"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"title"</span> <span class="attr">name</span>=<span class="string">"title"</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">value</span>=<span class="string">"博主，打赏你的！"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"memo"</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">value</span>=<span class="string">"你Y加油，继续写博客！"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"pay"</span> <span class="attr">type</span>=<span class="string">"image"</span> <span class="attr">value</span>=<span class="string">"转账"</span> <span class="attr">src</span>=<span class="string">"http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate-website.png"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>添加完该文件之后，要在D:/hexo/themes/jacman/_config.yml文件中启用，如下所示，添加zhifubao<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">widgets:</div><div class="line">- category</div><div class="line">- tag</div><div class="line">- links</div><div class="line">- tagcloud</div><div class="line">- zhifubao</div><div class="line">- rss</div></pre></td></tr></table></figure></p>
+<h5 id="二维码捐赠"><a href="#二维码捐赠" class="headerlink" title="二维码捐赠"></a>二维码捐赠</h5><p>首先需要到<a href="https://qr.alipay.com/paipai/open.htm" target="_blank" rel="external">这里</a>获取你的支付宝账户的二维码图片，支付宝提供了自定义功能，可以添加自定义文字。</p>
+<p>我的二维码扫描捐赠添加在about页面，当然你也可以添加到其它页面，在D:\hexo\source\about下有index.md，打开，在适当位置添加<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">center</span>&gt;</span></div><div class="line">欢迎您捐赠本站，您的支持是我最大的动力！</div><div class="line">![][1]</div><div class="line">[1]: http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png</div><div class="line"><span class="tag">&lt;/<span class="name">center</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">br</span>/&gt;</span></div></pre></td></tr></table></figure></p>
+<p><code>&lt;center&gt;</code>可以让图片居中显示，注意将图片链接地址换成你的即可。</p>
+<h3 id="其它实用功能"><a href="#其它实用功能" class="headerlink" title="其它实用功能"></a>其它实用功能</h3><h4 id="插件推荐"><a href="#插件推荐" class="headerlink" title="插件推荐"></a>插件推荐</h4><p><a href="http://hexo.io/docs/" target="_blank" rel="external">hexo官方文档</a><br><a href="https://github.com/hexojs/hexo/wiki/Plugins" target="_blank" rel="external">hexo插件大全</a><br><a href="http://www.faviconer.com/" target="_blank" rel="external">自定义网站logo</a><br><a href="http://www.markdown.cn/" target="_blank" rel="external">MarkDown中文网</a><br><a href="http://wowubuntu.com/markdown/" target="_blank" rel="external">MarkDown语法说明</a><br><a href="http://www.jiathis.com/" target="_blank" rel="external">社交分享推荐使用jiathis</a><br><a href="http://duoshuo.com/" target="_blank" rel="external">评论插件推荐使用duoshuo</a><br><a href="http://zhanzhang.cnzz.com/" target="_blank" rel="external">网站流量统计推荐cnzz</a><br><a href="http://tongji.baidu.com/web/welcome/login" target="_blank" rel="external">网站流量统计推荐百度统计</a></p>
+<h4 id="作者信息"><a href="#作者信息" class="headerlink" title="作者信息"></a>作者信息</h4><p>需要修改与作者有关的一系列信息，修改D:/hexo/themes/jacman/_config.xml中的author/imglogo/favicon/author_img/apple_icon一系列属性即可。</p>
+<h4 id="删除warning-LF-will-be-replaced-by-CRLF警告信息"><a href="#删除warning-LF-will-be-replaced-by-CRLF警告信息" class="headerlink" title="删除warning: LF will be replaced by CRLF警告信息"></a>删除warning: LF will be replaced by CRLF警告信息</h4><p>在hexo deploy时，有时会出现这个提示信息warning: LF will be replaced by CRLF，虽然看起来挺乱糟糟的，但不影响使用，可以忽略不计。若想不提示，可以使用如下方法：<br>切换到博客的根目录，执行如下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git config --global core.autocrlf <span class="literal">false</span> </div><div class="line">$ rm -rf .git <span class="comment">#删除掉该目录下的.git文件夹</span></div><div class="line">$ git init <span class="comment">#重新初始化</span></div></pre></td></tr></table></figure></p>
+<p>再deploy试试吧，清新脱俗了。</p>
+<h4 id="写博客或添加页面"><a href="#写博客或添加页面" class="headerlink" title="写博客或添加页面"></a>写博客或添加页面</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"postName"</span> <span class="comment">#新建文章</span></div><div class="line">$ hexo new page <span class="string">"pageName"</span> <span class="comment">#新建页面</span></div><div class="line">$ hexo generate <span class="comment">#生成静态页面至public目录</span></div><div class="line">$ hexo server <span class="comment">#开启预览访问端口（默认端口4000，'ctrl + c'关闭server）</span></div><div class="line">$ hexo deploy <span class="comment">#将.deploy目录部署到GitHub</span></div></pre></td></tr></table></figure>
+<p>常用简写<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ hexo n == hexo new</div><div class="line">$ hexo g == hexo generate</div><div class="line">$ hexo s == hexo server</div><div class="line">$ hexo d == hexo deploy</div></pre></td></tr></table></figure></p>
+<p>常用组合<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ hexo d -g <span class="comment">#生成部署</span></div><div class="line">$ hexo s -g <span class="comment">#生成预览</span></div></pre></td></tr></table></figure></p>
+<h4 id="安装hexo-generator-baidu-sitemap插件，专为百度量身打造"><a href="#安装hexo-generator-baidu-sitemap插件，专为百度量身打造" class="headerlink" title="安装hexo-generator-baidu-sitemap插件，专为百度量身打造"></a>安装hexo-generator-baidu-sitemap插件，专为百度量身打造</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-generator-baidu-sitemap --save</div></pre></td></tr></table></figure>
+<p>然后在 Hexo 根目录下的 _config.yml 里配置一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">baidusitemap:</div><div class="line"> path: baidusitemap.xml</div></pre></td></tr></table></figure></p>
+<h4 id="推广博客与提交Sitemap"><a href="#推广博客与提交Sitemap" class="headerlink" title="推广博客与提交Sitemap"></a>推广博客与提交Sitemap</h4><p><a href="http://zhanzhang.baidu.com/sitesubmit/index" target="_blank" rel="external">百度网址提交入口</a><br><a href="http://info.so.360.cn/site_submit.html" target="_blank" rel="external">360网址提交入口</a></p>
+<h4 id="添加百度站内搜索"><a href="#添加百度站内搜索" class="headerlink" title="添加百度站内搜索"></a>添加百度站内搜索</h4><p><a href="http://zhanzhang.baidu.com/guide/index" target="_blank" rel="external">点击进入</a>，点击其它工具-&gt;站内检索-&gt;现在使用-&gt;新建搜索引擎-&gt;查看代码，将代码里的id值复制，打开/d/hexo/themes/jacman/_config.xml，配置成如下即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">baidu_search:     ## http://zn.baidu.com/</div><div class="line">  enable: true</div><div class="line">  id: &quot;1433674487421172828&quot; ## e.g. &quot;783281470518440642&quot;  for your baidu search id</div><div class="line">  site: http://zhannei.baidu.com/cse/search ## your can change to your site instead of the default site</div></pre></td></tr></table></figure>
+<h4 id="使用不蒜子添加访客统计"><a href="#使用不蒜子添加访客统计" class="headerlink" title="使用不蒜子添加访客统计"></a>使用不蒜子添加访客统计</h4><p>详情参考<a href="http://ibruce.info/2015/04/04/busuanzi/" target="_blank" rel="external">搞定你的网站计数</a>，具体做法很简单，就是在你的<code>themes/your themes/layout/_partial/footer.ejs</code>底部加入这段脚本<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script <span class="keyword">async</span> src=<span class="string">"//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure></p>
+<p>然后在<code>&lt;p class=&quot;copyright&quot;&gt;&lt;/p&gt;</code>中间添加如下统计信息即可<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">本站总访问量 <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_value_site_pv"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span> 次, 访客数 <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_value_site_uv"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span> 人次, 本文总阅读量 <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"busuanzi_value_page_pv"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span> 次</div></pre></td></tr></table></figure></p>
+<p>不蒜子的官方服务网站是<a href="http://service.ibruce.info/" target="_blank" rel="external">不蒜子</a>，目前最大的弊端就是不开放注册，所以对于运行了一段时间的网站，不蒜子的数据都是从1开始，没办法设置，只有等后期开放注册之后，登入网站才能对统计计数进行设置。</p>
+<p>###Jacman主题相关</p>
+<p>####为jacman主题添加最新评论<br>本方法针对使用hexo搭建Github Pages静态博客，并且使用jacman主题的童鞋们。</p>
+<p>首先在<code>\themes\jacman\layout\_widget</code>目录下新建<code>latest_comment.ejs</code>，放入“多说”最新评论代码，其中“多说”的最新评论代码<a href="http://dev.duoshuo.com/docs/4ff28d95552860f21f000010" target="_blank" rel="external">点我获取</a>，注意修改<strong><em>var duoshuoQuery = {short_name:”您的多说二级域名”};</em></strong>将其中的“short_name”设置为在多说配置的二级域名即可。在<code>latest_comment.ejs</code>的首行注意添加<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"asidetitle"</span>&gt;</span>最新评论<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>然后进入<code>\themes\jacman\_config.yml</code>：在<code>widgets</code>下添加<code>latest_comment</code>即可，注意Windows下编码一定要采用UTF-8无BOM编码。</p>
+<p>####为jacman主题添加热评文章<br>与上一条类似，首先在<code>\themes\jacman\layout\_widget</code>目录下新建<code>hot_comments.ejs</code>，然后去你在多说网站的后台管理界面<code>http://codepub.duoshuo.com/admin/tools/</code>中点击工具-&gt;热评文章获取代码，将代码复制到<code>hot_comments.ejs</code>文件中。同样在行首添加<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"asidetitle"</span>&gt;</span>热评文章<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>然后在<code>_config.yml</code>中启用该widgets即可。</p>
+<p>####Jacman主题问题解答<br>Q：如何添加数学公式<code>mathjax</code>？<br>A：主题支持写<code>LaTex</code>数学公式。只需要在文章文件开头的<code>front-matter</code>中，加上一行<code>mathjax: true</code>，即可在文中写<code>LaTex</code>公式。</p>
+<p>Q：自定义字体 ShowCustomFont<br>A：是否启用自定义字体，默认开启，主要用于显示网站底部的字体。如果你有一定前端基础可以修改 <strong>font.styl</strong> 替换为你喜欢的字体。</p>
+<p>Q：图片默认都是居左的，我怎么设置能让图片居中呢？<br>A：使用 <code>&lt;img src=&quot;&quot; style=&quot;display:block;margin:auto&quot;/&gt;</code>的HTML标签或者是使用<code>&lt;center&gt;</code>包裹图片。</p>
+<p>Q：如何建立一篇图片类文章（Gallery Post）？<br>A：使用<strong>hexo new photo “your titile”</strong>建立图片类文章，或者直接新建一个 Markdown 文件，将其<strong>front-matter</strong>修改为如下，即可看到主题为图片类文章提供的样式。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">layout: photo</div><div class="line">title: Gallery Post</div><div class="line">photos:</div><div class="line">- http://i.minus.com/ibobbTlfxZgITW.jpg</div><div class="line">- http://i.minus.com/iedpg90Y0exFS.jpg</div><div class="line">---</div></pre></td></tr></table></figure></p>
+<p>Q：我在配置文件中给某一项设置了值，但为什么总是看不到效果啊？<br>A：<code>_config.yml</code>文件中的每个属性值前面必须留一个空格，建议在<code>Sublime/Notepad++</code>中开启显示所有空格模式。另每篇文章的<code>front-matter</code>也要注意这个问题。</p>
+<p>Q：如何建立自我介绍页面（About页面）？<br>A：首先在主目录找到<code>_config.yml</code>，找到url添加<code>about_dir: about</code>到这个板块。然后在/source里面建立about文件夹。在about文件夹里建立index.md。编辑index.md就和发布其他的文章一样，格式都一样。</p>
+<p>Q：楼主我不喜欢你的配色，怎么换主题的颜色呢？<br>A：包括颜色在内的很多变量都在<code>jacman/source/css/_base/variable.styl</code>文件中，可以修改成你喜欢的。</p>
+<p>参考资料<br>【1】<a href="http://wuchong.me/blog/2014/11/20/how-to-use-jacman/#" target="_blank" rel="external">http://wuchong.me/blog/2014/11/20/how-to-use-jacman/#</a><br>【2】<a href="https://pages.github.com/" target="_blank" rel="external">https://pages.github.com/</a><br>【3】<a href="http://www.jianshu.com/p/05289a4bc8b2" target="_blank" rel="external">http://www.jianshu.com/p/05289a4bc8b2</a><br>【4】<a href="http://www.pchou.info/web-build/2014/07/04/build-github-blog-page-08.html" target="_blank" rel="external">http://www.pchou.info/web-build/2014/07/04/build-github-blog-page-08.html</a><br>【5】<a href="http://wuchong.me/blog/2014/11/20/how-to-use-jacman/" target="_blank" rel="external">http://wuchong.me/blog/2014/11/20/how-to-use-jacman/</a></p>
+
+      
+    </div>
+
+	<div align="center">
+	  
+		<div class="copyright">
+		<p><span>
+		<b>本文地址：</b><a href="/2015/04/06/Github-Pages-personal-blog-from-Octopress-to-Hexo/" title="Github Pages个人博客，从Octopress转向Hexo">http://www.codepub.cn/2015/04/06/Github-Pages-personal-blog-from-Octopress-to-Hexo/</a><br/><b>转载请注明出处，谢谢！</b>
+		</span></p>
+		</div>
+	  
+	</div>
+	<!-- 添加广告位 -->
+    <div>
+      
+        
+<div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton", disable="enable", onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}", style="cursor: pointer; border: 0; outline: 0; border-radius: 100%; padding: 0; margin: 0; letter-spacing: normal; text-transform: none; text-indent: 0px; text-shadow: none">
+    <span onmouseover="this.style.color='rgb(236,96,0)';this.style.background='rgb(204,204,204)'" onMouseOut="this.style.color='#fff';this.style.background='rgb(236,96,0)'" style="display: inline-block; width: 70px; height: 70px; border-radius: 100%; line-height: 81px; color: #fff; font: 400 35px/75px 'microsofty'; background: rgb(236,96,0)">赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu WeChat Pay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>微信打赏</p>
+      </div>
+    
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu Alipay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>支付宝打赏</p>
+      </div>
+    
+  </div>
+<div>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hexo/" rel="tag">#Hexo</a>
+          
+            <a href="/tags/Github/" rel="tag">#Github</a>
+          
+            <a href="/tags/Octopress/" rel="tag">#Octopress</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/04/09/See-also-IT-elite-death-from-overwork/" rel="prev" title="又见IT精英过劳猝死">
+                又见IT精英过劳猝死 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share?uid=2067139" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<!-- UJian Button BEGIN -->
+	<div class="ujian-hook"></div>
+	<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js"></script>
+<!-- UJian Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+		  
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/author.jpg"
+               alt="Wang Xu" />
+          <p class="site-author-name" itemprop="name">Wang Xu</p>
+          <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">103</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/shijiebei2009" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/codepub" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i> Linkedin
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank">
+                  
+                    <i class="fa fa-stackoverflow"></i> Stackoverflow
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/codepub.cn" target="_blank">
+                  
+                    <i class="fa fa-zhihu"></i> ZhiHu
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/shijiebei2009/" target="_blank">
+                  
+                    <i class="fa fa-douban"></i> DouBan
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1779238484" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Node-js"><span class="nav-number">1.</span> <span class="nav-text">安装Node.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Git"><span class="nav-number">2.</span> <span class="nav-text">安装Git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注册GitHub"><span class="nav-number">3.</span> <span class="nav-text">注册GitHub</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置和使用Github"><span class="nav-number">4.</span> <span class="nav-text">配置和使用Github</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Hexo及主题设置"><span class="nav-number">5.</span> <span class="nav-text">安装Hexo及主题设置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装hexo"><span class="nav-number">5.1.</span> <span class="nav-text">安装hexo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复制主题"><span class="nav-number">5.2.</span> <span class="nav-text">复制主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启用主题"><span class="nav-number">5.3.</span> <span class="nav-text">启用主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新主题"><span class="nav-number">5.4.</span> <span class="nav-text">更新主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绑定独立域名"><span class="nav-number">5.5.</span> <span class="nav-text">绑定独立域名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#推送到远程仓库"><span class="nav-number">5.6.</span> <span class="nav-text">推送到远程仓库</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进阶篇-高级定制"><span class="nav-number">6.</span> <span class="nav-text">进阶篇-高级定制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加插件"><span class="nav-number">6.1.</span> <span class="nav-text">添加插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加404公益页面"><span class="nav-number">6.2.</span> <span class="nav-text">添加404公益页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加about页面"><span class="nav-number">6.3.</span> <span class="nav-text">添加about页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#发表文章的markdown语法"><span class="nav-number">6.4.</span> <span class="nav-text">发表文章的markdown语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用图床"><span class="nav-number">6.5.</span> <span class="nav-text">使用图床</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#markdown工具"><span class="nav-number">6.6.</span> <span class="nav-text">markdown工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加Fork-me-on-Github"><span class="nav-number">6.7.</span> <span class="nav-text">添加Fork me on Github</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加支付宝捐赠按钮及二维码支付"><span class="nav-number">6.8.</span> <span class="nav-text">添加支付宝捐赠按钮及二维码支付</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#支付宝捐赠按钮"><span class="nav-number">6.8.1.</span> <span class="nav-text">支付宝捐赠按钮</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#二维码捐赠"><span class="nav-number">6.8.2.</span> <span class="nav-text">二维码捐赠</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它实用功能"><span class="nav-number">7.</span> <span class="nav-text">其它实用功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#插件推荐"><span class="nav-number">7.1.</span> <span class="nav-text">插件推荐</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#作者信息"><span class="nav-number">7.2.</span> <span class="nav-text">作者信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除warning-LF-will-be-replaced-by-CRLF警告信息"><span class="nav-number">7.3.</span> <span class="nav-text">删除warning: LF will be replaced by CRLF警告信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#写博客或添加页面"><span class="nav-number">7.4.</span> <span class="nav-text">写博客或添加页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装hexo-generator-baidu-sitemap插件，专为百度量身打造"><span class="nav-number">7.5.</span> <span class="nav-text">安装hexo-generator-baidu-sitemap插件，专为百度量身打造</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#推广博客与提交Sitemap"><span class="nav-number">7.6.</span> <span class="nav-text">推广博客与提交Sitemap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加百度站内搜索"><span class="nav-number">7.7.</span> <span class="nav-text">添加百度站内搜索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用不蒜子添加访客统计"><span class="nav-number">7.8.</span> <span class="nav-text">使用不蒜子添加访客统计</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>&nbsp;&nbsp;&nbsp;
+  <a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_pv">
+  <i class="fa fa-user" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_pv"></span>
+  </span>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_uv">
+  <i class="fa fa-eye" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_uv"></span>
+  </span>
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'codepubcn';
+      var disqus_identifier = '2015/04/06/Github-Pages-personal-blog-from-Octopress-to-Hexo/';
+      var disqus_title = 'Github Pages个人博客，从Octopress转向Hexo';
+      var disqus_url = 'http://www.codepub.cn/2015/04/06/Github-Pages-personal-blog-from-Octopress-to-Hexo/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+<a href="https://github.com/shijiebei2009"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+</body>
+</html>

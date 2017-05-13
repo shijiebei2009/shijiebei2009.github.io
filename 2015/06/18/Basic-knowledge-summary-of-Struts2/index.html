@@ -1,0 +1,1114 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Struts2," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 ###Struts2简介Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。 ###实现ActionSt">
+<meta name="keywords" content="Struts2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Struts2基础知识汇总">
+<meta property="og:url" content="http://www.codepub.cn/2015/06/18/Basic-knowledge-summary-of-Struts2/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 ###Struts2简介Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。 ###实现ActionSt">
+<meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png">
+<meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/webwork+struts=struts2.png">
+<meta property="og:updated_time" content="2017-05-06T14:42:47.793Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Struts2基础知识汇总">
+<meta name="twitter:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 ###Struts2简介Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。 ###实现ActionSt">
+<meta name="twitter:image" content="http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Struts2基础知识汇总 | IT草根 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1254721753&web_id=1254721753" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">IT草根</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-book fa-fw"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-link fa-fw"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'CEs2u-bRR6iHSt4ynbFA','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Struts2基础知识汇总
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-18T15:41:01+08:00" content="2015-06-18">
+              2015-06-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Programming-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Notes</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+		
+		
+			<!-- 在下面的位置加上如下代码 -->
+			<span id="busuanzi_container_page_pv">&nbsp; | &nbsp; 热度&nbsp; <span id="busuanzi_value_page_pv"></span>°C</span>    
+			<!-- 在上面的位置加上如上代码 -->  
+		
+		  
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/18/Basic-knowledge-summary-of-Struts2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/18/Basic-knowledge-summary-of-Struts2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+
+      
+        <p><strong><em>力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员</em></strong><br><img src="http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png" alt="logo"></p>
+<p>###Struts2简介<br>Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/webwork+struts=struts2.png" alt="Struts2"></p>
+<p>###实现Action<br>Struts2的Action类是一个普通的POJO（通常应该包含一个无参数的execute方法），Struts2直接使用Action来封装HTTP请求参数，因此，Action类里还应该包含与请求参数对应的实例变量，并且为这些实例变量提供对应的setter和getter方法。注意其实实例变量是可以省略的，因为Struts2是通过对应的setter和getter方法来处理请求参数的，而不是通过实例变量名来处理请求参数的。</p>
+<p>####Action访问Servlet API<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ActionContext ctx = ActionContext.getContext();<span class="comment">//相当于JSP中内置的request</span></div><div class="line">ctx.getApplication();<span class="comment">//返回Map对象，该对象模拟了ServletContext实例，相当于JSP中内置的application</span></div><div class="line">ctx.getSession();<span class="comment">//返回Map对象，该对象模拟了HttpSession实例，相当于JSP中内置的session</span></div></pre></td></tr></table></figure></p>
+<p>####Action直接访问Servlet API</p>
+<p>Struts2提供了几个接口供我们直接访问ServletAPI</p>
+<ul>
+<li><code>ServletContextAware</code>: 实现该接口的Action可以直接访问Web应用的ServletContext实例</li>
+<li><code>ServletRequestAware</code>: 实现该接口的Action可以直接访问用户请求的HttpServletRequest实例</li>
+<li><code>ServletResponseAware</code>: 实现该接口的Action可以直接访问服务器响应的HttpServletResponse实例</li>
+</ul>
+<p>####使用ServletActionContext访问Servlet API<br>Struts2还提供了一个ServletActionContext工具类，这个类包含如下几个静态方法</p>
+<ul>
+<li><code>static PageContext getPageContext()</code>: 取得Web应用的PageContext对象</li>
+<li><code>static HttpServletRequest getRequest()</code>: 取得Web应用的HttpServletRequest对象</li>
+<li><code>static HttpServletResponse getResponse()</code>: 取得Web应用的HttpServletResponse对象</li>
+<li><code>static ServletContext getServletContext()</code>: 取得Web应用的ServletContext对象</li>
+</ul>
+<p>###Action包和命名空间<br>在struts.xml中配置Action，如果没有指定namespace属性，那么该包使用默认的命名空间，如果namespace=”/“表示指定根命名空间。默认命名空间里的Action可以处理任何命名空间下的Action请求，但根命名空间下的Action只处理根命名空间下的Action请求，这是根命名空间和默认命名空间的区别。</p>
+<p>####配置默认Action<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"..."</span> <span class="attr">extends</span>=<span class="string">"struts-default"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">default-action-ref</span> <span class="attr">name</span>=<span class="string">"simpleViewAction"</span>/&gt;</span></div><div class="line">    //当用户请求找不到对应的Action时，系统默认的Action将处理用户请求</div><div class="line">    <span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">"simpleViewAction"</span> <span class="attr">class</span>=<span class="string">"..."</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">result...</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">action</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">package</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>将默认Action配置在默认命名空间里就可以让该Action处理所有用户请求，因为默认命名空间的Action可以处理任何命名空间的请求。</p>
+<p>###Struts2内建的支持结果类型</p>
+<ul>
+<li>chain: Action链式处理的结果类型</li>
+<li>dispatcher: 用于指定使用JSP作为视图的结果类型，默认值</li>
+<li>freemarker: 用于指定使用FreeMarker模板作为视图的结果类型</li>
+<li>httpheader: 用于控制特殊的HTTP行为的结果类型</li>
+<li>redirect: 用于直接跳转到其他URL的结果类型</li>
+<li>redirectAction: 用于直接跳转到其他Action的结果类型</li>
+<li>stream: 用于向浏览器返回一个InputStream</li>
+<li>velocity: 用于指定使用Velocity模板作为视图的结果类型</li>
+<li>xslt: 用于与XML/XSLT整合的结果类型</li>
+<li>plainText: 用于显示某个页面的原始代码的结果类型</li>
+</ul>
+<p><strong><em>Notes</em></strong></p>
+<ol>
+<li>dispatcher结果类型是将请求forward（转发）到指定的JSP资源；而redirect结果类型，是将请求redirect（重定向）到指定的视图资源，重定向会丢失所有的请求参数、请求属性——当然也丢失了Action的处理结果。</li>
+<li>使用redirect类型的结果时，不能重定向到<code>/WEB-INF/</code>路径下任何资源，因为重定向相当于重新发送请求，而Web应用的<code>/WEB-INF/</code>路径下资源是受保护资源。</li>
+<li>使用redirectAction结果类型时，系统将重新生成一个新请求，只是该请求的URL是一个Action，因此前一个Action处理结果、请求参数、请求属性都会丢失。</li>
+</ol>
+<p>###Struts2异常处理</p>
+<p>####Struts2开启异常映射<br>默认的在struts-default.xml中已经开启了异常映射，代码如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">interceptors</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--配置异常处理的拦截器--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">interceptor</span> <span class="attr">name</span>=<span class="string">"exception"</span> <span class="attr">class</span>=<span class="string">"com.opensymphony.xwork.interceptor.ExceptionMapping.Interceptor"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">interceptor-stakc</span> <span class="attr">name</span>=<span class="string">"defaultStack"</span>&gt;</span></div><div class="line">        ...</div><div class="line">        <span class="comment">&lt;!--加入默认的拦截器栈--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">interceptor-ref</span> <span class="attr">name</span>=<span class="string">"exception"</span>/&gt;</span></div><div class="line">        ...</div><div class="line">    <span class="tag">&lt;/<span class="name">interceptor-stakc</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">interceptors</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>####Struts2输出异常信息<br><code>&lt;s:property value=&quot;exception&quot;/&gt;</code>: 输出异常对象本身<br><code>&lt;s:property value=&quot;exceptionStck&quot;/&gt;</code>: 输出异常堆栈信息<br><code>&lt;s:property value=&quot;exception.message&quot;/&gt;</code>: 输出异常的message消息</p>
+<p>####Convention插件与“约定”支持<br>有Ruby on Rails开发经验的朋友知道Rails有一条重要原则：约定优于配置。Rails开发者只需要按约定开发ActiveRecord/ActiveController即可，无需进行配置。Struts2的Convention插件借鉴了Rails的创意。</p>
+<p>#####Action的搜索和映射约定<br>使用Convention插件，将Struts2项目下的struts2-convention-plugin-2.3.16.3.jar复制到项目的WEB-INF/lib下即可。<br>对于Convention插件而言，它会自动搜索位于action、actions、struts、struts2包下的所有Java类，Convention插件会把如下两种Java类当成Action处理。</p>
+<ul>
+<li>所有实现了com.opensymphony.xwork2.Action的Java类</li>
+<li>所有类名以Action结尾的Java类</li>
+</ul>
+<p>Struts2的Convention插件还允许设置如下三个常量</p>
+<ul>
+<li>struts.convention.exclude.packages: 指定不扫描哪些包下的Java类，位于这些包结构下的Java类将不会被自动映射成Action</li>
+<li>struts.convention.package.locators: Convention插件使用该常量指定的包作为搜寻Action的根包。例如actions.base.LoginAction类，按约定原本映射到/base/login；如果将该常量设置为base，则该Action将会映射到/login</li>
+<li>struts.convention.action.packages: Convention插件以该常量指定包作为根包来搜索Action类，Convention插件除了扫描action、actions、struts、struts2四个包的类之外，还会扫描该常量指定的一个或多个包，Convention会视图从中发现Action类</li>
+</ul>
+<p>部署Action时，action、actions、struts、struts2包会映射成根（/）命名空间，而这些包下的子包则被映射成对应的命名空间。<br>例如：edu.shu.action.base.LoginAction 映射到/base/命名空间</p>
+<p>Action的那么属性（即该Action处理的URL）根据Action的类名映射，需遵循如下两步规则：</p>
+<ul>
+<li>如果该Action类名包含Action后缀，将该Acting类名的Action后缀去掉，否则不做任何处理</li>
+<li>将Action类名的驼峰写法转成中划线写法，所有字母小写</li>
+</ul>
+<p>例如edu.shu.action.base.UserLoginAction映射的URL是/base/user-login.action</p>
+<p>#####按约定映射Result<br>Convention默认也为作为逻辑视图和物理视图之间的映射提供了约定，默认情况下，Convention总会到Web应用的WEB-INF/content路径下定位物理资源，定位资源的约定是actionName+resultcode+suffix。当某个逻辑视图找不到对应的视图资源时，Convention会自动视图使用actionName+sufix作为物理视图资源。</p>
+<table>
+<thead>
+<tr>
+<th>Action的URL</th>
+<th style="text-align:right">返回的逻辑视图名</th>
+<th style="text-align:center">结果类型</th>
+<th>对应的物理视图</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/login</td>
+<td style="text-align:right">success</td>
+<td style="text-align:center">Dispatcher</td>
+<td>\WEB-INF\content\login-success.jsp</td>
+</tr>
+<tr>
+<td>/login</td>
+<td style="text-align:right">success</td>
+<td style="text-align:center">Dispatcher</td>
+<td>\WEB-INF\content\login-success.html</td>
+</tr>
+<tr>
+<td>/login</td>
+<td style="text-align:right">success</td>
+<td style="text-align:center">Dispatcher</td>
+<td>\WEB-INF\content\login.jsp</td>
+</tr>
+<tr>
+<td>/login</td>
+<td style="text-align:right">success</td>
+<td style="text-align:center">Dispatcher</td>
+<td>\WEB-INF\content\login.html</td>
+</tr>
+<tr>
+<td>/shu/get-book</td>
+<td style="text-align:right">error</td>
+<td style="text-align:center">FreeMarker</td>
+<td>\WEB-INF\content\shu\get-book-error.ftl</td>
+</tr>
+<tr>
+<td>/shu/get-book</td>
+<td style="text-align:right">error</td>
+<td style="text-align:center">FreeMarker</td>
+<td>\WEB-INF\content\shu\get-book.ftl</td>
+</tr>
+<tr>
+<td>/shu/get-book</td>
+<td style="text-align:right">input</td>
+<td style="text-align:center">Velocity</td>
+<td>\WEB-INF\content\shu\get-book-input.vm</td>
+</tr>
+<tr>
+<td>/shu/get</td>
+<td style="text-align:right">input</td>
+<td style="text-align:center">Velocity</td>
+<td>\WEB-INF\content\shu\get-input.vm</td>
+</tr>
+</tbody>
+</table>
+<p>#####Action链的约定<br>如果希望一个Action处理结束后不是进入视图页面，而是进入另一个Action形成的Action链，则通过Convention插件只需遵守如下三个约定</p>
+<ul>
+<li>第一个Action返回的逻辑视图字符串没有对应的视图资源</li>
+<li>第二个Action与第一个Action处于同一个包下</li>
+<li>第二个Action映射的URL为: firstactionName+resultcode</li>
+</ul>
+<p>#####自动重加载映射<br>在struts.xml中配置如下两个常量即可使Convention插件重加载映射<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">"struts.devMode"</span> <span class="attr">value</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">"struts.convention.classes.reload"</span> <span class="attr">value</span>=<span class="string">"true"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>###Struts2标签库</p>
+<p>####Struts2标签库概述<br>从最大的范围来分，Struts2可以将所有标签分成如下三类</p>
+<ol>
+<li>UI标签: 主要用于生成HTML元素的标签<br>1.1. 表单标签: 主要用于生成HTML页面的form元素，以及普通表单元素的标签<br>1.2. 非表单元素: 主要用于生成页面的树、Tab页等标签</li>
+<li>非UI标签: 主要用于数据访问、逻辑控制等的标签<br>2.1 流程控制标签: 主要包含用于实现分支、循环等流程控制的标签<br>2.2 数据访问标签: 主要包含用于输出ValueStack中的值、完成国际化等功能的标签</li>
+<li>Ajax标签: 用于Ajax支持的标签</li>
+</ol>
+<p>####OGNL表达式语言<br>OGNL的顶级对象是Stack Context，Stack Context对象就是一个Map类型的实例，其根对象就是Value Stack。OGNL的Stack Context里除了包括ValueStack这个根之外，还包括parameters、request、session、application、attr等命名对象，但这些命名对象都不是根。Stack Context“根”对象和普通命名对象的区别在于</p>
+<ul>
+<li>访问Stack Context里的命名对象需要在对象名之前添加#前缀</li>
+<li>访问OGNL的Stack Context里“根”对象的属性时，可以省略对象名</li>
+</ul>
+<p>###Struts2拦截器</p>
+<p>####配置默认拦截器<br>当配置一个包时，可以为其指定默认拦截器。一旦为某个包指定了默认的拦截器，如果该包中的Action没有显式指定拦截器，则默认的拦截器将会起作用。如果一旦为该包中的Action显式应用了某个拦截器，则默认的拦截器不会起作用，如果该Action还需要使用默认拦截器，则必须手动配置该拦截器的引用。</p>
+<p>####拦截器的执行顺序<br>在Action的控制方法执行之前，位于拦截器链前面的拦截器将先发生作用；在Action的控制方法执行之后，位于拦截器链前面的拦截器将后发生作用。</p>
+<p>参考资料<br>【1】轻量级JavaEE企业应用实战-Struts2+Spring4+Hibernate整合开发</p>
+
+      
+    </div>
+
+	<div align="center">
+	  
+		<div class="copyright">
+		<p><span>
+		<b>本文地址：</b><a href="/2015/06/18/Basic-knowledge-summary-of-Struts2/" title="Struts2基础知识汇总">http://www.codepub.cn/2015/06/18/Basic-knowledge-summary-of-Struts2/</a><br/><b>转载请注明出处，谢谢！</b>
+		</span></p>
+		</div>
+	  
+	</div>
+	<!-- 添加广告位 -->
+    <div>
+      
+        
+<div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton", disable="enable", onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}", style="cursor: pointer; border: 0; outline: 0; border-radius: 100%; padding: 0; margin: 0; letter-spacing: normal; text-transform: none; text-indent: 0px; text-shadow: none">
+    <span onmouseover="this.style.color='rgb(236,96,0)';this.style.background='rgb(204,204,204)'" onMouseOut="this.style.color='#fff';this.style.background='rgb(236,96,0)'" style="display: inline-block; width: 70px; height: 70px; border-radius: 100%; line-height: 81px; color: #fff; font: 400 35px/75px 'microsofty'; background: rgb(236,96,0)">赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu WeChat Pay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>微信打赏</p>
+      </div>
+    
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu Alipay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>支付宝打赏</p>
+      </div>
+    
+  </div>
+<div>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Struts2/" rel="tag">#Struts2</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/17/Basic-knowledge-summary-of-JSP-Servlet/" rel="next" title="JSP/Servlet基础知识汇总">
+                <i class="fa fa-chevron-left"></i> JSP/Servlet基础知识汇总
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/19/Basic-knowledge-summary-of-Hibernate/" rel="prev" title="Hibernate基础知识汇总">
+                Hibernate基础知识汇总 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share?uid=2067139" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<!-- UJian Button BEGIN -->
+	<div class="ujian-hook"></div>
+	<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js"></script>
+<!-- UJian Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+		  
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/author.jpg"
+               alt="Wang Xu" />
+          <p class="site-author-name" itemprop="name">Wang Xu</p>
+          <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">103</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/shijiebei2009" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/codepub" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i> Linkedin
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank">
+                  
+                    <i class="fa fa-stackoverflow"></i> Stackoverflow
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/codepub.cn" target="_blank">
+                  
+                    <i class="fa fa-zhihu"></i> ZhiHu
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/shijiebei2009/" target="_blank">
+                  
+                    <i class="fa fa-douban"></i> DouBan
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1779238484" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>&nbsp;&nbsp;&nbsp;
+  <a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_pv">
+  <i class="fa fa-user" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_pv"></span>
+  </span>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_uv">
+  <i class="fa fa-eye" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_uv"></span>
+  </span>
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'codepubcn';
+      var disqus_identifier = '2015/06/18/Basic-knowledge-summary-of-Struts2/';
+      var disqus_title = 'Struts2基础知识汇总';
+      var disqus_url = 'http://www.codepub.cn/2015/06/18/Basic-knowledge-summary-of-Struts2/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+<a href="https://github.com/shijiebei2009"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+</body>
+</html>

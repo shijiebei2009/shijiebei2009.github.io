@@ -1,0 +1,1049 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Redis," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="Windows安装Redis首先Redis官方并不支持Windows，而Windows版的Redis是由MSOpenTech提供的支持，所以首先去下载一个发布版，我选择的是Redis-x64-3.2.100.zip压缩包，解压缩得到如下文件列表1234567891011121314EventLog.dllRedis on Windows Release Notes.docxRedis on Win">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows安装Redis服务">
+<meta property="og:url" content="http://www.codepub.cn/2016/11/19/Windows-installs-the-redis-service/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="Windows安装Redis首先Redis官方并不支持Windows，而Windows版的Redis是由MSOpenTech提供的支持，所以首先去下载一个发布版，我选择的是Redis-x64-3.2.100.zip压缩包，解压缩得到如下文件列表1234567891011121314EventLog.dllRedis on Windows Release Notes.docxRedis on Win">
+<meta property="og:updated_time" content="2017-05-06T14:42:48.680Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Windows安装Redis服务">
+<meta name="twitter:description" content="Windows安装Redis首先Redis官方并不支持Windows，而Windows版的Redis是由MSOpenTech提供的支持，所以首先去下载一个发布版，我选择的是Redis-x64-3.2.100.zip压缩包，解压缩得到如下文件列表1234567891011121314EventLog.dllRedis on Windows Release Notes.docxRedis on Win">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Windows安装Redis服务 | IT草根 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1254721753&web_id=1254721753" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">IT草根</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-book fa-fw"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-link fa-fw"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'CEs2u-bRR6iHSt4ynbFA','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Windows安装Redis服务
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-19T08:52:32+08:00" content="2016-11-19">
+              2016-11-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Programming-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Notes</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+		
+		
+			<!-- 在下面的位置加上如下代码 -->
+			<span id="busuanzi_container_page_pv">&nbsp; | &nbsp; 热度&nbsp; <span id="busuanzi_value_page_pv"></span>°C</span>    
+			<!-- 在上面的位置加上如上代码 -->  
+		
+		  
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/19/Windows-installs-the-redis-service/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/19/Windows-installs-the-redis-service/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+
+      
+        <h3 id="Windows安装Redis"><a href="#Windows安装Redis" class="headerlink" title="Windows安装Redis"></a>Windows安装Redis</h3><p>首先<strong>Redis</strong>官方并不支持<strong>Windows</strong>，而<strong>Windows</strong>版的<strong>Redis</strong>是由<a href="https://github.com/MSOpenTech" target="_blank" rel="external"><strong>MSOpenTech</strong></a>提供的支持，所以首先去下载一个<a href="https://github.com/MSOpenTech/redis/releases" target="_blank" rel="external">发布版</a>，我选择的是<a href="https://github.com/MSOpenTech/redis/releases/download/win-3.2.100/Redis-x64-3.2.100.zip" target="_blank" rel="external"><strong>Redis-x64-3.2.100.zip</strong></a>压缩包，解压缩得到如下文件列表<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">EventLog.dll</div><div class="line">Redis on Windows Release Notes.docx</div><div class="line">Redis on Windows.docx</div><div class="line">redis.windows.conf</div><div class="line">redis.windows-service.conf</div><div class="line">redis-benchmark.exe</div><div class="line">redis-benchmark.pdb</div><div class="line">redis-check-aof.exe</div><div class="line">redis-check-aof.pdb</div><div class="line">redis-cli.exe</div><div class="line">redis-cli.pdb</div><div class="line">redis-server.exe</div><div class="line">redis-server.pdb</div><div class="line">Windows Service Documentation.docx</div></pre></td></tr></table></figure></p>
+<p>有了这些文件之后，就可以开始安装服务了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">D:\Redis-x64-3.2.100&gt;redis-server.exe  redis.windows.conf</div><div class="line">                _._</div><div class="line">           _.-``__ &apos;&apos;-._</div><div class="line">      _.-``    `.  `_.  &apos;&apos;-._           Redis 3.2.100 (00000000/0) 64 bit</div><div class="line">  .-`` .-```.  ```\/    _.,_ &apos;&apos;-._</div><div class="line"> (    &apos;      ,       .-`  | `,    )     Running in standalone mode</div><div class="line"> |`-._`-...-` __...-.``-._|&apos;` _.-&apos;|     Port: 6379</div><div class="line"> |    `-._   `._    /     _.-&apos;    |     PID: 33824</div><div class="line">  `-._    `-._  `-./  _.-&apos;    _.-&apos;</div><div class="line"> |`-._`-._    `-.__.-&apos;    _.-&apos;_.-&apos;|</div><div class="line"> |    `-._`-._        _.-&apos;_.-&apos;    |           http://redis.io</div><div class="line">  `-._    `-._`-.__.-&apos;_.-&apos;    _.-&apos;</div><div class="line"> |`-._`-._    `-.__.-&apos;    _.-&apos;_.-&apos;|</div><div class="line"> |    `-._`-._        _.-&apos;_.-&apos;    |</div><div class="line">  `-._    `-._`-.__.-&apos;_.-&apos;    _.-&apos;</div><div class="line">      `-._    `-.__.-&apos;    _.-&apos;</div><div class="line">          `-._        _.-&apos;</div><div class="line">              `-.__.-&apos;</div><div class="line"></div><div class="line">[33824] 10 Nov 15:32:54.884 # Server started, Redis version 3.2.100</div><div class="line">[33824] 10 Nov 15:32:54.885 * The server is now ready to accept connections on p</div><div class="line">ort 6379</div></pre></td></tr></table></figure></p>
+<p>在启动成功之后，可以使用自带的客户端工具进行测试。双击打开<strong>“redis-cli.exe”</strong>，如果成功连接上之后就可以进行<strong>set</strong>及<strong>get</strong>等操作了。如果需要帮助，可以输入<strong>help</strong>查看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:6379&gt; set &quot;key&quot; &quot;testValue&quot;</div><div class="line">OK</div><div class="line">127.0.0.1:6379&gt; get &quot;key&quot;</div><div class="line">&quot;testValue&quot;</div><div class="line">127.0.0.1:6379&gt; help</div><div class="line">redis-cli 3.2.100</div><div class="line">To get help about Redis commands type:</div><div class="line">      &quot;help @&lt;group&gt;&quot; to get a list of commands in &lt;group&gt;</div><div class="line">      &quot;help &lt;command&gt;&quot; for help on &lt;command&gt;</div><div class="line">      &quot;help &lt;tab&gt;&quot; to get a list of possible help topics</div><div class="line">      &quot;quit&quot; to exit</div><div class="line"></div><div class="line">To set redis-cli perferences:</div><div class="line">      &quot;:set hints&quot; enable online hints</div><div class="line">      &quot;:set nohints&quot; disable online hints</div><div class="line">Set your preferences in ~/.redisclirc</div></pre></td></tr></table></figure>
+<p>再输入<strong>help</strong>空格，然后敲<strong>tab</strong>键，可以像命令提示符一样显示候选项。通常不需要每次都使用<strong>cmd</strong>界面去操作，所以附上一些快速处理的脚本，注意在安装服务之前先关闭防火墙和杀毒软件，否则安装不成功。</p>
+<h3 id="快速操作脚本"><a href="#快速操作脚本" class="headerlink" title="快速操作脚本"></a>快速操作脚本</h3><p><strong>service-install.bat</strong></p>
+<blockquote>
+<p>redis-server –service-install redis.windows.conf –loglevel verbose<br>pause</p>
+</blockquote>
+<p>安装成功之后输出结果：</p>
+<blockquote>
+<p>D:\Redis-x64-3.2.100&gt;redis-server –service-install redis.windows.conf –logleve<br>l verbose<br>[13868] 26 Dec 09:39:58.364 # Granting read/write access to ‘NT AUTHORITY\Networ<br>kService’ on: “D:\Redis-x64-3.2.100” “D:\Redis-x64-3.2.100\”<br>[13868] 26 Dec 09:39:58.365 # Redis successfully installed as a service.<br>D:\Redis-x64-3.2.100&gt;pause<br>请按任意键继续. . .</p>
+</blockquote>
+<p><strong>uninstall-service.bat</strong></p>
+<blockquote>
+<p>redis-server –service-uninstall<br>pause</p>
+</blockquote>
+<p>卸载成功之后输出结果：</p>
+<blockquote>
+<p>D:\Redis-x64-3.2.100&gt;redis-server –service-uninstall<br>[11368] 26 Dec 09:45:47.460 # Redis service successfully uninstalled.<br>D:\Redis-x64-3.2.100&gt;pause<br>请按任意键继续. . .</p>
+</blockquote>
+<p>注意在卸载服务之前，需要先去<strong>控制面板|管理工具|服务|停止Redis服务</strong>，然后才能卸载成功。</p>
+<p><strong>starting-service.bat</strong></p>
+<blockquote>
+<p>redis-server –service-start<br>pause</p>
+</blockquote>
+<p>服务启动成功之后输出：</p>
+<blockquote>
+<p>D:\Redis-x64-3.2.100&gt;redis-server –service-start<br>[20120] 26 Dec 10:12:30.946 # Redis service successfully started.<br>D:\Redis-x64-3.2.100&gt;pause<br>请按任意键继续. . .</p>
+</blockquote>
+<p><strong>stopping-service.bat</strong></p>
+<blockquote>
+<p>redis-server –service-stop<br>pause</p>
+</blockquote>
+<p>服务停止成功之后输出：</p>
+<blockquote>
+<p>D:\Redis-x64-3.2.100&gt;redis-server –service-stop<br>[19612] 26 Dec 10:19:27.974 # Redis service successfully stopped.<br>D:\Redis-x64-3.2.100&gt;pause<br>请按任意键继续. . .</p>
+</blockquote>
+<p>命名服务，一个可选的参数可以用来指定安装的服务的名称，这个参数可以跟在service-install、service-start、service-stop或service-uninstall命令的后面。比如以下命令会安装和启动三个独立的Redis实例</p>
+<blockquote>
+<p>redis-server –service-install –service-name redisService1 –port 10001<br>redis-server –service-start –service-name redisService1<br>redis-server –service-install –service-name redisService2 –port 10002<br>redis-server –service-start –service-name redisService2<br>redis-server –service-install –service-name redisService3 –port 10003<br>redis-server –service-start –service-name redisService3</p>
+</blockquote>
+<h3 id="Windows配置主从Redis"><a href="#Windows配置主从Redis" class="headerlink" title="Windows配置主从Redis"></a>Windows配置主从Redis</h3><p>先将Redis目录复制一份，命名为<strong>Redis-x64-3.2-Slave</strong>，并将原Redis目录命名为<strong>Redis-x64-3.2-Master</strong>，注释掉master目录redis.windows.conf文件的集群配置，或者将其设置为<strong>no</strong></p>
+<blockquote>
+<p><strong># cluster-enabled yes</strong><br><strong># 或者设置为no</strong><br><strong>cluster-enabled no</strong></p>
+</blockquote>
+<p>修改slave目录redis.windows.conf的端口号为6380，同样注释掉集群配置或设置为<strong>no</strong>，在slaveof后面添加master机器的IP和端口号</p>
+<blockquote>
+<p><strong>port 6380</strong><br><strong>slaveof 127.0.0.1 6379</strong><br><strong># cluster-enabled yes</strong><br><strong># 或者设置为no</strong><br><strong>cluster-enabled no</strong></p>
+</blockquote>
+<p>然后先启动Master，之后再启动Slave机器，输出如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">D:\Redis-x64-3.2-Master&gt;redis-server redis.windows.conf</div><div class="line">[20048] 26 Dec 13:04:49.064 * Node configuration loaded, I&apos;m f1c7db8c98b01e9fbd5</div><div class="line">089b1231ca0e2d23a1766</div><div class="line">                _._</div><div class="line">           _.-``__ &apos;&apos;-._</div><div class="line">      _.-``    `.  `_.  &apos;&apos;-._           Redis 3.2.100 (00000000/0) 64 bit</div><div class="line">  .-`` .-```.  ```\/    _.,_ &apos;&apos;-._</div><div class="line"> (    &apos;      ,       .-`  | `,    )     Running in cluster mode</div><div class="line"> |`-._`-...-` __...-.``-._|&apos;` _.-&apos;|     Port: 6379</div><div class="line"> |    `-._   `._    /     _.-&apos;    |     PID: 20048</div><div class="line">  `-._    `-._  `-./  _.-&apos;    _.-&apos;</div><div class="line"> |`-._`-._    `-.__.-&apos;    _.-&apos;_.-&apos;|</div><div class="line"> |    `-._`-._        _.-&apos;_.-&apos;    |           http://redis.io</div><div class="line">  `-._    `-._`-.__.-&apos;_.-&apos;    _.-&apos;</div><div class="line"> |`-._`-._    `-.__.-&apos;    _.-&apos;_.-&apos;|</div><div class="line"> |    `-._`-._        _.-&apos;_.-&apos;    |</div><div class="line">  `-._    `-._`-.__.-&apos;_.-&apos;    _.-&apos;</div><div class="line">      `-._    `-.__.-&apos;    _.-&apos;</div><div class="line">          `-._        _.-&apos;</div><div class="line">              `-.__.-&apos;</div><div class="line"></div><div class="line">[20048] 26 Dec 13:04:49.066 # Server started, Redis version 3.2.100</div><div class="line">[20048] 26 Dec 13:04:49.067 * DB loaded from disk: 0.000 seconds</div><div class="line">[20048] 26 Dec 13:04:49.067 * The server is now ready to accept connections on p</div><div class="line">ort 6379</div><div class="line">[20048] 26 Dec 13:05:14.723 * Slave 127.0.0.1:6380 asks for synchronization</div><div class="line">[20048] 26 Dec 13:05:14.723 * Full resync requested by slave 127.0.0.1:6380</div><div class="line">[20048] 26 Dec 13:05:14.724 * Starting BGSAVE for SYNC with target: disk</div><div class="line">[20048] 26 Dec 13:05:14.726 * Background saving started by pid 26568</div><div class="line">[20048] 26 Dec 13:05:14.867 # fork operation complete</div><div class="line">[20048] 26 Dec 13:05:14.867 * Background saving terminated with success</div><div class="line">[20048] 26 Dec 13:05:14.869 * Synchronization with slave 127.0.0.1:6380 succeede</div><div class="line">d</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">D:\Redis-x64-3.2-Slave&gt;redis-server redis.windows.conf</div><div class="line">                _._</div><div class="line">           _.-``__ &apos;&apos;-._</div><div class="line">      _.-``    `.  `_.  &apos;&apos;-._           Redis 3.2.100 (00000000/0) 64 bit</div><div class="line">  .-`` .-```.  ```\/    _.,_ &apos;&apos;-._</div><div class="line"> (    &apos;      ,       .-`  | `,    )     Running in standalone mode</div><div class="line"> |`-._`-...-` __...-.``-._|&apos;` _.-&apos;|     Port: 6380</div><div class="line"> |    `-._   `._    /     _.-&apos;    |     PID: 21036</div><div class="line">  `-._    `-._  `-./  _.-&apos;    _.-&apos;</div><div class="line"> |`-._`-._    `-.__.-&apos;    _.-&apos;_.-&apos;|</div><div class="line"> |    `-._`-._        _.-&apos;_.-&apos;    |           http://redis.io</div><div class="line">  `-._    `-._`-.__.-&apos;_.-&apos;    _.-&apos;</div><div class="line"> |`-._`-._    `-.__.-&apos;    _.-&apos;_.-&apos;|</div><div class="line"> |    `-._`-._        _.-&apos;_.-&apos;    |</div><div class="line">  `-._    `-._`-.__.-&apos;_.-&apos;    _.-&apos;</div><div class="line">      `-._    `-.__.-&apos;    _.-&apos;</div><div class="line">          `-._        _.-&apos;</div><div class="line">              `-.__.-&apos;</div><div class="line"></div><div class="line">[21036] 26 Dec 13:05:14.720 # Server started, Redis version 3.2.100</div><div class="line">[21036] 26 Dec 13:05:14.721 * DB loaded from disk: 0.001 seconds</div><div class="line">[21036] 26 Dec 13:05:14.721 * The server is now ready to accept connections on p</div><div class="line">ort 6380</div><div class="line">[21036] 26 Dec 13:05:14.721 * Connecting to MASTER 127.0.0.1:6379</div><div class="line">[21036] 26 Dec 13:05:14.722 * MASTER &lt;-&gt; SLAVE sync started</div><div class="line">[21036] 26 Dec 13:05:14.722 * Non blocking connect for SYNC fired the event.</div><div class="line">[21036] 26 Dec 13:05:14.722 * Master replied to PING, replication can continue..</div><div class="line">.</div><div class="line">[21036] 26 Dec 13:05:14.722 * Partial resynchronization not possible (no cached</div><div class="line">master)</div><div class="line">[21036] 26 Dec 13:05:14.726 * Full resync from master: a326a4da325133537c655c16b</div><div class="line">3a6c2546620f816:1</div><div class="line">[21036] 26 Dec 13:05:14.868 * MASTER &lt;-&gt; SLAVE sync: receiving 75 bytes from mas</div><div class="line">ter</div><div class="line">[21036] 26 Dec 13:05:14.871 * MASTER &lt;-&gt; SLAVE sync: Flushing old data</div><div class="line">[21036] 26 Dec 13:05:14.871 * MASTER &lt;-&gt; SLAVE sync: Loading DB in memory</div><div class="line">[21036] 26 Dec 13:05:14.872 * MASTER &lt;-&gt; SLAVE sync: Finished with success</div></pre></td></tr></table></figure>
+<p>如果在配置中不小心启用了<strong>cluster-enabled yes</strong>的话，会抛<strong>slaveof directive not allowed in cluster mode</strong>和<strong>(error) CLUSTERDOWN Hash slot not served</strong>异常。</p>
+<h3 id="主从测试"><a href="#主从测试" class="headerlink" title="主从测试"></a>主从测试</h3><p>在主机中使用set，添加一个key之后</p>
+<blockquote>
+<p>D:\Redis-x64-3.2-Master&gt;redis-cli<br>127.0.0.1:6379&gt; set “mm” “mm in master”<br>OK</p>
+</blockquote>
+<p>在从机中使用get，得到这个key的value</p>
+<blockquote>
+<p>D:\Redis-x64-3.2-Slave&gt;redis-cli<br>127.0.0.1:6379&gt; get “mm”<br>“mm in master”</p>
+</blockquote>
+<p>反过来，在从机使用set之后也可以同步到master</p>
+<blockquote>
+<p>D:\Redis-x64-3.2-Slave&gt;redis-cli<br>127.0.0.1:6379&gt; set “kk” “mm in slave”<br>OK</p>
+</blockquote>
+<p>在主机get得到value</p>
+<blockquote>
+<p>D:\Redis-x64-3.2-Master&gt;redis-cli<br>127.0.0.1:6379&gt; get “kk”<br>“mm in slave”</p>
+</blockquote>
+<p>注意，redis的主从配置和集群配置方法是不同的，从机一般是只读的，主机用来进行写操作，一个主数据库可以有多个从数据库，而一个从数据库只能有一个主数据库。一般redis的持久化策略是：</p>
+<blockquote>
+<p>save 900 1    #当有一条Keys数据被改变时，900秒刷新到Disk一次<br>save 300 10   #当有10条Keys数据被改变时，300秒刷新到Disk一次<br>save 60 10000 #当有10000条Keys数据被改变时，60秒刷新到Disk一次</p>
+</blockquote>
+<p>Redis的主从复制是建立在内存快照的持久化基础上的，只要有Slave就一定会有内存快照发生。可以很明显的看到，RDB有它的不足，就是一旦数据库出现问题，那么我们的RDB文件中保存的数据并不是全新的。从上次RDB文件生成到Redis停机这段时间的数据全部丢掉了。</p>
+<p>AOF(Append-Only File)比RDB方式有更好的持久化性。由于在使用AOF持久化方式时，Redis会将每一个收到的写命令都通过Write函数追加到文件中，类似于MySQL的binlog。当Redis重启是会通过重新执行文件中保存的写命令来在内存中重建整个数据库的内容。对应的设置参数为：</p>
+<blockquote>
+<p>appendonly yes #启用AOF持久化方式<br>appendfilename appendonly.aof #AOF文件的名称，默认为appendonly.aof<br>appendfsync always #每次收到写命令就立即强制写入磁盘，是最有保证的完全的持久化，但速度也是最慢的，一般不推荐使用。<br>appendfsync everysec #每秒钟强制写入磁盘一次，在性能和持久化方面做了很好的折中，是受推荐的方式。<br>appendfsync no #完全依赖OS的写入，一般为30秒左右一次，性能最好但是持久化最没有保证，不被推荐。</p>
+</blockquote>
+<p>AOF的完全持久化方式同时也带来了另一个问题，持久化文件会变得越来越大。比如我们调用INCR test命令100次，文件中就必须保存全部的100条命令，但其实99条都是多余的。因为要恢复数据库的状态其实文件中保存一条SET test 100就够了。为了压缩AOF的持久化文件，Redis提供了bgrewriteaof命令。收到此命令后Redis将使用与快照类似的方式将内存中的数据以命令的方式保存到临时文件中，最后替换原来的文件，以此来实现控制AOF文件的增长。由于是模拟快照的过程，因此在重写AOF文件时并没有读取旧的AOF文件，而是将整个内存中的数据库内容用命令的方式重写了一个新的AOF文件。</p>
+<blockquote>
+<p>no-appendfsync-on-rewrite yes #在日志重写时，不进行命令追加操作，而只是将其放在缓冲区里，避免与命令的追加造成DISK IO上的冲突。<br>auto-aof-rewrite-percentage 100 #当前AOF文件大小是上次日志重写得到AOF文件大小的二倍时，自动启动新的日志重写过程。<br>auto-aof-rewrite-min-size 64mb #当前AOF文件启动新的日志重写过程的最小值，避免刚刚启动Reids时由于文件尺寸较小导致频繁的重写。</p>
+</blockquote>
+<p>参考资料：<br>【1】<a href="http://blog.chinaunix.net/uid-20682890-id-3603246.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-20682890-id-3603246.html</a></p>
+
+      
+    </div>
+
+	<div align="center">
+	  
+		<div class="copyright">
+		<p><span>
+		<b>本文地址：</b><a href="/2016/11/19/Windows-installs-the-redis-service/" title="Windows安装Redis服务">http://www.codepub.cn/2016/11/19/Windows-installs-the-redis-service/</a><br/><b>转载请注明出处，谢谢！</b>
+		</span></p>
+		</div>
+	  
+	</div>
+	<!-- 添加广告位 -->
+    <div>
+      
+        
+<div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton", disable="enable", onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}", style="cursor: pointer; border: 0; outline: 0; border-radius: 100%; padding: 0; margin: 0; letter-spacing: normal; text-transform: none; text-indent: 0px; text-shadow: none">
+    <span onmouseover="this.style.color='rgb(236,96,0)';this.style.background='rgb(204,204,204)'" onMouseOut="this.style.color='#fff';this.style.background='rgb(236,96,0)'" style="display: inline-block; width: 70px; height: 70px; border-radius: 100%; line-height: 81px; color: #fff; font: 400 35px/75px 'microsofty'; background: rgb(236,96,0)">赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu WeChat Pay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>微信打赏</p>
+      </div>
+    
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu Alipay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>支付宝打赏</p>
+      </div>
+    
+  </div>
+<div>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Redis/" rel="tag">#Redis</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/07/Read-the-tipping-point/" rel="next" title="读《引爆点》">
+                <i class="fa fa-chevron-left"></i> 读《引爆点》
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/19/Read-scarcity-why-having-too-little-means-so-much/" rel="prev" title="读《稀缺:我们是如何陷入贫穷与忙碌的》">
+                读《稀缺:我们是如何陷入贫穷与忙碌的》 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share?uid=2067139" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<!-- UJian Button BEGIN -->
+	<div class="ujian-hook"></div>
+	<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js"></script>
+<!-- UJian Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+		  
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/author.jpg"
+               alt="Wang Xu" />
+          <p class="site-author-name" itemprop="name">Wang Xu</p>
+          <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">103</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/shijiebei2009" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/codepub" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i> Linkedin
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank">
+                  
+                    <i class="fa fa-stackoverflow"></i> Stackoverflow
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/codepub.cn" target="_blank">
+                  
+                    <i class="fa fa-zhihu"></i> ZhiHu
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/shijiebei2009/" target="_blank">
+                  
+                    <i class="fa fa-douban"></i> DouBan
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1779238484" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows安装Redis"><span class="nav-number">1.</span> <span class="nav-text">Windows安装Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速操作脚本"><span class="nav-number">2.</span> <span class="nav-text">快速操作脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows配置主从Redis"><span class="nav-number">3.</span> <span class="nav-text">Windows配置主从Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从测试"><span class="nav-number">4.</span> <span class="nav-text">主从测试</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>&nbsp;&nbsp;&nbsp;
+  <a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_pv">
+  <i class="fa fa-user" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_pv"></span>
+  </span>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_uv">
+  <i class="fa fa-eye" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_uv"></span>
+  </span>
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'codepubcn';
+      var disqus_identifier = '2016/11/19/Windows-installs-the-redis-service/';
+      var disqus_title = 'Windows安装Redis服务';
+      var disqus_url = 'http://www.codepub.cn/2016/11/19/Windows-installs-the-redis-service/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+<a href="https://github.com/shijiebei2009"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+</body>
+</html>

@@ -1,0 +1,1093 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Lucene," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="####开发环境Windows：Win7 64 bitJava：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VMLucene：5.5Jcseg：1.9.7Ansj_seg：3.7.1Ansj_lucene5_plug：3.0Maven：3.3.3 ####Lucene集成Jcseg #####Jcseg简介Jcseg是使用Java开">
+<meta name="keywords" content="Lucene">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maven项目中Lucene集成中文分词工具Jcseg和Ansj">
+<meta property="og:url" content="http://www.codepub.cn/2016/03/23/Maven-project-integrating-Lucene-Chinese-Segmentation-tools-Jcseg-and-Ansj/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="####开发环境Windows：Win7 64 bitJava：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VMLucene：5.5Jcseg：1.9.7Ansj_seg：3.7.1Ansj_lucene5_plug：3.0Maven：3.3.3 ####Lucene集成Jcseg #####Jcseg简介Jcseg是使用Java开">
+<meta property="og:updated_time" content="2017-05-06T14:42:48.074Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Maven项目中Lucene集成中文分词工具Jcseg和Ansj">
+<meta name="twitter:description" content="####开发环境Windows：Win7 64 bitJava：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VMLucene：5.5Jcseg：1.9.7Ansj_seg：3.7.1Ansj_lucene5_plug：3.0Maven：3.3.3 ####Lucene集成Jcseg #####Jcseg简介Jcseg是使用Java开">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Maven项目中Lucene集成中文分词工具Jcseg和Ansj | IT草根 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1254721753&web_id=1254721753" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">IT草根</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-book fa-fw"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-link fa-fw"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'CEs2u-bRR6iHSt4ynbFA','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Maven项目中Lucene集成中文分词工具Jcseg和Ansj
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-23T22:11:04+08:00" content="2016-03-23">
+              2016-03-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Programming-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Notes</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+		
+		
+			<!-- 在下面的位置加上如下代码 -->
+			<span id="busuanzi_container_page_pv">&nbsp; | &nbsp; 热度&nbsp; <span id="busuanzi_value_page_pv"></span>°C</span>    
+			<!-- 在上面的位置加上如上代码 -->  
+		
+		  
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/23/Maven-project-integrating-Lucene-Chinese-Segmentation-tools-Jcseg-and-Ansj/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/03/23/Maven-project-integrating-Lucene-Chinese-Segmentation-tools-Jcseg-and-Ansj/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+
+      
+        <p>####开发环境<br><strong>Windows</strong>：Win7 64 bit<br><strong>Java</strong>：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VM<br><strong>Lucene</strong>：5.5<br><strong>Jcseg</strong>：1.9.7<br><strong>Ansj_seg</strong>：3.7.1<br><strong>Ansj_lucene5_plug</strong>：3.0<br><strong>Maven</strong>：3.3.3</p>
+<p>####Lucene集成Jcseg</p>
+<p>#####Jcseg简介<br><strong>Jcseg</strong>是使用<strong>Java</strong>开发的一个开源中文分词器，使用流行的<strong>mmseg</strong>算法实现，有兴趣的可以参考<a href="http://technology.chtsai.org/mmseg/" target="_blank" rel="external">算法原文</a>，并且提供了最高版本的<strong>lucene</strong>、<strong>solr</strong>、<strong>elasticsearch</strong>的分词接口。</p>
+<p><strong>Google Code</strong>最新版<strong>V1.9.6</strong>：<a href="https://code.google.com/archive/p/jcseg/" target="_blank" rel="external">https://code.google.com/archive/p/jcseg/</a><br><strong>Git OSChina</strong>最新版<strong>V1.9.7</strong>：<a href="http://git.oschina.net/lionsoul/jcseg" target="_blank" rel="external">http://git.oschina.net/lionsoul/jcseg</a><br><strong>GitHub</strong>地址：<a href="https://github.com/lionsoul2014/jcseg" target="_blank" rel="external">https://github.com/lionsoul2014/jcseg</a></p>
+<p>#####Maven编译Jcseg项目源码<br>从<strong>OSChina</strong>上下载<strong>ZIP</strong>压缩包之后，解压即可，文件夹重命名为<strong>jcseg</strong>，进入<strong>jcseg</strong>根目录，使用<strong>mvn clean package</strong>命令打包，前提是已经配置过<strong>maven</strong>环境变量，否则<strong>mvn</strong>无法识别。成功打包之后如下所示</p>
+<blockquote>
+<p>[INFO] Reactor Summary:<br>[INFO]<br>[INFO] jcseg-core ………………………………….. SUCCESS [ 13.469 s]<br>[INFO] jcseg-analyzer ………………………………. SUCCESS [  4.601 s]<br>[INFO] jcseg-elasticsearch ………………………….. SUCCESS [  4.355 s]<br>[INFO] jcseg-server ………………………………… SUCCESS [  7.346 s]<br>[INFO] jcseg ………………………………………. SUCCESS [  0.113 s]<br>[INFO] ————————————————————————<br>[INFO] BUILD SUCCESS<br>[INFO] ————————————————————————<br>[INFO] Total time: 30.134 s<br>[INFO] Finished at: 2016-03-22T16:47:59+08:00<br>[INFO] Final Memory: 31M/282M<br>[INFO] ————————————————————————</p>
+</blockquote>
+<p>#####Maven将Jar包安装到本地仓库<br>打开<strong>maven</strong>的<strong>settings.xml</strong>文件，配置本地仓库路径<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">localRepository</span>&gt;</span>D:/apache-maven-3.3.3/repo<span class="tag">&lt;/<span class="name">localRepository</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>使用<strong>maven</strong>命令<strong>mvn clean install</strong>将之前打包的<strong>jar</strong>文件安装到本地<strong>maven</strong>仓库中，成功安装如下所示</p>
+<blockquote>
+<p>[INFO] — maven-install-plugin:2.4:install (default-install) @ jcseg-server —<br>[INFO] Installing D:\jcseg\jcseg-server\target\jcseg-server-1.9.7.jar to D:\apache-maven-3.3.3\repo\org\lionsoul\jcseg\jcseg-server\1.9.7\jcseg-server-1.9.7.jar<br>[INFO] Installing D:\jcseg\jcseg-server\dependency-reduced-pom.xml to D:\apache-maven-3.3.3\repo\org\lionsoul\jcseg\jcseg-server\1.9.7\jcseg-server-1.9.7.pom<br>[INFO] Installing D:\jcseg\jcseg-server\target\jcseg-server-1.9.7-sources.jar to D:\apache-maven-3.3.3\repo\org\lionsoul\jcseg\jcseg-server\1.9.7\jcseg-server-1.9.7-sources.jar<br>[INFO]<br>[INFO] ————————————————————————<br>[INFO] Building jcseg 1.9.7<br>[INFO] ————————————————————————<br>[INFO]<br>[INFO] — maven-clean-plugin:2.5:clean (default-clean) @ jcseg —<br>[INFO]<br>[INFO] — maven-enforcer-plugin:1.0:enforce (enforce-maven) @ jcseg —<br>[INFO]<br>[INFO] — maven-install-plugin:2.4:install (default-install) @ jcseg —<br>[INFO] Installing D:\jcseg\pom.xml to D:\apache-maven-3.3.3\repo\org\lionsoul\jcseg\jcseg\1.9.7\jcseg-1.9.7.pom<br>[INFO] ————————————————————————<br>[INFO] Reactor Summary:<br>[INFO]<br>[INFO] jcseg-core ………………………………….. SUCCESS [ 10.195 s]<br>[INFO] jcseg-analyzer ………………………………. SUCCESS [  6.793 s]<br>[INFO] jcseg-elasticsearch ………………………….. SUCCESS [  3.815 s]<br>[INFO] jcseg-server ………………………………… SUCCESS [  5.745 s]<br>[INFO] jcseg ………………………………………. SUCCESS [  0.016 s]<br>[INFO] ————————————————————————<br>[INFO] BUILD SUCCESS<br>[INFO] ————————————————————————<br>[INFO] Total time: 26.687 s<br>[INFO] Finished at: 2016-03-22T16:53:28+08:00<br>[INFO] Final Memory: 31M/253M<br>[INFO] ————————————————————————</p>
+</blockquote>
+<p>#####Maven项目配置Jcseg<br>如果按照默认添加依赖方式如下所示<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.lionsoul.jcseg<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jcseg-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.9.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>是无法成功引用到本地仓库中的<strong>jcseg</strong>的，这是因为，如果依赖的版本是<strong>RELEASE</strong>或者<strong>LATEST</strong>，则<strong>Maven</strong>基于更新策略读取所有远程仓库的元数据<strong>groupId/artifactId/maven-metadata.xml</strong>，将其与本地仓库的对应元数据合并，如果不指定依赖版本，也就是说当依赖版本不明晰的时候，如<strong>RELEASE</strong>、<strong>LATEST</strong>、<strong>SNAPSHOT</strong>，<strong>Maven</strong>就需要基于更新远程仓库的更新策略来检查更新。而我们知道<strong>jcseg</strong>是我们自己安装到本地仓库中的，远程仓库必然不存在对应的元数据文件，所以这时<strong>maven</strong>会报错，那么如何解决呢？</p>
+<p>这时候就需要指定<strong>scope</strong>属性，<strong>scope</strong>用来指定依赖的范围，当<strong>scope</strong>指定的值是<strong>system</strong>的时候，<strong>Maven</strong>直接从本地文件系统解析构建，而不会去远程仓库查询。</p>
+<p><strong>scope</strong>还有其它几种取值，说明如下</p>
+<ul>
+<li><strong>compile</strong>：编译依赖范围，如果没有指定，就会默认使用该依赖范围</li>
+<li><strong>test</strong>：测试依赖范围，使用此依赖范围的<strong>Maven</strong>依赖，只对于测试<strong>classpath</strong>有效，典型的例子是<strong>JUnit</strong>，它只在编译测试代码及运行测试的时候才需要</li>
+<li><strong>provided</strong>：已提供依赖范围，使用此依赖范围的<strong>Maven</strong>依赖，对于编译和测试<strong>classpath</strong>有效，但在运行时无效，典型的例子是<strong>servlet-api</strong>，编译和测试项目的时候需要该依赖，但在运行项目的时候，由于容器已经提供，就不需要<strong>Maven</strong>重复地引入一遍</li>
+<li><strong>runtime</strong>：运行时依赖范围，使用此依赖范围的<strong>Maven</strong>依赖，对于测试和运行<strong>classpath</strong>有效，但在编译主代码时无效。典型的例子是<strong>JDBC</strong>驱动实现，项目主代码的编译只需要<strong>JDK</strong>提供的<strong>JDBC</strong>接口，只有在执行测试或者运行项目的时候才需要实现上述接口的具体<strong>JDBC</strong>驱动</li>
+<li><strong>system</strong>：系统依赖范围，该依赖与三种<strong>classpath</strong>的关系，和<strong>provided</strong>依赖范围完全一致。但是，在使用<strong>system</strong>范围的依赖时必须通过<strong>systemPath</strong>元素显式地指定依赖文件路径。通常此依赖与本机系统绑定，造成构建的不可移植，应该谨慎使用。</li>
+<li><strong>import</strong>：导入依赖范围，该依赖范围不会对三种<strong>classpath</strong>产生实际的影响，三种<strong>classpath</strong>指的是，编译<strong>classpath</strong>、测试<strong>classpath</strong>、运行时<strong>classpath</strong></li>
+</ul>
+<p>所以解决方案已经有了，如下所示，其它依赖本地仓库中的<strong>jar</strong>包配置类似：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--在systemPath中亦可指定其它位置，包括相对路径--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.lionsoul.jcseg<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jcseg-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.9.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>D:/apache-maven-3.3.3/repo/org/lionsoul/jcseg/jcseg-core/1.9.7/jcseg-core-1.9.7.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.lionsoul.jcseg<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jcseg-analyzer<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.9.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>D:/apache-maven-3.3.3/repo/org/lionsoul/jcseg/jcseg-analyzer/1.9.7/jcseg-analyzer-1.9.7.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>#####Lucene集成Jcseg的测试代码<br>将<strong>jcseg</strong>源码包中的<strong>lexicon</strong>和<strong>jcseg.properties</strong>两个文件复制到<strong>src/main/resources</strong>下，并修改<strong>jcseg.properties</strong>中的<code>lexicon.path = src/main/resources/lexicon</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> IOException, ParseException </span>&#123;</div><div class="line">    String text = <span class="string">"jcseg是使用Java开发的一款开源的中文分词器, 基于流行的mmseg算法实现，分词准确率高达98.4%, 支持中文人名识别, 同义词匹配, 停止词过滤等。并且提供了最新版本的lucene,solr,elasticsearch分词接口。"</span>;</div><div class="line">    <span class="comment">//如果不知道选择哪个Directory的子类，那么推荐使用FSDirectory.open()方法来打开目录</span></div><div class="line">    Analyzer analyzer = <span class="keyword">new</span> JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);</div><div class="line">    <span class="comment">//非必须(用于修改默认配置): 获取分词任务配置实例</span></div><div class="line">    JcsegAnalyzer5X jcseg = (JcsegAnalyzer5X) analyzer;</div><div class="line">    JcsegTaskConfig config = jcseg.getTaskConfig();</div><div class="line">    <span class="comment">//追加同义词, 需要在 jcseg.properties中配置jcseg.loadsyn=1</span></div><div class="line">    config.setAppendCJKSyn(<span class="keyword">true</span>);</div><div class="line">    <span class="comment">//追加拼音, 需要在jcseg.properties中配置jcseg.loadpinyin=1</span></div><div class="line">    config.setAppendCJKPinyin(<span class="keyword">true</span>);</div><div class="line">    <span class="comment">//更多配置, 请查看 org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig</span></div><div class="line">    Directory directory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">    indexWriterConfig = <span class="keyword">new</span> IndexWriterConfig(analyzer);</div><div class="line">    indexWriterConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);</div><div class="line">    indexWriter = <span class="keyword">new</span> IndexWriter(directory, indexWriterConfig);</div><div class="line">    Document document = <span class="keyword">new</span> Document();</div><div class="line">    document.add(<span class="keyword">new</span> StringField(<span class="string">"id"</span>, <span class="string">"1000"</span>, Field.Store.YES));</div><div class="line">    document.add(<span class="keyword">new</span> TextField(<span class="string">"text"</span>, text, Field.Store.YES));</div><div class="line">    indexWriter.addDocument(document);</div><div class="line">    indexWriter.commit();</div><div class="line">    IndexReader indexReader = DirectoryReader.open(directory);</div><div class="line">    IndexSearcher indexSearcher = <span class="keyword">new</span> IndexSearcher(indexReader);</div><div class="line">    String key = <span class="string">"中文分词器"</span>;</div><div class="line">    QueryParser queryParser = <span class="keyword">new</span> QueryParser(<span class="string">"text"</span>, analyzer);</div><div class="line">    queryParser.setDefaultOperator(QueryParser.Operator.AND);</div><div class="line">    Query parse = queryParser.parse(key);</div><div class="line">    System.out.println(parse);</div><div class="line">    TopDocs search = indexSearcher.search(parse, <span class="number">10</span>);</div><div class="line">    System.out.println(<span class="string">"命中数："</span> + search.totalHits);</div><div class="line">    ScoreDoc[] scoreDocs = search.scoreDocs;</div><div class="line">    <span class="keyword">for</span> (ScoreDoc sd : scoreDocs) &#123;</div><div class="line">        Document doc = indexSearcher.doc(sd.doc);</div><div class="line">        System.out.println(<span class="string">"得分："</span> + sd.score);</div><div class="line">        System.out.println(doc.get(<span class="string">"text"</span>));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>结果输出</p>
+<blockquote>
+<p>+text:中文 +text:zhong wen +text:国语 +text:分词器 +text:fen ci qi<br>命中数：1<br>得分：0.080312796<br>jcseg是使用Java开发的一款开源的中文分词器, 基于流行的mmseg算法实现，分词准确率高达98.4%, 支持中文人名识别, 同义词匹配, 停止词过滤等。并且提供了最新版本的lucene,solr,elasticsearch分词接口。</p>
+</blockquote>
+<p>####Lucene集成Ansj</p>
+<p>#####Ansj简介<br><strong>Ansj</strong>是一个<strong>ICTCLAS</strong>的<strong>Java</strong>实现。基本上重写了所有的数据结构和算法。词典是用的开源版的<strong>ICTCLAS</strong>所提供的。并且进行了部分的人工优化。</p>
+<p>还是一个基于<strong>n-Gram+</strong>条件随机场模型的中文分词的<strong>Java</strong>实现。分词速度达到每秒钟大约200万字左右（Mac Air下测试），准确率能达到96%以上。目前实现了中文分词、中文姓名识别、用户自定义词典。可以应用到自然语言处理等方面，适用于对分词效果要求高的各种项目。</p>
+<p><strong>GitHub</strong>项目地址：<a href="https://github.com/NLPchina/ansj_seg" target="_blank" rel="external">https://github.com/NLPchina/ansj_seg</a><br><strong>Ansj</strong>的仓库地址，包括针对<strong>Lucene</strong>的插件：<a href="http://maven.nlpcn.org/org/ansj/" target="_blank" rel="external">http://maven.nlpcn.org/org/ansj/</a></p>
+<p>#####Maven项目配置Ansj<br>根据官方手册，在<strong>pom.xml</strong>文件中加入依赖，如下所示<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.ansj<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ansj_seg<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.7.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.ansj<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ansj_lucene5_plug<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>但是你应该能想到，中央仓库或者镜像仓库中并没有<strong>Ansj</strong>啊，那上述依赖必然报错。对的，所以还需要在<strong>settings.xml</strong>加入<strong>Ansj</strong>的仓库地址<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">repositories</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">repository</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>mvn-repo<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>ansj maven repo<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.nlpcn.org/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>如果你使用了中央仓库的镜像请注意如下内容，如果你没使用镜像请忽略之。</p>
+<p>一般在天朝，访问<strong>maven</strong>中央仓库速度是很慢的，所以国内一般会用某个中央仓库的镜像，而我用的是<strong>OSChina</strong>的镜像，在镜像的配置中，如果你使用了通配符，那么需要注意该通配符同样会屏蔽掉<strong>Ansj</strong>仓库的地址，所以需要在通配符之后排除掉<strong>Ansj</strong>的仓库地址<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus-osc<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>*,!mvn-repo<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></div><div class="line">          <span class="comment">&lt;!--&lt;mirrorOf&gt;*&lt;/mirrorOf&gt;如果使用这种方式会屏蔽Ansj仓库--&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">name</span>&gt;</span>Nexus osc<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.oschina.net/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus-osc-thirdparty<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>thirdparty<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">name</span>&gt;</span>Nexus osc thirdparty<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.oschina.net/content/repositories/thirdparty/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>当然如果你没使用通配符，而是指定对<strong>Maven</strong>中央仓库做镜像的话，就无需使用<code>!mvn-repo</code>进行排除了，其中<strong>mvn-repo</strong>是<strong>Ansj</strong>仓库的<strong>ID</strong>。指定对<strong>Maven</strong>中央仓库做镜像配置如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus-osc<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>Nexus osc<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.oschina.net/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus-osc-thirdparty<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>thirdparty<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>Nexus osc thirdparty<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.oschina.net/content/repositories/thirdparty/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>#####Maven之镜像<br>如果仓库<strong>X</strong>可以提供仓库<strong>Y</strong>存储的所有内容，那么就可以认为<strong>X</strong>是<strong>Y</strong>的一个镜像。换句话说，任何一个可以从仓库<strong>Y</strong>获得的构建，都能够从它的镜像中获取。</p>
+<p>关于镜像的一个更为常见的用法是结合私服。由于私服可以代理任何外部的公共仓库，因此，对于组织内部的<strong>Maven</strong>用户来说，使用一个私服地址就等于使用了所有需要的外部仓库，这可以将配置集中到私服，从而简化<strong>Maven</strong>本身的配置。</p>
+<p>有关镜像的一些配置说明如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>*<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span>：匹配所有远程仓库</div><div class="line"><span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>external:*<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span>：匹配所有远程仓库，使用localhost的除外，使用file://协议的除外。也就是说，匹配所有不在本机上的远程仓库</div><div class="line"><span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>repo1,repo2<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span>：匹配仓库repo1和repo2，使用逗号分隔多个远程仓库</div><div class="line"><span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>*,!repo1<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span>：匹配所有远程仓库，repo1除外，使用感叹号将仓库从匹配中排除</div></pre></td></tr></table></figure></p>
+<p>需要注意的是，由于镜像仓库完全屏蔽了被镜像仓库，当镜像仓库不稳定或者停止服务的时候，<strong>Maven</strong>仍将无法访问被镜像仓库，因而将无法下载构建。</p>
+<p>#####Maven中自定义变量<br>通常在依赖一个项目多个组件的时候，为每一个组件单独指定版本号是可以的，但是当升级版本号的时候，就需要对每个组件都做升级，很麻烦，这时就需要自定义变量了。在<strong>pom.xml</strong>中定义如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">spring.version</span>&gt;</span>5.2.0<span class="tag">&lt;/<span class="name">spring.version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>使用时，直接在<strong>version</strong>中引用标签名即可，例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.springframework&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-core&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.springframework&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-aop&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
+<p>#####Maven内置变量<br><strong>Maven</strong>本身就内置了很多预定义变量，可以直接引用，选取一些举例如下</p>
+<ul>
+<li>内置属性<ul>
+<li><strong>${basedir}</strong> represents the directory containing pom.xml</li>
+<li><strong>${version}</strong> equivalent to <strong>${project.version}</strong> or <strong>${pom.version}</strong></li>
+<li><strong>${project.basedir}</strong> 同 <strong>${basedir}</strong></li>
+<li><strong>${project.baseUri}</strong> 表示项目文件地址</li>
+<li><strong>${maven.build.timestamp}</strong> 表示项目构件开始时间;</li>
+<li><strong>${maven.build.timestamp.format}</strong> 表示属性 <strong>${maven.build.timestamp}</strong> 的展示格式，默认值为yyyyMMdd-HHmm</li>
+</ul>
+</li>
+<li>POM属性<ul>
+<li><strong>${project.build.directory}</strong> results in the path to your “target” dir, this is the same as <strong>${pom.project.build.directory}</strong></li>
+<li><strong>${project.build.outputDirectory}</strong> results in the path to your “target/classes” dir</li>
+<li><strong>${project.name}</strong> refers to the name of the project</li>
+<li><strong>${project.version}</strong> refers to the version of the project</li>
+<li><strong>${project.build.finalName}</strong> refers to the final name of the file created when the built project is packaged</li>
+</ul>
+</li>
+<li>Settings文件属性<ul>
+<li><strong>${settings.localRepository}</strong> refers to the path of the user’s local repository</li>
+</ul>
+</li>
+<li>Java系统属性<ul>
+<li>使用<code>mvn help:system</code>命令可以查看所有的<strong>Java</strong>系统属性</li>
+<li><code>System.getProperties()</code>可以得到所有的<strong>Java</strong>属性</li>
+<li><strong>${user.home}</strong> 表示用户目录</li>
+<li><strong>${java.home}</strong> specifies the path to the current JRE_HOME environment use with relative paths to get for example:<code>&lt;jvm&gt;${java.home}../bin/java.exe&lt;/jvm&gt;</code></li>
+</ul>
+</li>
+<li>环境变量属性<ul>
+<li><strong>${env.M2_HOME}</strong> returns the Maven2 installation path.</li>
+<li><strong>${env.JAVA_HOME}</strong> 表示JAVA_HOME环境变量的值;</li>
+</ul>
+</li>
+<li>自定义属性<ul>
+<li><code>&lt;properties&gt;&lt;my.version&gt;hello&lt;/my.version&gt;&lt;/properties&gt;</code>则引用 <strong>${my.version}</strong>就会得到值hello</li>
+</ul>
+</li>
+</ul>
+<p>#####Lucene集成Ansj的测试代码<br><strong>Ansj In Lucene</strong>的官方参考文档：<a href="http://nlpchina.github.io/ansj_seg/" target="_blank" rel="external">http://nlpchina.github.io/ansj_seg/</a></p>
+<p>到<a href="https://github.com/NLPchina/ansj_seg" target="_blank" rel="external">https://github.com/NLPchina/ansj_seg</a> 下载<strong>ZIP</strong>压缩文件，解压，将其中的<strong>library</strong>文件夹和<code>library.properties</code>文件拷贝到<strong>maven</strong>项目下的<code>src/main/resources</code>中，修改<code>library.properties</code>内容如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#redress dic file path</span></div><div class="line">ambiguityLibrary=src/main/resources/library/ambiguity.dic</div><div class="line"><span class="comment">#path of userLibrary this is default library</span></div><div class="line">userLibrary=src/main/resources/library/default.dic</div><div class="line"><span class="comment">#path of crfModel</span></div><div class="line">crfModel=src/main/resources/library/crf.model</div><div class="line"><span class="comment">#set real name</span></div><div class="line">isRealName=<span class="literal">true</span></div></pre></td></tr></table></figure></p>
+<p><strong>Lucene</strong>集成<strong>Ansj</strong>测试代码如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.ansj.library.UserDefineLibrary;</div><div class="line"><span class="keyword">import</span> org.ansj.lucene5.AnsjAnalyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.Analyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.TokenStream;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.tokenattributes.CharTermAttribute;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Field;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.CorruptIndexException;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.DirectoryReader;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.queryparser.classic.ParseException;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.queryparser.classic.QueryParser;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.IndexSearcher;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.Query;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.TopDocs;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.highlight.Highlighter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.highlight.InvalidTokenOffsetsException;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.highlight.QueryScorer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.highlight.SimpleHTMLFormatter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.Directory;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"><span class="keyword">import</span> org.junit.Test;</div><div class="line"><span class="keyword">import</span> org.tartarus.snowball.ext.PorterStemmer;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.Reader;</div><div class="line"><span class="keyword">import</span> java.io.StringReader;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IndexTest</span> </span>&#123;</div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        Analyzer ca = <span class="keyword">new</span> AnsjAnalyzer();</div><div class="line">        Reader sentence = <span class="keyword">new</span> StringReader(</div><div class="line">                <span class="string">"\n\n\n\n\n\n\n我从小就不由自主地认为自己长大以后一定得成为一个象我父亲一样的画家, 可能是父母潜移默化的影响。其实我根本不知道作为画家意味着什么，我是否喜欢，最重要的是否适合我，我是否有这个才华。其实人到中年的我还是不确定我最喜欢什么，最想做的是什么？我相信很多人和我一样有同样的烦恼。毕竟不是每个人都能成为作文里的宇航员，科学家和大教授。知道自己适合做什么，喜欢做什么，能做好什么其实是个非常困难的问题。"</span>);</div><div class="line">        TokenStream ts = ca.tokenStream(<span class="string">"sentence"</span>, sentence);</div><div class="line">        System.out.println(<span class="string">"start: "</span> + (<span class="keyword">new</span> Date()));</div><div class="line">        <span class="keyword">long</span> before = System.currentTimeMillis();</div><div class="line">        <span class="keyword">while</span> (ts.incrementToken()) &#123;</div><div class="line">            System.out.println(ts.getAttribute(CharTermAttribute.class));</div><div class="line">        &#125;</div><div class="line">        ts.close();</div><div class="line">        <span class="keyword">long</span> now = System.currentTimeMillis();</div><div class="line">        System.out.println(<span class="string">"time: "</span> + (now - before) / <span class="number">1000.0</span> + <span class="string">" s"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">indexTest</span><span class="params">()</span> <span class="keyword">throws</span> IOException, ParseException </span>&#123;</div><div class="line">        Analyzer analyzer = <span class="keyword">new</span> AnsjAnalyzer();</div><div class="line">        Directory directory;</div><div class="line">        IndexWriter iwriter;</div><div class="line">        String text = <span class="string">"季德胜蛇药片 10片*6板 "</span>;</div><div class="line">        UserDefineLibrary.insertWord(<span class="string">"蛇药片"</span>, <span class="string">"n"</span>, <span class="number">1000</span>);</div><div class="line">        IndexWriterConfig ic = <span class="keyword">new</span> IndexWriterConfig(analyzer);</div><div class="line">        <span class="comment">// 建立内存索引对象</span></div><div class="line">        directory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">        iwriter = <span class="keyword">new</span> IndexWriter(directory, ic);</div><div class="line">        addContent(iwriter, text);</div><div class="line">        iwriter.commit();</div><div class="line">        iwriter.close();</div><div class="line">        System.out.println(<span class="string">"索引建立完毕"</span>);</div><div class="line">        System.out.println(<span class="string">"index ok to search!"</span>);</div><div class="line">        search(analyzer, directory, <span class="string">"\"季德胜蛇药片\""</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">search</span><span class="params">(Analyzer queryAnalyzer, Directory directory, String queryStr)</span> <span class="keyword">throws</span> IOException, ParseException </span>&#123;</div><div class="line">        IndexSearcher isearcher;</div><div class="line">        DirectoryReader directoryReader = DirectoryReader.open(directory);</div><div class="line">        <span class="comment">// 查询索引</span></div><div class="line">        isearcher = <span class="keyword">new</span> IndexSearcher(directoryReader);</div><div class="line">        QueryParser tq = <span class="keyword">new</span> QueryParser(<span class="string">"text"</span>, queryAnalyzer);</div><div class="line">        Query query = tq.parse(queryStr);</div><div class="line">        System.out.println(query);</div><div class="line">        TopDocs hits = isearcher.search(query, <span class="number">5</span>);</div><div class="line">        System.out.println(queryStr + <span class="string">":共找到"</span> + hits.totalHits + <span class="string">"条记录!"</span>);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; hits.scoreDocs.length; i++) &#123;</div><div class="line">            <span class="keyword">int</span> docId = hits.scoreDocs[i].doc;</div><div class="line">            Document document = isearcher.doc(docId);</div><div class="line">            System.out.println(toHighlighter(queryAnalyzer, query, document));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">toHighlighter</span><span class="params">(Analyzer analyzer, Query query, Document doc)</span> </span>&#123;</div><div class="line">        String field = <span class="string">"text"</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            SimpleHTMLFormatter simpleHtmlFormatter = <span class="keyword">new</span> SimpleHTMLFormatter(<span class="string">"&lt;font color=\"red\"&gt;"</span>, <span class="string">"&lt;/font&gt;"</span>);</div><div class="line">            Highlighter highlighter = <span class="keyword">new</span> Highlighter(simpleHtmlFormatter, <span class="keyword">new</span> QueryScorer(query));</div><div class="line">            TokenStream tokenStream1 = analyzer.tokenStream(<span class="string">"text"</span>, <span class="keyword">new</span> StringReader(doc.get(field)));</div><div class="line">            String highlighterStr = highlighter.getBestFragment(tokenStream1, doc.get(field));</div><div class="line">            <span class="keyword">return</span> highlighterStr == <span class="keyword">null</span> ? doc.get(field) : highlighterStr;</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException | InvalidTokenOffsetsException e) &#123;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addContent</span><span class="params">(IndexWriter iwriter, String text)</span> <span class="keyword">throws</span> CorruptIndexException, IOException </span>&#123;</div><div class="line">        Document doc = <span class="keyword">new</span> Document();</div><div class="line">        doc.add(<span class="keyword">new</span> Field(<span class="string">"text"</span>, text, Field.Store.YES, Field.Index.ANALYZED));</div><div class="line">        iwriter.addDocument(doc);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">poreterTest</span><span class="params">()</span> </span>&#123;</div><div class="line">        PorterStemmer ps = <span class="keyword">new</span> PorterStemmer();</div><div class="line">        System.out.println(ps.stem());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>本以为大功告成，怀着激动的心情运行<strong>Junit</strong>单元测试，但是天雷滚滚啊，报错啊，想想这可是官方给的测试<strong>Demo</strong>啊，居然报错！！！</p>
+<p>废话不说，上结果：</p>
+<blockquote>
+<p><strong>java.lang.AssertionError: TokenStream implementation classes or at least their incrementToken() implementation must be final</strong></p>
+</blockquote>
+<p><strong>Notes 2016/3/27</strong>：经反馈，作者已<strong>fix</strong>此<strong>Bug</strong>，但本文不再做更新。<strong>Issue</strong>编号：<a href="https://github.com/NLPchina/ansj_seg/issues/249" target="_blank" rel="external">#249</a>，反馈地址：<a href="https://github.com/NLPchina/ansj_seg/issues/249#event-604309598" target="_blank" rel="external">https://github.com/NLPchina/ansj_seg/issues/249#event-604309598</a></p>
+<p>说的很清楚啊，<strong>Ansj</strong>作者自己测试通过否？要么将类修饰为<strong>final</strong>，要么将<strong>incrementToken()</strong>方法修饰为<strong>final</strong>，这是为啥哩？</p>
+<p>查源码，从<strong>AnsjAnalyzer</strong>追踪到<strong>AnsjTokenizer</strong>，再追踪到<strong>Tokenizer</strong>，别停，继续追踪<strong>TokenStream</strong>，该类位于<code>org.apache.lucene.analysis</code>包下，在该类的<strong>Doc</strong>注释中，终于发现如下说明</p>
+<blockquote>
+<p>The {@code TokenStream}-API in Lucene is based on the decorator pattern. Therefore all non-abstract subclasses must be final or have at least a final implementation of {@link #incrementToken}! This is checked when Java assertions are enabled.</p>
+</blockquote>
+<p>意思是说所有的非抽象子类必须是<strong>final</strong>的或者至少有一个<strong>final</strong>修饰的<strong>incrementToken()</strong>覆写方法。但是<strong>Ansj</strong>针对<strong>Lucene</strong>的插件中，这两者都没有做！！！</p>
+<p>#####Lucene集成Ansj报错解决方案</p>
+<ol>
+<li>既然<strong>Ansj</strong>两者都没做，那么一种方法就是修改<strong>Ansj</strong>的源码，但是我们使用的是<strong>Ansj</strong>仓库中提供的<strong>Jar</strong>包，修改源码之后，只能本地引用修改后的<strong>Jar</strong>包，不方便项目的迁移，所以不采用</li>
+<li>提供一个<strong>final</strong>修饰的覆写方法<strong>incrementToken()</strong>，通过实现两个内部类，分别继承自<strong>AnsjAnalyzer</strong>和<strong>AnsjTokenizer</strong>，在使用的时候调用自己实现的内部类</li>
+</ol>
+<p>修复<strong>BUG</strong>后的代码如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.ansj.library.UserDefineLibrary;</div><div class="line"><span class="keyword">import</span> org.ansj.lucene.util.AnsjTokenizer;</div><div class="line"><span class="keyword">import</span> org.ansj.lucene5.AnsjAnalyzer;</div><div class="line"><span class="keyword">import</span> org.ansj.splitWord.Analysis;</div><div class="line"><span class="keyword">import</span> org.ansj.splitWord.analysis.IndexAnalysis;</div><div class="line"><span class="keyword">import</span> org.ansj.splitWord.analysis.ToAnalysis;</div><div class="line"><span class="keyword">import</span> org.ansj.splitWord.analysis.UserDefineAnalysis;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.Analyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.TokenStream;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.Tokenizer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.tokenattributes.CharTermAttribute;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Field;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.CorruptIndexException;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.DirectoryReader;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.queryparser.classic.ParseException;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.queryparser.classic.QueryParser;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.IndexSearcher;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.Query;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.TopDocs;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.highlight.Highlighter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.highlight.InvalidTokenOffsetsException;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.highlight.QueryScorer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.highlight.SimpleHTMLFormatter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.Directory;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"><span class="keyword">import</span> org.junit.Test;</div><div class="line"><span class="keyword">import</span> org.nlpcn.commons.lang.tire.domain.Forest;</div><div class="line"><span class="keyword">import</span> org.tartarus.snowball.ext.PorterStemmer;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.Reader;</div><div class="line"><span class="keyword">import</span> java.io.StringReader;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"><span class="keyword">import</span> java.util.Set;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IndexTest</span> </span>&#123;</div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        Analyzer ca = <span class="keyword">new</span> MyAnsjAnalyzer();</div><div class="line">        Reader sentence = <span class="keyword">new</span> StringReader(</div><div class="line">                <span class="string">"\n\n\n\n\n\n\n我从小就不由自主地认为自己长大以后一定得成为一个象我父亲一样的画家, 可能是父母潜移默化的影响。其实我根本不知道作为画家意味着什么，我是否喜欢，最重要的是否适合我，我是否有这个才华。其实人到中年的我还是不确定我最喜欢什么，最想做的是什么？我相信很多人和我一样有同样的烦恼。毕竟不是每个人都能成为作文里的宇航员，科学家和大教授。知道自己适合做什么，喜欢做什么，能做好什么其实是个非常困难的问题。"</span>);</div><div class="line">        TokenStream ts = ca.tokenStream(<span class="string">"sentence"</span>, sentence);</div><div class="line">        System.out.println(<span class="string">"start: "</span> + (<span class="keyword">new</span> Date()));</div><div class="line">        <span class="keyword">long</span> before = System.currentTimeMillis();</div><div class="line">        <span class="keyword">while</span> (ts.incrementToken()) &#123;</div><div class="line">            System.out.println(ts.getAttribute(CharTermAttribute.class));</div><div class="line">        &#125;</div><div class="line">        ts.close();</div><div class="line">        <span class="keyword">long</span> now = System.currentTimeMillis();</div><div class="line">        System.out.println(<span class="string">"time: "</span> + (now - before) / <span class="number">1000.0</span> + <span class="string">" s"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAnsjTokenizer</span> <span class="keyword">extends</span> <span class="title">AnsjTokenizer</span> </span>&#123;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MyAnsjTokenizer</span><span class="params">(Analysis ta, Set&lt;String&gt; filter)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>(ta, filter);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">incrementToken</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">super</span>.incrementToken();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAnsjAnalyzer</span> <span class="keyword">extends</span> <span class="title">AnsjAnalyzer</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> Set&lt;String&gt; filter;</div><div class="line">        <span class="keyword">private</span> String type;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MyAnsjAnalyzer</span><span class="params">()</span> </span>&#123;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MyAnsjAnalyzer</span><span class="params">(String type, Set&lt;String&gt; filter)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>(type, filter);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> TokenStreamComponents <span class="title">createComponents</span><span class="params">(String text)</span> </span>&#123;</div><div class="line">            BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> StringReader(text));</div><div class="line">            Tokenizer tokenizer = getTokenizer(reader, <span class="keyword">this</span>.type, <span class="keyword">this</span>.filter);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> TokenStreamComponents(tokenizer);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Tokenizer <span class="title">getTokenizer</span><span class="params">(BufferedReader reader, String type, Set&lt;String&gt; filter)</span> </span>&#123;</div><div class="line">            AnsjTokenizer tokenizer;</div><div class="line">            <span class="keyword">if</span> (<span class="string">"user"</span>.equalsIgnoreCase(type)) &#123;</div><div class="line">                tokenizer = <span class="keyword">new</span> MyAnsjTokenizer(<span class="keyword">new</span> UserDefineAnalysis(reader, <span class="keyword">new</span> Forest[<span class="number">0</span>]), filter);</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"index"</span>.equalsIgnoreCase(type)) &#123;</div><div class="line">                tokenizer = <span class="keyword">new</span> MyAnsjTokenizer(<span class="keyword">new</span> IndexAnalysis(reader, <span class="keyword">new</span> Forest[<span class="number">0</span>]), filter);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                tokenizer = <span class="keyword">new</span> MyAnsjTokenizer(<span class="keyword">new</span> ToAnalysis(reader, <span class="keyword">new</span> Forest[<span class="number">0</span>]), filter);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">return</span> tokenizer;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">indexTest</span><span class="params">()</span> <span class="keyword">throws</span> IOException, ParseException </span>&#123;</div><div class="line">        Analyzer analyzer = <span class="keyword">new</span> MyAnsjAnalyzer();</div><div class="line">        Directory directory;</div><div class="line">        IndexWriter iwriter;</div><div class="line">        String text = <span class="string">"季德胜蛇药片 10片*6板 "</span>;</div><div class="line">        UserDefineLibrary.insertWord(<span class="string">"蛇药片"</span>, <span class="string">"n"</span>, <span class="number">1000</span>);</div><div class="line">        IndexWriterConfig ic = <span class="keyword">new</span> IndexWriterConfig(analyzer);</div><div class="line">        <span class="comment">// 建立内存索引对象</span></div><div class="line">        directory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">        iwriter = <span class="keyword">new</span> IndexWriter(directory, ic);</div><div class="line">        addContent(iwriter, text);</div><div class="line">        iwriter.commit();</div><div class="line">        iwriter.close();</div><div class="line">        System.out.println(<span class="string">"索引建立完毕"</span>);</div><div class="line">        System.out.println(<span class="string">"index ok to search!"</span>);</div><div class="line">        search(analyzer, directory, <span class="string">"\"季德胜蛇药片\""</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">search</span><span class="params">(Analyzer queryAnalyzer, Directory directory, String queryStr)</span> <span class="keyword">throws</span> IOException, ParseException </span>&#123;</div><div class="line">        IndexSearcher isearcher;</div><div class="line">        DirectoryReader directoryReader = DirectoryReader.open(directory);</div><div class="line">        <span class="comment">// 查询索引</span></div><div class="line">        isearcher = <span class="keyword">new</span> IndexSearcher(directoryReader);</div><div class="line">        QueryParser tq = <span class="keyword">new</span> QueryParser(<span class="string">"text"</span>, queryAnalyzer);</div><div class="line">        Query query = tq.parse(queryStr);</div><div class="line">        System.out.println(query);</div><div class="line">        TopDocs hits = isearcher.search(query, <span class="number">5</span>);</div><div class="line">        System.out.println(queryStr + <span class="string">":共找到"</span> + hits.totalHits + <span class="string">"条记录!"</span>);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; hits.scoreDocs.length; i++) &#123;</div><div class="line">            <span class="keyword">int</span> docId = hits.scoreDocs[i].doc;</div><div class="line">            Document document = isearcher.doc(docId);</div><div class="line">            System.out.println(toHighlighter(queryAnalyzer, query, document));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">toHighlighter</span><span class="params">(Analyzer analyzer, Query query, Document doc)</span> </span>&#123;</div><div class="line">        String field = <span class="string">"text"</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            SimpleHTMLFormatter simpleHtmlFormatter = <span class="keyword">new</span> SimpleHTMLFormatter(<span class="string">"&lt;font color=\"red\"&gt;"</span>, <span class="string">"&lt;/font&gt;"</span>);</div><div class="line">            Highlighter highlighter = <span class="keyword">new</span> Highlighter(simpleHtmlFormatter, <span class="keyword">new</span> QueryScorer(query));</div><div class="line">            TokenStream tokenStream1 = analyzer.tokenStream(<span class="string">"text"</span>, <span class="keyword">new</span> StringReader(doc.get(field)));</div><div class="line">            String highlighterStr = highlighter.getBestFragment(tokenStream1, doc.get(field));</div><div class="line">            <span class="keyword">return</span> highlighterStr == <span class="keyword">null</span> ? doc.get(field) : highlighterStr;</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException | InvalidTokenOffsetsException e) &#123;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addContent</span><span class="params">(IndexWriter iwriter, String text)</span> <span class="keyword">throws</span> CorruptIndexException, IOException </span>&#123;</div><div class="line">        Document doc = <span class="keyword">new</span> Document();</div><div class="line">        doc.add(<span class="keyword">new</span> Field(<span class="string">"text"</span>, text, Field.Store.YES, Field.Index.ANALYZED));</div><div class="line">        iwriter.addDocument(doc);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">poreterTest</span><span class="params">()</span> </span>&#123;</div><div class="line">        PorterStemmer ps = <span class="keyword">new</span> PorterStemmer();</div><div class="line">        System.out.println(ps.stem());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行部分结果如下：</p>
+<blockquote>
+<p>信息: init user userLibrary ok path is : D:\Multi-module-project\Lucene\src\main\resources\library\default.dic<br>信息: init ambiguityLibrary ok!<br>信息: init core library ok use time :281<br>信息: init ngram ok use time :668<br>索引建立完毕<br>index ok to search!<br>text:”季德胜 蛇药片”<br>“季德胜蛇药片”:共找到1条记录!</p>
+<p><font color="red">季德胜</font><font color="red">蛇药片</font> 10片*6板</p>
+</blockquote>
+<p>#####Ansj设置词典路径</p>
+<ol>
+<li><p>正规方式<br>创建<strong>library.properties</strong>中增加</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#path of userLibrary 自定义词典路径</span></div><div class="line">userLibrary=library/userLibrary/userLibrary.dic</div><div class="line">ambiguityLibrary=library/ambiguity.dic</div></pre></td></tr></table></figure>
+</li>
+<li><p>在用词典未加载前可以通过，代码方式方式来加载</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">MyStaticValue.userLibrary=[你的路径]</div></pre></td></tr></table></figure>
+</li>
+<li><p>调用api加载。在程序运行的任何时间都可以。动态加载。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">loadLibrary.loadLibrary(String path)方式加载</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>路径可以是具体文件也可以是一个目录，如果是一个目录，那么会扫描目录下的<strong>dic</strong>文件自动加入词典。</p>
+<p>#####Lucene集成Ansj添加自定义词典<br>如果需要添加自己的自定义词典，参考<strong>default.dic</strong>格式即可。用户自定义词典的格式是<code>word[tab]nature[tab]freq</code>，<strong>example</strong>: 小李子 nr 100</p>
+<p>####分布式分词组件Word<br><strong><em>Notes</em></strong>：另外发现了一个分布式中文分词组件，希望以后有机会可以深入研究，地址：<a href="https://github.com/ysc/word" target="_blank" rel="external">https://github.com/ysc/word</a></p>
+<p><strong>Word</strong>分词是一个<strong>Java</strong>实现的分布式的中文分词组件，提供了多种基于词典的分词算法，并利用<strong>ngram</strong>模型来消除歧义。能准确识别英文、数字，以及日期、时间等数量词，能识别人名、地名、组织机构名等未登录词。能通过自定义配置文件来改变组件行为，能自定义用户词库、自动检测词库变化、支持大规模分布式环境，能灵活指定多种分词算法，能使用<strong>refine</strong>功能灵活控制分词结果，还能使用词频统计、词性标注、同义标注、反义标注、拼音标注等功能。提供了10种分词算法，还提供了10种文本相似度算法，同时还无缝和<strong>Lucene</strong>、<strong>Solr</strong>、<strong>ElasticSearch</strong>、<strong>Luke</strong>集成。注意：<strong>word1.3</strong>需要<strong>JDK1.8</strong>。</p>
+
+      
+    </div>
+
+	<div align="center">
+	  
+		<div class="copyright">
+		<p><span>
+		<b>本文地址：</b><a href="/2016/03/23/Maven-project-integrating-Lucene-Chinese-Segmentation-tools-Jcseg-and-Ansj/" title="Maven项目中Lucene集成中文分词工具Jcseg和Ansj">http://www.codepub.cn/2016/03/23/Maven-project-integrating-Lucene-Chinese-Segmentation-tools-Jcseg-and-Ansj/</a><br/><b>转载请注明出处，谢谢！</b>
+		</span></p>
+		</div>
+	  
+	</div>
+	<!-- 添加广告位 -->
+    <div>
+      
+        
+<div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton", disable="enable", onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}", style="cursor: pointer; border: 0; outline: 0; border-radius: 100%; padding: 0; margin: 0; letter-spacing: normal; text-transform: none; text-indent: 0px; text-shadow: none">
+    <span onmouseover="this.style.color='rgb(236,96,0)';this.style.background='rgb(204,204,204)'" onMouseOut="this.style.color='#fff';this.style.background='rgb(236,96,0)'" style="display: inline-block; width: 70px; height: 70px; border-radius: 100%; line-height: 81px; color: #fff; font: 400 35px/75px 'microsofty'; background: rgb(236,96,0)">赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu WeChat Pay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>微信打赏</p>
+      </div>
+    
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu Alipay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>支付宝打赏</p>
+      </div>
+    
+  </div>
+<div>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Lucene/" rel="tag">#Lucene</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/21/Windows-build-Solr5-5-search-services/" rel="next" title="Windows下搭建Solr5.5搜索服务">
+                <i class="fa fa-chevron-left"></i> Windows下搭建Solr5.5搜索服务
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/27/Read-the-programmer-you-can-not-afford-injuries/" rel="prev" title="读《程序员，你伤不起》">
+                读《程序员，你伤不起》 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share?uid=2067139" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<!-- UJian Button BEGIN -->
+	<div class="ujian-hook"></div>
+	<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js"></script>
+<!-- UJian Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+		  
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/author.jpg"
+               alt="Wang Xu" />
+          <p class="site-author-name" itemprop="name">Wang Xu</p>
+          <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">103</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/shijiebei2009" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/codepub" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i> Linkedin
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank">
+                  
+                    <i class="fa fa-stackoverflow"></i> Stackoverflow
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/codepub.cn" target="_blank">
+                  
+                    <i class="fa fa-zhihu"></i> ZhiHu
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/shijiebei2009/" target="_blank">
+                  
+                    <i class="fa fa-douban"></i> DouBan
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1779238484" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>&nbsp;&nbsp;&nbsp;
+  <a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_pv">
+  <i class="fa fa-user" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_pv"></span>
+  </span>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_uv">
+  <i class="fa fa-eye" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_uv"></span>
+  </span>
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'codepubcn';
+      var disqus_identifier = '2016/03/23/Maven-project-integrating-Lucene-Chinese-Segmentation-tools-Jcseg-and-Ansj/';
+      var disqus_title = 'Maven项目中Lucene集成中文分词工具Jcseg和Ansj';
+      var disqus_url = 'http://www.codepub.cn/2016/03/23/Maven-project-integrating-Lucene-Chinese-Segmentation-tools-Jcseg-and-Ansj/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+<a href="https://github.com/shijiebei2009"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+</body>
+</html>
