@@ -209,3 +209,16 @@ mathjax:
 </div>
 <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 ```
+- **修改首页、归档页、分类页、Tag页显示文章数量**
+默认地首页归档页仅显示10篇文章，然后要不断向后翻页，用起来非常不爽，经本人测试，设置数量在20篇比较合适，这个可以由hexo的`D:/hexo/_config.yml`来控制，修改如下
+```yml
+per_page: 20
+pagination_dir: page
+```
+- **修改文章底部的前一篇、下一篇为两端对齐**
+在Next主题的`5.0.0`版本中，下一篇默认为靠右对齐，看起来非常丑陋，因为前一篇已经设置为靠右对齐了，对称地，这时候，下一篇应该设置为靠左对齐才对。修改`D:/hexo/themes/next/source/css/_common/components/post/post-nav.styl`文件，拉到末尾，设置如下：
+```yml
+.post-nav-next { text-align: left; }
+.post-nav-prev { text-align: right; }
+```
+这样看起来就非常对称啦。
