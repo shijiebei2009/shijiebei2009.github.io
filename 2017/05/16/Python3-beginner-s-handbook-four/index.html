@@ -1,0 +1,1059 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python3," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="Version：Python 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:44:40) [MSC v.1600 64 bit (AMD64)] on win32 函数可接受任意数量参数的函数为了能让一个函数接受任意数量的位置参数，可以使用一个*参数123456def avg(first, *rest):    return (first + sum(re">
+<meta name="keywords" content="Python3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python3入门手册之四">
+<meta property="og:url" content="http://www.codepub.cn/2017/05/16/Python3-beginner-s-handbook-four/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="Version：Python 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:44:40) [MSC v.1600 64 bit (AMD64)] on win32 函数可接受任意数量参数的函数为了能让一个函数接受任意数量的位置参数，可以使用一个*参数123456def avg(first, *rest):    return (first + sum(re">
+<meta property="og:updated_time" content="2017-05-16T14:55:28.886Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python3入门手册之四">
+<meta name="twitter:description" content="Version：Python 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:44:40) [MSC v.1600 64 bit (AMD64)] on win32 函数可接受任意数量参数的函数为了能让一个函数接受任意数量的位置参数，可以使用一个*参数123456def avg(first, *rest):    return (first + sum(re">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Python3入门手册之四 | IT草根 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1254721753&web_id=1254721753" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">IT草根</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-book fa-fw"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-link fa-fw"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'CEs2u-bRR6iHSt4ynbFA','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Python3入门手册之四
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-16T22:55:28+08:00" content="2017-05-16">
+              2017-05-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Programming-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Notes</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+		
+		
+			<!-- 在下面的位置加上如下代码 -->
+			<span id="busuanzi_container_page_pv">&nbsp; | &nbsp; 热度&nbsp; <span id="busuanzi_value_page_pv"></span>°C</span>    
+			<!-- 在上面的位置加上如上代码 -->  
+		
+		  
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/16/Python3-beginner-s-handbook-four/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/16/Python3-beginner-s-handbook-four/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+
+      
+        <p><em>Version：Python 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:44:40) [MSC v.1600 64 bit (AMD64)] on win32</em></p>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><h4 id="可接受任意数量参数的函数"><a href="#可接受任意数量参数的函数" class="headerlink" title="可接受任意数量参数的函数"></a>可接受任意数量参数的函数</h4><p>为了能让一个函数接受任意数量的位置参数，可以使用一个<code>*参数</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">avg</span><span class="params">(first, *rest)</span>:</span></div><div class="line">    <span class="keyword">return</span> (first + sum(rest)) / (<span class="number">1</span> + len(rest))</div><div class="line"></div><div class="line"><span class="comment"># Sample use</span></div><div class="line">avg(<span class="number">1</span>, <span class="number">2</span>) <span class="comment"># 1.5</span></div><div class="line">avg(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>) <span class="comment"># 2.5</span></div></pre></td></tr></table></figure></p>
+<p>在这个例子中，<code>rest</code>是由所有其他位置参数组成的元组。然后我们在代码中把它当成了一个序列来进行后续的计算。</p>
+<p>使用一个以<code>**开头的参数</code>来表示接受任意数量的关键字参数。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> html</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_element</span><span class="params">(name, value, **attrs)</span>:</span></div><div class="line">    keyvals = [<span class="string">' %s="%s"'</span> % item <span class="keyword">for</span> item <span class="keyword">in</span> attrs.items()]</div><div class="line">    attr_str = <span class="string">''</span>.join(keyvals)</div><div class="line">    element = <span class="string">'&lt;&#123;name&#125;&#123;attrs&#125;&gt;&#123;value&#125;&lt;/&#123;name&#125;&gt;'</span>.format(</div><div class="line">        name=name,</div><div class="line">        attrs=attr_str,</div><div class="line">        value=html.escape(value))</div><div class="line">    <span class="keyword">return</span> element</div><div class="line"></div><div class="line"><span class="comment"># Example</span></div><div class="line"><span class="comment"># Creates '&lt;item size="large" quantity="6"&gt;Albatross&lt;/item&gt;'</span></div><div class="line">res = make_element(<span class="string">'item'</span>, <span class="string">'Albatross'</span>, size=<span class="string">'large'</span>, quantity=<span class="number">6</span>)</div><div class="line">print(res)</div><div class="line"></div><div class="line"><span class="comment"># Creates '&lt;p&gt;&lt;spam&gt;&lt;/p&gt;'</span></div><div class="line">res = make_element(<span class="string">'p'</span>, <span class="string">'&lt;spam&gt;'</span>)</div><div class="line">print(res)</div></pre></td></tr></table></figure></p>
+<p>在这里，<code>attrs</code>是一个包含所有被传入进来的关键字参数的字典。</p>
+<p>如果你还希望某个函数能同时接受任意数量的位置参数和关键字参数，可以同时使用<code>*和**</code>。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">anyargs</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">    print(args)  <span class="comment"># A tuple  Prints ('a', 'b', 'c', 'd', 'e')</span></div><div class="line">    print(kwargs)  <span class="comment"># A dict  Prints&#123;'key1': '1', 'key2': '2'&#125;</span></div><div class="line">anyargs(<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'e'</span>, key1=<span class="string">'1'</span>, key2=<span class="string">'2'</span>)</div></pre></td></tr></table></figure></p>
+<p>使用这个函数时，所有位置参数会被放到<code>args元组</code>中，所有关键字参数会被放到<code>字典kwargs</code>中。<br>一个<code>*参数</code>只能出现在函数定义中最后一个位置参数后面，而 <code>**参数</code>只能出现在最后一个参数。 有一点要注意的是，在<code>*参数</code>后面仍然可以定义其他参数。</p>
+<h4 id="只接受关键字参数的函数"><a href="#只接受关键字参数的函数" class="headerlink" title="只接受关键字参数的函数"></a>只接受关键字参数的函数</h4><p>利用这种技术，我们还能在接受任意多个位置参数的函数中指定关键字参数。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">mininum</span><span class="params">(*values, clip=None)</span>:</span></div><div class="line">    m = min(values)</div><div class="line">    <span class="keyword">if</span> clip <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">        m = clip <span class="keyword">if</span> clip &gt; m <span class="keyword">else</span> m</div><div class="line">    <span class="keyword">return</span> m</div><div class="line"></div><div class="line">minimum(<span class="number">1</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">-5</span>, <span class="number">10</span>) <span class="comment"># Returns -5</span></div><div class="line">minimum(<span class="number">1</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">-5</span>, <span class="number">10</span>, clip=<span class="number">0</span>) <span class="comment"># Returns 0&lt;/pre&gt;</span></div></pre></td></tr></table></figure></p>
+<h4 id="返回多个值的函数"><a href="#返回多个值的函数" class="headerlink" title="返回多个值的函数"></a>返回多个值的函数</h4><p>为了能返回多个值，函数直接return一个元组就行了。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">myfun</span><span class="params">()</span>:</span></div><div class="line"><span class="meta">... </span><span class="keyword">return</span> <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span></div><div class="line">...</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>a, b, c = myfun()</div><div class="line">`</div></pre></td></tr></table></figure></p>
+<p>尽管<code>myfun()</code>看上去返回了多个值，实际上是先创建了一个元组然后返回的。这个语法看上去比较奇怪，实际上我们使用的是逗号来生成一个元组，而不是用括号。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>a = (<span class="number">1</span>, <span class="number">2</span>) <span class="comment"># With parentheses</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>a</div><div class="line">(<span class="number">1</span>, <span class="number">2</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>b = <span class="number">1</span>, <span class="number">2</span> <span class="comment"># Without parentheses</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>b</div><div class="line">(<span class="number">1</span>, <span class="number">2</span>)</div></pre></td></tr></table></figure></p>
+<h4 id="定义有默认参数的函数"><a href="#定义有默认参数的函数" class="headerlink" title="定义有默认参数的函数"></a>定义有默认参数的函数</h4><p>定义一个有可选参数的函数是非常简单的，直接在函数定义中给参数指定一个默认值，并放到参数列表最后就行了。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">(a, b=<span class="number">42</span>)</span>:</span></div><div class="line">    print(a, b)</div><div class="line"></div><div class="line">spam(<span class="number">1</span>) <span class="comment"># Ok. a=1, b=42</span></div><div class="line">spam(<span class="number">1</span>, <span class="number">2</span>) <span class="comment"># Ok. a=1, b=2</span></div></pre></td></tr></table></figure></p>
+<p>如果默认参数是一个可修改的容器比如一个列表、集合或者字典，可以使用None作为默认值<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Using a list as a default value</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">(a, b=None)</span>:</span></div><div class="line">    <span class="keyword">if</span> b <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">        b = []</div><div class="line">    ...</div></pre></td></tr></table></figure></p>
+<p>有一点是值得注意的，默认参数的值仅仅在函数定义的时候赋值一次<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>x = <span class="number">42</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">(a, b=x)</span>:</span></div><div class="line"><span class="meta">... </span>    print(a, b)</div><div class="line">...</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>spam(<span class="number">1</span>)</div><div class="line"><span class="number">1</span> <span class="number">42</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>x = <span class="number">23</span> <span class="comment"># Has no effect</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>spam(<span class="number">1</span>)</div><div class="line"><span class="number">1</span> <span class="number">42</span></div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>注意到当我们改变<code>x</code>的值的时候对默认参数值并没有影响，这是因为在函数定义的时候就已经确定了它的默认值了。</p>
+<p>其次，默认参数的值应该是不可变的对象，比如<code>None、True、False、</code>数字或字符串。 特别的，千万不要像下面这样写代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">(a, b=[])</span>:</span> <span class="comment"># NO!</span></div><div class="line">    ...</div></pre></td></tr></table></figure></p>
+<p>如果你这么做了，当默认值在其他地方被修改后你将会遇到各种麻烦。这些修改会影响到下次调用这个函数时的默认值。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">(a, b=[])</span>:</span></div><div class="line"><span class="meta">... </span>    print(b)</div><div class="line"><span class="meta">... </span>    <span class="keyword">return</span> b</div><div class="line">...</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>x = spam(<span class="number">1</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>x</div><div class="line">[]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>x.append(<span class="number">99</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>x.append(<span class="string">'Yow!'</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>x</div><div class="line">[<span class="number">99</span>, <span class="string">'Yow!'</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>spam(<span class="number">1</span>) <span class="comment"># Modified list gets returned!</span></div><div class="line">[<span class="number">99</span>, <span class="string">'Yow!'</span>]</div></pre></td></tr></table></figure></p>
+<p>这种结果应该不是你想要的。为了避免这种情况的发生，最好是将默认值设为<code>None</code>， 然后在函数里面检查它，前面的例子就是这样做的。</p>
+<p>在测试<code>None</code>值时使用<code>is</code>操作符是很重要的，也是这种方案的关键点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">(a, b=None)</span>:</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> b: <span class="comment"># NO! Use 'b is None' instead</span></div><div class="line">        b = []</div><div class="line">    ...</div></pre></td></tr></table></figure>
+<h4 id="定义匿名或内联函数"><a href="#定义匿名或内联函数" class="headerlink" title="定义匿名或内联函数"></a>定义匿名或内联函数</h4><p>当一些函数很简单，仅仅只是计算一个表达式的值的时候，就可以使用<code>lambda</code>表达式来代替了。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>add = <span class="keyword">lambda</span> x, y: x + y</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>add(<span class="number">2</span>,<span class="number">3</span>)</div><div class="line"><span class="number">5</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>add(<span class="string">'hello'</span>, <span class="string">'world'</span>)</div><div class="line"><span class="string">'helloworld'</span></div></pre></td></tr></table></figure></p>
+<p><code>lambda</code>表达式典型的使用场景是排序或数据<code>reduce</code>等：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>names = [<span class="string">'David Beazley'</span>, <span class="string">'Brian Jones'</span>,</div><div class="line"><span class="meta">... </span>        <span class="string">'Raymond Hettinger'</span>, <span class="string">'Ned Batchelder'</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>sorted(names, key=<span class="keyword">lambda</span> name: name.split()[<span class="number">-1</span>].lower())</div><div class="line">[<span class="string">'Ned Batchelder'</span>, <span class="string">'David Beazley'</span>, <span class="string">'Raymond Hettinger'</span>, <span class="string">'Brian Jones'</span>]</div></pre></td></tr></table></figure></p>
+<p>有一点要注意的是，<code>lambda</code>表达式中的变量x是自由变量，在运行时绑定值，而不是定义时就绑定，这跟函数的默认值参数定义是不同的。而如果你想让某个匿名函数在定义时就捕获到值，可以将那个参数值定义成默认参数即可，类似如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>x = <span class="number">10</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>a = <span class="keyword">lambda</span> y, x=x: x + y</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>x = <span class="number">20</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>b = <span class="keyword">lambda</span> y, x=x: x + y</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>a(<span class="number">10</span>)</div><div class="line"><span class="number">20</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>b(<span class="number">10</span>)</div><div class="line"><span class="number">30</span></div></pre></td></tr></table></figure>
+<p>如果你不设定为默认参数的话，运行如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>x = <span class="number">10</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>a = <span class="keyword">lambda</span> y: x + y</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>x = <span class="number">20</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>b = <span class="keyword">lambda</span> y: x + y</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>a(<span class="number">10</span>)</div><div class="line"><span class="number">30</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>b(<span class="number">10</span>)</div><div class="line"><span class="number">30</span></div></pre></td></tr></table></figure></p>
+<p><strong>Notes</strong><br>在这里列出来的问题是新手很容易犯的错误，有些新手可能会不恰当的<code>lambda</code>表达式。 比如，通过在一个循环或列表推导中创建一个<code>lambda</code>表达式列表，并期望函数能在定义时就记住每次的迭代值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>funcs = [<span class="keyword">lambda</span> x: x+n <span class="keyword">for</span> n <span class="keyword">in</span> range(<span class="number">5</span>)]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> f <span class="keyword">in</span> funcs:</div><div class="line"><span class="meta">... </span>print(f(<span class="number">0</span>))</div><div class="line">...</div><div class="line"><span class="number">4</span></div><div class="line"><span class="number">4</span></div><div class="line"><span class="number">4</span></div><div class="line"><span class="number">4</span></div><div class="line"><span class="number">4</span></div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
+<p>但是实际效果是运行是n的值为迭代的最后一个值。现在我们用另一种方式修改一下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>funcs = [<span class="keyword">lambda</span> x, n=n: x+n <span class="keyword">for</span> n <span class="keyword">in</span> range(<span class="number">5</span>)]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> f <span class="keyword">in</span> funcs:</div><div class="line"><span class="meta">... </span>print(f(<span class="number">0</span>))</div><div class="line">...</div><div class="line"><span class="number">0</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="number">4</span></div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>通过使用函数默认值参数形式，<code>lambda</code>函数在定义时就能绑定到值。</p>
+<h4 id="减少可调用对象的参数个数"><a href="#减少可调用对象的参数个数" class="headerlink" title="减少可调用对象的参数个数"></a>减少可调用对象的参数个数</h4><p>如果需要减少某个函数的参数个数，你可以使用<code>functools.partial()</code>。<code>partial()</code>允许你给一个或多个参数设置固定的值，减少接下来被调用时的参数个数。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> partial</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">(a, b, c, d)</span>:</span></div><div class="line">    print(a, b, c, d)</div><div class="line">spam(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)  <span class="comment"># Prints 1 2 3 4</span></div><div class="line">s1 = partial(spam, <span class="number">1</span>)  <span class="comment"># a = 1</span></div><div class="line">s1(<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>)</div><div class="line">s2 = partial(spam, <span class="number">3</span>, <span class="number">4</span>, d=<span class="number">12</span>)  <span class="comment"># a=3,b=4,d=12</span></div><div class="line">s2(<span class="number">1</span>)</div></pre></td></tr></table></figure></p>
+<p>可以看出<code>partial()</code>固定某些参数并返回一个新的<code>callable</code>对象。这个新的<code>callable</code>接受未赋值的参数，然后跟之前已经赋值过的参数合并起来，最后将所有参数传递给原始函数。</p>
+<p>假设你有一个点的列表来表示<code>(x,y)</code>坐标元组。你可以使用下面的函数来计算两点之间的距离：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">points = [ (<span class="number">1</span>, <span class="number">2</span>), (<span class="number">3</span>, <span class="number">4</span>), (<span class="number">5</span>, <span class="number">6</span>), (<span class="number">7</span>, <span class="number">8</span>) ]</div><div class="line"><span class="keyword">import</span> math</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">distance</span><span class="params">(p1, p2)</span>:</span></div><div class="line">    x1, y1 = p1</div><div class="line">    x2, y2 = p2</div><div class="line">    <span class="keyword">return</span> math.hypot(x2 - x1, y2 - y1)</div></pre></td></tr></table></figure></p>
+<p>现在假设你想以某个点为基点，根据点和基点之间的距离来排序所有的这些点。列表的<code>sort()</code>方法接受一个关键字参数来自定义排序逻辑，但是它只能接受一个单个参数的函数(<code>distance()</code>很明显是不符合条件的)。现在我们可以通过使用<code>partial()</code>来解决这个问题：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>pt = (<span class="number">4</span>, <span class="number">3</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>points.sort(key=partial(distance,pt))</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>points</div><div class="line">[(<span class="number">3</span>, <span class="number">4</span>), (<span class="number">1</span>, <span class="number">2</span>), (<span class="number">5</span>, <span class="number">6</span>), (<span class="number">7</span>, <span class="number">8</span>)]</div></pre></td></tr></table></figure>
+<p>更进一步，<code>partial()</code> 通常被用来微调其他库函数所使用的回调函数的参数。 例如，下面是一段代码，使用 <code>multiprocessing</code> 来异步计算一个结果值， 然后这个值被传递给一个接受一个<code>result</code>值和一个可选<code>logging</code>参数的回调函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">output_result</span><span class="params">(result, log=None)</span>:</span></div><div class="line">    <span class="keyword">if</span> log <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">        log.debug(<span class="string">'Got: %r'</span>, result)</div><div class="line"></div><div class="line"><span class="comment"># A sample function</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></div><div class="line">    <span class="keyword">return</span> x + y</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="keyword">import</span> logging</div><div class="line">    <span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</div><div class="line">    <span class="keyword">from</span> functools <span class="keyword">import</span> partial</div><div class="line"></div><div class="line">    logging.basicConfig(level=logging.DEBUG)</div><div class="line">    log = logging.getLogger(<span class="string">'test'</span>)</div><div class="line"></div><div class="line">    p = Pool()</div><div class="line">    p.apply_async(add, (<span class="number">3</span>, <span class="number">4</span>), callback=partial(output_result, log=log))</div><div class="line">    p.close()</div><div class="line">    p.join()</div></pre></td></tr></table></figure>
+<h3 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h3><h4 id="改变对象的字符串显示"><a href="#改变对象的字符串显示" class="headerlink" title="改变对象的字符串显示"></a>改变对象的字符串显示</h4><p>要改变一个实例的字符串表示，可重新定义它的<code>__str__()</code>和<code>__repr__()</code>方法。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pair</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x, y)</span>:</span></div><div class="line">        self.x = x</div><div class="line">        self.y = y</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">'Pair(&#123;0.x!r&#125;, &#123;0.y!r&#125;)'</span>.format(self)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">'(&#123;0.x!s&#125;, &#123;0.y!s&#125;)'</span>.format(self)</div></pre></td></tr></table></figure></p>
+<p><code>__repr__()</code>方法返回一个实例的代码表示形式，通常用来重新构造这个实例。内置的<code>repr()</code>函数返回这个字符串，跟我们使用交互式解释器显示的值是一样的。<code>__str__()</code>方法将实例转换为一个字符串，使用<code>str()</code>或<code>print()</code>函数会输出这个字符串。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>p = Pair(<span class="number">3</span>, <span class="number">4</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>p</div><div class="line">Pair(<span class="number">3</span>, <span class="number">4</span>) <span class="comment"># __repr__() output</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print(p)</div><div class="line">(<span class="number">3</span>, <span class="number">4</span>) <span class="comment"># __str__() output</span></div></pre></td></tr></table></figure></p>
+<p><code>!r</code>格式化代码指明输出使用<code>__repr__()</code>来代替默认的<code>__str__()</code>。你还可以做如下的测试：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>p = Pair(<span class="number">3</span>, <span class="number">4</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print(<span class="string">'p is &#123;0!r&#125;'</span>.format(p))</div><div class="line">p <span class="keyword">is</span> Pair(<span class="number">3</span>, <span class="number">4</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print(<span class="string">'p is &#123;0&#125;'</span>.format(p))</div><div class="line">p <span class="keyword">is</span> (<span class="number">3</span>, <span class="number">4</span>)</div></pre></td></tr></table></figure></p>
+<p>定义<code>__repr__()</code>和<code>__str__()</code>通常是很好的习惯，因为它能简化调试和实例输出。例如，如果仅仅只是打印输出或日志输出某个实例，那么程序员会看到实例更加详细与有用的信息。<br><code>__repr__()</code>生成的文本字符串标准做法是需要让<code>eval(repr(x)) == x</code>为真。如果实在不能这样子做，应该创建一个有用的文本表示，并使用&lt;和&gt;括起来。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>f = open(<span class="string">'file.dat'</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>f</div><div class="line">&lt;_io.TextIOWrapper name=<span class="string">'file.dat'</span> mode=<span class="string">'r'</span> encoding=<span class="string">'UTF-8'</span>&gt;</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>如果<code>__str__()</code>没有被定义，那么就会使用<code>__repr__()</code>来代替输出。上面的<code>format()</code>方法的使用看上去很有趣，格式化代码<code>{0.x}</code>对应的是第1个参数的x属性。因此，在下面的函数中，0实际上指的就是<code>self</code>本身：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="string">'Pair(&#123;0.x!r&#125;, &#123;0.y!r&#125;)'</span>.format(self)</div></pre></td></tr></table></figure></p>
+<p>作为这种实现的一个替代，你也可以使用<code>%</code>操作符，就像下面这样<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="string">'Pair(%r, %r)'</span> % (self.x, self.y)</div></pre></td></tr></table></figure></p>
+<h4 id="让对象支持上下文管理协议"><a href="#让对象支持上下文管理协议" class="headerlink" title="让对象支持上下文管理协议"></a>让对象支持上下文管理协议</h4><p>为了让一个对象兼容<code>with</code>语句，你需要实现<code>__enter()__</code>和<code>__exit__()</code>方法。例如，考虑如下的一个类，它能为我们创建一个网络连接：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> socket, AF_INET, SOCK_STREAM</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">LazyConnection</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, address, family=AF_INET, type=SOCK_STREAM)</span>:</span></div><div class="line">        self.address = address</div><div class="line">        self.family = family</div><div class="line">        self.type = type</div><div class="line">        self.sock = <span class="keyword">None</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__enter__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">if</span> self.sock <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">raise</span> RuntimeError(<span class="string">'Already connected'</span>)</div><div class="line">        self.sock = socket(self.family, self.type)</div><div class="line">        self.sock.connect(self.address)</div><div class="line">        <span class="keyword">return</span> self.sock</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__exit__</span><span class="params">(self, exc_ty, exc_val, tb)</span>:</span></div><div class="line">        self.sock.close()</div><div class="line">        self.sock = <span class="keyword">None</span></div></pre></td></tr></table></figure>
+<p>这个类的关键特点在于它表示了一个网络连接，但是初始化的时候并不会做任何事情(比如它并没有建立一个连接)。连接的建立和关闭是使用<code>with</code>语句自动完成的<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> partial</div><div class="line"></div><div class="line">conn = LazyConnection((<span class="string">'www.python.org'</span>, <span class="number">80</span>))</div><div class="line"><span class="comment"># Connection closed</span></div><div class="line"><span class="keyword">with</span> conn <span class="keyword">as</span> s:</div><div class="line">    <span class="comment"># conn.__enter__() executes: connection open</span></div><div class="line">    s.send(<span class="string">b'GET /index.html HTTP/1.0\r\n'</span>)</div><div class="line">    s.send(<span class="string">b'Host: www.python.org\r\n'</span>)</div><div class="line">    s.send(<span class="string">b'\r\n'</span>)</div><div class="line">    resp = <span class="string">b''</span>.join(iter(partial(s.recv, <span class="number">8192</span>), <span class="string">b''</span>))</div><div class="line">    <span class="comment"># conn.__exit__() executes: connection closed</span></div></pre></td></tr></table></figure></p>
+<p>编写上下文管理器的主要原理是你的代码会放到<code>with</code>语句块中执行。当出现<code>with</code>语句的时候，对象的<code>__enter__()</code>方法被触发，它返回的值(如果有的话)会被赋值给<code>as</code>声明的变量。然后，<code>with</code>语句块里面的代码开始执行。最后，<code>__exit__()</code>方法被触发进行清理工作。</p>
+<p>不管<code>with</code>代码块中发生什么，上面的控制流都会执行完，就算代码块中发生了异常也是一样的。事实上，<code>__exit__()</code>方法的第三个参数包含了异常类型、异常值和追溯信息(如果有的话)。<code>__exit__()</code>方法能自己决定怎样利用这个异常信息，或者忽略它并返回一个None值。如果<code>__exit__()</code>返回<code>True</code>，那么异常会被清空，就好像什么都没发生一样，<code>with</code>语句后面的程序继续在正常执行。</p>
+<p>如果你想要获得嵌套<code>with</code>语句的效果，代码需要如下修改<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> socket <span class="keyword">import</span> socket, AF_INET, SOCK_STREAM</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">LazyConnection</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, address, family=AF_INET, type=SOCK_STREAM)</span>:</span></div><div class="line">        self.address = address</div><div class="line">        self.family = family</div><div class="line">        self.type = type</div><div class="line">        self.connections = []</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__enter__</span><span class="params">(self)</span>:</span></div><div class="line">        sock = socket(self.family, self.type)</div><div class="line">        sock.connect(self.address)</div><div class="line">        self.connections.append(sock)</div><div class="line">        <span class="keyword">return</span> sock</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__exit__</span><span class="params">(self, exc_ty, exc_val, tb)</span>:</span></div><div class="line">        self.connections.pop().close()</div><div class="line"></div><div class="line"><span class="comment"># Example use</span></div><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> partial</div><div class="line"></div><div class="line">conn = LazyConnection((<span class="string">'www.python.org'</span>, <span class="number">80</span>))</div><div class="line"><span class="keyword">with</span> conn <span class="keyword">as</span> s1:</div><div class="line">    <span class="keyword">pass</span></div><div class="line">        <span class="keyword">with</span> conn <span class="keyword">as</span> s2:</div><div class="line">        <span class="keyword">pass</span></div><div class="line">        <span class="comment"># s1 and s2 are independent sockets</span></div></pre></td></tr></table></figure></p>
+<p>在第二个版本中，<code>LazyConnection</code>类可以被看做是某个连接工厂。在内部，一个列表被用来构造一个栈。每次<code>__enter__()</code>方法执行的时候，它复制创建一个新的连接并将其加入到栈里面。<code>__exit__()</code>方法简单的从栈中弹出最后一个连接并关闭它。这里稍微有点难理解，不过它能允许嵌套使用<code>with</code>语句创建多个连接。</p>
+<p>在需要管理一些资源比如文件、网络连接和锁的编程环境中，使用上下文管理器是很普遍的。这些资源的一个主要特征是它们必须被手动的关闭或释放来确保程序的正确运行。例如，如果你请求了一个锁，那么你必须确保之后释放了它，否则就可能产生死锁。通过实现<code>__enter__()</code>和<code>__exit__()</code>方法并使用<code>with</code>语句可以很容易的避免这些问题，因为<code>__exit__()</code>方法可以让你无需担心这些了。</p>
+<h4 id="创建大量对象时节省内存方法"><a href="#创建大量对象时节省内存方法" class="headerlink" title="创建大量对象时节省内存方法"></a>创建大量对象时节省内存方法</h4><p>对于主要是用来当成简单的数据结构的类而言，你可以通过给类添加<code>__slots__</code>属性来极大的减少实例所占的内存。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Date</span>:</span></div><div class="line">    __slots__ = [<span class="string">'year'</span>, <span class="string">'month'</span>, <span class="string">'day'</span>]</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, year, month, day)</span>:</span></div><div class="line">        self.year = year</div><div class="line">        self.month = month</div><div class="line">        self.day = day</div></pre></td></tr></table></figure></p>
+<p>当你定义<code>__slots__</code>后，Python就会为实例使用一种更加紧凑的内部表示。实例通过一个很小的固定大小的数组来构建，而不是为每个实例定义一个字典，这跟元组或列表很类似。在<code>__slots__</code>中列出的属性名在内部被映射到这个数组的指定小标上。使用<code>slots</code>一个不好的地方就是我们不能再给实例添加新的属性了，只能使用在<code>__slots__</code>中定义的那些属性名。</p>
+<h4 id="在类中封装属性名"><a href="#在类中封装属性名" class="headerlink" title="在类中封装属性名"></a>在类中封装属性名</h4><p><code>Python</code>程序员不去依赖语言特性去封装数据，而是通过遵循一定的属性和方法命名规约来达到这个效果。第一个约定是任何以单下划线<code>_</code>开头的名字都应该是内部实现。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self._internal = <span class="number">0</span> <span class="comment"># An internal attribute</span></div><div class="line">        self.public = <span class="number">1</span> <span class="comment"># A public attribute</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">public_method</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="string">'''</span></div><div class="line">        A public method</div><div class="line">        '''</div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_internal_method</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div></pre></td></tr></table></figure>
+<p><code>Python</code>并不会真的阻止别人访问内部名称。但是如果你这么做肯定是不好的，可能会导致脆弱的代码。同时还要注意到，使用下划线开头的约定同样适用于模块名和模块级别函数。例如，如果你看到某个模块名以单下划线开头(比如<code>_socket</code>)，那它就是内部实现。类似的，模块级别函数比如<code>sys._getframe()</code>在使用的时候就得加倍小心了。</p>
+<p>使用双下划线开始会导致访问名称变成其他形式。比如，在前面的类B中，私有属性会被分别重命名为<code>_B__private</code>和<code>_B__private_method</code>。这时候你可能会问这样重命名的目的是什么，答案就是继承——这种属性通过继承是无法被覆盖的。比如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span><span class="params">(B)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        super().__init__()</div><div class="line">        self.__private = <span class="number">1</span> <span class="comment"># Does not override B.__private</span></div><div class="line"></div><div class="line">    <span class="comment"># Does not override B.__private_method()</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__private_method</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>这里，私有名称<code>__private</code>和<code>__private_method</code>被重命名为<code>_C__private</code>和<code>_C__private_method</code>，这个跟父类B中的名称是完全不同的。</p>
+<p>通常的，如果定义的变量与保留关键字冲突，那么可以单划线作为后缀。一般的以单划线开头定义变量即可，如果你清楚你的代码会涉及到子类，那么推荐是用双下划线方案。</p>
+<h4 id="创建可管理的属性"><a href="#创建可管理的属性" class="headerlink" title="创建可管理的属性"></a>创建可管理的属性</h4><p>自定义某个属性的一种简单方法是将它定义为一个<code>property</code>。例如，下面的代码定义了一个<code>property</code>，增加对一个属性简单的类型检查：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, first_name)</span>:</span></div><div class="line">        self.first_name = first_name</div><div class="line"></div><div class="line">    <span class="comment"># Getter function</span></div><div class="line"><span class="meta">    @property</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">first_name</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self._first_name</div><div class="line"></div><div class="line">    <span class="comment"># Setter function</span></div><div class="line"><span class="meta">    @first_name.setter</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">first_name</span><span class="params">(self, value)</span>:</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(value, str):</div><div class="line">            <span class="keyword">raise</span> TypeError(<span class="string">'Expected a string'</span>)</div><div class="line">        self._first_name = value</div><div class="line"></div><div class="line">    <span class="comment"># Deleter function (optional)</span></div><div class="line"><span class="meta">    @first_name.deleter</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">first_name</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">raise</span> AttributeError(<span class="string">"Can't delete attribute"</span>)</div></pre></td></tr></table></figure></p>
+<p>上述代码中有三个相关联的方法，这三个方法的名字都必须一样。第一个方法是一个<code>getter</code>函数，它使得<code>first_name</code>成为一个属性。其他两个方法给<code>first_name</code>属性添加了<code>setter</code>和<code>deleter</code>函数。需要强调的是只有在<code>first_name</code>属性被创建后，后面的两个装饰器<code>@first_name.setter</code>和<code>@first_name.deleter</code>才能被定义。</p>
+<p><code>property</code>的一个关键特征是它看上去跟普通的<code>attribute</code>没什么两样，但是访问它的时候会自动触发<code>getter</code>、<code>setter</code>和<code>deleter</code>方法。例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>a = Person(<span class="string">'Guido'</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>a.first_name <span class="comment"># Calls the getter</span></div><div class="line"><span class="string">'Guido'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>a.first_name = <span class="number">42</span> <span class="comment"># Calls the setter</span></div><div class="line">Traceback (most recent call last):</div><div class="line">    File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">    File <span class="string">"prop.py"</span>, line <span class="number">14</span>, <span class="keyword">in</span> first_name</div><div class="line">        <span class="keyword">raise</span> TypeError(<span class="string">'Expected a string'</span>)</div><div class="line">TypeError: Expected a string</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">del</span> a.first_name</div><div class="line">Traceback (most recent call last):</div><div class="line">    File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">AttributeError: can<span class="string">'t delete attribute</span></div></pre></td></tr></table></figure>
+<p>在实现一个<code>property</code>时候，底层数据(如果有的话)仍然需要存储在某个地方。因此，在get和set方法中，你会看到对<code>_first_name</code>属性的操作，这也是实际数据保存的地方。另外，你可能还会问为什么<code>__init__()</code>方法中设置了<code>self.first_name</code>而不是<code>self._first_name</code>。在这个例子中，我们创建一个<code>property</code>的目的就是在设置<code>attribute</code>的时候进行检查。因此，你可能想在初始化的时候也进行这种类型检查。通过设置<code>self.first_name</code>，自动调用<code>setter</code>方法，这个方法里面会进行参数的检查，否则就是直接访问<code>self._first_name</code>了。</p>
+<p>还能在已存在的<code>get</code>和<code>set</code>方法基础上定义<code>property</code>。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, first_name)</span>:</span></div><div class="line">        self.set_first_name(first_name)</div><div class="line"></div><div class="line">    <span class="comment"># Getter function</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_first_name</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self._first_name</div><div class="line"></div><div class="line">    <span class="comment"># Setter function</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set_first_name</span><span class="params">(self, value)</span>:</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(value, str):</div><div class="line">            <span class="keyword">raise</span> TypeError(<span class="string">'Expected a string'</span>)</div><div class="line">        self._first_name = value</div><div class="line"></div><div class="line">    <span class="comment"># Deleter function (optional)</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">del_first_name</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">raise</span> AttributeError(<span class="string">"Can't delete attribute"</span>)</div><div class="line"></div><div class="line">    <span class="comment"># Make a property from existing get/set methods</span></div><div class="line">    name = property(get_first_name, set_first_name, del_first_name)</div></pre></td></tr></table></figure></p>
+<h4 id="调用父类方法"><a href="#调用父类方法" class="headerlink" title="调用父类方法"></a>调用父类方法</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">(self)</span>:</span></div><div class="line">        print(<span class="string">'A.spam'</span>)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">(self)</span>:</span></div><div class="line">        print(<span class="string">'B.spam'</span>)</div><div class="line">        super().spam()  <span class="comment"># Call parent spam()</span></div></pre></td></tr></table></figure>
+<p><code>super()</code>函数的一个常见用法是在<code>__init__()</code>方法中确保父类被正确的初始化了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self.x = <span class="number">0</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        super().__init__()</div><div class="line">        self.y = <span class="number">1</span></div></pre></td></tr></table></figure>
+<h4 id="定义接口或者抽象基类"><a href="#定义接口或者抽象基类" class="headerlink" title="定义接口或者抽象基类"></a>定义接口或者抽象基类</h4><p>使用<code>abs</code>模块可以很轻松的定义抽象基类:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> abc <span class="keyword">import</span> ABCMeta, abstractmethod</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">IStream</span><span class="params">(metaclass=ABCMeta)</span>:</span></div><div class="line"><span class="meta">    @abstractmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">read</span><span class="params">(self, maxbytes=<span class="number">-1</span>)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="meta">    @abstractmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">write</span><span class="params">(self, data)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>抽象类的一个特点是它不能直接被实例化，比如你想像下面这样做是不行的:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a = IStream() <span class="comment"># TypeError: Can't instantiate abstract class</span></div><div class="line">                <span class="comment"># IStream with abstract methods read, write</span></div></pre></td></tr></table></figure></p>
+<p>抽象类的目的就是让别的类继承它并实现特定的抽象方法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SocketStream</span><span class="params">(IStream)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">read</span><span class="params">(self, maxbytes=<span class="number">-1</span>)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">write</span><span class="params">(self, data)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>抽象基类的一个主要用途是在代码中检查某些类是否为特定类型，实现了特定接口：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">serialize</span><span class="params">(obj, stream)</span>:</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> isinstance(stream, IStream):</div><div class="line">        <span class="keyword">raise</span> TypeError(<span class="string">'Expected an IStream'</span>)</div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>除了继承这种方式外，还可以通过注册方式来让某个类实现抽象基类：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> io</div><div class="line"></div><div class="line"><span class="comment"># Register the built-in I/O classes as supporting our interface</span></div><div class="line">IStream.register(io.IOBase)</div><div class="line"></div><div class="line"><span class="comment"># Open a normal file and type check</span></div><div class="line">f = open(<span class="string">'foo.txt'</span>)</div><div class="line">isinstance(f, IStream) <span class="comment"># Returns True</span></div></pre></td></tr></table></figure></p>
+<p><code>@abstractmethod</code>还能注解静态方法、类方法和<code>properties</code>。你只需保证这个注解紧靠在函数定义前即可：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(metaclass=ABCMeta)</span>:</span></div><div class="line"><span class="meta">    @property</span></div><div class="line"><span class="meta">    @abstractmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">name</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="meta">    @name.setter</span></div><div class="line"><span class="meta">    @abstractmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">name</span><span class="params">(self, value)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="meta">    @classmethod</span></div><div class="line"><span class="meta">    @abstractmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">method1</span><span class="params">(cls)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line"><span class="meta">    @abstractmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">method2</span><span class="params">()</span>:</span></div><div class="line">        <span class="keyword">pass</span></div></pre></td></tr></table></figure>
+<p>标准库中有很多用到抽象基类的地方。<code>collections</code>模块定义了很多跟容器和迭代器(序列、映射、集合等)有关的抽象基类。<code>numbers</code>库定义了跟数字对象(整数、浮点数、有理数等)有关的基类。<code>io</code>库定义了很多跟<code>I/O</code>操作相关的基类。</p>
+<p>你可以使用预定义的抽象类来执行更通用的类型检查，例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> collections</div><div class="line"></div><div class="line"><span class="comment"># Check if x is a sequence</span></div><div class="line"><span class="keyword">if</span> isinstance(x, collections.Sequence):</div><div class="line">...</div><div class="line"></div><div class="line"><span class="comment"># Check if x is iterable</span></div><div class="line"><span class="keyword">if</span> isinstance(x, collections.Iterable):</div><div class="line">...</div><div class="line"></div><div class="line"><span class="comment"># Check if x has a size</span></div><div class="line"><span class="keyword">if</span> isinstance(x, collections.Sized):</div><div class="line">...</div><div class="line"></div><div class="line"><span class="comment"># Check if x is a mapping</span></div><div class="line"><span class="keyword">if</span> isinstance(x, collections.Mapping):</div></pre></td></tr></table></figure></p>
+<p>尽管<code>ABCs</code>可以让我们很方便的做类型检查，但是我们在代码中最好不要过多的使用它。因为<code>Python</code>的本质是一门动态编程语言，其目的就是给你更多灵活性，强制类型检查或让你代码变得更复杂，这样做无异于舍本求末。</p>
+<h4 id="实现自定义容器"><a href="#实现自定义容器" class="headerlink" title="实现自定义容器"></a>实现自定义容器</h4><p><code>collections</code>定义了很多抽象基类，当你想自定义容器类的时候它们会非常有用。比如你想让你的类支持迭代，那就让你的类继承<code>collections.Iterable</code>即可：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> collections</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(collections.Iterable)</span>:</span></div><div class="line">    <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
+<p>不过你需要实现<code>collections.Iterable</code>所有的抽象方法，否则会报错:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>a = A()</div><div class="line">Traceback (most recent call last):</div><div class="line">    File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">TypeError: Can<span class="string">'t instantiate abstract class A with abstract methods __iter__</span></div></pre></td></tr></table></figure></p>
+<p><code>collections</code>中很多抽象类会为一些常见容器操作提供默认的实现，这样一来你只需要实现那些你最感兴趣的方法即可。假设你的类继承自<code>collections.MutableSequence</code>，如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Items</span><span class="params">(collections.MutableSequence)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, initial=None)</span>:</span></div><div class="line">        self._items = list(initial) <span class="keyword">if</span> initial <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">else</span> []</div><div class="line"></div><div class="line">    <span class="comment"># Required sequence methods</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></div><div class="line">        print(<span class="string">'Getting:'</span>, index)</div><div class="line">        <span class="keyword">return</span> self._items[index]</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__setitem__</span><span class="params">(self, index, value)</span>:</span></div><div class="line">        print(<span class="string">'Setting:'</span>, index, value)</div><div class="line">        self._items[index] = value</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__delitem__</span><span class="params">(self, index)</span>:</span></div><div class="line">        print(<span class="string">'Deleting:'</span>, index)</div><div class="line">        <span class="keyword">del</span> self._items[index]</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">insert</span><span class="params">(self, index, value)</span>:</span></div><div class="line">        print(<span class="string">'Inserting:'</span>, index, value)</div><div class="line">        self._items.insert(index, value)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></div><div class="line">        print(<span class="string">'Len'</span>)</div><div class="line">        <span class="keyword">return</span> len(self._items)</div></pre></td></tr></table></figure></p>
+<h4 id="在类中定义多个构造器"><a href="#在类中定义多个构造器" class="headerlink" title="在类中定义多个构造器"></a>在类中定义多个构造器</h4><p>为了实现多个构造器，你需要使用到类方法。例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> time</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Date</span>:</span></div><div class="line">    <span class="string">"""方法一：使用类方法"""</span></div><div class="line">    <span class="comment"># Primary constructor</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, year, month, day)</span>:</span></div><div class="line">        self.year = year</div><div class="line">        self.month = month</div><div class="line">        self.day = day</div><div class="line"></div><div class="line">    <span class="comment"># Alternate constructor</span></div><div class="line"><span class="meta">    @classmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">today</span><span class="params">(cls)</span>:</span></div><div class="line">        t = time.localtime()</div><div class="line">        <span class="keyword">return</span> cls(t.tm_year, t.tm_mon, t.tm_mday)</div></pre></td></tr></table></figure></p>
+<p>直接调用类方法即可，下面是使用示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a = Date(<span class="number">2012</span>, <span class="number">12</span>, <span class="number">21</span>) <span class="comment"># Primary</span></div><div class="line">b = Date.today() <span class="comment"># Alternate</span></div></pre></td></tr></table></figure></p>
+<p>类方法的一个主要用途就是定义多个构造器。它接受一个<code>class</code>作为第一个参数<code>(cls)</code>。你应该注意到了这个类被用来创建并返回最终的实例。在继承时也能工作的很好：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewDate</span><span class="params">(Date)</span>:</span></div><div class="line">    <span class="keyword">pass</span></div><div class="line"></div><div class="line">c = Date.today() <span class="comment"># Creates an instance of Date (cls=Date)</span></div><div class="line">d = NewDate.today() <span class="comment"># Creates an instance of NewDate (cls=NewDate)</span></div></pre></td></tr></table></figure></p>
+<h4 id="创建不调用init方法的实例"><a href="#创建不调用init方法的实例" class="headerlink" title="创建不调用init方法的实例"></a>创建不调用init方法的实例</h4><p>可以通过<code>__new__()</code>方法创建一个未初始化的实例。例如考虑如下这个类：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Date</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, year, month, day)</span>:</span></div><div class="line">        self.year = year</div><div class="line">        self.month = month</div><div class="line">        self.day = day</div></pre></td></tr></table></figure>
+<p>下面演示如何不调用<code>__init__()</code>方法来创建这个Date实例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>d = Date.__new__(Date)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>d</div><div class="line">&lt;__main__.Date object at <span class="number">0x1006716d0</span>&gt;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>d.year</div><div class="line">Traceback (most recent call last):</div><div class="line">    File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">AttributeError: <span class="string">'Date'</span> object has no attribute <span class="string">'year'</span></div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<p>结果可以看到，这个<code>Date</code>实例的属性<code>year</code>还不存在，所以你需要手动初始化：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>data = &#123;<span class="string">'year'</span>:<span class="number">2012</span>, <span class="string">'month'</span>:<span class="number">8</span>, <span class="string">'day'</span>:<span class="number">29</span>&#125;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> key, value <span class="keyword">in</span> data.items():</div><div class="line"><span class="meta">... </span>    setattr(d, key, value)</div><div class="line">...</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>d.year</div><div class="line"><span class="number">2012</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>d.month</div><div class="line"><span class="number">8</span></div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<h4 id="实现状态对象或者状态机"><a href="#实现状态对象或者状态机" class="headerlink" title="实现状态对象或者状态机"></a>实现状态对象或者状态机</h4><p>你想实现一个状态机或者是在不同状态下执行操作的对象，但是又不想在代码中出现太多的条件判断语句。那么如下是最好的实现方式<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Connection1</span>:</span></div><div class="line">    <span class="string">"""新方案——对每个状态定义一个类"""</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self.new_state(ClosedConnectionState)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">new_state</span><span class="params">(self, newstate)</span>:</span></div><div class="line">        self._state = newstate</div><div class="line">        <span class="comment"># Delegate to the state class</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">read</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self._state.read(self)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">write</span><span class="params">(self, data)</span>:</span></div><div class="line">        <span class="keyword">return</span> self._state.write(self, data)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">open</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self._state.open(self)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self._state.close(self)</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Connection state base class</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConnectionState</span>:</span></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">read</span><span class="params">(conn)</span>:</span></div><div class="line">        <span class="keyword">raise</span> NotImplementedError()</div><div class="line"></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">write</span><span class="params">(conn, data)</span>:</span></div><div class="line">        <span class="keyword">raise</span> NotImplementedError()</div><div class="line"></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">open</span><span class="params">(conn)</span>:</span></div><div class="line">        <span class="keyword">raise</span> NotImplementedError()</div><div class="line"></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close</span><span class="params">(conn)</span>:</span></div><div class="line">        <span class="keyword">raise</span> NotImplementedError()</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># Implementation of different states</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClosedConnectionState</span><span class="params">(ConnectionState)</span>:</span></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">read</span><span class="params">(conn)</span>:</span></div><div class="line">        <span class="keyword">raise</span> RuntimeError(<span class="string">'Not open'</span>)</div><div class="line"></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">write</span><span class="params">(conn, data)</span>:</span></div><div class="line">        <span class="keyword">raise</span> RuntimeError(<span class="string">'Not open'</span>)</div><div class="line"></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">open</span><span class="params">(conn)</span>:</span></div><div class="line">        conn.new_state(OpenConnectionState)</div><div class="line"></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close</span><span class="params">(conn)</span>:</span></div><div class="line">        <span class="keyword">raise</span> RuntimeError(<span class="string">'Already closed'</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">OpenConnectionState</span><span class="params">(ConnectionState)</span>:</span></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">read</span><span class="params">(conn)</span>:</span></div><div class="line">        print(<span class="string">'reading'</span>)</div><div class="line"></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">write</span><span class="params">(conn, data)</span>:</span></div><div class="line">        print(<span class="string">'writing'</span>)</div><div class="line"></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">open</span><span class="params">(conn)</span>:</span></div><div class="line">        <span class="keyword">raise</span> RuntimeError(<span class="string">'Already open'</span>)</div><div class="line"></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close</span><span class="params">(conn)</span>:</span></div><div class="line">        conn.new_state(ClosedConnectionState)</div><div class="line"></div><div class="line"></div><div class="line">c = Connection1()</div><div class="line">print(c._state)</div><div class="line">c.open()</div><div class="line">print(c._state)</div><div class="line">c.read()</div><div class="line">print(c._state)</div><div class="line">c.write(<span class="string">'Hello'</span>)</div><div class="line">print(c._state)</div><div class="line">c.close()</div><div class="line">print(c._state)<span class="comment">#### 通过字符串调用对象方法</span></div></pre></td></tr></table></figure></p>
+<h4 id="让类支持比较操作"><a href="#让类支持比较操作" class="headerlink" title="让类支持比较操作"></a>让类支持比较操作</h4><p>Python类对每个比较操作都需要实现一个特殊方法来支持。例如为了支持&gt;=操作符，你需要定义一个<code>__ge__()</code>方法。尽管定义一个方法没什么问题，但如果要你实现所有可能的比较方法那就有点烦人了。</p>
+<p>装饰器<code>functools.total_ordering</code>就是用来简化这个处理的。使用它来装饰一个来，你只需定义一个<code>__eq__()</code>方法，外加其他方法<code>(__lt__, __le__, __gt__, or __ge__)</code>中的一个即可。然后装饰器会自动为你填充其它比较方法。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> total_ordering</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Room</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, length, width)</span>:</span></div><div class="line">        self.name = name</div><div class="line">        self.length = length</div><div class="line">        self.width = width</div><div class="line">        self.square_feet = self.length * self.width</div><div class="line"></div><div class="line"><span class="meta">@total_ordering</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">House</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, style)</span>:</span></div><div class="line">        self.name = name</div><div class="line">        self.style = style</div><div class="line">        self.rooms = list()</div><div class="line"></div><div class="line"><span class="meta">    @property</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">living_space_footage</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> sum(r.square_feet <span class="keyword">for</span> r <span class="keyword">in</span> self.rooms)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_room</span><span class="params">(self, room)</span>:</span></div><div class="line">        self.rooms.append(room)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">'&#123;&#125;: &#123;&#125; square foot &#123;&#125;'</span>.format(self.name,</div><div class="line">                self.living_space_footage,</div><div class="line">                self.style)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__eq__</span><span class="params">(self, other)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.living_space_footage == other.living_space_footage</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__lt__</span><span class="params">(self, other)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.living_space_footage &lt; other.living_space_footage</div></pre></td></tr></table></figure></p>
+<p>这里我们只是给<code>House</code>类定义了两个方法：<code>__eq__()</code>和<code>__lt__()</code>，它就能支持所有的比较操作。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Build a few houses, and add rooms to them</span></div><div class="line">h1 = House(<span class="string">'h1'</span>, <span class="string">'Cape'</span>)</div><div class="line">h1.add_room(Room(<span class="string">'Master Bedroom'</span>, <span class="number">14</span>, <span class="number">21</span>))</div><div class="line">h1.add_room(Room(<span class="string">'Living Room'</span>, <span class="number">18</span>, <span class="number">20</span>))</div><div class="line">h1.add_room(Room(<span class="string">'Kitchen'</span>, <span class="number">12</span>, <span class="number">16</span>))</div><div class="line">h1.add_room(Room(<span class="string">'Office'</span>, <span class="number">12</span>, <span class="number">12</span>))</div><div class="line">h2 = House(<span class="string">'h2'</span>, <span class="string">'Ranch'</span>)</div><div class="line">h2.add_room(Room(<span class="string">'Master Bedroom'</span>, <span class="number">14</span>, <span class="number">21</span>))</div><div class="line">h2.add_room(Room(<span class="string">'Living Room'</span>, <span class="number">18</span>, <span class="number">20</span>))</div><div class="line">h2.add_room(Room(<span class="string">'Kitchen'</span>, <span class="number">12</span>, <span class="number">16</span>))</div><div class="line">h3 = House(<span class="string">'h3'</span>, <span class="string">'Split'</span>)</div><div class="line">h3.add_room(Room(<span class="string">'Master Bedroom'</span>, <span class="number">14</span>, <span class="number">21</span>))</div><div class="line">h3.add_room(Room(<span class="string">'Living Room'</span>, <span class="number">18</span>, <span class="number">20</span>))</div><div class="line">h3.add_room(Room(<span class="string">'Office'</span>, <span class="number">12</span>, <span class="number">16</span>))</div><div class="line">h3.add_room(Room(<span class="string">'Kitchen'</span>, <span class="number">15</span>, <span class="number">17</span>))</div><div class="line">houses = [h1, h2, h3]</div><div class="line">print(<span class="string">'Is h1 bigger than h2?'</span>, h1 &gt; h2) <span class="comment"># prints True</span></div><div class="line">print(<span class="string">'Is h2 smaller than h3?'</span>, h2 &lt; h3) <span class="comment"># prints True</span></div><div class="line">print(<span class="string">'Is h2 greater than or equal to h1?'</span>, h2 &gt;= h1) <span class="comment"># Prints False</span></div><div class="line">print(<span class="string">'Which one is biggest?'</span>, max(houses)) <span class="comment"># Prints 'h3: 1101-square-foot Split'</span></div><div class="line">print(<span class="string">'Which is smallest?'</span>, min(houses)) <span class="comment"># Prints 'h2: 846-square-foot Ranch'</span></div></pre></td></tr></table></figure></p>
+<h4 id="创建缓存实例"><a href="#创建缓存实例" class="headerlink" title="创建缓存实例"></a>创建缓存实例</h4><p>在创建一个类的对象时，如果之前使用同样参数创建过这个对象，你想返回它的缓存引用。为了达到这样的效果，你需要使用一个和类本身分开的工厂函数，例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># The class in question</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Spam</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></div><div class="line">        self.name = name</div><div class="line"></div><div class="line"><span class="comment"># Caching support</span></div><div class="line"><span class="keyword">import</span> weakref</div><div class="line">_spam_cache = weakref.WeakValueDictionary()</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_spam</span><span class="params">(name)</span>:</span></div><div class="line">    <span class="keyword">if</span> name <span class="keyword">not</span> <span class="keyword">in</span> _spam_cache:</div><div class="line">        s = Spam(name)</div><div class="line">        _spam_cache[name] = s</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        s = _spam_cache[name]</div><div class="line">    <span class="keyword">return</span> s</div></pre></td></tr></table></figure></p>
+<p>对于大部分程序而已，这里代码已经够用了。不过还是有一些更高级的实现值得了解下。首先是这里使用到了一个全局变量，并且工厂函数跟类放在一块。我们可以通过将缓存代码放到一个单独的缓存管理器中：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> weakref</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CachedSpamManager</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self._cache = weakref.WeakValueDictionary()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_spam</span><span class="params">(self, name)</span>:</span></div><div class="line">        <span class="keyword">if</span> name <span class="keyword">not</span> <span class="keyword">in</span> self._cache:</div><div class="line">            s = Spam(name)</div><div class="line">            self._cache[name] = s</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            s = self._cache[name]</div><div class="line">        <span class="keyword">return</span> s</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clear</span><span class="params">(self)</span>:</span></div><div class="line">            self._cache.clear()</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Spam</span>:</span></div><div class="line">    manager = CachedSpamManager()</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></div><div class="line">        self.name = name</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_spam</span><span class="params">(name)</span>:</span></div><div class="line">        <span class="keyword">return</span> Spam.manager.get_spam(name)</div></pre></td></tr></table></figure></p>
+<p>但是这样暴露了类的实例化给用户，如果想阻止用户实例化该类的话，可以通过如下方法解决<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># ------------------------最后的修正方案------------------------</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CachedSpamManager2</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self._cache = weakref.WeakValueDictionary()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_spam</span><span class="params">(self, name)</span>:</span></div><div class="line">        <span class="keyword">if</span> name <span class="keyword">not</span> <span class="keyword">in</span> self._cache:</div><div class="line">            temp = Spam3._new(name)  <span class="comment"># Modified creation</span></div><div class="line">            self._cache[name] = temp</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            temp = self._cache[name]</div><div class="line">        <span class="keyword">return</span> temp</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clear</span><span class="params">(self)</span>:</span></div><div class="line">            self._cache.clear()</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Spam3</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, *args, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">raise</span> RuntimeError(<span class="string">"Can't instantiate directly"</span>)</div><div class="line"></div><div class="line">    <span class="comment"># Alternate constructor</span></div><div class="line"><span class="meta">    @classmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_new</span><span class="params">(cls, name)</span>:</span></div><div class="line">        self = cls.__new__(cls)</div><div class="line">        self.name = name</div><div class="line">        <span class="keyword">return</span> self</div></pre></td></tr></table></figure></p>
+<p>参考资料<br>【1】<a href="http://code.google.com/p/proden/downloads/detail?name=A%20Byte%20of%20Python3(%E4%B8%AD%E6%96%87%E7%89%88).pdf" target="_blank" rel="external">A Byte of Python3</a><br>【2】<a href="http://python3-cookbook.readthedocs.org/zh_CN/latest/c01/p08_calculating_with_dict.html" target="_blank" rel="external">python3-cookbook</a></p>
+
+      
+    </div>
+
+	<div align="center">
+	  
+		<div class="copyright">
+		<p><span>
+		<b>本文地址：</b><a href="/2017/05/16/Python3-beginner-s-handbook-four/" title="Python3入门手册之四">http://www.codepub.cn/2017/05/16/Python3-beginner-s-handbook-four/</a><br/><b>转载请注明出处，谢谢！</b>
+		</span></p>
+		</div>
+	  
+	</div>
+	<!-- 添加广告位 -->
+    <div>
+      
+        
+<div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton", disable="enable", onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}", style="cursor: pointer; border: 0; outline: 0; border-radius: 100%; padding: 0; margin: 0; letter-spacing: normal; text-transform: none; text-indent: 0px; text-shadow: none">
+    <span onmouseover="this.style.color='rgb(236,96,0)';this.style.background='rgb(204,204,204)'" onMouseOut="this.style.color='#fff';this.style.background='rgb(236,96,0)'" style="display: inline-block; width: 70px; height: 70px; border-radius: 100%; line-height: 81px; color: #fff; font: 400 35px/75px 'microsofty'; background: rgb(236,96,0)">赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu WeChat Pay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>微信打赏</p>
+      </div>
+    
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu Alipay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>支付宝打赏</p>
+      </div>
+    
+  </div>
+<div>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python3/" rel="tag">#Python3</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/16/Lucene-read-write-NFS-file-system-error/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/16/Windows-installs-the-redis-service/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share?uid=2067139" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<!-- UJian Button BEGIN -->
+	<div class="ujian-hook"></div>
+	<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js"></script>
+<!-- UJian Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+		  
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/author.jpg"
+               alt="Wang Xu" />
+          <p class="site-author-name" itemprop="name">Wang Xu</p>
+          <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">103</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/shijiebei2009" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/codepub" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i> Linkedin
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank">
+                  
+                    <i class="fa fa-stackoverflow"></i> Stackoverflow
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/codepub.cn" target="_blank">
+                  
+                    <i class="fa fa-zhihu"></i> ZhiHu
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/shijiebei2009/" target="_blank">
+                  
+                    <i class="fa fa-douban"></i> DouBan
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1779238484" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">1.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#可接受任意数量参数的函数"><span class="nav-number">1.1.</span> <span class="nav-text">可接受任意数量参数的函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#只接受关键字参数的函数"><span class="nav-number">1.2.</span> <span class="nav-text">只接受关键字参数的函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#返回多个值的函数"><span class="nav-number">1.3.</span> <span class="nav-text">返回多个值的函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义有默认参数的函数"><span class="nav-number">1.4.</span> <span class="nav-text">定义有默认参数的函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义匿名或内联函数"><span class="nav-number">1.5.</span> <span class="nav-text">定义匿名或内联函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#减少可调用对象的参数个数"><span class="nav-number">1.6.</span> <span class="nav-text">减少可调用对象的参数个数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类与对象"><span class="nav-number">2.</span> <span class="nav-text">类与对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#改变对象的字符串显示"><span class="nav-number">2.1.</span> <span class="nav-text">改变对象的字符串显示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#让对象支持上下文管理协议"><span class="nav-number">2.2.</span> <span class="nav-text">让对象支持上下文管理协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建大量对象时节省内存方法"><span class="nav-number">2.3.</span> <span class="nav-text">创建大量对象时节省内存方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在类中封装属性名"><span class="nav-number">2.4.</span> <span class="nav-text">在类中封装属性名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建可管理的属性"><span class="nav-number">2.5.</span> <span class="nav-text">创建可管理的属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调用父类方法"><span class="nav-number">2.6.</span> <span class="nav-text">调用父类方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义接口或者抽象基类"><span class="nav-number">2.7.</span> <span class="nav-text">定义接口或者抽象基类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现自定义容器"><span class="nav-number">2.8.</span> <span class="nav-text">实现自定义容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在类中定义多个构造器"><span class="nav-number">2.9.</span> <span class="nav-text">在类中定义多个构造器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建不调用init方法的实例"><span class="nav-number">2.10.</span> <span class="nav-text">创建不调用init方法的实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现状态对象或者状态机"><span class="nav-number">2.11.</span> <span class="nav-text">实现状态对象或者状态机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#让类支持比较操作"><span class="nav-number">2.12.</span> <span class="nav-text">让类支持比较操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建缓存实例"><span class="nav-number">2.13.</span> <span class="nav-text">创建缓存实例</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>&nbsp;&nbsp;&nbsp;
+  <a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_pv">
+  <i class="fa fa-user" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_pv"></span>
+  </span>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_uv">
+  <i class="fa fa-eye" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_uv"></span>
+  </span>
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'codepubcn';
+      var disqus_identifier = '2017/05/16/Python3-beginner-s-handbook-four/';
+      var disqus_title = 'Python3入门手册之四';
+      var disqus_url = 'http://www.codepub.cn/2017/05/16/Python3-beginner-s-handbook-four/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+<a href="https://github.com/shijiebei2009"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+</body>
+</html>

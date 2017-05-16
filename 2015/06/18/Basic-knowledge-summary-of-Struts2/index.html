@@ -59,19 +59,19 @@
 
 
 
-<meta name="description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 ###Struts2简介Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。 ###实现ActionSt">
+<meta name="description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 Struts2简介Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。 实现ActionStruts2的">
 <meta name="keywords" content="Struts2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Struts2基础知识汇总">
 <meta property="og:url" content="http://www.codepub.cn/2015/06/18/Basic-knowledge-summary-of-Struts2/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 ###Struts2简介Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。 ###实现ActionSt">
+<meta property="og:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 Struts2简介Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。 实现ActionStruts2的">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/webwork+struts=struts2.png">
-<meta property="og:updated_time" content="2017-05-06T14:42:47.793Z">
+<meta property="og:updated_time" content="2017-05-16T14:55:28.887Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Struts2基础知识汇总">
-<meta name="twitter:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 ###Struts2简介Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。 ###实现ActionSt">
+<meta name="twitter:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 Struts2简介Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。 实现ActionStruts2的">
 <meta name="twitter:image" content="http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png">
 
 
@@ -365,28 +365,26 @@
 
       
         <p><strong><em>力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员</em></strong><br><img src="http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png" alt="logo"></p>
-<p>###Struts2简介<br>Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/webwork+struts=struts2.png" alt="Struts2"></p>
-<p>###实现Action<br>Struts2的Action类是一个普通的POJO（通常应该包含一个无参数的execute方法），Struts2直接使用Action来封装HTTP请求参数，因此，Action类里还应该包含与请求参数对应的实例变量，并且为这些实例变量提供对应的setter和getter方法。注意其实实例变量是可以省略的，因为Struts2是通过对应的setter和getter方法来处理请求参数的，而不是通过实例变量名来处理请求参数的。</p>
-<p>####Action访问Servlet API<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ActionContext ctx = ActionContext.getContext();<span class="comment">//相当于JSP中内置的request</span></div><div class="line">ctx.getApplication();<span class="comment">//返回Map对象，该对象模拟了ServletContext实例，相当于JSP中内置的application</span></div><div class="line">ctx.getSession();<span class="comment">//返回Map对象，该对象模拟了HttpSession实例，相当于JSP中内置的session</span></div></pre></td></tr></table></figure></p>
-<p>####Action直接访问Servlet API</p>
-<p>Struts2提供了几个接口供我们直接访问ServletAPI</p>
+<h3 id="Struts2简介"><a href="#Struts2简介" class="headerlink" title="Struts2简介"></a>Struts2简介</h3><p>Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/webwork+struts=struts2.png" alt="Struts2"></p>
+<h3 id="实现Action"><a href="#实现Action" class="headerlink" title="实现Action"></a>实现Action</h3><p>Struts2的Action类是一个普通的POJO（通常应该包含一个无参数的execute方法），Struts2直接使用Action来封装HTTP请求参数，因此，Action类里还应该包含与请求参数对应的实例变量，并且为这些实例变量提供对应的setter和getter方法。注意其实实例变量是可以省略的，因为Struts2是通过对应的setter和getter方法来处理请求参数的，而不是通过实例变量名来处理请求参数的。</p>
+<h4 id="Action访问Servlet-API"><a href="#Action访问Servlet-API" class="headerlink" title="Action访问Servlet API"></a>Action访问Servlet API</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ActionContext ctx = ActionContext.getContext();<span class="comment">//相当于JSP中内置的request</span></div><div class="line">ctx.getApplication();<span class="comment">//返回Map对象，该对象模拟了ServletContext实例，相当于JSP中内置的application</span></div><div class="line">ctx.getSession();<span class="comment">//返回Map对象，该对象模拟了HttpSession实例，相当于JSP中内置的session</span></div></pre></td></tr></table></figure>
+<h4 id="Action直接访问Servlet-API"><a href="#Action直接访问Servlet-API" class="headerlink" title="Action直接访问Servlet API"></a>Action直接访问Servlet API</h4><p>Struts2提供了几个接口供我们直接访问ServletAPI</p>
 <ul>
 <li><code>ServletContextAware</code>: 实现该接口的Action可以直接访问Web应用的ServletContext实例</li>
 <li><code>ServletRequestAware</code>: 实现该接口的Action可以直接访问用户请求的HttpServletRequest实例</li>
 <li><code>ServletResponseAware</code>: 实现该接口的Action可以直接访问服务器响应的HttpServletResponse实例</li>
 </ul>
-<p>####使用ServletActionContext访问Servlet API<br>Struts2还提供了一个ServletActionContext工具类，这个类包含如下几个静态方法</p>
+<h4 id="使用ServletActionContext访问Servlet-API"><a href="#使用ServletActionContext访问Servlet-API" class="headerlink" title="使用ServletActionContext访问Servlet API"></a>使用ServletActionContext访问Servlet API</h4><p>Struts2还提供了一个ServletActionContext工具类，这个类包含如下几个静态方法</p>
 <ul>
 <li><code>static PageContext getPageContext()</code>: 取得Web应用的PageContext对象</li>
 <li><code>static HttpServletRequest getRequest()</code>: 取得Web应用的HttpServletRequest对象</li>
 <li><code>static HttpServletResponse getResponse()</code>: 取得Web应用的HttpServletResponse对象</li>
 <li><code>static ServletContext getServletContext()</code>: 取得Web应用的ServletContext对象</li>
 </ul>
-<p>###Action包和命名空间<br>在struts.xml中配置Action，如果没有指定namespace属性，那么该包使用默认的命名空间，如果namespace=”/“表示指定根命名空间。默认命名空间里的Action可以处理任何命名空间下的Action请求，但根命名空间下的Action只处理根命名空间下的Action请求，这是根命名空间和默认命名空间的区别。</p>
-<p>####配置默认Action<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"..."</span> <span class="attr">extends</span>=<span class="string">"struts-default"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">default-action-ref</span> <span class="attr">name</span>=<span class="string">"simpleViewAction"</span>/&gt;</span></div><div class="line">    //当用户请求找不到对应的Action时，系统默认的Action将处理用户请求</div><div class="line">    <span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">"simpleViewAction"</span> <span class="attr">class</span>=<span class="string">"..."</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">result...</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">action</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">package</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="Action包和命名空间"><a href="#Action包和命名空间" class="headerlink" title="Action包和命名空间"></a>Action包和命名空间</h3><p>在struts.xml中配置Action，如果没有指定namespace属性，那么该包使用默认的命名空间，如果namespace=”/“表示指定根命名空间。默认命名空间里的Action可以处理任何命名空间下的Action请求，但根命名空间下的Action只处理根命名空间下的Action请求，这是根命名空间和默认命名空间的区别。</p>
+<h4 id="配置默认Action"><a href="#配置默认Action" class="headerlink" title="配置默认Action"></a>配置默认Action</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"..."</span> <span class="attr">extends</span>=<span class="string">"struts-default"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">default-action-ref</span> <span class="attr">name</span>=<span class="string">"simpleViewAction"</span>/&gt;</span></div><div class="line">    //当用户请求找不到对应的Action时，系统默认的Action将处理用户请求</div><div class="line">    <span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">"simpleViewAction"</span> <span class="attr">class</span>=<span class="string">"..."</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">result...</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">action</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">package</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>将默认Action配置在默认命名空间里就可以让该Action处理所有用户请求，因为默认命名空间的Action可以处理任何命名空间的请求。</p>
-<p>###Struts2内建的支持结果类型</p>
-<ul>
+<h3 id="Struts2内建的支持结果类型"><a href="#Struts2内建的支持结果类型" class="headerlink" title="Struts2内建的支持结果类型"></a>Struts2内建的支持结果类型</h3><ul>
 <li>chain: Action链式处理的结果类型</li>
 <li>dispatcher: 用于指定使用JSP作为视图的结果类型，默认值</li>
 <li>freemarker: 用于指定使用FreeMarker模板作为视图的结果类型</li>
@@ -404,11 +402,10 @@
 <li>使用redirect类型的结果时，不能重定向到<code>/WEB-INF/</code>路径下任何资源，因为重定向相当于重新发送请求，而Web应用的<code>/WEB-INF/</code>路径下资源是受保护资源。</li>
 <li>使用redirectAction结果类型时，系统将重新生成一个新请求，只是该请求的URL是一个Action，因此前一个Action处理结果、请求参数、请求属性都会丢失。</li>
 </ol>
-<p>###Struts2异常处理</p>
-<p>####Struts2开启异常映射<br>默认的在struts-default.xml中已经开启了异常映射，代码如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">interceptors</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--配置异常处理的拦截器--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">interceptor</span> <span class="attr">name</span>=<span class="string">"exception"</span> <span class="attr">class</span>=<span class="string">"com.opensymphony.xwork.interceptor.ExceptionMapping.Interceptor"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">interceptor-stakc</span> <span class="attr">name</span>=<span class="string">"defaultStack"</span>&gt;</span></div><div class="line">        ...</div><div class="line">        <span class="comment">&lt;!--加入默认的拦截器栈--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">interceptor-ref</span> <span class="attr">name</span>=<span class="string">"exception"</span>/&gt;</span></div><div class="line">        ...</div><div class="line">    <span class="tag">&lt;/<span class="name">interceptor-stakc</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">interceptors</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>####Struts2输出异常信息<br><code>&lt;s:property value=&quot;exception&quot;/&gt;</code>: 输出异常对象本身<br><code>&lt;s:property value=&quot;exceptionStck&quot;/&gt;</code>: 输出异常堆栈信息<br><code>&lt;s:property value=&quot;exception.message&quot;/&gt;</code>: 输出异常的message消息</p>
-<p>####Convention插件与“约定”支持<br>有Ruby on Rails开发经验的朋友知道Rails有一条重要原则：约定优于配置。Rails开发者只需要按约定开发ActiveRecord/ActiveController即可，无需进行配置。Struts2的Convention插件借鉴了Rails的创意。</p>
-<p>#####Action的搜索和映射约定<br>使用Convention插件，将Struts2项目下的struts2-convention-plugin-2.3.16.3.jar复制到项目的WEB-INF/lib下即可。<br>对于Convention插件而言，它会自动搜索位于action、actions、struts、struts2包下的所有Java类，Convention插件会把如下两种Java类当成Action处理。</p>
+<h3 id="Struts2异常处理"><a href="#Struts2异常处理" class="headerlink" title="Struts2异常处理"></a>Struts2异常处理</h3><h4 id="Struts2开启异常映射"><a href="#Struts2开启异常映射" class="headerlink" title="Struts2开启异常映射"></a>Struts2开启异常映射</h4><p>默认的在struts-default.xml中已经开启了异常映射，代码如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">interceptors</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--配置异常处理的拦截器--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">interceptor</span> <span class="attr">name</span>=<span class="string">"exception"</span> <span class="attr">class</span>=<span class="string">"com.opensymphony.xwork.interceptor.ExceptionMapping.Interceptor"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">interceptor-stakc</span> <span class="attr">name</span>=<span class="string">"defaultStack"</span>&gt;</span></div><div class="line">        ...</div><div class="line">        <span class="comment">&lt;!--加入默认的拦截器栈--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">interceptor-ref</span> <span class="attr">name</span>=<span class="string">"exception"</span>/&gt;</span></div><div class="line">        ...</div><div class="line">    <span class="tag">&lt;/<span class="name">interceptor-stakc</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">interceptors</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h4 id="Struts2输出异常信息"><a href="#Struts2输出异常信息" class="headerlink" title="Struts2输出异常信息"></a>Struts2输出异常信息</h4><p><code>&lt;s:property value=&quot;exception&quot;/&gt;</code>: 输出异常对象本身<br><code>&lt;s:property value=&quot;exceptionStck&quot;/&gt;</code>: 输出异常堆栈信息<br><code>&lt;s:property value=&quot;exception.message&quot;/&gt;</code>: 输出异常的message消息</p>
+<h4 id="Convention插件与“约定”支持"><a href="#Convention插件与“约定”支持" class="headerlink" title="Convention插件与“约定”支持"></a>Convention插件与“约定”支持</h4><p>有Ruby on Rails开发经验的朋友知道Rails有一条重要原则：约定优于配置。Rails开发者只需要按约定开发ActiveRecord/ActiveController即可，无需进行配置。Struts2的Convention插件借鉴了Rails的创意。</p>
+<h5 id="Action的搜索和映射约定"><a href="#Action的搜索和映射约定" class="headerlink" title="Action的搜索和映射约定"></a>Action的搜索和映射约定</h5><p>使用Convention插件，将Struts2项目下的struts2-convention-plugin-2.3.16.3.jar复制到项目的WEB-INF/lib下即可。<br>对于Convention插件而言，它会自动搜索位于action、actions、struts、struts2包下的所有Java类，Convention插件会把如下两种Java类当成Action处理。</p>
 <ul>
 <li>所有实现了com.opensymphony.xwork2.Action的Java类</li>
 <li>所有类名以Action结尾的Java类</li>
@@ -426,7 +423,7 @@
 <li>将Action类名的驼峰写法转成中划线写法，所有字母小写</li>
 </ul>
 <p>例如edu.shu.action.base.UserLoginAction映射的URL是/base/user-login.action</p>
-<p>#####按约定映射Result<br>Convention默认也为作为逻辑视图和物理视图之间的映射提供了约定，默认情况下，Convention总会到Web应用的WEB-INF/content路径下定位物理资源，定位资源的约定是actionName+resultcode+suffix。当某个逻辑视图找不到对应的视图资源时，Convention会自动视图使用actionName+sufix作为物理视图资源。</p>
+<h5 id="按约定映射Result"><a href="#按约定映射Result" class="headerlink" title="按约定映射Result"></a>按约定映射Result</h5><p>Convention默认也为作为逻辑视图和物理视图之间的映射提供了约定，默认情况下，Convention总会到Web应用的WEB-INF/content路径下定位物理资源，定位资源的约定是actionName+resultcode+suffix。当某个逻辑视图找不到对应的视图资源时，Convention会自动视图使用actionName+sufix作为物理视图资源。</p>
 <table>
 <thead>
 <tr>
@@ -487,28 +484,26 @@
 </tr>
 </tbody>
 </table>
-<p>#####Action链的约定<br>如果希望一个Action处理结束后不是进入视图页面，而是进入另一个Action形成的Action链，则通过Convention插件只需遵守如下三个约定</p>
+<h5 id="Action链的约定"><a href="#Action链的约定" class="headerlink" title="Action链的约定"></a>Action链的约定</h5><p>如果希望一个Action处理结束后不是进入视图页面，而是进入另一个Action形成的Action链，则通过Convention插件只需遵守如下三个约定</p>
 <ul>
 <li>第一个Action返回的逻辑视图字符串没有对应的视图资源</li>
 <li>第二个Action与第一个Action处于同一个包下</li>
 <li>第二个Action映射的URL为: firstactionName+resultcode</li>
 </ul>
-<p>#####自动重加载映射<br>在struts.xml中配置如下两个常量即可使Convention插件重加载映射<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">"struts.devMode"</span> <span class="attr">value</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">"struts.convention.classes.reload"</span> <span class="attr">value</span>=<span class="string">"true"</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>###Struts2标签库</p>
-<p>####Struts2标签库概述<br>从最大的范围来分，Struts2可以将所有标签分成如下三类</p>
+<h5 id="自动重加载映射"><a href="#自动重加载映射" class="headerlink" title="自动重加载映射"></a>自动重加载映射</h5><p>在struts.xml中配置如下两个常量即可使Convention插件重加载映射<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">"struts.devMode"</span> <span class="attr">value</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">"struts.convention.classes.reload"</span> <span class="attr">value</span>=<span class="string">"true"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="Struts2标签库"><a href="#Struts2标签库" class="headerlink" title="Struts2标签库"></a>Struts2标签库</h3><h4 id="Struts2标签库概述"><a href="#Struts2标签库概述" class="headerlink" title="Struts2标签库概述"></a>Struts2标签库概述</h4><p>从最大的范围来分，Struts2可以将所有标签分成如下三类</p>
 <ol>
 <li>UI标签: 主要用于生成HTML元素的标签<br>1.1. 表单标签: 主要用于生成HTML页面的form元素，以及普通表单元素的标签<br>1.2. 非表单元素: 主要用于生成页面的树、Tab页等标签</li>
 <li>非UI标签: 主要用于数据访问、逻辑控制等的标签<br>2.1 流程控制标签: 主要包含用于实现分支、循环等流程控制的标签<br>2.2 数据访问标签: 主要包含用于输出ValueStack中的值、完成国际化等功能的标签</li>
 <li>Ajax标签: 用于Ajax支持的标签</li>
 </ol>
-<p>####OGNL表达式语言<br>OGNL的顶级对象是Stack Context，Stack Context对象就是一个Map类型的实例，其根对象就是Value Stack。OGNL的Stack Context里除了包括ValueStack这个根之外，还包括parameters、request、session、application、attr等命名对象，但这些命名对象都不是根。Stack Context“根”对象和普通命名对象的区别在于</p>
+<h4 id="OGNL表达式语言"><a href="#OGNL表达式语言" class="headerlink" title="OGNL表达式语言"></a>OGNL表达式语言</h4><p>OGNL的顶级对象是Stack Context，Stack Context对象就是一个Map类型的实例，其根对象就是Value Stack。OGNL的Stack Context里除了包括ValueStack这个根之外，还包括parameters、request、session、application、attr等命名对象，但这些命名对象都不是根。Stack Context“根”对象和普通命名对象的区别在于</p>
 <ul>
 <li>访问Stack Context里的命名对象需要在对象名之前添加#前缀</li>
 <li>访问OGNL的Stack Context里“根”对象的属性时，可以省略对象名</li>
 </ul>
-<p>###Struts2拦截器</p>
-<p>####配置默认拦截器<br>当配置一个包时，可以为其指定默认拦截器。一旦为某个包指定了默认的拦截器，如果该包中的Action没有显式指定拦截器，则默认的拦截器将会起作用。如果一旦为该包中的Action显式应用了某个拦截器，则默认的拦截器不会起作用，如果该Action还需要使用默认拦截器，则必须手动配置该拦截器的引用。</p>
-<p>####拦截器的执行顺序<br>在Action的控制方法执行之前，位于拦截器链前面的拦截器将先发生作用；在Action的控制方法执行之后，位于拦截器链前面的拦截器将后发生作用。</p>
+<h3 id="Struts2拦截器"><a href="#Struts2拦截器" class="headerlink" title="Struts2拦截器"></a>Struts2拦截器</h3><h4 id="配置默认拦截器"><a href="#配置默认拦截器" class="headerlink" title="配置默认拦截器"></a>配置默认拦截器</h4><p>当配置一个包时，可以为其指定默认拦截器。一旦为某个包指定了默认的拦截器，如果该包中的Action没有显式指定拦截器，则默认的拦截器将会起作用。如果一旦为该包中的Action显式应用了某个拦截器，则默认的拦截器不会起作用，如果该Action还需要使用默认拦截器，则必须手动配置该拦截器的引用。</p>
+<h4 id="拦截器的执行顺序"><a href="#拦截器的执行顺序" class="headerlink" title="拦截器的执行顺序"></a>拦截器的执行顺序</h4><p>在Action的控制方法执行之前，位于拦截器链前面的拦截器将先发生作用；在Action的控制方法执行之后，位于拦截器链前面的拦截器将后发生作用。</p>
 <p>参考资料<br>【1】轻量级JavaEE企业应用实战-Struts2+Spring4+Hibernate整合开发</p>
 
       
@@ -783,7 +778,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Struts2简介"><span class="nav-number">1.</span> <span class="nav-text">Struts2简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现Action"><span class="nav-number">2.</span> <span class="nav-text">实现Action</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Action访问Servlet-API"><span class="nav-number">2.1.</span> <span class="nav-text">Action访问Servlet API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Action直接访问Servlet-API"><span class="nav-number">2.2.</span> <span class="nav-text">Action直接访问Servlet API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用ServletActionContext访问Servlet-API"><span class="nav-number">2.3.</span> <span class="nav-text">使用ServletActionContext访问Servlet API</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Action包和命名空间"><span class="nav-number">3.</span> <span class="nav-text">Action包和命名空间</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置默认Action"><span class="nav-number">3.1.</span> <span class="nav-text">配置默认Action</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Struts2内建的支持结果类型"><span class="nav-number">4.</span> <span class="nav-text">Struts2内建的支持结果类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Struts2异常处理"><span class="nav-number">5.</span> <span class="nav-text">Struts2异常处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Struts2开启异常映射"><span class="nav-number">5.1.</span> <span class="nav-text">Struts2开启异常映射</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Struts2输出异常信息"><span class="nav-number">5.2.</span> <span class="nav-text">Struts2输出异常信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Convention插件与“约定”支持"><span class="nav-number">5.3.</span> <span class="nav-text">Convention插件与“约定”支持</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Action的搜索和映射约定"><span class="nav-number">5.3.1.</span> <span class="nav-text">Action的搜索和映射约定</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#按约定映射Result"><span class="nav-number">5.3.2.</span> <span class="nav-text">按约定映射Result</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Action链的约定"><span class="nav-number">5.3.3.</span> <span class="nav-text">Action链的约定</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#自动重加载映射"><span class="nav-number">5.3.4.</span> <span class="nav-text">自动重加载映射</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Struts2标签库"><span class="nav-number">6.</span> <span class="nav-text">Struts2标签库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Struts2标签库概述"><span class="nav-number">6.1.</span> <span class="nav-text">Struts2标签库概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OGNL表达式语言"><span class="nav-number">6.2.</span> <span class="nav-text">OGNL表达式语言</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Struts2拦截器"><span class="nav-number">7.</span> <span class="nav-text">Struts2拦截器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置默认拦截器"><span class="nav-number">7.1.</span> <span class="nav-text">配置默认拦截器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#拦截器的执行顺序"><span class="nav-number">7.2.</span> <span class="nav-text">拦截器的执行顺序</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

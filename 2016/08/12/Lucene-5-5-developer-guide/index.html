@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="####Lucene和Solr的历史版本Lucene历史版本，不妨点进去看看，会发现Lucene的版本更新很频繁，所以Lucene的Doc注释比JDK的Doc注释差太多，在研读Lucene In Action的过程中，发现此书的Lucene版本为3.0，而自己使用的Lucene版本是5.5，所以会有诸多冲突之处，现聊记之，以备查用。另外附上Solr历史版本。 在学习Lucene过程中，官方推荐的L">
+<meta name="description" content="Lucene和Solr的历史版本Lucene历史版本，不妨点进去看看，会发现Lucene的版本更新很频繁，所以Lucene的Doc注释比JDK的Doc注释差太多，在研读Lucene In Action的过程中，发现此书的Lucene版本为3.0，而自己使用的Lucene版本是5.5，所以会有诸多冲突之处，现聊记之，以备查用。另外附上Solr历史版本。 在学习Lucene过程中，官方推荐的Lucen">
 <meta name="keywords" content="Lucene">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Lucene 5.5 开发手册">
 <meta property="og:url" content="http://www.codepub.cn/2016/08/12/Lucene-5-5-developer-guide/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="####Lucene和Solr的历史版本Lucene历史版本，不妨点进去看看，会发现Lucene的版本更新很频繁，所以Lucene的Doc注释比JDK的Doc注释差太多，在研读Lucene In Action的过程中，发现此书的Lucene版本为3.0，而自己使用的Lucene版本是5.5，所以会有诸多冲突之处，现聊记之，以备查用。另外附上Solr历史版本。 在学习Lucene过程中，官方推荐的L">
-<meta property="og:updated_time" content="2017-05-06T14:42:47.974Z">
+<meta property="og:description" content="Lucene和Solr的历史版本Lucene历史版本，不妨点进去看看，会发现Lucene的版本更新很频繁，所以Lucene的Doc注释比JDK的Doc注释差太多，在研读Lucene In Action的过程中，发现此书的Lucene版本为3.0，而自己使用的Lucene版本是5.5，所以会有诸多冲突之处，现聊记之，以备查用。另外附上Solr历史版本。 在学习Lucene过程中，官方推荐的Lucen">
+<meta property="og:updated_time" content="2017-05-16T14:55:28.873Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lucene 5.5 开发手册">
-<meta name="twitter:description" content="####Lucene和Solr的历史版本Lucene历史版本，不妨点进去看看，会发现Lucene的版本更新很频繁，所以Lucene的Doc注释比JDK的Doc注释差太多，在研读Lucene In Action的过程中，发现此书的Lucene版本为3.0，而自己使用的Lucene版本是5.5，所以会有诸多冲突之处，现聊记之，以备查用。另外附上Solr历史版本。 在学习Lucene过程中，官方推荐的L">
+<meta name="twitter:description" content="Lucene和Solr的历史版本Lucene历史版本，不妨点进去看看，会发现Lucene的版本更新很频繁，所以Lucene的Doc注释比JDK的Doc注释差太多，在研读Lucene In Action的过程中，发现此书的Lucene版本为3.0，而自己使用的Lucene版本是5.5，所以会有诸多冲突之处，现聊记之，以备查用。另外附上Solr历史版本。 在学习Lucene过程中，官方推荐的Lucen">
 
 
 
@@ -361,10 +361,9 @@
       
 
       
-        <p>####Lucene和Solr的历史版本<br><a href="http://archive.apache.org/dist/lucene/java/" target="_blank" rel="external">Lucene历史版本</a>，不妨点进去看看，会发现<strong>Lucene</strong>的版本更新很频繁，所以<strong>Lucene</strong>的<strong>Doc</strong>注释比<strong>JDK</strong>的<strong>Doc</strong>注释差太多，在研读<code>Lucene In Action</code>的过程中，发现此书的<strong>Lucene</strong>版本为<strong>3.0</strong>，而自己使用的<strong>Lucene</strong>版本是<strong>5.5</strong>，所以会有诸多冲突之处，现聊记之，以备查用。另外附上<a href="http://archive.apache.org/dist/lucene/solr/" target="_blank" rel="external">Solr历史版本</a>。</p>
+        <h4 id="Lucene和Solr的历史版本"><a href="#Lucene和Solr的历史版本" class="headerlink" title="Lucene和Solr的历史版本"></a>Lucene和Solr的历史版本</h4><p><a href="http://archive.apache.org/dist/lucene/java/" target="_blank" rel="external">Lucene历史版本</a>，不妨点进去看看，会发现<strong>Lucene</strong>的版本更新很频繁，所以<strong>Lucene</strong>的<strong>Doc</strong>注释比<strong>JDK</strong>的<strong>Doc</strong>注释差太多，在研读<code>Lucene In Action</code>的过程中，发现此书的<strong>Lucene</strong>版本为<strong>3.0</strong>，而自己使用的<strong>Lucene</strong>版本是<strong>5.5</strong>，所以会有诸多冲突之处，现聊记之，以备查用。另外附上<a href="http://archive.apache.org/dist/lucene/solr/" target="_blank" rel="external">Solr历史版本</a>。</p>
 <p>在学习<strong>Lucene</strong>过程中，官方推荐的<strong>Lucene</strong>索引查看工具是<code>Luke</code>，下载地址<a href="https://github.com/DmitryKey/luke/releases" target="_blank" rel="external">点我</a>。</p>
-<p>####Lucene API变动相关</p>
-<ul>
+<h4 id="Lucene-API变动相关"><a href="#Lucene-API变动相关" class="headerlink" title="Lucene API变动相关"></a>Lucene API变动相关</h4><ul>
 <li><strong>Field</strong>类中的枚举<strong>Index</strong>已被废弃，转而采用<strong>FieldType</strong>，并通过<strong>setIndexOptions</strong>方法设置索引选项</li>
 <li><strong>IndexWriter</strong>的<strong>optimize</strong>方法已被删除，推荐用<strong>forceMerge</strong>方法代替</li>
 <li>对<strong>Document</strong>加权在<strong>4.x</strong>版本之后已经删除，如果想要对文档加权，需要对该文档中的每个<strong>Field</strong>都进行加权</li>
@@ -401,8 +400,7 @@
 <li><strong>TermVectorMapper</strong>被删除，相应地其子类<strong>PositionBasedTermVectorMapper</strong>、<strong>SortedTermVectorMapper</strong>、<strong>FieldSortedTermVectorMapper</strong>亦被删除</li>
 <li><strong>FieldSelectorResult</strong>被删除，<strong>TermVector</strong>被废弃</li>
 </ul>
-<p>####Lucene 开发相关</p>
-<ul>
+<h4 id="Lucene-开发相关"><a href="#Lucene-开发相关" class="headerlink" title="Lucene 开发相关"></a>Lucene 开发相关</h4><ul>
 <li>索引数字时，需要选择一个不丢弃数字的分析器，<strong>WhitespaceAnalyzer</strong>和<strong>StandardAnalyzer</strong>可以作为候选，而<strong>SimpleAnalyzer</strong>和<strong>StopAnalyzer</strong>两个类会将语汇单元流中的数字剔除</li>
 <li>优化索引只能提高搜索速度，而不是索引速度。注意索引优化会消耗大量的<strong>CPU</strong>和<strong>I/O</strong>资源，在优化期间，索引会占用较大的磁盘空间，大约为优化初期的3倍</li>
 <li>对于一个索引来说，一次只能打开一个<strong>Writer</strong>，<strong>Lucene</strong>采用文件锁来提供保障，该锁只有当<strong>IndexWriter</strong>对象被关闭时才会释放</li>
@@ -453,8 +451,7 @@
 <li>索引差值规则：先后保存两个整数的时候，后面的整数仅仅保存和前面整数的差值即可，例如：<strong>5,9,11</strong>存储为<code>|5|4(9-5)|3(11-9)|</code></li>
 <li>关于Directory子类的选择问题，最简单的方式是使用<code>public static FSDirectory open(Path path)</code>，让Lucene来替你尽力选择最适合当前硬件环境的实现</li>
 </ul>
-<p>####Lucene事务相关</p>
-<ul>
+<h4 id="Lucene事务相关"><a href="#Lucene事务相关" class="headerlink" title="Lucene事务相关"></a>Lucene事务相关</h4><ul>
 <li>通过IndexWriter.getReader()获得的Reader是能看到上次commit之后，IndexWriter执行至当前的所有变化，该方法提供一种”near real-time”近实时的搜索</li>
 <li>当IndexWriter正在做更改的时候，所有更改都不会对当前搜索该索引的IndexReader可见，直到你commit或者打开了一个新的NRT(near real-time)Reader。一次只能有一个IndexWriter实例对索引进行更改</li>
 <li>仅在一个新的目录上打开一个IndexWriter并不会产生一个空的commit操作，即你无法在这个目录上打开一个IndexReader，直到你完成一次commit</li>
@@ -463,9 +460,111 @@
 <li>你可以在commit的时候传送userData<code>(Map&lt;String,String&gt;)</code>，用于记录关于本次commit的一些用户自定义信息（对Lucene不透明），然后使用IndexReader.listCommits方法获得索引的所有commit信息。一旦你找到了一次commit，你可以在其上找开一个IndexReader对commit点上的索引数据进行搜索</li>
 <li>你也可以基于之前的commit打开一个IndexWriter，回滚之后的所有变动。这有点类似于rollback方法，不同之处在于它允许你在多个commit间rollback，而不仅是回滚当前IndexWriter会话中所做的变动</li>
 </ul>
-<p>####Lucene的QueryParse表达式说明<br>|表达式   | 匹配文档  |<br>| ———— | ———— |<br>|java|在字段中包含java|<br>|java junit<br>java OR junit|在字段中包含java或者junit|<br>|+java +junit<br>java AND junit|在字段中包含java以及junit|<br>|title:ant|在title字段中包含ant|<br>|title:extreme<br>-subject:sports<br>title:extreme<br>AND NOT subject:sports|在title字段中包含extreme并且在subject字段中不能包含sports|<br>|(agile OR extreme) AND methodology|在字段中包含methodology并且同时包括agile或者extreme|<br>|title:”junit in action”|在title字段中包含junit in action|<br>|title:”junit action”~5|junit和action之间距离小于5的文档|<br>|java*|包含以java开头的，例如：javaspaces,javaserver|<br>|java~|包含和java相似的，如lava|<br>|lastmodified:[1/1/04 TO 12/31/04]|在lastmodified字段中值为2004-01-01到2004-12-31中间的|<br>|+pubdate:[10100101 TO 20101231] Java AND (Lucene OR Apache)|检索2010年出版的关于Java、且内容中包含Lucene或Apache关键字的所有书籍|</p>
+<h4 id="Lucene的QueryParse表达式说明"><a href="#Lucene的QueryParse表达式说明" class="headerlink" title="Lucene的QueryParse表达式说明"></a>Lucene的QueryParse表达式说明</h4><table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>匹配文档</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>java</td>
+<td>在字段中包含java</td>
+</tr>
+<tr>
+<td>java junit<br>java OR junit</td>
+<td>在字段中包含java或者junit</td>
+</tr>
+<tr>
+<td>+java +junit<br>java AND junit</td>
+<td>在字段中包含java以及junit</td>
+</tr>
+<tr>
+<td>title:ant</td>
+<td>在title字段中包含ant</td>
+</tr>
+<tr>
+<td>title:extreme<br>-subject:sports<br>title:extreme<br>AND NOT subject:sports</td>
+<td>在title字段中包含extreme并且在subject字段中不能包含sports</td>
+</tr>
+<tr>
+<td>(agile OR extreme) AND methodology</td>
+<td>在字段中包含methodology并且同时包括agile或者extreme</td>
+</tr>
+<tr>
+<td>title:”junit in action”</td>
+<td>在title字段中包含junit in action</td>
+</tr>
+<tr>
+<td>title:”junit action”~5</td>
+<td>junit和action之间距离小于5的文档</td>
+</tr>
+<tr>
+<td>java*</td>
+<td>包含以java开头的，例如：javaspaces,javaserver</td>
+</tr>
+<tr>
+<td>java~</td>
+<td>包含和java相似的，如lava</td>
+</tr>
+<tr>
+<td>lastmodified:[1/1/04 TO 12/31/04]</td>
+<td>在lastmodified字段中值为2004-01-01到2004-12-31中间的</td>
+</tr>
+<tr>
+<td>+pubdate:[10100101 TO 20101231] Java AND (Lucene OR Apache)</td>
+<td>检索2010年出版的关于Java、且内容中包含Lucene或Apache关键字的所有书籍</td>
+</tr>
+</tbody>
+</table>
 <p><strong>注意：</strong>如果查询表达式使用了以下特殊字符，你就应该对其进行转义操作，使这些字符在一般的表达式中能够发挥作用。<strong>QueryParser</strong>在各个项中使用反斜杠<code>(\)</code>来表示转义字符。需要进行转义的字符有：<code>\ + - ! ( ) : ^ ] { } ~ * ?</code></p>
-<p>####Lucene常见Field<br>|表达式   | 匹配文档  |<br>| ———— | ———— |<br>|IntField|主要对int类型的字段进行存储，需要注意的是如果需要对IntField进行排序使用SortField.Type.INT来比较，如果进范围查询或过滤，需要采用NumericRangeQuery.newIntRange()|<br>|LongField|主要处理Long类型的字段的存储，排序使用SortField.Type.Long,如果进行范围查询或过滤利用NumericRangeQuery.newLongRange()，LongField常用来进行时间戳的排序，保存System.currentTimeMillions()|<br>|FloatField|对Float类型的字段进行存储，排序采用SortField.Type.Float,范围查询采用NumericRangeQuery.newFloatRange()|<br>|BinaryDocVluesField|只存储不共享值，如果需要共享值可以用SortedDocValuesField|<br>|NumericDocValuesField|用于数值类型的Field的排序(预排序)，需要在要排序的field后添加一个同名的NumericDocValuesField|<br>|SortedDocValuesField|用于String类型的Field的排序，需要在StringField后添加同名的SortedDocValuesField|<br>|StringField|用于String类型的字段的存储，StringField是只索引不分词|<br>|TextField|对String类型的字段进行存储，TextField和StringField的不同是TextField既索引又分词|<br>|StoredField|存储Field的值，可以用IndexSearcher.doc和IndexReader.document来获取此Field和存储的值|</p>
+<h4 id="Lucene常见Field"><a href="#Lucene常见Field" class="headerlink" title="Lucene常见Field"></a>Lucene常见Field</h4><table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>匹配文档</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IntField</td>
+<td>主要对int类型的字段进行存储，需要注意的是如果需要对IntField进行排序使用SortField.Type.INT来比较，如果进范围查询或过滤，需要采用NumericRangeQuery.newIntRange()</td>
+</tr>
+<tr>
+<td>LongField</td>
+<td>主要处理Long类型的字段的存储，排序使用SortField.Type.Long,如果进行范围查询或过滤利用NumericRangeQuery.newLongRange()，LongField常用来进行时间戳的排序，保存System.currentTimeMillions()</td>
+</tr>
+<tr>
+<td>FloatField</td>
+<td>对Float类型的字段进行存储，排序采用SortField.Type.Float,范围查询采用NumericRangeQuery.newFloatRange()</td>
+</tr>
+<tr>
+<td>BinaryDocVluesField</td>
+<td>只存储不共享值，如果需要共享值可以用SortedDocValuesField</td>
+</tr>
+<tr>
+<td>NumericDocValuesField</td>
+<td>用于数值类型的Field的排序(预排序)，需要在要排序的field后添加一个同名的NumericDocValuesField</td>
+</tr>
+<tr>
+<td>SortedDocValuesField</td>
+<td>用于String类型的Field的排序，需要在StringField后添加同名的SortedDocValuesField</td>
+</tr>
+<tr>
+<td>StringField</td>
+<td>用于String类型的字段的存储，StringField是只索引不分词</td>
+</tr>
+<tr>
+<td>TextField</td>
+<td>对String类型的字段进行存储，TextField和StringField的不同是TextField既索引又分词</td>
+</tr>
+<tr>
+<td>StoredField</td>
+<td>存储Field的值，可以用IndexSearcher.doc和IndexReader.document来获取此Field和存储的值</td>
+</tr>
+</tbody>
+</table>
 <p>参考资料<br>【1】Lucene In Action (Second Edition)<br>【2】<a href="http://3dobe.com/archives/172/" target="_blank" rel="external">http://3dobe.com/archives/172/</a><br>【3】<a href="http://blog.mikemccandless.com/2012/03/transactional-lucene.html" target="_blank" rel="external">http://blog.mikemccandless.com/2012/03/transactional-lucene.html</a></p>
 
       
@@ -521,16 +620,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/12/Lucene-read-write-NFS-file-system-error/" rel="next" title="Lucene读写NFS文件系统异常">
-                <i class="fa fa-chevron-left"></i> Lucene读写NFS文件系统异常
+              <a href="/2016/06/29/Read-Hackers-and-Painters-Big-Ideas-from-the-Computer-Age/" rel="next" title="读《黑客与画家》">
+                <i class="fa fa-chevron-left"></i> 读《黑客与画家》
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/08/18/Read-Big-Data-The-data-revolution-is-coming/" rel="prev" title="读《大数据：正在到来的数据革命》">
-                读《大数据：正在到来的数据革命》 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/10/09/Lucene-sets-a-single-index-file-size-of-the-performance-test/" rel="prev" title="Lucene设置单索引文件大小之性能测试">
+                Lucene设置单索引文件大小之性能测试 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -740,7 +839,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Lucene和Solr的历史版本"><span class="nav-number">1.</span> <span class="nav-text">Lucene和Solr的历史版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lucene-API变动相关"><span class="nav-number">2.</span> <span class="nav-text">Lucene API变动相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lucene-开发相关"><span class="nav-number">3.</span> <span class="nav-text">Lucene 开发相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lucene事务相关"><span class="nav-number">4.</span> <span class="nav-text">Lucene事务相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lucene的QueryParse表达式说明"><span class="nav-number">5.</span> <span class="nav-text">Lucene的QueryParse表达式说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lucene常见Field"><span class="nav-number">6.</span> <span class="nav-text">Lucene常见Field</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

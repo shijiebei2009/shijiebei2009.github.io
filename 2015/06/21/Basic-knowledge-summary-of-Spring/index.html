@@ -59,20 +59,20 @@
 
 
 
-<meta name="description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 ###Spring简介Spring框架由Rod Johnson开发，Rod Johnson’s twitter，Rod Johnson’s 百度百科，2004年发布了Spring框架的第一版。Spring是一个从实际开发中抽取出来的框架，因此它完成了大量开发中的通用步骤，留给开发者的仅仅是与特定应用相关的部分，从而大大提高了企业应用的">
+<meta name="description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 Spring简介Spring框架由Rod Johnson开发，Rod Johnson’s twitter，Rod Johnson’s 百度百科，2004年发布了Spring框架的第一版。Spring是一个从实际开发中抽取出来的框架，因此它完成了大量开发中的通用步骤，留给开发者的仅仅是与特定应用相关的部分，从而大大提高了企业应用的开发效">
 <meta name="keywords" content="Spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring基础知识汇总">
 <meta property="og:url" content="http://www.codepub.cn/2015/06/21/Basic-knowledge-summary-of-Spring/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 ###Spring简介Spring框架由Rod Johnson开发，Rod Johnson’s twitter，Rod Johnson’s 百度百科，2004年发布了Spring框架的第一版。Spring是一个从实际开发中抽取出来的框架，因此它完成了大量开发中的通用步骤，留给开发者的仅仅是与特定应用相关的部分，从而大大提高了企业应用的">
+<meta property="og:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 Spring简介Spring框架由Rod Johnson开发，Rod Johnson’s twitter，Rod Johnson’s 百度百科，2004年发布了Spring框架的第一版。Spring是一个从实际开发中抽取出来的框架，因此它完成了大量开发中的通用步骤，留给开发者的仅仅是与特定应用相关的部分，从而大大提高了企业应用的开发效">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/spring-logo.png">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/spring-overview-architecture.png">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/spring-bean-post-process.jpg">
-<meta property="og:updated_time" content="2017-05-06T14:42:47.792Z">
+<meta property="og:updated_time" content="2017-05-16T14:55:28.887Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring基础知识汇总">
-<meta name="twitter:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 ###Spring简介Spring框架由Rod Johnson开发，Rod Johnson’s twitter，Rod Johnson’s 百度百科，2004年发布了Spring框架的第一版。Spring是一个从实际开发中抽取出来的框架，因此它完成了大量开发中的通用步骤，留给开发者的仅仅是与特定应用相关的部分，从而大大提高了企业应用的">
+<meta name="twitter:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 Spring简介Spring框架由Rod Johnson开发，Rod Johnson’s twitter，Rod Johnson’s 百度百科，2004年发布了Spring框架的第一版。Spring是一个从实际开发中抽取出来的框架，因此它完成了大量开发中的通用步骤，留给开发者的仅仅是与特定应用相关的部分，从而大大提高了企业应用的开发效">
 <meta name="twitter:image" content="http://7xig3q.com1.z0.glb.clouddn.com/spring-logo.png">
 
 
@@ -366,7 +366,7 @@
 
       
         <p><strong><em>力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员</em></strong><br><img src="http://7xig3q.com1.z0.glb.clouddn.com/spring-logo.png" alt="logo"></p>
-<p>###Spring简介<br>Spring框架由Rod Johnson开发，<a href="https://twitter.com/springrod" target="_blank" rel="external">Rod Johnson’s twitter</a>，<a href="http://baike.baidu.com/view/2192255.htm" target="_blank" rel="external">Rod Johnson’s 百度百科</a>，2004年发布了Spring框架的第一版。Spring是一个从实际开发中抽取出来的框架，因此它完成了大量开发中的通用步骤，留给开发者的仅仅是与特定应用相关的部分，从而大大提高了企业应用的开发效率。</p>
+<h3 id="Spring简介"><a href="#Spring简介" class="headerlink" title="Spring简介"></a>Spring简介</h3><p>Spring框架由Rod Johnson开发，<a href="https://twitter.com/springrod" target="_blank" rel="external">Rod Johnson’s twitter</a>，<a href="http://baike.baidu.com/view/2192255.htm" target="_blank" rel="external">Rod Johnson’s 百度百科</a>，2004年发布了Spring框架的第一版。Spring是一个从实际开发中抽取出来的框架，因此它完成了大量开发中的通用步骤，留给开发者的仅仅是与特定应用相关的部分，从而大大提高了企业应用的开发效率。</p>
 <p>Spring总结起来优点如下</p>
 <ul>
 <li>低侵入式设计，代码的污染极低</li>
@@ -377,30 +377,29 @@
 <li>Spring的高度开放性，并不强制应用完全依赖于Spring，开发者可自由选用Spring框架的部分或全部</li>
 </ul>
 <p>Spring框架的组成结构图如下所示<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/spring-overview-architecture.png" alt="spring-overview"></p>
-<p>###Spring的核心机制</p>
-<p>####管理Bean<br>程序主要是通过Spring容器来访问容器中的Bean，ApplicationContext是Spring容器最常用的接口，该接口有如下两个实现类</p>
+<h3 id="Spring的核心机制"><a href="#Spring的核心机制" class="headerlink" title="Spring的核心机制"></a>Spring的核心机制</h3><h4 id="管理Bean"><a href="#管理Bean" class="headerlink" title="管理Bean"></a>管理Bean</h4><p>程序主要是通过Spring容器来访问容器中的Bean，ApplicationContext是Spring容器最常用的接口，该接口有如下两个实现类</p>
 <ul>
 <li>ClassPathXmlApplicationContext: 从类加载路径下搜索配置文件，并根据配置文件来创建Spring容器</li>
 <li>FileSystemXmlApplicationContext: 从文件系统的相对路径或绝对路径下去搜索配置文件，并根据配置文件来创建Spring容器</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanTest</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">        ApplicationContext ctx = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"beans.xml"</span>);</div><div class="line">        Person p = ctx.getBean(<span class="string">"person"</span>, Person.class);</div><div class="line">        p.say();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>####Eclipse使用Spring<br>在Eclipse等IDE工具中，用户可以自建<code>User Library</code>，然后把Spring的Jar包都放入其中，当然也可以将Jar包直接放在项目的<code>/WEB-INF/lib</code>目录下，但是如果使用<code>User Library</code>，在项目发布时，需要将用户库所引用的Jar文件随应用一起发布，就是将User Library所使用的Jar复制到<code>/WEB-INF/lib</code>目录下，这是因为对于一个Web应用，Eclipse部署Web应用时不会将用户库的Jar文件复制到<code>/WEB-INF/lib</code>下，需要手动复制。</p>
-<p>####依赖注入<br>Spring框架的核心功能有两个</p>
+<h4 id="Eclipse使用Spring"><a href="#Eclipse使用Spring" class="headerlink" title="Eclipse使用Spring"></a>Eclipse使用Spring</h4><p>在Eclipse等IDE工具中，用户可以自建<code>User Library</code>，然后把Spring的Jar包都放入其中，当然也可以将Jar包直接放在项目的<code>/WEB-INF/lib</code>目录下，但是如果使用<code>User Library</code>，在项目发布时，需要将用户库所引用的Jar文件随应用一起发布，就是将User Library所使用的Jar复制到<code>/WEB-INF/lib</code>目录下，这是因为对于一个Web应用，Eclipse部署Web应用时不会将用户库的Jar文件复制到<code>/WEB-INF/lib</code>下，需要手动复制。</p>
+<h4 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h4><p>Spring框架的核心功能有两个</p>
 <ul>
 <li>Spring容器作为超级大工厂，负责创建、管理所有的Java对象，这些Java对象被称为Bean</li>
 <li>Spring容器管理容器中Bean之间的依赖关系，Spring使用一种被称为“依赖注入”的方式来管理Bean之间的依赖关系</li>
 </ul>
 <p>使用依赖注入，不仅可以为Bean注入普通的属性值，还可以注入其他Bean的引用。依赖注入是一种优秀的解耦方式，其可以让Bean以配置文件组织在一起，而不是以硬编码的方式耦合在一起。</p>
-<p>#####理解依赖注入<br>Rod Johnson是第一个高度重视以配置文件来管理Java实例的协作关系的人，他给这种方式起了一个名字：控制反转（Inverse of Control，IoC）。后来Martine Fowler为这种方式起了另一个名称：依赖注入（Dependency Injection），因此不管是依赖注入，还是控制反转，其含义完全相同。当某个Java对象（调用者）需要调用另一个Java对象（被依赖对象）的方法时，在传统模式下通常有两种做法</p>
+<h5 id="理解依赖注入"><a href="#理解依赖注入" class="headerlink" title="理解依赖注入"></a>理解依赖注入</h5><p>Rod Johnson是第一个高度重视以配置文件来管理Java实例的协作关系的人，他给这种方式起了一个名字：控制反转（Inverse of Control，IoC）。后来Martine Fowler为这种方式起了另一个名称：依赖注入（Dependency Injection），因此不管是依赖注入，还是控制反转，其含义完全相同。当某个Java对象（调用者）需要调用另一个Java对象（被依赖对象）的方法时，在传统模式下通常有两种做法</p>
 <ol>
 <li>原始做法: 调用者<strong>主动</strong>创建被依赖对象，然后再调用被依赖对象的方法</li>
 <li>简单工厂模式: 调用者先找到被依赖对象的工厂，然后<strong>主动</strong>通过工厂去获取被依赖对象，最后再调用被依赖对象的方法</li>
 </ol>
 <p>注意上面的<strong>主动</strong>二字，这必然会导致调用者与被依赖对象实现类的硬编码耦合，非常不利于项目升级的维护。使用Spring框架之后，调用者无需<strong>主动</strong>获取被依赖对象，调用者只要<strong>被动</strong>接受Spring容器为调用者的成员变量赋值即可，由此可见，使用Spring后，调用者获取被依赖对象的方式由原来的主动获取，变成了被动接受——所以Rod Johnson称之为控制反转。</p>
 <p>另外从Spring容器的角度来看，Spring容器负责将被依赖对象赋值给调用者的成员变量——相当于为调用者注入它依赖的实例，因此Martine Fowler称之为依赖注入。</p>
-<p>#####设值注入<br>设值注入是指IoC容器通过成员变量的setter方法来注入被依赖对象。这种注入方式简单、直观，因而在Spring的依赖注入里大量使用。</p>
-<p>#####构造注入<br>利用构造器来设置依赖关系的方式，被称为构造注入。通俗来说，就是驱动Spring在底层以反射方式执行带指定参数的构造器，当执行带参数的构造器时，就可利用构造器参数对成员变量执行初始化——这就是构造注入的本质。</p>
-<p>#####两种注入方式的对比<br>设值注入有如下优点</p>
+<h5 id="设值注入"><a href="#设值注入" class="headerlink" title="设值注入"></a>设值注入</h5><p>设值注入是指IoC容器通过成员变量的setter方法来注入被依赖对象。这种注入方式简单、直观，因而在Spring的依赖注入里大量使用。</p>
+<h5 id="构造注入"><a href="#构造注入" class="headerlink" title="构造注入"></a>构造注入</h5><p>利用构造器来设置依赖关系的方式，被称为构造注入。通俗来说，就是驱动Spring在底层以反射方式执行带指定参数的构造器，当执行带参数的构造器时，就可利用构造器参数对成员变量执行初始化——这就是构造注入的本质。</p>
+<h5 id="两种注入方式的对比"><a href="#两种注入方式的对比" class="headerlink" title="两种注入方式的对比"></a>两种注入方式的对比</h5><p>设值注入有如下优点</p>
 <ul>
 <li>与传统的JavaBean的写法更相似，程序开发人员更容易理解、接受。通过setter方法设定依赖关系显得更加直观、自然</li>
 <li>对于复杂的依赖关系，如果采用构造注入，会导致构造器过于臃肿，难以阅读。Spring在创建Bean实例时，需要同时实例化其依赖的全部实例，因而导致性能下降。而使用设值注入，则能避免这些问题。</li>
@@ -413,8 +412,8 @@
 <li>依赖关系只能在构造器中设定，则只有组件的创建者才能改变组件的依赖关系，对组件的调用者而言，组件内部的依赖关系完全透明，更符合高内聚的原则</li>
 </ul>
 <p><strong><em>Notes</em></strong><br>建议采用设值注入为主，构造注入为辅的注入策略。对于依赖关系无须变化的注入，尽量采用构造注入；而其他依赖关系的注入，则考虑采用设值注入。</p>
-<p>####Spring容器中的Bean<br>对于开发者来说，开发者使用Spring框架主要是做两件事：①开发Bean；②配置Bean。对于Spring框架来说，它要做的就是根据配置文件来创建Bean实例，并调用Bean实例的方法完成“依赖注入”——这就是所谓IoC的本质。</p>
-<p>#####容器中Bean的作用域<br>当通过Spring容器创建一个Bean实例时，不仅可以完成Bean实例的实例化，还可以为Bean指定特定的作用域。Spring支持如下五种作用域</p>
+<h4 id="Spring容器中的Bean"><a href="#Spring容器中的Bean" class="headerlink" title="Spring容器中的Bean"></a>Spring容器中的Bean</h4><p>对于开发者来说，开发者使用Spring框架主要是做两件事：①开发Bean；②配置Bean。对于Spring框架来说，它要做的就是根据配置文件来创建Bean实例，并调用Bean实例的方法完成“依赖注入”——这就是所谓IoC的本质。</p>
+<h5 id="容器中Bean的作用域"><a href="#容器中Bean的作用域" class="headerlink" title="容器中Bean的作用域"></a>容器中Bean的作用域</h5><p>当通过Spring容器创建一个Bean实例时，不仅可以完成Bean实例的实例化，还可以为Bean指定特定的作用域。Spring支持如下五种作用域</p>
 <ol>
 <li>singleton: 单例模式，在整个Spring IoC容器中，singleton作用域的Bean将只生成一个实例</li>
 <li>prototype: 每次通过容器的getBean()方法获取prototype作用域的Bean时，都将产生一个新的Bean实例</li>
@@ -423,7 +422,7 @@
 <li>global session: 每个全局的HTTP Session对应一个Bean实例。在典型的情况下，仅在使用portlet context的时候有效，同样只在Web应用中有效</li>
 </ol>
 <p>如果不指定Bean的作用域，Spring默认使用singleton作用域。prototype作用域的Bean的创建、销毁代价比较大。而singleton作用域的Bean实例一旦创建成果，就可以重复使用。因此，应该尽量避免将Bean设置成prototype作用域。</p>
-<p>####使用自动装配注入合作者Bean<br>Spring能自动装配Bean与Bean之间的依赖关系，即无须使用ref显式指定依赖Bean，而是由Spring容器检查XML配置文件内容，根据某种规则，为调用者Bean注入被依赖的Bean。<br>Spring自动装配可通过<code>&lt;beans/&gt;</code>元素的<code>default-autowire</code>属性指定，该属性对配置文件中所有的Bean起作用；也可通过对<code>&lt;bean/&gt;</code>元素的<code>autowire</code>属性指定，该属性只对该Bean起作用。</p>
+<h4 id="使用自动装配注入合作者Bean"><a href="#使用自动装配注入合作者Bean" class="headerlink" title="使用自动装配注入合作者Bean"></a>使用自动装配注入合作者Bean</h4><p>Spring能自动装配Bean与Bean之间的依赖关系，即无须使用ref显式指定依赖Bean，而是由Spring容器检查XML配置文件内容，根据某种规则，为调用者Bean注入被依赖的Bean。<br>Spring自动装配可通过<code>&lt;beans/&gt;</code>元素的<code>default-autowire</code>属性指定，该属性对配置文件中所有的Bean起作用；也可通过对<code>&lt;bean/&gt;</code>元素的<code>autowire</code>属性指定，该属性只对该Bean起作用。</p>
 <p><code>autowire</code>和<code>default-autowire</code>可以接受如下值</p>
 <ul>
 <li><code>no</code>: 不使用自动装配。Bean依赖必须通过ref元素定义。这是默认配置，在较大的部署环境中不鼓励改变这个配置，显式配置合作者能够得到更清晰的依赖关系</li>
@@ -434,18 +433,17 @@
 </ul>
 <p><strong><em>当一个Bean既使用自动装配依赖，又使用ref显式指定依赖时，则显式指定的依赖覆盖自动装配依赖；对于大型的应用，不鼓励使用自动装配。虽然使用自动装配可减少配置文件的工作量，但大大将死了依赖关系的清晰性和透明性。依赖关系的装配依赖于源文件的属性名和属性类型，导致Bean与Bean之间的耦合降低到代码层次，不利于高层次解耦</em></strong></p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--通过设置可以将Bean排除在自动装配之外--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">""</span> <span class="attr">autowire-candidate</span>=<span class="string">"false"</span>/&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!--除此之外，还可以在beans元素中指定，支持模式字符串，如下所有以abc结尾的Bean都被排除在自动装配之外--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">default-autowire-candidates</span>=<span class="string">"*abc"</span>/&gt;</span></div></pre></td></tr></table></figure>
-<p>###创建Bean的3种方式</p>
-<p>####使用构造器创建Bean实例<br>使用构造器来创建Bean实例是最常见的情况，如果不采用构造注入，Spring底层会调用Bean类的无参数构造器来创建实例，因此要求该Bean类提供无参数的构造器。</p>
+<h3 id="创建Bean的3种方式"><a href="#创建Bean的3种方式" class="headerlink" title="创建Bean的3种方式"></a>创建Bean的3种方式</h3><h4 id="使用构造器创建Bean实例"><a href="#使用构造器创建Bean实例" class="headerlink" title="使用构造器创建Bean实例"></a>使用构造器创建Bean实例</h4><p>使用构造器来创建Bean实例是最常见的情况，如果不采用构造注入，Spring底层会调用Bean类的无参数构造器来创建实例，因此要求该Bean类提供无参数的构造器。</p>
 <p>采用默认的构造器创建Bean实例，Spring对Bean实例的所有属性执行默认初始化，即所有的基本类型的值初始化为0或false；所有的引用类型的值初始化为null。</p>
-<p>####使用静态工厂方法创建Bean<br>使用静态工厂方法创建Bean实例时，class属性也必须指定，但此时class属性并不是指定Bean实例的实现类，而是静态工厂类，Spring通过该属性知道由哪个工厂类来创建Bean实例。</p>
+<h4 id="使用静态工厂方法创建Bean"><a href="#使用静态工厂方法创建Bean" class="headerlink" title="使用静态工厂方法创建Bean"></a>使用静态工厂方法创建Bean</h4><p>使用静态工厂方法创建Bean实例时，class属性也必须指定，但此时class属性并不是指定Bean实例的实现类，而是静态工厂类，Spring通过该属性知道由哪个工厂类来创建Bean实例。</p>
 <p>除此之外，还需要使用factory-method属性来指定静态工厂方法，Spring将调用静态工厂方法返回一个Bean实例，一旦获得了指定Bean实例，Spring后面的处理步骤与采用普通方法创建Bean实例完全一样。如果静态工厂方法需要参数，则使用<code>&lt;constructor-arg.../&gt;</code>元素指定静态工厂方法的参数。</p>
-<p>####调用实例工厂方法创建Bean<br>实例工厂方法与静态工厂方法只有一个不同：调用静态工厂方法只需使用工厂类即可，而调用实例工厂方法则需要工厂实例。使用实例工厂方法时，配置Bean实例的<code>&lt;bean.../&gt;</code>元素无须class属性，配置实例工厂方法使用<code>factory-bean</code>指定工厂实例。<br>采用实例工厂方法创建Bean的<code>&lt;bean.../&gt;</code>元素时需要指定如下两个属性</p>
+<h4 id="调用实例工厂方法创建Bean"><a href="#调用实例工厂方法创建Bean" class="headerlink" title="调用实例工厂方法创建Bean"></a>调用实例工厂方法创建Bean</h4><p>实例工厂方法与静态工厂方法只有一个不同：调用静态工厂方法只需使用工厂类即可，而调用实例工厂方法则需要工厂实例。使用实例工厂方法时，配置Bean实例的<code>&lt;bean.../&gt;</code>元素无须class属性，配置实例工厂方法使用<code>factory-bean</code>指定工厂实例。<br>采用实例工厂方法创建Bean的<code>&lt;bean.../&gt;</code>元素时需要指定如下两个属性</p>
 <ul>
 <li>factory-bean: 该属性的值为工厂Bean的id</li>
 <li>factory-method: 该属性指定实例工厂的工厂方法</li>
 </ul>
 <p>若调用实例工厂方法时需要传入参数，则使用<code>&lt;constructor-arg.../&gt;</code>元素确定参数值。</p>
-<p>###协调作用域不同步的Bean<br>当singleton作用域的Bean依赖于prototype作用域的Bean时，会产生不同步的现象，原因是因为当Spring容器初始化时，容器会预初始化容器中所有的<code>singleton Bean</code>，由于<code>singleton Bean</code>依赖于<code>prototype Bean</code>，因此Spring在初始化<code>singleton Bean</code>之前，会先创建<code>prototypeBean</code>——然后才创建<code>singleton Bean</code>，接下里将<code>prototype Bean</code>注入<code>singleton Bean</code>。<br>解决不同步的方法有两种</p>
+<h3 id="协调作用域不同步的Bean"><a href="#协调作用域不同步的Bean" class="headerlink" title="协调作用域不同步的Bean"></a>协调作用域不同步的Bean</h3><p>当singleton作用域的Bean依赖于prototype作用域的Bean时，会产生不同步的现象，原因是因为当Spring容器初始化时，容器会预初始化容器中所有的<code>singleton Bean</code>，由于<code>singleton Bean</code>依赖于<code>prototype Bean</code>，因此Spring在初始化<code>singleton Bean</code>之前，会先创建<code>prototypeBean</code>——然后才创建<code>singleton Bean</code>，接下里将<code>prototype Bean</code>注入<code>singleton Bean</code>。<br>解决不同步的方法有两种</p>
 <ul>
 <li>放弃依赖注入: singleton作用域的Bean每次需要prototype作用域的Bean时，主动向容器请求新的Bean实例，即可保证每次注入的<code>prototype Bean</code>实例都是最新的实例</li>
 <li>利用方法注入: 方法注入通常使用lookup方法注入，使用lookup方法注入可以让Spring容器重写容器中Bean的抽象或具体方法，返回查找容器中其他Bean的结果，被查找的Bean通常是一个<code>non-singleton Bean</code>。Spring通过使用JDK动态代理或cglib库修改客户端的二进制码，从而实现上述要求</li>
@@ -459,22 +457,21 @@
 <blockquote>
 <p>Spring会采用运行时动态增强的方式来实现<code>&lt;lookup-method.../&gt;</code>元素所指定的抽象方法，如果目标抽象类实现过接口，Spring会采用JDK动态代理来实现该抽象类，并为之实现抽象方法；如果目标抽象类没有实现过接口，Spring会采用cglib实现该抽象类，并为之实现抽象方法。Spring4.0的spring-core-xxx.jar包中已经集成了cglib类库。</p>
 </blockquote>
-<p>###两种后处理器<br>Spring提供了两种常用的后处理器</p>
+<h3 id="两种后处理器"><a href="#两种后处理器" class="headerlink" title="两种后处理器"></a>两种后处理器</h3><p>Spring提供了两种常用的后处理器</p>
 <ul>
 <li>Bean后处理器: 这种后处理器会对容器中Bean进行后处理，对Bean进行额外加强</li>
 <li>容器后处理器: 这种后处理器会对IoC容器进行后处理，用于增强容器功能</li>
 </ul>
-<p>####Bean后处理器<br>Bean后处理器是一种特殊的Bean，这种特殊的Bean并不对外提供服务，它甚至可以无须id属性，它主要负责对容器中的其他Bean执行后处理，例如为容器中的目标Bean生成代理等，这种Bean称为Bean后处理器。Bean后处理器会在Bean实例创建成功之后，对Bean实例进行进一步的增强处理。Bean后处理器必须实现<code>BeanPostProcessor</code>接口，同时必须实现该接口的两个方法。</p>
+<h4 id="Bean后处理器"><a href="#Bean后处理器" class="headerlink" title="Bean后处理器"></a>Bean后处理器</h4><p>Bean后处理器是一种特殊的Bean，这种特殊的Bean并不对外提供服务，它甚至可以无须id属性，它主要负责对容器中的其他Bean执行后处理，例如为容器中的目标Bean生成代理等，这种Bean称为Bean后处理器。Bean后处理器会在Bean实例创建成功之后，对Bean实例进行进一步的增强处理。Bean后处理器必须实现<code>BeanPostProcessor</code>接口，同时必须实现该接口的两个方法。</p>
 <ol>
 <li><code>Object postProcessBeforeInitialization(Object bean, String name) throws BeansException</code>: 该方法的第一个参数是系统即将进行后处理的Bean实例，第二个参数是该Bean的配置id</li>
 <li><code>Object postProcessAfterinitialization(Object bean, String name) throws BeansException</code>: 该方法的第一个参数是系统即将进行后处理的Bean实例，第二个参数是该Bean的配置id</li>
 </ol>
 <p>容器中一旦注册了Bean后处理器，Bean后处理器就会自动启动，在容器中每个Bean创建时自动工作，Bean后处理器两个方法的回调时机如下图<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/spring-bean-post-process.jpg" alt="bean-post-process"></p>
 <p>注意一点，如果使用<code>BeanFactory</code>作为Spring容器，则必须手动注册Bean后处理器，程序必须获取Bean后处理器实例，然后手动注册。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">BeanPostProcessor bp = (BeanPostProcessor)beanFactory.getBean(<span class="string">"bp"</span>);</div><div class="line">beanFactory.addBeanPostProcessor(bp);</div><div class="line">Person p = (Person)beanFactory.getBean(<span class="string">"person"</span>);</div></pre></td></tr></table></figure></p>
-<p>####容器后处理器<br>Bean后处理器负责处理容器中的所有Bean实例，而容器后处理器则负责处理容器本身。容器后处理器必须实现<code>BeanFactoryPostProcessor</code>接口，并实现该接口的一个方法<code>postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)</code>实现该方法的方法体就是对Spring容器进行的处理，这种处理可以对Spring容器进行自定义扩展，当然也可以对Spring容器不进行任何处理。</p>
+<h4 id="容器后处理器"><a href="#容器后处理器" class="headerlink" title="容器后处理器"></a>容器后处理器</h4><p>Bean后处理器负责处理容器中的所有Bean实例，而容器后处理器则负责处理容器本身。容器后处理器必须实现<code>BeanFactoryPostProcessor</code>接口，并实现该接口的一个方法<code>postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)</code>实现该方法的方法体就是对Spring容器进行的处理，这种处理可以对Spring容器进行自定义扩展，当然也可以对Spring容器不进行任何处理。</p>
 <p>类似于<code>BeanPostProcessor</code>，<code>ApplicationContext</code>可自动检测到容器中的容器后处理器，并且自动注册容器后处理器。但若使用<code>BeanFactory</code>作为Spring容器，则必须手动调用该容器后处理器来处理<code>BeanFactory</code>容器。</p>
-<p>###Spring的“零配置”支持</p>
-<p>####搜索Bean类<br>Spring提供如下几个Annotation来标注Spring Bean</p>
+<h3 id="Spring的“零配置”支持"><a href="#Spring的“零配置”支持" class="headerlink" title="Spring的“零配置”支持"></a>Spring的“零配置”支持</h3><h4 id="搜索Bean类"><a href="#搜索Bean类" class="headerlink" title="搜索Bean类"></a>搜索Bean类</h4><p>Spring提供如下几个Annotation来标注Spring Bean</p>
 <ul>
 <li><code>@Component</code>: 标注一个普通的Spring Bean类</li>
 <li><code>@Controller</code>: 标注一个控制器组件类</li>
@@ -482,27 +479,26 @@
 <li><code>@Repository</code>: 标注一个DAO组件类</li>
 </ul>
 <p>在Spring配置文件中做如下配置，指定自动扫描的包<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"edu.shu.spring.domain"</span>/&gt;</span></div></pre></td></tr></table></figure></p>
-<p>####使用@Resource配置依赖<br><code>@Resource</code>位于<code>javax.annotation</code>包下，是来自JavaEE规范的一个<code>Annotation</code>，Spring直接借鉴了该<code>Annotation</code>，通过使用该<code>Annotation</code>为目标Bean指定协作者Bean。使用<code>@Resource</code>与<code>&lt;property.../&gt;</code>元素的ref属性有相同的效果。<br><code>@Resource</code>不仅可以修饰setter方法，也可以直接修饰实例变量，如果使用<code>@Resource</code>修饰实例变量将会更加简单，此时Spring将会直接使用JavaEE规范的Field注入，此时连setter方法都可以不要。</p>
-<p>####使用@PostConstruct和@PreDestroy定制生命周期行为<br><code>@PostConstruct</code>和<code>@PreDestroy</code>同样位于javax.annotation包下，也是来自JavaEE规范的两个Annotation，Spring直接借鉴了它们，用于定制Spring容器中Bean的生命周期行为。它们都用于修饰方法，无须任何属性。其中前者修饰的方法时Bean的初始化方法；而后者修饰的方法时Bean销毁之前的方法。</p>
-<p>####Spring4.0增强的自动装配和精确装配<br>Spring提供了<code>@Autowired</code>注解来指定自动装配，<code>@Autowired</code>可以修饰setter方法、普通方法、实例变量和构造器等。当使用<code>@Autowired</code>标注setter方法时，默认采用byType自动装配策略。在这种策略下，符合自动装配类型的候选Bean实例常常有多个，这个时候就可能引起异常，为了实现精确的自动装配，Spring提供了<code>@Qualifier</code>注解，通过使用<code>@Qualifier</code>，允许根据Bean的id来执行自动装配。</p>
-<p>###Spring的AOP</p>
-<p>####为什么需要AOP<br>AOP（Aspect Orient Programming）也就是面向切面编程，作为面向对象编程的一种补充，已经成为一种比较成熟的编程方式。其实AOP问世的时间并不太长，AOP和OOP互为补充，面向切面编程将程序运行过程分解成各个切面。</p>
+<h4 id="使用-Resource配置依赖"><a href="#使用-Resource配置依赖" class="headerlink" title="使用@Resource配置依赖"></a>使用@Resource配置依赖</h4><p><code>@Resource</code>位于<code>javax.annotation</code>包下，是来自JavaEE规范的一个<code>Annotation</code>，Spring直接借鉴了该<code>Annotation</code>，通过使用该<code>Annotation</code>为目标Bean指定协作者Bean。使用<code>@Resource</code>与<code>&lt;property.../&gt;</code>元素的ref属性有相同的效果。<br><code>@Resource</code>不仅可以修饰setter方法，也可以直接修饰实例变量，如果使用<code>@Resource</code>修饰实例变量将会更加简单，此时Spring将会直接使用JavaEE规范的Field注入，此时连setter方法都可以不要。</p>
+<h4 id="使用-PostConstruct和-PreDestroy定制生命周期行为"><a href="#使用-PostConstruct和-PreDestroy定制生命周期行为" class="headerlink" title="使用@PostConstruct和@PreDestroy定制生命周期行为"></a>使用@PostConstruct和@PreDestroy定制生命周期行为</h4><p><code>@PostConstruct</code>和<code>@PreDestroy</code>同样位于javax.annotation包下，也是来自JavaEE规范的两个Annotation，Spring直接借鉴了它们，用于定制Spring容器中Bean的生命周期行为。它们都用于修饰方法，无须任何属性。其中前者修饰的方法时Bean的初始化方法；而后者修饰的方法时Bean销毁之前的方法。</p>
+<h4 id="Spring4-0增强的自动装配和精确装配"><a href="#Spring4-0增强的自动装配和精确装配" class="headerlink" title="Spring4.0增强的自动装配和精确装配"></a>Spring4.0增强的自动装配和精确装配</h4><p>Spring提供了<code>@Autowired</code>注解来指定自动装配，<code>@Autowired</code>可以修饰setter方法、普通方法、实例变量和构造器等。当使用<code>@Autowired</code>标注setter方法时，默认采用byType自动装配策略。在这种策略下，符合自动装配类型的候选Bean实例常常有多个，这个时候就可能引起异常，为了实现精确的自动装配，Spring提供了<code>@Qualifier</code>注解，通过使用<code>@Qualifier</code>，允许根据Bean的id来执行自动装配。</p>
+<h3 id="Spring的AOP"><a href="#Spring的AOP" class="headerlink" title="Spring的AOP"></a>Spring的AOP</h3><h4 id="为什么需要AOP"><a href="#为什么需要AOP" class="headerlink" title="为什么需要AOP"></a>为什么需要AOP</h4><p>AOP（Aspect Orient Programming）也就是面向切面编程，作为面向对象编程的一种补充，已经成为一种比较成熟的编程方式。其实AOP问世的时间并不太长，AOP和OOP互为补充，面向切面编程将程序运行过程分解成各个切面。</p>
 <p>AOP专门用于处理系统中分布于各个模块（不同方法）中的交叉关注点的问题，在JavaEE应用中，常常通过AOP来处理一些具有横切性质的系统级服务，如事务管理、安全检查、缓存、对象池管理等，AOP已经成为一种非常常用的解决方案。</p>
-<p>####使用AspectJ实现AOP<br>AspectJ是一个基于Java语言的AOP框架，提供了强大的AOP功能，其他很多AOP框架都借鉴或采纳其中的一些思想。其主要包括两个部分：一个部分定义了如何表达、定义AOP编程中的语法规范，通过这套语法规范，可以方便地用AOP来解决Java语言中存在的交叉关注点的问题；另一个部分是工具部分，包括编译、调试工具等。</p>
+<h4 id="使用AspectJ实现AOP"><a href="#使用AspectJ实现AOP" class="headerlink" title="使用AspectJ实现AOP"></a>使用AspectJ实现AOP</h4><p>AspectJ是一个基于Java语言的AOP框架，提供了强大的AOP功能，其他很多AOP框架都借鉴或采纳其中的一些思想。其主要包括两个部分：一个部分定义了如何表达、定义AOP编程中的语法规范，通过这套语法规范，可以方便地用AOP来解决Java语言中存在的交叉关注点的问题；另一个部分是工具部分，包括编译、调试工具等。</p>
 <p>AOP实现可分为两类</p>
 <ol>
 <li>静态AOP实现: AOP框架在编译阶段对程序进行修改，即实现对目标类的增强，生成静态的AOP代理类，以AspectJ为代表</li>
 <li>动态AOP实现: AOP框架在运行阶段动态生成AOP代理，以实现对目标对象的增强，以Spring AOP为代表</li>
 </ol>
 <p>一般来说，静态AOP实现具有较好的性能，但需要使用特殊的编译器。动态AOP实现是纯Java实现，因此无须特殊的编译器，但是通常性能略差。</p>
-<p>####AOP的基本概念<br>关于面向切面编程的一些术语</p>
+<h4 id="AOP的基本概念"><a href="#AOP的基本概念" class="headerlink" title="AOP的基本概念"></a>AOP的基本概念</h4><p>关于面向切面编程的一些术语</p>
 <ul>
 <li>切面（Aspect）: 切面用于组织多个Advice，Advice放在切面中定义</li>
 <li>连接点（Joinpoint）: 程序执行过程中明确的点，如方法的调用，或者异常的抛出。在Spring AOP中，连接点总是方法的调用</li>
 <li>增强处理（Advice）: AOP框架在特定的切入点执行的增强处理。处理有“around”、“before”和“after”等类型</li>
 <li>切入点（Pointcut）: 可以插入增强处理的连接点。简而言之，当某个连接点满足指定要求时，该连接点将被添加增强处理，该连接点也就变成了切入点</li>
 </ul>
-<p>####Spring的AOP支持<br>Spring中的AOP代理由Spring的IoC容器负责生成、管理，其依赖关系也由IoC容器负责管理。<br>为了在应用中使用<code>@AspectJ</code>支持，Spring需要添加三个库</p>
+<h4 id="Spring的AOP支持"><a href="#Spring的AOP支持" class="headerlink" title="Spring的AOP支持"></a>Spring的AOP支持</h4><p>Spring中的AOP代理由Spring的IoC容器负责生成、管理，其依赖关系也由IoC容器负责管理。<br>为了在应用中使用<code>@AspectJ</code>支持，Spring需要添加三个库</p>
 <ul>
 <li><code>aspectjweaver.jar</code></li>
 <li><code>aspectjrt.jar</code></li>
@@ -572,8 +568,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/22/CentOS-7-1-switch-in-command-line-mode-and-desktop-mode/" rel="prev" title="CentOS 7.1 切换命令行模式与桌面模式">
-                CentOS 7.1 切换命令行模式与桌面模式 <i class="fa fa-chevron-right"></i>
+              <a href="/2015/07/02/Python3-beginner-s-handbook-one/" rel="prev" title="Python3入门手册之一">
+                Python3入门手册之一 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -783,7 +779,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring简介"><span class="nav-number">1.</span> <span class="nav-text">Spring简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring的核心机制"><span class="nav-number">2.</span> <span class="nav-text">Spring的核心机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#管理Bean"><span class="nav-number">2.1.</span> <span class="nav-text">管理Bean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Eclipse使用Spring"><span class="nav-number">2.2.</span> <span class="nav-text">Eclipse使用Spring</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#依赖注入"><span class="nav-number">2.3.</span> <span class="nav-text">依赖注入</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#理解依赖注入"><span class="nav-number">2.3.1.</span> <span class="nav-text">理解依赖注入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#设值注入"><span class="nav-number">2.3.2.</span> <span class="nav-text">设值注入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#构造注入"><span class="nav-number">2.3.3.</span> <span class="nav-text">构造注入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#两种注入方式的对比"><span class="nav-number">2.3.4.</span> <span class="nav-text">两种注入方式的对比</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring容器中的Bean"><span class="nav-number">2.4.</span> <span class="nav-text">Spring容器中的Bean</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#容器中Bean的作用域"><span class="nav-number">2.4.1.</span> <span class="nav-text">容器中Bean的作用域</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用自动装配注入合作者Bean"><span class="nav-number">2.5.</span> <span class="nav-text">使用自动装配注入合作者Bean</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建Bean的3种方式"><span class="nav-number">3.</span> <span class="nav-text">创建Bean的3种方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用构造器创建Bean实例"><span class="nav-number">3.1.</span> <span class="nav-text">使用构造器创建Bean实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用静态工厂方法创建Bean"><span class="nav-number">3.2.</span> <span class="nav-text">使用静态工厂方法创建Bean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调用实例工厂方法创建Bean"><span class="nav-number">3.3.</span> <span class="nav-text">调用实例工厂方法创建Bean</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协调作用域不同步的Bean"><span class="nav-number">4.</span> <span class="nav-text">协调作用域不同步的Bean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#两种后处理器"><span class="nav-number">5.</span> <span class="nav-text">两种后处理器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bean后处理器"><span class="nav-number">5.1.</span> <span class="nav-text">Bean后处理器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#容器后处理器"><span class="nav-number">5.2.</span> <span class="nav-text">容器后处理器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring的“零配置”支持"><span class="nav-number">6.</span> <span class="nav-text">Spring的“零配置”支持</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#搜索Bean类"><span class="nav-number">6.1.</span> <span class="nav-text">搜索Bean类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-Resource配置依赖"><span class="nav-number">6.2.</span> <span class="nav-text">使用@Resource配置依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-PostConstruct和-PreDestroy定制生命周期行为"><span class="nav-number">6.3.</span> <span class="nav-text">使用@PostConstruct和@PreDestroy定制生命周期行为</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring4-0增强的自动装配和精确装配"><span class="nav-number">6.4.</span> <span class="nav-text">Spring4.0增强的自动装配和精确装配</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring的AOP"><span class="nav-number">7.</span> <span class="nav-text">Spring的AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么需要AOP"><span class="nav-number">7.1.</span> <span class="nav-text">为什么需要AOP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用AspectJ实现AOP"><span class="nav-number">7.2.</span> <span class="nav-text">使用AspectJ实现AOP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AOP的基本概念"><span class="nav-number">7.3.</span> <span class="nav-text">AOP的基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring的AOP支持"><span class="nav-number">7.4.</span> <span class="nav-text">Spring的AOP支持</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

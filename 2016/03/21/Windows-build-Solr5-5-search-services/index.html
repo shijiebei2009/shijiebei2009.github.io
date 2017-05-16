@@ -59,18 +59,18 @@
 
 
 
-<meta name="description" content="####机器环境Windows：Win7 64 bitJava：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VMSolr：5.5Lucene：5.5Tomcat：8.0.32 Lucene和Solr下载地址：http://lucene.apache.org/Windows选择下载zip压缩包，Linux选择下载tgz压缩包Tomca">
+<meta name="description" content="机器环境Windows：Win7 64 bitJava：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VMSolr：5.5Lucene：5.5Tomcat：8.0.32 Lucene和Solr下载地址：http://lucene.apache.org/Windows选择下载zip压缩包，Linux选择下载tgz压缩包Tomcat下载地">
 <meta name="keywords" content="Solr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Windows下搭建Solr5.5搜索服务">
 <meta property="og:url" content="http://www.codepub.cn/2016/03/21/Windows-build-Solr5-5-search-services/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="####机器环境Windows：Win7 64 bitJava：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VMSolr：5.5Lucene：5.5Tomcat：8.0.32 Lucene和Solr下载地址：http://lucene.apache.org/Windows选择下载zip压缩包，Linux选择下载tgz压缩包Tomca">
+<meta property="og:description" content="机器环境Windows：Win7 64 bitJava：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VMSolr：5.5Lucene：5.5Tomcat：8.0.32 Lucene和Solr下载地址：http://lucene.apache.org/Windows选择下载zip压缩包，Linux选择下载tgz压缩包Tomcat下载地">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/Solr_add_core_config.png">
-<meta property="og:updated_time" content="2017-05-06T14:42:48.666Z">
+<meta property="og:updated_time" content="2017-05-16T14:55:28.888Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows下搭建Solr5.5搜索服务">
-<meta name="twitter:description" content="####机器环境Windows：Win7 64 bitJava：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VMSolr：5.5Lucene：5.5Tomcat：8.0.32 Lucene和Solr下载地址：http://lucene.apache.org/Windows选择下载zip压缩包，Linux选择下载tgz压缩包Tomca">
+<meta name="twitter:description" content="机器环境Windows：Win7 64 bitJava：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VMSolr：5.5Lucene：5.5Tomcat：8.0.32 Lucene和Solr下载地址：http://lucene.apache.org/Windows选择下载zip压缩包，Linux选择下载tgz压缩包Tomcat下载地">
 <meta name="twitter:image" content="http://7xig3q.com1.z0.glb.clouddn.com/Solr_add_core_config.png">
 
 
@@ -363,12 +363,11 @@
       
 
       
-        <p>####机器环境<br><strong>Windows</strong>：Win7 64 bit<br><strong>Java</strong>：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VM<br><strong>Solr</strong>：5.5<br><strong>Lucene</strong>：5.5<br><strong>Tomcat</strong>：8.0.32</p>
+        <h4 id="机器环境"><a href="#机器环境" class="headerlink" title="机器环境"></a>机器环境</h4><p><strong>Windows</strong>：Win7 64 bit<br><strong>Java</strong>：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VM<br><strong>Solr</strong>：5.5<br><strong>Lucene</strong>：5.5<br><strong>Tomcat</strong>：8.0.32</p>
 <p>Lucene和Solr下载地址：<a href="http://lucene.apache.org/" target="_blank" rel="external">http://lucene.apache.org/</a><br>Windows选择下载zip压缩包，Linux选择下载tgz压缩包<br>Tomcat下载地址：<a href="http://tomcat.apache.org/" target="_blank" rel="external">http://tomcat.apache.org/</a> ，选择Binary Distributions下的Core中的64-bit Windows zip (pgp, md5, sha1)下载之后文件名称是：apache-tomcat-8.0.32-windows-x64</p>
-<p>####Windows下启动Tomcat并添加服务</p>
-<p>#####配置环境变量<br>注意<strong>JDK</strong>和<strong>Tomcat</strong>的目录中最好别有中文，首先在系统环境变量中配置<strong>JAVA_HOME</strong>，值是<code>C:/Program Files/Java/jdk1.8.0_45</code>，然后在<strong>Path</strong>中添加<code>;%JAVA_HOME%/bin</code>。</p>
+<h4 id="Windows下启动Tomcat并添加服务"><a href="#Windows下启动Tomcat并添加服务" class="headerlink" title="Windows下启动Tomcat并添加服务"></a>Windows下启动Tomcat并添加服务</h4><h5 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h5><p>注意<strong>JDK</strong>和<strong>Tomcat</strong>的目录中最好别有中文，首先在系统环境变量中配置<strong>JAVA_HOME</strong>，值是<code>C:/Program Files/Java/jdk1.8.0_45</code>，然后在<strong>Path</strong>中添加<code>;%JAVA_HOME%/bin</code>。</p>
 <p>添加环境变量<strong>CATALINA_HOME</strong>值是<code>D:/apache-tomcat-8.0.32</code>，然后点击 <strong>tomcat</strong>的<strong>bin</strong>下的<strong>startup.bat</strong>就应该可以启动<strong>tomcat</strong>了。</p>
-<p>#####添加Tomcat到Windows服务<br>如果想把<strong>tomcat</strong>添加到<strong>Windows</strong>服务中，需要打开<strong>cmd</strong>运行<strong>Tomcat</strong>的<strong>bin</strong>目录下的<code>service.bat</code>脚本，安装命令如下，其中<strong>tomcat8</strong>是自己起的服务名称，当然也可以使用其它名称</p>
+<h5 id="添加Tomcat到Windows服务"><a href="#添加Tomcat到Windows服务" class="headerlink" title="添加Tomcat到Windows服务"></a>添加Tomcat到Windows服务</h5><p>如果想把<strong>tomcat</strong>添加到<strong>Windows</strong>服务中，需要打开<strong>cmd</strong>运行<strong>Tomcat</strong>的<strong>bin</strong>目录下的<code>service.bat</code>脚本，安装命令如下，其中<strong>tomcat8</strong>是自己起的服务名称，当然也可以使用其它名称</p>
 <blockquote>
 <p>D:\apache-tomcat-8.0.32&gt;cd bin<br>D:\apache-tomcat-8.0.32\bin&gt;service.bat install tomcat8<br>Installing the service ‘tomcat8’ …<br>Using CATALINA_HOME:    “D:\apache-tomcat-8.0.32”<br>Using CATALINA_BASE:    “D:\apache-tomcat-8.0.32”<br>Using JAVA_HOME:        “C:\Program Files\Java\jdk1.8.0_45”<br>Using JRE_HOME:         “C:\Program Files\Java\jdk1.8.0_45\jre”<br>Using JVM:              “C:\Program Files\Java\jdk1.8.0_45\jre\bin\server\jvm.dl<br>l”<br>The service ‘tomcat8’ has been installed.</p>
 </blockquote>
@@ -376,10 +375,9 @@
 <blockquote>
 <p>D:\apache-tomcat-8.0.32\bin&gt;service.bat remove tomcat8<br>Removing the service ‘tomcat8’ …<br>Using CATALINA_BASE:    “D:\apache-tomcat-8.0.32”<br>The service ‘tomcat8’ has been removed</p>
 </blockquote>
-<p>#####配置Tomcat管理员<br>在<strong>Tomcat</strong>启动之后，可以在浏览器中输入<a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a> 查看是否配置成功，如果出现<strong>Tomcat</strong>主界面，点击<strong>Manager App</strong>，提示权限不足，此时需要在<code>D:/apache-tomcat-8.0.32/conf/tomcat-users.xml</code>文件中添加如下内容<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-gui"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"admin"</span> <span class="attr">roles</span>=<span class="string">"manager-gui"</span>/&gt;</span></div></pre></td></tr></table></figure></p>
+<h5 id="配置Tomcat管理员"><a href="#配置Tomcat管理员" class="headerlink" title="配置Tomcat管理员"></a>配置Tomcat管理员</h5><p>在<strong>Tomcat</strong>启动之后，可以在浏览器中输入<a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a> 查看是否配置成功，如果出现<strong>Tomcat</strong>主界面，点击<strong>Manager App</strong>，提示权限不足，此时需要在<code>D:/apache-tomcat-8.0.32/conf/tomcat-users.xml</code>文件中添加如下内容<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-gui"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"admin"</span> <span class="attr">roles</span>=<span class="string">"manager-gui"</span>/&gt;</span></div></pre></td></tr></table></figure></p>
 <p>重启<strong>Tomcat</strong>，打开浏览器点击<strong>Manager App</strong>会弹出登录框，使用配置的用户名和密码登录即可。</p>
-<p>####Tomcat启动Solr</p>
-<ol>
+<h4 id="Tomcat启动Solr"><a href="#Tomcat启动Solr" class="headerlink" title="Tomcat启动Solr"></a>Tomcat启动Solr</h4><ol>
 <li>解压从官网下载的<strong>solr-5.5.0.zip</strong>压缩包，解压到<strong>D:/solr-5.5.0</strong></li>
 <li>复制<strong>solr-5.5.0/server/solr-webapp/webapp</strong>到<strong>tomcat</strong>下的<strong>webapps</strong>目录下，改名为<strong>solr</strong></li>
 <li>将<strong>solr-5.5.0/server/lib/ext/</strong>目录下的所有<strong>jar</strong>包复制到<strong>tomcat/webapps/solr/WEB-INF/lib/</strong>下</li>
@@ -392,7 +390,7 @@
 <li>将<strong>solr-5.5.0/dist</strong>目录下的<code>solr-dataimporthandler-5.5.0.jar</code>和<code>solr-dataimporthandler-extras-5.5.0.jar</code>复制到<strong>tomcat/webapps/solr/WEB-INF/lib/</strong>下，这个是为了以后导入数据库表数据。<br>配置完成之后，<strong>Solr</strong>环境搭建完毕，重启<strong>Tomcat</strong>，在浏览器中输入<a href="http://localhost:8080/solr/index.html#/" target="_blank" rel="external">http://localhost:8080/solr/index.html#/</a> 就可以看到<strong>Solr</strong>的控制台了</li>
 <li>在<strong>tomcat/solrhome/</strong>目录下创建<strong>core</strong>(自定义)，在其目录下创建<strong>data</strong>文件夹，并将<strong>D:/apache-tomcat-8.0.32/bin/solr/configsets/basic_configs/</strong>目录下的<strong>conf</strong>文件夹复制到<strong>core</strong>下。然后在<strong>solr</strong>控制台点击<strong>Add Core</strong>即可完成创建。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/Solr_add_core_config.png" alt=""></li>
 </ol>
-<p>####Jetty启动Solr<br><strong>Solr</strong>自带<strong>Jetty</strong>服务器，并且提供了可运行的<strong>jar</strong>包，该<strong>jar</strong>包存在于<code>D:/solr-5.5.0/server</code>目录中，但是不能直接双击该<strong>jar</strong>包运行，需要在命令行中进行启动。打开<strong>cmd</strong>命令行，按照网上提示，输入启动命令</p>
+<h4 id="Jetty启动Solr"><a href="#Jetty启动Solr" class="headerlink" title="Jetty启动Solr"></a>Jetty启动Solr</h4><p><strong>Solr</strong>自带<strong>Jetty</strong>服务器，并且提供了可运行的<strong>jar</strong>包，该<strong>jar</strong>包存在于<code>D:/solr-5.5.0/server</code>目录中，但是不能直接双击该<strong>jar</strong>包运行，需要在命令行中进行启动。打开<strong>cmd</strong>命令行，按照网上提示，输入启动命令</p>
 <blockquote>
 <p>d:\solr-5.5.0\server&gt;java -jar start.jar<br>WARNING: Nothing to start, exiting …<br>Usage: java -jar start.jar [options] [properties] [configs]<br>       java -jar start.jar –help  # for more information</p>
 </blockquote>
@@ -458,8 +456,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/20/Hexo-blog-theme-switching-from-Jacman-to-NexT-Mist/" rel="next" title="Hexo博客主题从Jacman切换到NexT.Mist">
-                <i class="fa fa-chevron-left"></i> Hexo博客主题从Jacman切换到NexT.Mist
+              <a href="/2016/02/26/Asynchronous-non-blocking-message-communication-framework-based-on-Java-NIO2/" rel="next" title="基于Java NIO2实现的异步非阻塞消息通信框架">
+                <i class="fa fa-chevron-left"></i> 基于Java NIO2实现的异步非阻塞消息通信框架
               </a>
             
           </div>
@@ -677,7 +675,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#机器环境"><span class="nav-number">1.</span> <span class="nav-text">机器环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Windows下启动Tomcat并添加服务"><span class="nav-number">2.</span> <span class="nav-text">Windows下启动Tomcat并添加服务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#配置环境变量"><span class="nav-number">2.1.</span> <span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加Tomcat到Windows服务"><span class="nav-number">2.2.</span> <span class="nav-text">添加Tomcat到Windows服务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置Tomcat管理员"><span class="nav-number">2.3.</span> <span class="nav-text">配置Tomcat管理员</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tomcat启动Solr"><span class="nav-number">3.</span> <span class="nav-text">Tomcat启动Solr</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Jetty启动Solr"><span class="nav-number">4.</span> <span class="nav-text">Jetty启动Solr</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
