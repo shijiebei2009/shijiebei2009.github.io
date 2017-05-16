@@ -59,21 +59,21 @@
 
 
 
-<meta name="description" content="###安装搜狗输入法  参考了其他一些资料都说添加fcitx的PPA，但是我不确定有木有用  12345678910111213eric@eric-VirtualBox:/etc/apt$ sudo add-apt-repository ppa:fcitx-team/nightly Experimental releases of Fcitx, use with caution. More inf">
+<meta name="description" content="安装搜狗输入法 参考了其他一些资料都说添加fcitx的PPA，但是我不确定有木有用  12345678910111213eric@eric-VirtualBox:/etc/apt$ sudo add-apt-repository ppa:fcitx-team/nightly Experimental releases of Fcitx, use with caution. More info: h">
 <meta name="keywords" content="Ubuntu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu 14.10安装和卸载搜狗拼音输入法">
 <meta property="og:url" content="http://www.codepub.cn/2015/11/27/Ubuntu14-10-install-and-uninstall-sogou-input-method/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="###安装搜狗输入法  参考了其他一些资料都说添加fcitx的PPA，但是我不确定有木有用  12345678910111213eric@eric-VirtualBox:/etc/apt$ sudo add-apt-repository ppa:fcitx-team/nightly Experimental releases of Fcitx, use with caution. More inf">
+<meta property="og:description" content="安装搜狗输入法 参考了其他一些资料都说添加fcitx的PPA，但是我不确定有木有用  12345678910111213eric@eric-VirtualBox:/etc/apt$ sudo add-apt-repository ppa:fcitx-team/nightly Experimental releases of Fcitx, use with caution. More info: h">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/ubuntu-sogou-input-method-success.jpg">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/ubuntu-uninstall-sogou-input-method1.jpg">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/ubuntu-uninstall-sogou-input-method2.jpg">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/ubuntu-uninstall-sogou-input-method3.jpg">
-<meta property="og:updated_time" content="2017-05-16T15:24:01.023Z">
+<meta property="og:updated_time" content="2017-05-16T15:30:11.345Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu 14.10安装和卸载搜狗拼音输入法">
-<meta name="twitter:description" content="###安装搜狗输入法  参考了其他一些资料都说添加fcitx的PPA，但是我不确定有木有用  12345678910111213eric@eric-VirtualBox:/etc/apt$ sudo add-apt-repository ppa:fcitx-team/nightly Experimental releases of Fcitx, use with caution. More inf">
+<meta name="twitter:description" content="安装搜狗输入法 参考了其他一些资料都说添加fcitx的PPA，但是我不确定有木有用  12345678910111213eric@eric-VirtualBox:/etc/apt$ sudo add-apt-repository ppa:fcitx-team/nightly Experimental releases of Fcitx, use with caution. More info: h">
 <meta name="twitter:image" content="http://7xig3q.com1.z0.glb.clouddn.com/ubuntu-sogou-input-method-success.jpg">
 
 
@@ -366,8 +366,7 @@
       
 
       
-        <p>###安装搜狗输入法</p>
-<ul>
+        <h3 id="安装搜狗输入法"><a href="#安装搜狗输入法" class="headerlink" title="安装搜狗输入法"></a>安装搜狗输入法</h3><ul>
 <li>参考了其他一些资料都说添加<code>fcitx</code>的<code>PPA</code>，但是我不确定有木有用</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">eric@eric-VirtualBox:/etc/apt$ sudo add-apt-repository ppa:fcitx-team/nightly</div><div class="line"> Experimental releases of Fcitx, use with caution.</div><div class="line"> More info: https://launchpad.net/~fcitx-team/+archive/ubuntu/nightly</div><div class="line">Press [ENTER] to <span class="built_in">continue</span> or ctrl-c to cancel adding it</div><div class="line"></div><div class="line">gpg: keyring `/tmp/tmp_2dkioxm/secring.gpg<span class="string">' created</span></div><div class="line">gpg: keyring `/tmp/tmp_2dkioxm/pubring.gpg' created</div><div class="line">gpg: requesting key 7E5FA1EE from hkp server keyserver.ubuntu.com</div><div class="line">gpg: /tmp/tmp_2dkioxm/trustdb.gpg: trustdb created</div><div class="line">gpg: key 7E5FA1EE: public key <span class="string">"Launchpad PPA for Fcitx Team PPA"</span> imported</div><div class="line">gpg: Total number processed: 1</div><div class="line">gpg:               imported: 1  (RSA: 1)</div><div class="line">OK</div></pre></td></tr></table></figure>
@@ -386,8 +385,7 @@
 </ul>
 <p>先看看下载的<code>deb</code>文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">eric@eric-VirtualBox:~/Desktop$ ll</div><div class="line">total 18304</div><div class="line">drwxr-xr-x  2 eric eric     4096 11月 27 22:06 ./</div><div class="line">drwxr-xr-x 18 eric eric     4096 11月 27 21:34 ../</div><div class="line">-rw-rw-r--  1 eric eric      627 11月 27 22:06 cache.txt</div><div class="line">-rwxr-x---  1 root root 18730988 11月 27 00:01 sogoupinyin_2.0.0.0068_amd64.deb*</div><div class="line">eric@eric-VirtualBox:~/Desktop$</div></pre></td></tr></table></figure></p>
 <p>输入<code>sudo dpkg -i sogoupinyin_2.0.0.0068_amd64.deb</code>命令开始安装输入法，可使用<code>tab</code>键自动补全命令，安装完成之后使用如下命令启用<code>sudo im-config -s fcitx -z default</code>，完成之后别忘记重启系统。重启之后点击右上角的那个软件盘即可看到搜狗输入法安装成功，点击即可输入汉字了。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/ubuntu-sogou-input-method-success.jpg" alt=""></p>
-<p>###卸载搜狗输入法</p>
-<ul>
+<h3 id="卸载搜狗输入法"><a href="#卸载搜狗输入法" class="headerlink" title="卸载搜狗输入法"></a>卸载搜狗输入法</h3><ul>
 <li>首先使用命令查看下安装的搜狗拼音输入法<code>sudo dpkg -l so*</code>，然后先卸载搜狗拼音<code>sudo apt-get purge sogoupinyin</code></li>
 </ul>
 <p><img src="http://7xig3q.com1.z0.glb.clouddn.com/ubuntu-uninstall-sogou-input-method1.jpg" alt=""></p>
@@ -569,7 +567,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -578,7 +576,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -675,7 +673,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装搜狗输入法"><span class="nav-number">1.</span> <span class="nav-text">安装搜狗输入法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卸载搜狗输入法"><span class="nav-number">2.</span> <span class="nav-text">卸载搜狗输入法</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

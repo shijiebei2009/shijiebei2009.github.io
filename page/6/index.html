@@ -295,8 +295,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/04/10/Java's-volatile-boolean-AutomaticBoolean-analysis/" itemprop="url">
-                  Java之volatile boolean，AutomaticBoolean分析
+                <a class="post-title-link" href="/2015/05/12/Recommended-processing-method-of-text-with-bom-in-Java/" itemprop="url">
+                  Java处理带BOM文本的推荐方法
                 </a>
               
             
@@ -309,8 +309,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-10T17:42:13+08:00" content="2015-04-10">
-              2015-04-10
+            <time itemprop="dateCreated" datetime="2015-05-12T20:49:39+08:00" content="2015-05-12">
+              2015-05-12
             </time>
           </span>
 
@@ -341,8 +341,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/04/10/Java's-volatile-boolean-AutomaticBoolean-analysis/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/04/10/Java's-volatile-boolean-AutomaticBoolean-analysis/" itemprop="commentsCount"></span>
+                <a href="/2015/05/12/Recommended-processing-method-of-text-with-bom-in-Java/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/05/12/Recommended-processing-method-of-text-with-bom-in-Java/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -363,12 +363,12 @@
       
         
           
-          volatile概述volatile关键字是一个类型修饰符，被设计用来修饰被不同线程访问和修改的变量，在JVM1.2之前，Java的内存模型实现总是从主存读取变量，是不需要进行特别的注意的。而随着JVM的成熟和优化，现在在多线程环境下volatile关键字的使用变得非常重要。
-在当前的Java内存模型下，线程可以把变量保存在本地内存（比如机器的寄存器）中，而不是直接在主存中进行读写。这就可能造成一
+          什么是BOM？参见维基百科，通过阅读维基百科，简单点说BOM（byte-order mark）是位于码点U+FEFF的统一码字符的名称，当以UTF-16或UTF-32来将UCS/统一码字符所组成的字符串编码时，这个字符被用来标示其字节序。它常被用来当做标示文件是以UTF-8、UTF-16或UTF-32编码的记号。
+从Unicode3.2开始，U+FEFF只能出现在字节流的开头，只能用于标识字节序，
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/04/10/Java's-volatile-boolean-AutomaticBoolean-analysis/#more" rel="contents">
+            <a class="btn" href="/2015/05/12/Recommended-processing-method-of-text-with-bom-in-Java/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -419,8 +419,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/04/09/See-also-IT-elite-death-from-overwork/" itemprop="url">
-                  又见IT精英过劳猝死
+                <a class="post-title-link" href="/2015/05/07/Compile-the-Language-Technology-Platform(C++)-and-LTP4J(Java)source-code/" itemprop="url">
+                  编译哈工大语言技术平台云LTP（C++）源码及LTP4J（Java）源码
                 </a>
               
             
@@ -433,8 +433,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-09T16:03:13+08:00" content="2015-04-09">
-              2015-04-09
+            <time itemprop="dateCreated" datetime="2015-05-07T22:13:15+08:00" content="2015-05-07">
+              2015-05-07
             </time>
           </span>
 
@@ -447,8 +447,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Life-Talk/" itemprop="url" rel="index">
-                    <span itemprop="name">Life-Talk</span>
+                  <a href="/categories/Programming-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Notes</span>
                   </a>
                 </span>
 
@@ -465,8 +465,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/04/09/See-also-IT-elite-death-from-overwork/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/04/09/See-also-IT-elite-death-from-overwork/" itemprop="commentsCount"></span>
+                <a href="/2015/05/07/Compile-the-Language-Technology-Platform(C++)-and-LTP4J(Java)source-code/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/05/07/Compile-the-Language-Technology-Platform(C++)-and-LTP4J(Java)source-code/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -487,11 +487,11 @@
       
         
           
-          当今快节奏高压力的生活导致猝死事件频发，我知道，这是一群迫切的希望用自己勤劳的双手快速致富的人。当然我认为绝大多数过劳死都是来自农村或者是家庭条件一般的人，试想国民老公王思聪会过劳死吗？显然不会，再退一万步，在上海有房有车无还款压力的人会过劳死吗？显然亦不会，过劳猝死的这些人，我不知道是你们个人的悲哀还是这个历史悠久的文明古国的悲哀，GDP虽然是年年暴增，但是并没有给我们普通的劳苦大众带来任何的实
+          JDK：java version “1.8.0_31”Java(TM) SE Runtime Environment (build 1.8.0_31-b13)Java HotSpot(TM) 64-Bit Server VM (build 25.31-b07, mixed mode)OS：win7 64bitcmake：V2.8.12/V3.2.2LTP：V3.2.0LTP4J：V1.0Micro
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/2015/04/09/See-also-IT-elite-death-from-overwork/#more" rel="contents">
+            <a class="btn" href="/2015/05/07/Compile-the-Language-Technology-Platform(C++)-and-LTP4J(Java)source-code/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -703,7 +703,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -712,7 +712,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
