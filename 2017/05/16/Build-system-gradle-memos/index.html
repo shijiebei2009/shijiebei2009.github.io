@@ -66,7 +66,7 @@
 <meta property="og:url" content="http://www.codepub.cn/2017/05/16/Build-system-gradle-memos/index.html">
 <meta property="og:site_name" content="IT草根">
 <meta property="og:description" content="title: 构建系统Gradle备忘录date: 2016-11-03 20:52:36tags: [Gradle]categories: Programming Notes   Gradle是什么？Gradle是一个集合了Maven和Ant优点的构建工具，据说要取代Maven，不置可否。  什么是projects和tasks？每一个构建都是由一个或多个projects构成的。一个project">
-<meta property="og:updated_time" content="2017-05-16T22:14:39.510Z">
+<meta property="og:updated_time" content="2017-05-16T23:17:18.339Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IT草根">
 <meta name="twitter:description" content="title: 构建系统Gradle备忘录date: 2016-11-03 20:52:36tags: [Gradle]categories: Programming Notes   Gradle是什么？Gradle是一个集合了Maven和Ant优点的构建工具，据说要取代Maven，不置可否。  什么是projects和tasks？每一个构建都是由一个或多个projects构成的。一个project">
@@ -559,7 +559,8 @@
 </li>
 <li><p>IDEA中如何设置gradle的本地仓库地址<br>在IDEA中打开Settings || Build, Execution, Deployment || Build Tools || Gradle，修改Service directory path，该值为Gradle的默认缓存目录中，比如填<code>D:/apache-maven-3.3.3/repo</code>，这样gradle就会将jar下载到该路径下，例如我的IDEA中的gradle下载的jar地址为：<code>D:/apache-maven-3.3.3/repo/caches/modules-2/files-2.1</code>，这样就可以将maven的本地仓库和gradle的本地仓库合二为一了。顺便在Gradle VM options中填<code>-Dfile.encoding=UTF-8</code>可以解决一些中文乱码问题。</p>
 <p>前提是IDEA中的maven已经配置好了，同样在Settings || Build, Execution, Deployment || Build Tools || Maven中配置</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"> Maven home <span class="string">directory:</span> <span class="string">D:</span>/apache-maven<span class="number">-3.3</span><span class="number">.3</span></div><div class="line"> User settings <span class="string">file:</span> <span class="string">D:</span><span class="regexp">/apache-maven-3.3.3/</span>conf/settings.xml</div><div class="line"> Local <span class="string">repository:</span> <span class="string">D:</span><span class="regexp">/apache-maven-3.3.3/</span>repo</div></pre></td></tr></table></figure></li>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"> Maven home <span class="string">directory:</span> <span class="string">D:</span>/apache-maven<span class="number">-3.3</span><span class="number">.3</span></div><div class="line"> User settings <span class="string">file:</span> <span class="string">D:</span><span class="regexp">/apache-maven-3.3.3/</span>conf/settings.xml</div><div class="line"> Local <span class="string">repository:</span> <span class="string">D:</span><span class="regexp">/apache-maven-3.3.3/</span>repo</div></pre></td></tr></table></figure>
+</li>
 </ul>
 
       
@@ -714,7 +715,7 @@ var jiathis_config = {data_track_clickback:'true'};
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">102</span>
+              <span class="site-state-item-count">103</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
