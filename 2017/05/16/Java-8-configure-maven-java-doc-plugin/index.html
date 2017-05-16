@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="志不强者智不达，言不信者行不果">
+<meta name="description" content="title: ‘Java 8 配置Maven-javadoc-plugin’date: 2016-10-18 22:41:30tags: [Maven]categories: Programming Notestoc: false  在升级JDK至1.8之后，使用Maven-javadoc-plugin插件打包报错，[ERROR] Failed to execute goal org.apache">
 <meta name="keywords" content="IT草根, 代码馆, http:&#x2F;&#x2F;codepub.cn&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IT草根">
 <meta property="og:url" content="http://www.codepub.cn/2017/05/16/Java-8-configure-maven-java-doc-plugin/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="志不强者智不达，言不信者行不果">
-<meta property="og:updated_time" content="2017-05-16T15:38:20.057Z">
+<meta property="og:description" content="title: ‘Java 8 配置Maven-javadoc-plugin’date: 2016-10-18 22:41:30tags: [Maven]categories: Programming Notestoc: false  在升级JDK至1.8之后，使用Maven-javadoc-plugin插件打包报错，[ERROR] Failed to execute goal org.apache">
+<meta property="og:updated_time" content="2017-05-16T15:46:19.966Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IT草根">
-<meta name="twitter:description" content="志不强者智不达，言不信者行不果">
+<meta name="twitter:description" content="title: ‘Java 8 配置Maven-javadoc-plugin’date: 2016-10-18 22:41:30tags: [Maven]categories: Programming Notestoc: false  在升级JDK至1.8之后，使用Maven-javadoc-plugin插件打包报错，[ERROR] Failed to execute goal org.apache">
 
 
 
@@ -342,7 +342,31 @@
       
 
       
-        
+        <p>title: ‘Java 8 配置Maven-javadoc-plugin’<br>date: 2016-10-18 22:41:30<br>tags: [Maven]<br>categories: Programming Notes<br>toc: false</p>
+<hr>
+<p>在升级JDK至1.8之后，使用<code>Maven-javadoc-plugin</code>插件打包报错，<strong>[ERROR] Failed to execute goal org.apache.maven.plugins:maven-javadoc-plugin:2.10.4:jar (attach-javadocs) on project
+</strong>详细信息如下</p>
+<blockquote>
+<p>[ERROR] Failed to execute goal org.apache.maven.plugins:maven-javadoc-plugin:2.10.4:jar (attach-javadocs) on project StatisticsReport: MavenReportException: Error while generating Javadoc:<br>[ERROR] Exit code: 1 - D:\Multi-module-project\StatisticsReport\src\main\java\com\yuewen\statistics\report\service\db\PullData.java:29: 警告: @param 没有说明<br>[ERROR] <em> @param preparedStatement<br>[ERROR] ^<br>[ERROR] D:\Multi-module-project\StatisticsReport\src\main\java\com\yuewen\statistics\report\service\db\PullData.java:30: 警告: @param 没有说明<br>[ERROR] </em> @param params<br>[ERROR] ^<br>[ERROR] D:\Multi-module-project\StatisticsReport\src\main\java\com\yuewen\statistics\report\service\db\PullData.java:31: 警告: @return 没有说明<br>[ERROR] <em> @return<br>[ERROR] ^<br>[ERROR] D:\Multi-module-project\StatisticsReport\src\main\java\com\yuewen\statistics\report\service\db\PullData.java:32: 警告: @throws 没有说明<br>[ERROR] </em> @throws SQLException<br>[ERROR] ^<br>[ERROR] D:\Multi-module-project\StatisticsReport\src\main\java\com\yuewen\statistics\report\service\db\PullData.java:34: 警告: logFlag没有 @param<br>[ERROR] public static ResultSet pullData(PreparedStatement preparedStatement, boolean logFlag, String… params) throws SQLException {<br>[ERROR] ^<br>[ERROR] D:\Multi-module-project\StatisticsReport\src\main\java\com\yuewen\statistics\report\service\db\PullData.java:51: 警告: @param 没有说明<br>[ERROR] <em> @param preparedStatement<br>[ERROR] ^<br>[ERROR] D:\Multi-module-project\StatisticsReport\src\main\java\com\yuewen\statistics\report\service\db\PullData.java:52: 警告: @param 没有说明<br>[ERROR] </em> @param params<br>[ERROR] ^<br>[ERROR] D:\Multi-module-project\StatisticsReport\src\main\java\com\yuewen\statistics\report\service\db\PullData.java:53: 警告: @return 没有说明<br>[ERROR] * @return<br>[ERROR] ^</p>
+</blockquote>
+<p>经查得知，在JDK 8中，Javadoc中添加了<em>doclint</em>，而这个工具的主要目的是旨在获得符合W3C HTML 4.01标准规范的HTML文档，在JDK 8中，已经无法获取如下的Javadoc，除非它满足<em>doclint</em>：</p>
+<ul>
+<li>不能有自关闭的HTML tags，例如<code>&lt;br/&gt;</code>或者<code>&lt;a id=&quot;x&quot;/&gt;</code></li>
+<li>不能有未关闭的HTML tags，例如有<code>&lt;ul&gt;</code>而没有<code>&lt;/ul&gt;</code></li>
+<li>不能有非法的HTML end tags，例如<code>&lt;/br&gt;</code></li>
+<li>不能有非法的HTML attributes，需要符合doclint基于W3C HTML 4.01的实现</li>
+<li>不能有重复的HTML id attribute</li>
+<li>不能有空的HTML href attribute</li>
+<li>不能有不正确的嵌套标题，例如类的文档说明中必须有<code>&lt;h3&gt;</code>而不是<code>&lt;h4&gt;</code></li>
+<li>不能有非法的HTML tags，例如<code>List&lt;String&gt;</code>需要用<code>&lt;&gt;</code>对应的实体符号</li>
+<li>不能有损坏的<code>@link references</code></li>
+<li>不能有损坏的<code>@param references</code>，它们必须匹配实际的参数名称</li>
+<li>不能有损坏的<code>@throws references</code>，第一个词必须是一个类名称</li>
+</ul>
+<p>注意违反这些规则的话，将不会得到Javadoc的输出。</p>
+<p>一种解决办法就是关闭<em>doclint</em>，如果你在Maven中运行，你需要使用<code>additionalparam</code>设置：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">profiles</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">profile</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>disable-javadoc-doclint<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">activation</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">jdk</span>&gt;</span>[1.8,)<span class="tag">&lt;/<span class="name">jdk</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">activation</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">properties</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">additionalparam</span>&gt;</span>-Xdoclint:none<span class="tag">&lt;/<span class="name">additionalparam</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">profile</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">profiles</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>或者是添加到<code>maven-javadoc-plugin</code>中：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-javadoc-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.10.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">encoding</span>&gt;</span>$&#123;chartset.UTF8&#125;<span class="tag">&lt;/<span class="name">encoding</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">aggregate</span>&gt;</span>true<span class="tag">&lt;/<span class="name">aggregate</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">charset</span>&gt;</span>$&#123;chartset.UTF8&#125;<span class="tag">&lt;/<span class="name">charset</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">docencoding</span>&gt;</span>$&#123;chartset.UTF8&#125;<span class="tag">&lt;/<span class="name">docencoding</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">executions</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">execution</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>attach-javadocs<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">phase</span>&gt;</span>package<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">goals</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">goal</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">additionalparam</span>&gt;</span>-Xdoclint:none<span class="tag">&lt;/<span class="name">additionalparam</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure></p>
+
       
     </div>
 
@@ -398,7 +422,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/05/16/Java-NIO-development-Precautions/" rel="prev" title="">
+              <a href="/2017/05/16/How-to-load-dll-file-in-Java-Web-Project/" rel="prev" title="">
                  <i class="fa fa-chevron-right"></i>
               </a>
             

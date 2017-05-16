@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="志不强者智不达，言不信者行不果">
+<meta name="description" content="title: MySQL dump导入导出数据库命令汇总date: 2015-06-03 18:26:46tags: [MySQL]categories: Database  导出所有的数据库 mysqldump -uuserName -ppassword –all-database &amp;gt; D:/all.sql  需要注意的是，该命令需要在MySql的安装目录的bin目录下使用，例如在bin下">
 <meta name="keywords" content="IT草根, 代码馆, http:&#x2F;&#x2F;codepub.cn&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IT草根">
 <meta property="og:url" content="http://www.codepub.cn/2017/05/16/MySQL-dump-import-export-database-command-summary/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="志不强者智不达，言不信者行不果">
-<meta property="og:updated_time" content="2017-05-16T15:38:20.001Z">
+<meta property="og:description" content="title: MySQL dump导入导出数据库命令汇总date: 2015-06-03 18:26:46tags: [MySQL]categories: Database  导出所有的数据库 mysqldump -uuserName -ppassword –all-database &amp;gt; D:/all.sql  需要注意的是，该命令需要在MySql的安装目录的bin目录下使用，例如在bin下">
+<meta property="og:updated_time" content="2017-05-16T15:46:19.910Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IT草根">
-<meta name="twitter:description" content="志不强者智不达，言不信者行不果">
+<meta name="twitter:description" content="title: MySQL dump导入导出数据库命令汇总date: 2015-06-03 18:26:46tags: [MySQL]categories: Database  导出所有的数据库 mysqldump -uuserName -ppassword –all-database &amp;gt; D:/all.sql  需要注意的是，该命令需要在MySql的安装目录的bin目录下使用，例如在bin下">
 
 
 
@@ -342,7 +342,33 @@
       
 
       
-        
+        <p>title: MySQL dump导入导出数据库命令汇总<br>date: 2015-06-03 18:26:46<br>tags: [MySQL]<br>categories: Database</p>
+<hr>
+<h4 id="导出所有的数据库"><a href="#导出所有的数据库" class="headerlink" title="导出所有的数据库"></a>导出所有的数据库</h4><blockquote>
+<p>mysqldump -uuserName -ppassword –all-database &gt; D:/all.sql</p>
+</blockquote>
+<p>需要注意的是，该命令需要在MySql的安装目录的bin目录下使用，例如在bin下输入mysqldump，会给出提示信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">C:\Program Files\MySQL\MySQL Server 5.6\bin &gt; mysqldump</div><div class="line">Usage: mysqldump [OPTIONS] database [tables]</div><div class="line">OR     mysqldump [OPTIONS] --databases [OPTIONS] DB1 [DB2 DB3...]</div><div class="line">OR     mysqldump [OPTIONS] --all-databases [OPTIONS]</div><div class="line">For more options, use mysqldump --help</div></pre></td></tr></table></figure></p>
+<h4 id="导入所有的数据库"><a href="#导入所有的数据库" class="headerlink" title="导入所有的数据库"></a>导入所有的数据库</h4><blockquote>
+<p>source D:/all.sql</p>
+</blockquote>
+<p>需要注意的是，该命令需要在MySql的命令行窗口中使用（<strong>MySql commond line client</strong>），例如在命令行中输入source，给出提示信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql&gt; <span class="built_in">source</span></div><div class="line">ERROR:</div><div class="line">Usage: \. &lt;filename&gt; | <span class="built_in">source</span> &lt;filename&gt;</div></pre></td></tr></table></figure></p>
+<h4 id="导出某个数据库"><a href="#导出某个数据库" class="headerlink" title="导出某个数据库"></a>导出某个数据库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">C:\Program Files\MySQL\MySQL Server 5.6\bin&gt;mysqldump -uroot -padmin --databases</div><div class="line"> mysql mywebsite &gt; D:/mysqlmywebsite.sql</div><div class="line">Warning: Using a password on the <span class="built_in">command</span> line interface can be insecure.</div></pre></td></tr></table></figure>
+<p>这种方式会将<strong>mysql和mywebsite</strong>两个数据库导入到一个sql文件中，文件名称为<strong>mysqlmywebsite</strong></p>
+<h4 id="导入某个数据库"><a href="#导入某个数据库" class="headerlink" title="导入某个数据库"></a>导入某个数据库</h4><blockquote>
+<p>mysql&gt;source D:/mysqlmywebsite.sql<br>或者在cmd的命令行中指定导入的数据库<br>C:\Program Files\MySQL\MySQL Server 5.6\bin&gt;mysql -uroot -padmin db1 &lt; D:/db1.sql</p>
+</blockquote>
+<h4 id="导出某些数据表"><a href="#导出某些数据表" class="headerlink" title="导出某些数据表"></a>导出某些数据表</h4><blockquote>
+<p>C:\Program Files\MySQL\MySQL Server 5.6\bin&gt; mysqldump -uusername -ppassword db1 table1 table2 &gt; tb1tb2.sql</p>
+</blockquote>
+<h4 id="导入某些数据表"><a href="#导入某些数据表" class="headerlink" title="导入某些数据表"></a>导入某些数据表</h4><blockquote>
+<p>在系统命令行<br> mysql -uusername -ppassword db1 &lt; tb1tb2.sql<br> 或MySql命令行<br> mysql&gt; use db1;<br> mysql&gt; source tb1tb2.sql;</p>
+</blockquote>
+<h4 id="mysqldump字符集设置"><a href="#mysqldump字符集设置" class="headerlink" title="mysqldump字符集设置"></a>mysqldump字符集设置</h4><blockquote>
+<p> mysqldump -uusername -ppassword –default-character-set=UTF8 db1 table1 &gt; tb1.sql</p>
+</blockquote>
+<p>注意在MySql中，用UTF8表示UTF-8编码，比如在MySql命令行中输入<strong>show charset;</strong>可以查看到MySql所支持的所有字符集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show charset;</div><div class="line">+----------+-----------------------------+---------------------+--------+</div><div class="line">| Charset  | Description                 | Default collation   | Maxlen |</div><div class="line">+----------+-----------------------------+---------------------+--------+</div><div class="line">| big5     | Big5 Traditional Chinese    | big5_chinese_ci     |      2 |</div><div class="line">| dec8     | DEC West European           | dec8_swedish_ci     |      1 |</div><div class="line">| cp850    | DOS West European           | cp850_general_ci    |      1 |</div><div class="line">| hp8      | HP West European            | hp8_english_ci      |      1 |</div><div class="line">| koi8r    | KOI8-R Relcom Russian       | koi8r_general_ci    |      1 |</div><div class="line">| latin1   | cp1252 West European        | latin1_swedish_ci   |      1 |</div><div class="line">| latin2   | ISO 8859-2 Central European | latin2_general_ci   |      1 |</div><div class="line">| swe7     | 7bit Swedish                | swe7_swedish_ci     |      1 |</div><div class="line">| ascii    | US ASCII                    | ascii_general_ci    |      1 |</div><div class="line">| ujis     | EUC-JP Japanese             | ujis_japanese_ci    |      3 |</div><div class="line">| sjis     | Shift-JIS Japanese          | sjis_japanese_ci    |      2 |</div><div class="line">| hebrew   | ISO 8859-8 Hebrew           | hebrew_general_ci   |      1 |</div><div class="line">| tis620   | TIS620 Thai                 | tis620_thai_ci      |      1 |</div><div class="line">| euckr    | EUC-KR Korean               | euckr_korean_ci     |      2 |</div><div class="line">| koi8u    | KOI8-U Ukrainian            | koi8u_general_ci    |      1 |</div><div class="line">| gb2312   | GB2312 Simplified Chinese   | gb2312_chinese_ci   |      2 |</div><div class="line">| greek    | ISO 8859-7 Greek            | greek_general_ci    |      1 |</div><div class="line">| cp1250   | Windows Central European    | cp1250_general_ci   |      1 |</div><div class="line">| gbk      | GBK Simplified Chinese      | gbk_chinese_ci      |      2 |</div><div class="line">| latin5   | ISO 8859-9 Turkish          | latin5_turkish_ci   |      1 |</div><div class="line">| armscii8 | ARMSCII-8 Armenian          | armscii8_general_ci |      1 |</div><div class="line">| utf8     | UTF-8 Unicode               | utf8_general_ci     |      3 |</div><div class="line">| ucs2     | UCS-2 Unicode               | ucs2_general_ci     |      2 |</div><div class="line">| cp866    | DOS Russian                 | cp866_general_ci    |      1 |</div><div class="line">| keybcs2  | DOS Kamenicky Czech-Slovak  | keybcs2_general_ci  |      1 |</div><div class="line">| macce    | Mac Central European        | macce_general_ci    |      1 |</div><div class="line">| macroman | Mac West European           | macroman_general_ci |      1 |</div><div class="line">| cp852    | DOS Central European        | cp852_general_ci    |      1 |</div><div class="line">| latin7   | ISO 8859-13 Baltic          | latin7_general_ci   |      1 |</div><div class="line">| utf8mb4  | UTF-8 Unicode               | utf8mb4_general_ci  |      4 |</div><div class="line">| cp1251   | Windows Cyrillic            | cp1251_general_ci   |      1 |</div><div class="line">| utf16    | UTF-16 Unicode              | utf16_general_ci    |      4 |</div><div class="line">| utf16le  | UTF-16LE Unicode            | utf16le_general_ci  |      4 |</div><div class="line">| cp1256   | Windows Arabic              | cp1256_general_ci   |      1 |</div><div class="line">| cp1257   | Windows Baltic              | cp1257_general_ci   |      1 |</div><div class="line">| utf32    | UTF-32 Unicode              | utf32_general_ci    |      4 |</div><div class="line">| binary   | Binary pseudo charset       | binary              |      1 |</div><div class="line">| geostd8  | GEOSTD8 Georgian            | geostd8_general_ci  |      1 |</div><div class="line">| cp932    | SJIS for Windows Japanese   | cp932_japanese_ci   |      2 |</div><div class="line">| eucjpms  | UJIS for Windows Japanese   | eucjpms_japanese_ci |      3 |</div><div class="line">+----------+-----------------------------+---------------------+--------+</div><div class="line">40 rows in set (0.00 sec)</div></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -390,7 +416,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/16/A-small-trap-of-JDBC-connection-to-MySQL-in-java/" rel="next" title="">
+              <a href="/2017/05/16/2016-campus-recruitment-of-baidu-programming-problem-resolution-software-development/" rel="next" title="">
                 <i class="fa fa-chevron-left"></i> 
               </a>
             
@@ -609,7 +635,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#导出所有的数据库"><span class="nav-number">1.</span> <span class="nav-text">导出所有的数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入所有的数据库"><span class="nav-number">2.</span> <span class="nav-text">导入所有的数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导出某个数据库"><span class="nav-number">3.</span> <span class="nav-text">导出某个数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入某个数据库"><span class="nav-number">4.</span> <span class="nav-text">导入某个数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导出某些数据表"><span class="nav-number">5.</span> <span class="nav-text">导出某些数据表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入某些数据表"><span class="nav-number">6.</span> <span class="nav-text">导入某些数据表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mysqldump字符集设置"><span class="nav-number">7.</span> <span class="nav-text">mysqldump字符集设置</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

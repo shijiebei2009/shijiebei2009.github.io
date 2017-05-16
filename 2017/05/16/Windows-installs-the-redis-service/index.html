@@ -66,7 +66,7 @@
 <meta property="og:url" content="http://www.codepub.cn/2017/05/16/Windows-installs-the-redis-service/index.html">
 <meta property="og:site_name" content="IT草根">
 <meta property="og:description" content="title: Windows安装Redis服务date: 2016-11-19 08:52:32toc: falsetags: [Redis]categories: Programming Notes  Windows安装Redis首先Redis官方并不支持Windows，而Windows版的Redis是由MSOpenTech提供的支持，所以首先去下载一个发布版，我选择的是Redis-x64-3.">
-<meta property="og:updated_time" content="2017-05-16T15:38:20.439Z">
+<meta property="og:updated_time" content="2017-05-16T15:46:20.003Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IT草根">
 <meta name="twitter:description" content="title: Windows安装Redis服务date: 2016-11-19 08:52:32toc: falsetags: [Redis]categories: Programming Notes  Windows安装Redis首先Redis官方并不支持Windows，而Windows版的Redis是由MSOpenTech提供的支持，所以首先去下载一个发布版，我选择的是Redis-x64-3.">
@@ -395,16 +395,39 @@
 <p><strong>port 6380</strong><br><strong>slaveof 127.0.0.1 6379</strong><br><strong># cluster-enabled yes</strong><br><strong># 或者设置为no</strong><br><strong>cluster-enabled no</strong></p>
 </blockquote>
 <p>然后先启动Master，之后再启动Slave机器，输出如下</p>
-<p><code>D:\Redis-x64-3.2-Master&gt;redis-server redis.windows.conf
-[20048] 26 Dec 13:04:49.064 * Node configuration loaded, I&#39;m f1c7db8c98b01e9fbd5
-089b1231ca0e2d23a1766
-                _._
-           _.-``__ &#39;&#39;-._
-      _.-``    `.  `_.  &#39;&#39;-._           Redis 3.2.100 (00000000/0) 64 bit
-  .-`` .-</code>.  <code>`\/    _.,_ &#39;&#39;-._
- (    &#39;      ,       .-`  | `,    )     Running in cluster mode
- |`-._`-...-` __...-.</code>-.<em>|’` </em>.-‘|     Port: 6379<br> |    <code>-._</code>.<em>    /     </em>.-‘    |     PID: 20048<br>  <code>-._</code>-.<em>  `-./  </em>.-‘    <em>.-‘<br> |`-.</em><code>-._</code>-.<strong>.-‘    <em>.-‘</em>.-‘|<br> |    <code>-._</code>-.<em>        </em>.-‘<em>.-‘    |           <a href="http://redis.io" target="_blank" rel="external">http://redis.io</a><br>  `-.</em>    <code>-._</code>-.</strong>.-‘<em>.-‘    </em>.-‘<br> |<code>-._</code>-.<em>    `-.__.-‘    </em>.-‘<em>.-‘|<br> |    `-.</em><code>-._        _.-&#39;_.-&#39;    |</code>-.<em>    `-.</em><code>-.__.-&#39;_.-&#39;    _.-&#39;</code>-.<em>    `-.__.-‘    </em>.-‘<br>          <code>-._        _.-&#39;</code>-.__.-‘</p>
-<p>[20048] 26 Dec 13:04:49.066 # Server started, Redis version 3.2.100<br>[20048] 26 Dec 13:04:49.067 <em> DB loaded from disk: 0.000 seconds<br>[20048] 26 Dec 13:04:49.067 </em> The server is now ready to accept connections on p<br>ort 6379<br>[20048] 26 Dec 13:05:14.723 <em> Slave 127.0.0.1:6380 asks for synchronization<br>[20048] 26 Dec 13:05:14.723 </em> Full resync requested by slave 127.0.0.1:6380<br>[20048] 26 Dec 13:05:14.724 <em> Starting BGSAVE for SYNC with target: disk<br>[20048] 26 Dec 13:05:14.726 </em> Background saving started by pid 26568<br>[20048] 26 Dec 13:05:14.867 # fork operation complete<br>[20048] 26 Dec 13:05:14.867 * Background saving terminated with success<br>[20048] 26 Dec 13:0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">D:\Redis-x64-3.2-Master&gt;redis-server redis.windows.conf</div><div class="line">[20048] 26 Dec 13:04:49.064 * Node configuration loaded, I&apos;m f1c7db8c98b01e9fbd5</div><div class="line">089b1231ca0e2d23a1766</div><div class="line">                _._</div><div class="line">           _.-``__ &apos;&apos;-._</div><div class="line">      _.-``    `.  `_.  &apos;&apos;-._           Redis 3.2.100 (00000000/0) 64 bit</div><div class="line">  .-`` .-```.  ```\/    _.,_ &apos;&apos;-._</div><div class="line"> (    &apos;      ,       .-`  | `,    )     Running in cluster mode</div><div class="line"> |`-._`-...-` __...-.``-._|&apos;` _.-&apos;|     Port: 6379</div><div class="line"> |    `-._   `._    /     _.-&apos;    |     PID: 20048</div><div class="line">  `-._    `-._  `-./  _.-&apos;    _.-&apos;</div><div class="line"> |`-._`-._    `-.__.-&apos;    _.-&apos;_.-&apos;|</div><div class="line"> |    `-._`-._        _.-&apos;_.-&apos;    |           http://redis.io</div><div class="line">  `-._    `-._`-.__.-&apos;_.-&apos;    _.-&apos;</div><div class="line"> |`-._`-._    `-.__.-&apos;    _.-&apos;_.-&apos;|</div><div class="line"> |    `-._`-._        _.-&apos;_.-&apos;    |</div><div class="line">  `-._    `-._`-.__.-&apos;_.-&apos;    _.-&apos;</div><div class="line">      `-._    `-.__.-&apos;    _.-&apos;</div><div class="line">          `-._        _.-&apos;</div><div class="line">              `-.__.-&apos;</div><div class="line"></div><div class="line">[20048] 26 Dec 13:04:49.066 # Server started, Redis version 3.2.100</div><div class="line">[20048] 26 Dec 13:04:49.067 * DB loaded from disk: 0.000 seconds</div><div class="line">[20048] 26 Dec 13:04:49.067 * The server is now ready to accept connections on p</div><div class="line">ort 6379</div><div class="line">[20048] 26 Dec 13:05:14.723 * Slave 127.0.0.1:6380 asks for synchronization</div><div class="line">[20048] 26 Dec 13:05:14.723 * Full resync requested by slave 127.0.0.1:6380</div><div class="line">[20048] 26 Dec 13:05:14.724 * Starting BGSAVE for SYNC with target: disk</div><div class="line">[20048] 26 Dec 13:05:14.726 * Background saving started by pid 26568</div><div class="line">[20048] 26 Dec 13:05:14.867 # fork operation complete</div><div class="line">[20048] 26 Dec 13:05:14.867 * Background saving terminated with success</div><div class="line">[20048] 26 Dec 13:05:14.869 * Synchronization with slave 127.0.0.1:6380 succeede</div><div class="line">d</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">D:\Redis-x64-3.2-Slave&gt;redis-server redis.windows.conf</div><div class="line">                _._</div><div class="line">           _.-``__ &apos;&apos;-._</div><div class="line">      _.-``    `.  `_.  &apos;&apos;-._           Redis 3.2.100 (00000000/0) 64 bit</div><div class="line">  .-`` .-```.  ```\/    _.,_ &apos;&apos;-._</div><div class="line"> (    &apos;      ,       .-`  | `,    )     Running in standalone mode</div><div class="line"> |`-._`-...-` __...-.``-._|&apos;` _.-&apos;|     Port: 6380</div><div class="line"> |    `-._   `._    /     _.-&apos;    |     PID: 21036</div><div class="line">  `-._    `-._  `-./  _.-&apos;    _.-&apos;</div><div class="line"> |`-._`-._    `-.__.-&apos;    _.-&apos;_.-&apos;|</div><div class="line"> |    `-._`-._        _.-&apos;_.-&apos;    |           http://redis.io</div><div class="line">  `-._    `-._`-.__.-&apos;_.-&apos;    _.-&apos;</div><div class="line"> |`-._`-._    `-.__.-&apos;    _.-&apos;_.-&apos;|</div><div class="line"> |    `-._`-._        _.-&apos;_.-&apos;    |</div><div class="line">  `-._    `-._`-.__.-&apos;_.-&apos;    _.-&apos;</div><div class="line">      `-._    `-.__.-&apos;    _.-&apos;</div><div class="line">          `-._        _.-&apos;</div><div class="line">              `-.__.-&apos;</div><div class="line"></div><div class="line">[21036] 26 Dec 13:05:14.720 # Server started, Redis version 3.2.100</div><div class="line">[21036] 26 Dec 13:05:14.721 * DB loaded from disk: 0.001 seconds</div><div class="line">[21036] 26 Dec 13:05:14.721 * The server is now ready to accept connections on p</div><div class="line">ort 6380</div><div class="line">[21036] 26 Dec 13:05:14.721 * Connecting to MASTER 127.0.0.1:6379</div><div class="line">[21036] 26 Dec 13:05:14.722 * MASTER &lt;-&gt; SLAVE sync started</div><div class="line">[21036] 26 Dec 13:05:14.722 * Non blocking connect for SYNC fired the event.</div><div class="line">[21036] 26 Dec 13:05:14.722 * Master replied to PING, replication can continue..</div><div class="line">.</div><div class="line">[21036] 26 Dec 13:05:14.722 * Partial resynchronization not possible (no cached</div><div class="line">master)</div><div class="line">[21036] 26 Dec 13:05:14.726 * Full resync from master: a326a4da325133537c655c16b</div><div class="line">3a6c2546620f816:1</div><div class="line">[21036] 26 Dec 13:05:14.868 * MASTER &lt;-&gt; SLAVE sync: receiving 75 bytes from mas</div><div class="line">ter</div><div class="line">[21036] 26 Dec 13:05:14.871 * MASTER &lt;-&gt; SLAVE sync: Flushing old data</div><div class="line">[21036] 26 Dec 13:05:14.871 * MASTER &lt;-&gt; SLAVE sync: Loading DB in memory</div><div class="line">[21036] 26 Dec 13:05:14.872 * MASTER &lt;-&gt; SLAVE sync: Finished with success</div></pre></td></tr></table></figure>
+<p>如果在配置中不小心启用了<strong>cluster-enabled yes</strong>的话，会抛<strong>slaveof directive not allowed in cluster mode</strong>和<strong>(error) CLUSTERDOWN Hash slot not served</strong>异常。</p>
+<h3 id="主从测试"><a href="#主从测试" class="headerlink" title="主从测试"></a>主从测试</h3><p>在主机中使用set，添加一个key之后</p>
+<blockquote>
+<p>D:\Redis-x64-3.2-Master&gt;redis-cli<br>127.0.0.1:6379&gt; set “mm” “mm in master”<br>OK</p>
+</blockquote>
+<p>在从机中使用get，得到这个key的value</p>
+<blockquote>
+<p>D:\Redis-x64-3.2-Slave&gt;redis-cli<br>127.0.0.1:6379&gt; get “mm”<br>“mm in master”</p>
+</blockquote>
+<p>反过来，在从机使用set之后也可以同步到master</p>
+<blockquote>
+<p>D:\Redis-x64-3.2-Slave&gt;redis-cli<br>127.0.0.1:6379&gt; set “kk” “mm in slave”<br>OK</p>
+</blockquote>
+<p>在主机get得到value</p>
+<blockquote>
+<p>D:\Redis-x64-3.2-Master&gt;redis-cli<br>127.0.0.1:6379&gt; get “kk”<br>“mm in slave”</p>
+</blockquote>
+<p>注意，redis的主从配置和集群配置方法是不同的，从机一般是只读的，主机用来进行写操作，一个主数据库可以有多个从数据库，而一个从数据库只能有一个主数据库。一般redis的持久化策略是：</p>
+<blockquote>
+<p>save 900 1    #当有一条Keys数据被改变时，900秒刷新到Disk一次<br>save 300 10   #当有10条Keys数据被改变时，300秒刷新到Disk一次<br>save 60 10000 #当有10000条Keys数据被改变时，60秒刷新到Disk一次</p>
+</blockquote>
+<p>Redis的主从复制是建立在内存快照的持久化基础上的，只要有Slave就一定会有内存快照发生。可以很明显的看到，RDB有它的不足，就是一旦数据库出现问题，那么我们的RDB文件中保存的数据并不是全新的。从上次RDB文件生成到Redis停机这段时间的数据全部丢掉了。</p>
+<p>AOF(Append-Only File)比RDB方式有更好的持久化性。由于在使用AOF持久化方式时，Redis会将每一个收到的写命令都通过Write函数追加到文件中，类似于MySQL的binlog。当Redis重启是会通过重新执行文件中保存的写命令来在内存中重建整个数据库的内容。对应的设置参数为：</p>
+<blockquote>
+<p>appendonly yes #启用AOF持久化方式<br>appendfilename appendonly.aof #AOF文件的名称，默认为appendonly.aof<br>appendfsync always #每次收到写命令就立即强制写入磁盘，是最有保证的完全的持久化，但速度也是最慢的，一般不推荐使用。<br>appendfsync everysec #每秒钟强制写入磁盘一次，在性能和持久化方面做了很好的折中，是受推荐的方式。<br>appendfsync no #完全依赖OS的写入，一般为30秒左右一次，性能最好但是持久化最没有保证，不被推荐。</p>
+</blockquote>
+<p>AOF的完全持久化方式同时也带来了另一个问题，持久化文件会变得越来越大。比如我们调用INCR test命令100次，文件中就必须保存全部的100条命令，但其实99条都是多余的。因为要恢复数据库的状态其实文件中保存一条SET test 100就够了。为了压缩AOF的持久化文件，Redis提供了bgrewriteaof命令。收到此命令后Redis将使用与快照类似的方式将内存中的数据以命令的方式保存到临时文件中，最后替换原来的文件，以此来实现控制AOF文件的增长。由于是模拟快照的过程，因此在重写AOF文件时并没有读取旧的AOF文件，而是将整个内存中的数据库内容用命令的方式重写了一个新的AOF文件。</p>
+<blockquote>
+<p>no-appendfsync-on-rewrite yes #在日志重写时，不进行命令追加操作，而只是将其放在缓冲区里，避免与命令的追加造成DISK IO上的冲突。<br>auto-aof-rewrite-percentage 100 #当前AOF文件大小是上次日志重写得到AOF文件大小的二倍时，自动启动新的日志重写过程。<br>auto-aof-rewrite-min-size 64mb #当前AOF文件启动新的日志重写过程的最小值，避免刚刚启动Reids时由于文件尺寸较小导致频繁的重写。</p>
+</blockquote>
+<p>参考资料：<br>【1】<a href="http://blog.chinaunix.net/uid-20682890-id-3603246.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-20682890-id-3603246.html</a></p>
 
       
     </div>
@@ -453,15 +476,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/16/Windows-build-Solr5-5-search-services/" rel="next" title="">
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2017/05/16/Python3-beginner-s-handbook-four/" rel="next" title="Python3入门手册之四">
+                <i class="fa fa-chevron-left"></i> Python3入门手册之四
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/05/16/Using-the-Python-CSV-module-to-read-and-write-CSV-file/" rel="prev" title="">
+              <a href="/2017/05/16/Use-nuts-cloud-sync-IntelliJ-IDEA-configuration-files/" rel="prev" title="">
                  <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -672,7 +695,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows安装Redis"><span class="nav-number">1.</span> <span class="nav-text">Windows安装Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速操作脚本"><span class="nav-number">2.</span> <span class="nav-text">快速操作脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows配置主从Redis"><span class="nav-number">3.</span> <span class="nav-text">Windows配置主从Redis</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows安装Redis"><span class="nav-number">1.</span> <span class="nav-text">Windows安装Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速操作脚本"><span class="nav-number">2.</span> <span class="nav-text">快速操作脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows配置主从Redis"><span class="nav-number">3.</span> <span class="nav-text">Windows配置主从Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从测试"><span class="nav-number">4.</span> <span class="nav-text">主从测试</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
