@@ -198,4 +198,33 @@ public void addTextField(Document document, String name, String value) {
 
 @Test
 public void testTextFieldSort() throws IOException {
-    Docu
+    Document document = new Document();
+    Directory directory = new RAMDirectory();
+    IndexWriter indexWriter = new IndexWriter(directory, new IndexWriterConfig(new StandardAnalyzer()));
+    addTextField(document, "textValue", "1234");
+    indexWriter.addDocument(document);
+
+    document = new Document();
+    addTextField(document, "textValue", "2345");
+    indexWriter.addDocument(document);
+
+    document = new Document();
+    addTextField(document, "textValue", "12345");
+    indexWriter.addDocument(document);
+
+    indexWriter.close();
+    IndexSearcher indexSearcher = new IndexSearcher(DirectoryReader.open(directory));
+    SortField textValue = new SortField("textValue", SortField.Type.STRING, true);
+    TopFieldDocs search = indexSearcher.search(new MatchAllDocsQuery(), 10, new Sort(textValue));
+    ScoreDoc[] scoreDocs = search.scoreDocs;
+    for (ScoreDoc scoreDoc : scoreDocs) {
+        System.out.println(indexSearcher.doc(scoreDoc.doc));
+    }
+}
+```
+输出结果如下
+```java
+Document<stored,indexed,tokenized<textValue:2345>>
+Document<stored,indexed,tokenized<textValue:12345>>
+Document<stored,indexed,tokenized<textValue:1234>>
+```

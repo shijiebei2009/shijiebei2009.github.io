@@ -174,4 +174,92 @@ ort 6379
 [20048] 26 Dec 13:05:14.726 * Background saving started by pid 26568
 [20048] 26 Dec 13:05:14.867 # fork operation complete
 [20048] 26 Dec 13:05:14.867 * Background saving terminated with success
-[20048] 26 Dec 13:0
+[20048] 26 Dec 13:05:14.869 * Synchronization with slave 127.0.0.1:6380 succeede
+d
+```
+
+```
+D:\Redis-x64-3.2-Slave>redis-server redis.windows.conf
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 3.2.100 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6380
+ |    `-._   `._    /     _.-'    |     PID: 21036
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           http://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+[21036] 26 Dec 13:05:14.720 # Server started, Redis version 3.2.100
+[21036] 26 Dec 13:05:14.721 * DB loaded from disk: 0.001 seconds
+[21036] 26 Dec 13:05:14.721 * The server is now ready to accept connections on p
+ort 6380
+[21036] 26 Dec 13:05:14.721 * Connecting to MASTER 127.0.0.1:6379
+[21036] 26 Dec 13:05:14.722 * MASTER <-> SLAVE sync started
+[21036] 26 Dec 13:05:14.722 * Non blocking connect for SYNC fired the event.
+[21036] 26 Dec 13:05:14.722 * Master replied to PING, replication can continue..
+.
+[21036] 26 Dec 13:05:14.722 * Partial resynchronization not possible (no cached
+master)
+[21036] 26 Dec 13:05:14.726 * Full resync from master: a326a4da325133537c655c16b
+3a6c2546620f816:1
+[21036] 26 Dec 13:05:14.868 * MASTER <-> SLAVE sync: receiving 75 bytes from mas
+ter
+[21036] 26 Dec 13:05:14.871 * MASTER <-> SLAVE sync: Flushing old data
+[21036] 26 Dec 13:05:14.871 * MASTER <-> SLAVE sync: Loading DB in memory
+[21036] 26 Dec 13:05:14.872 * MASTER <-> SLAVE sync: Finished with success
+```
+如果在配置中不小心启用了**cluster-enabled yes**的话，会抛**slaveof directive not allowed in cluster mode**和**(error) CLUSTERDOWN Hash slot not served**异常。
+
+### 主从测试
+在主机中使用set，添加一个key之后
+>D:\Redis-x64-3.2-Master>redis-cli
+127.0.0.1:6379> set "mm" "mm in master"
+OK
+
+在从机中使用get，得到这个key的value
+>D:\Redis-x64-3.2-Slave>redis-cli
+127.0.0.1:6379> get "mm"
+"mm in master"
+
+反过来，在从机使用set之后也可以同步到master
+>D:\Redis-x64-3.2-Slave>redis-cli
+127.0.0.1:6379> set "kk" "mm in slave"
+OK
+
+在主机get得到value
+>D:\Redis-x64-3.2-Master>redis-cli
+127.0.0.1:6379> get "kk"
+"mm in slave"
+
+注意，redis的主从配置和集群配置方法是不同的，从机一般是只读的，主机用来进行写操作，一个主数据库可以有多个从数据库，而一个从数据库只能有一个主数据库。一般redis的持久化策略是：
+>save 900 1    #当有一条Keys数据被改变时，900秒刷新到Disk一次
+save 300 10   #当有10条Keys数据被改变时，300秒刷新到Disk一次
+save 60 10000 #当有10000条Keys数据被改变时，60秒刷新到Disk一次
+
+Redis的主从复制是建立在内存快照的持久化基础上的，只要有Slave就一定会有内存快照发生。可以很明显的看到，RDB有它的不足，就是一旦数据库出现问题，那么我们的RDB文件中保存的数据并不是全新的。从上次RDB文件生成到Redis停机这段时间的数据全部丢掉了。
+
+AOF(Append-Only File)比RDB方式有更好的持久化性。由于在使用AOF持久化方式时，Redis会将每一个收到的写命令都通过Write函数追加到文件中，类似于MySQL的binlog。当Redis重启是会通过重新执行文件中保存的写命令来在内存中重建整个数据库的内容。对应的设置参数为：
+>appendonly yes #启用AOF持久化方式
+appendfilename appendonly.aof #AOF文件的名称，默认为appendonly.aof
+appendfsync always #每次收到写命令就立即强制写入磁盘，是最有保证的完全的持久化，但速度也是最慢的，一般不推荐使用。
+appendfsync everysec #每秒钟强制写入磁盘一次，在性能和持久化方面做了很好的折中，是受推荐的方式。
+appendfsync no #完全依赖OS的写入，一般为30秒左右一次，性能最好但是持久化最没有保证，不被推荐。
+
+AOF的完全持久化方式同时也带来了另一个问题，持久化文件会变得越来越大。比如我们调用INCR test命令100次，文件中就必须保存全部的100条命令，但其实99条都是多余的。因为要恢复数据库的状态其实文件中保存一条SET test 100就够了。为了压缩AOF的持久化文件，Redis提供了bgrewriteaof命令。收到此命令后Redis将使用与快照类似的方式将内存中的数据以命令的方式保存到临时文件中，最后替换原来的文件，以此来实现控制AOF文件的增长。由于是模拟快照的过程，因此在重写AOF文件时并没有读取旧的AOF文件，而是将整个内存中的数据库内容用命令的方式重写了一个新的AOF文件。
+
+>no-appendfsync-on-rewrite yes #在日志重写时，不进行命令追加操作，而只是将其放在缓冲区里，避免与命令的追加造成DISK IO上的冲突。
+auto-aof-rewrite-percentage 100 #当前AOF文件大小是上次日志重写得到AOF文件大小的二倍时，自动启动新的日志重写过程。
+auto-aof-rewrite-min-size 64mb #当前AOF文件启动新的日志重写过程的最小值，避免刚刚启动Reids时由于文件尺寸较小导致频繁的重写。
+
+
+参考资料：
+【1】http://blog.chinaunix.net/uid-20682890-id-3603246.html

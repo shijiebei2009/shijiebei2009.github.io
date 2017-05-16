@@ -81,3 +81,144 @@ $code-block
   })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
 
   _st('install','这里是KEY','2.0.0');
+```
+  然后在**Next.Mist**主题下的`_config.xml`中启用即可如下：`swiftype_key: 这里是KEY`
+- 把侧边栏头像变成圆形，并且鼠标停留在上面发生旋转效果，参考[这里](http://fancyluo.com/2015/09/18/2015-09-18-hexo-next-update/)，具体修改文件的位置是`D:\hexo\themes\next\source\css\_common\components\sidebar\sidebar-author.styl`中的内容如下
+```css
+.site-author-image {
+  display: block;
+  margin: 0 auto;
+  max-width: 96px;
+  height: auto;
+  border: 2px solid #333;
+  padding: 2px;
+
+  /* start*/
+  border-radius: 50%
+  webkit-transition: 1.4s all;
+  moz-transition: 1.4s all;
+  ms-transition: 1.4s all;
+  transition: 1.4s all;
+  /* end */
+}
+/* start */
+.site-author-image:hover {
+  background-color: #55DAE1;
+  webkit-transform: rotate(360deg) scale(1.1);
+  moz-transform: rotate(360deg) scale(1.1);
+  ms-transform: rotate(360deg) scale(1.1);
+  transform: rotate(360deg) scale(1.1);
+}
+/* end */
+```
+- 添加右上角**Fork me on GitHub**，将如下代码添加到`D:\hexo\themes\next\layout\_layout.swig`底部的**body**标签之内即可，注意修改href为你自己的链接
+```html
+<a href="https://github.com/shijiebei2009">
+<img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
+alt="Fork me on GitHub" 
+data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
+</a>
+```
+- **mathjax**数学公式后面有竖线的问题（在chrome中显示有竖线，在猎豹、Firefox中显示正常）
+这个问题已经发了[Issue](https://github.com/iissnan/hexo-theme-next/issues/752)，可以参考官方提供的解决方案。首先，编辑next的主题配置文件\_config.yml，在里面找到mathjax的部分，替换为以下内容：
+```css
+mathjax:
+  enable: true
+  cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+```
+  打开`\themes\next\layout\_scripts\third-party\mathjax.swig`，将其内容替换为：
+```javascript
+{% if theme.mathjax.enable %}
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="{{ theme.mathjax.cdn }}"></script>
+{% endif %}
+```
+  之后清理，重新发布即可去除数学公式后面的竖线。
+
+- **为Next主题添加版权信息**
+对于`Hexo Next`主题而言先找到`/themes/next/layout/_macro/post.swig`，再找到其中的打赏部分代码，如下所示
+```html
+    <div>
+      {% if ! is_index %}
+        {% include 'reward.swig' %}
+      {% endif %}
+    </div>
+```
+  然后直接在其上面添加如下代码段：
+```html
+    <div align="center">
+      {% if not is_index %}
+        <div class="copyright">
+        <p><span>
+        <b>本文地址：</b><a href="{{ url_for(page.path) }}" title="{{ page.title }}">{{ page.permalink }}</a><br/><b>转载请注明出处，谢谢！</b>
+        </span></p>
+        </div>
+      {% endif %}
+    </div>
+```
+
+- **为Next博客添加广告位**
+如果你的博客访问量比较大的话，添加一个广告位也未尝不可，若有收入则可以用来抵扣域名续费或者服务器的费用，首先找到`D:/hexo/themes/next/layout/_macro`下的`post.swig`文件，在该文件中找到你认为合适放广告的位置添加如下代码
+```html
+<!-- 添加广告位 -->
+<div>
+    {% if ! is_index %}
+      {% include 'advertisement.swig' %}
+    {% endif %}
+</div>
+```
+  该段代码会引入存有广告代码的文件，新建`advertisement.swig`文件，将你的广告代码置于其中即可。
+
+- **为Next博客添加访客统计**
+使用不蒜子网页计数器，统计代码非常简单，参考[这里](http://busuanzi.ibruce.info/)
+
+- **为Next博客添加Font Awesome图标**
+不知道你有没有注意到我的网站底部的那个小人和眼睛呢？其实这是Font Awesome图标，只需要结合不蒜子网页计数器即可实现，非常简单，直接贴出代码，这段代码在`D:/hexo/themes/next/layout/_partials/footer.swig`中，只需要将你需要的部分添加到你的模板对应文件中即可，如下所示
+```html
+<div class="theme-info">
+  {{ __('footer.theme') }} -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.{{ theme.scheme }}
+  </a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_pv">
+  <i class="fa fa-user" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_pv"></span>
+  </span>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_uv">
+  <i class="fa fa-eye" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_uv"></span>
+  </span>
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+```
+- **修改首页、归档页、分类页、Tag页显示文章数量**
+默认地首页归档页仅显示10篇文章，然后要不断向后翻页，用起来非常不爽，经本人测试，设置数量在20篇比较合适，这个可以由hexo的`D:/hexo/_config.yml`来控制，修改如下
+```yml
+per_page: 20
+pagination_dir: page
+```
+- **修改文章底部的前一篇、下一篇为两端对齐**
+在Next主题的`5.0.0`版本中，下一篇默认为靠右对齐，看起来非常丑陋，因为前一篇已经设置为靠右对齐了，对称地，这时候，下一篇应该设置为靠左对齐才对。修改`D:/hexo/themes/next/source/css/_common/components/post/post-nav.styl`文件，拉到末尾，设置如下：
+```yml
+.post-nav-next { text-align: left; }
+.post-nav-prev { text-align: right; }
+```
+这样看起来就非常对称啦。

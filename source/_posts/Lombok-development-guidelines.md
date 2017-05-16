@@ -161,4 +161,151 @@ public class LombokDemo {
     @NonNull
     private int id;
     @NonNull
-   
+    private String shap;
+    private int age;
+    public static void main(String[] args) {
+        new LombokDemo(1, "circle");
+        //使用静态工厂方法
+        LombokDemo.of(2, "circle");
+        //无参构造
+        new LombokDemo();
+        //包含所有参数
+        new LombokDemo(1, "circle", 2);
+    }
+}
+```
+- @Data示例
+```java
+import lombok.Data;
+@Data
+public class Menu {
+    private String shopId;
+    private String skuMenuId;
+    private String skuName;
+    private String normalizeSkuName;
+    private String dishMenuId;
+    private String dishName;
+    private String dishNum;
+    //默认阈值
+    private float thresHold = 0;
+    //新阈值
+    private float newThresHold = 0;
+    //总得分
+    private float totalScore = 0;
+}
+```
+  在IntelliJ中按下Ctrl+F12就可以看到Lombok已经为我们自动生成了一系列的方法。
+  ![](http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-lombok-java-demo.jpg)
+- @Value示例
+```java
+@Value
+public class LombokDemo {
+    @NonNull
+    private int id;
+    @NonNull
+    private String shap;
+    private int age;
+    //相当于
+    private final int id;
+    public int getId() {
+        return this.id;
+    }
+    ...
+}
+```
+- @Builder示例
+```java
+@Builder
+public class BuilderExample {
+    private String name;
+    private int age;
+    @Singular
+    private Set<String> occupations;
+    public static void main(String[] args) {
+        BuilderExample test = BuilderExample.builder().age(11).name("test").build();
+    }
+}
+```
+- @SneakyThrows示例
+```java
+import lombok.SneakyThrows;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+public class Test {
+    @SneakyThrows()
+    public void read() {
+        InputStream inputStream = new FileInputStream("");
+    }
+    @SneakyThrows
+    public void write() {
+        throw new UnsupportedEncodingException();
+    }
+    //相当于
+    public void read() throws FileNotFoundException {
+        InputStream inputStream = new FileInputStream("");
+    }
+    public void write() throws UnsupportedEncodingException {
+        throw new UnsupportedEncodingException();
+    }
+}
+```
+- @Synchronized示例
+```java
+public class SynchronizedDemo {
+    @Synchronized
+    public static void hello() {
+        System.out.println("world");
+    }
+    //相当于
+    private static final Object $LOCK = new Object[0];
+    public static void hello() {
+        synchronized ($LOCK) {
+            System.out.println("world");
+        }
+    }
+}
+```
+- @Getter(lazy = true)
+```java
+public class GetterLazyExample {
+    @Getter(lazy = true)
+    private final double[] cached = expensive();
+    private double[] expensive() {
+        double[] result = new double[1000000];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = Math.asin(i);
+        }
+        return result;
+    }
+}
+```
+  相当于如下所示
+```java
+import java.util.concurrent.atomic.AtomicReference;
+public class GetterLazyExample {
+    private final AtomicReference<java.lang.Object> cached = new AtomicReference<>();
+    public double[] getCached() {
+        java.lang.Object value = this.cached.get();
+        if (value == null) {
+            synchronized (this.cached) {
+                value = this.cached.get();
+                if (value == null) {
+                    final double[] actualValue = expensive();
+                    value = actualValue == null ? this.cached : actualValue;
+                    this.cached.set(value);
+                }
+            }
+        }
+        return (double[]) (value == this.cached ? null : value);
+    }
+    private double[] expensive() {
+        double[] result = new double[1000000];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = Math.asin(i);
+        }
+        return result;
+    }
+}
+```

@@ -260,4 +260,292 @@ import edu.hit.ir.ltp4j.Segmentor;
 public class TestSegment {
     public static void main(String[] args) {
         // /MyTest/
-        if (Segmentor.create("ltp_da
+        if (Segmentor.create("ltp_data/cws.model") < 0) {
+            System.err.println("load failed");
+            return;
+        }
+        String sent = "我是中国人";
+        List<String> words = new ArrayList<String>();
+        int size = Segmentor.segment(sent, words);
+
+        for (int i = 0; i < size; i++) {
+            System.out.print(words.get(i));
+            if (i == size - 1) {
+                System.out.println();
+            } else {
+                System.out.print("\t");
+            }
+        }
+        Segmentor.release();
+    }
+}
+```
+词性标注接口
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.hit.ir.ltp4j.Postagger;
+
+/**
+ * 
+ * <p>
+ * ClassName TestPostag
+ * </p>
+ * <p>
+ * Description 词性标注接口
+ * </p>
+ * 
+ * @author TKPad wangx89@126.com
+ *         <p>
+ *         Date 2015年5月7日 下午10:09:55
+ *         </p>
+ * @version V1.0.0
+ *
+ */
+public class TestPostag {
+    public static void main(String[] args) {
+        if (Postagger.create("ltp_data/pos.model") < 0) {
+            System.err.println("load failed");
+            return;
+        }
+
+        List<String> words = new ArrayList<String>();
+        words.add("我");
+        words.add("是");
+        words.add("中国");
+        words.add("人");
+        List<String> postags = new ArrayList<String>();
+
+        int size = Postagger.postag(words, postags);
+        for (int i = 0; i < size; i++) {
+            System.out.print(words.get(i) + "_" + postags.get(i));
+            if (i == size - 1) {
+                System.out.println();
+            } else {
+                System.out.print("|");
+            }
+        }
+        Postagger.release();
+    }
+}
+```
+
+命名实体识别接口
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.hit.ir.ltp4j.NER;
+
+/**
+ * 
+ * <p>
+ * ClassName TestNer
+ * </p>
+ * <p>
+ * Description 命名实体识别接口
+ * </p>
+ * 
+ * @author TKPad wangx89@126.com
+ *         <p>
+ *         Date 2015年5月7日 下午10:08:26
+ *         </p>
+ * @version V1.0.0
+ *
+ */
+public class TestNer {
+
+    public static void main(String[] args) {
+        if (NER.create("ltp_data/ner.model") < 0) {
+            System.err.println("load failed");
+            return;
+        }
+        List<String> words = new ArrayList<String>();
+        List<String> tags = new ArrayList<String>();
+        List<String> ners = new ArrayList<String>();
+        words.add("中国");
+        tags.add("ns");
+        words.add("国际");
+        tags.add("n");
+        words.add("广播");
+        tags.add("n");
+        words.add("电台");
+        tags.add("n");
+        words.add("创办");
+        tags.add("v");
+        words.add("于");
+        tags.add("p");
+        words.add("1941年");
+        tags.add("m");
+        words.add("12月");
+        tags.add("m");
+        words.add("3日");
+        tags.add("m");
+        words.add("。");
+        tags.add("wp");
+
+        NER.recognize(words, tags, ners);
+
+        for (int i = 0; i < words.size(); i++) {
+            System.out.println(ners.get(i));
+        }
+
+        NER.release();
+
+    }
+}
+```
+依存句法分析接口
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.hit.ir.ltp4j.Parser;
+
+/**
+ * 
+ * <p>
+ * ClassName TestParser
+ * </p>
+ * <p>
+ * Description 依存句法分析接口
+ * </p>
+ * 
+ * @author TKPad wangx89@126.com
+ *         <p>
+ *         Date 2015年5月7日 下午10:11:09
+ *         </p>
+ * @version V1.0.0
+ *
+ */
+public class TestParser {
+
+    public static void main(String[] args) {
+        if (Parser.create("ltp_data/parser.model") < 0) {
+            System.err.println("load failed");
+            return;
+        }
+        List<String> words = new ArrayList<String>();
+        List<String> tags = new ArrayList<String>();
+        words.add("一把手");
+        tags.add("n");
+        words.add("亲自");
+        tags.add("d");
+        words.add("过问");
+        tags.add("v");
+        words.add("。");
+        tags.add("wp");
+        List<Integer> heads = new ArrayList<Integer>();
+        List<String> deprels = new ArrayList<String>();
+
+        int size = Parser.parse(words, tags, heads, deprels);
+
+        for (int i = 0; i < size; i++) {
+            System.out.print(heads.get(i) + ":" + deprels.get(i));
+            if (i == size - 1) {
+                System.out.println();
+            } else {
+                System.out.print("        ");
+            }
+        }
+
+        Parser.release();
+    }
+}
+```
+语义角色标注接口
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.hit.ir.ltp4j.Pair;
+import edu.hit.ir.ltp4j.SRL;
+
+/**
+ * 
+ * <p>
+ * ClassName TestSrl
+ * </p>
+ * <p>
+ * Description 语义角色标注接口
+ * </p>
+ * 
+ * @author TKPad wangx89@126.com
+ *         <p>
+ *         Date 2015年5月7日 下午10:11:46
+ *         </p>
+ * @version V1.0.0
+ *
+ */
+public class TestSrl {
+
+    public static void main(String[] args) {
+        SRL.create("ltp_data/srl");
+        ArrayList<String> words = new ArrayList<String>();
+        words.add("一把手");
+        words.add("亲自");
+        words.add("过问");
+        words.add("。");
+        ArrayList<String> tags = new ArrayList<String>();
+        tags.add("n");
+        tags.add("d");
+        tags.add("v");
+        tags.add("wp");
+        ArrayList<String> ners = new ArrayList<String>();
+        ners.add("O");
+        ners.add("O");
+        ners.add("O");
+        ners.add("O");
+        ArrayList<Integer> heads = new ArrayList<Integer>();
+        heads.add(2);
+        heads.add(2);
+        heads.add(-1);
+        heads.add(2);
+        ArrayList<String> deprels = new ArrayList<String>();
+        deprels.add("SBV");
+        deprels.add("ADV");
+        deprels.add("HED");
+        deprels.add("WP");
+        List<Pair<Integer, List<Pair<String, Pair<Integer, Integer>>>>> srls = new ArrayList<Pair<Integer, List<Pair<String, Pair<Integer, Integer>>>>>();
+        SRL.srl(words, tags, ners, heads, deprels, srls);
+        System.out.println(srls.size());
+        for (int i = 0; i < srls.size(); ++i) {
+            System.out.println(srls.get(i).first + ":");
+            for (int j = 0; j < srls.get(i).second.size(); ++j) {
+                System.out.println("   tpye = " + srls.get(i).second.get(j).first + " beg = "
+                        + srls.get(i).second.get(j).second.first + " end = " + srls.get(i).second.get(j).second.second);
+            }
+        }
+        SRL.release();
+    }
+}
+```
+
+#### 等等，最后一步
+***注意点***
+在ltp4j中提供的ltp_data中的model仅仅是作为你测试代码的正确性，其并非完整的model，如果需要在生产环境中使用，需要到[这里](http://pan.baidu.com/share/link?shareid=1988562907&uk=2738088569#path=%252Fltp-models)下载完整版的model，将下载的完整版ltp_data拷贝到项目中即可。
+
+
+#### 其他错误
+>Cannot open include file: 'ammintrin.h': No such file or directory
+
+参考文章：
+http://wishmesh.com/2011/04/fatal-error-c1083-cannot-open-include-file-ammintrin-h-no-such-file-or-directory/
+
+https://connect.microsoft.com/VisualStudio/feedback/details/660584/
+
+参考资料：
+【1】[哈工大LTP官网](http://www.ltp-cloud.com/)
+【2】[LTP4J的github地址](https://github.com/HIT-SCIR/ltp4j)
+【3】[LTP的github地址](https://github.com/HIT-SCIR/ltp)
+【4】[LTP3.0参考文档](https://github.com/HIT-SCIR/ltp/blob/master/doc/ltp-document-3.0.md)
+【5】[LTP4J1.0参考文档](https://github.com/HIT-SCIR/ltp4j/blob/master/doc/ltp4j-document-1.0.md)
+【6】[VS2010与64位系统](http://blog.csdn.net/yapingxin/article/details/7414084)
+【7】[安装 Microsoft Visual C++ 2010 和 Microsoft Windows SDK 7.1](http://cn.mathworks.com/matlabcentral/answers/116701-microsoft-visual-c-2010-microsoft-windows-sdk-7-1)
+
+  [1]: http://7xig3q.com1.z0.glb.clouddn.com/cmake-configure-ltp4j-x64.png
+  [2]: http://7xig3q.com1.z0.glb.clouddn.com/Add-x64-library-directory.png
+  [3]: http://7xig3q.com1.z0.glb.clouddn.com/cmake-configure-ltp-x64.png
+  [4]: http://7xig3q.com1.z0.glb.clouddn.com/ltp-success.png
+  [5]: http://7xig3q.com1.z0.glb.clouddn.com/ltp4j-eclipse.png

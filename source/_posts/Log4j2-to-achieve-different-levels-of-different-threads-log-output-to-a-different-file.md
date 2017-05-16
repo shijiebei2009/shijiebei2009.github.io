@@ -497,4 +497,86 @@ public class TestLog {
 `log4j2.component.properties`和`ThreadLookup`类不变，依赖的JAR包和上一节一样。测试类如下
 
 ```java
-import lombok.extern.log4j.Log4j2
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
+public class TestLog {
+    public static void main(String[] args) {
+        new Thread(() -> {
+            log.info("info");
+            log.debug("debug");
+            log.error("error");
+        }).start();
+        new Thread(() -> {
+            log.info("info");
+            log.debug("debug");
+            log.error("error");
+        }).start();
+    }
+}
+```
+该程序会输出六个日志文件，分别是
+>testLog_Thread-2_debug.log
+ testLog_Thread-2_error.log
+ testLog_Thread-2_info.log
+ testLog_Thread-3_debug.log
+ testLog_Thread-3_error.log
+ testLog_Thread-3_info.log
+
+至此，就实现了不同线程不同级别的日志输出到不同文件中的功能。
+
+### 如何启用All Loggers Asynchronous
+为了使得所有的**Loggers**都是异步的，除了添加一个新的配置文件，就是`log4j2.component.properties`外，还有其它方式吗？有的，仅列举如下
+- 例如【IntelliJ IDEA】中使用Gradle构建项目，那么可以在Settings | Build, Execution, Deployment | Build Tools | Gradle | Gradle VM options中填入
+```
+-DLog4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector
+```
+- 另一种就是在前面提到的**ThreadLookup**类中，添加静态代码块
+```java
+static {
+    System.setProperty("Log4jContextSelector", "org.apache.logging.log4j.core.async.AsyncLoggerContextSelector");
+}
+```
+根据参考手册，有一点需要注意的就是，要使用`<Root>`或`<Logger>`标签，而不是`<asyncRoot>`和`<asyncLogger>`，原文如下：
+>When AsyncLoggerContextSelector is used to make all loggers asynchronous, make sure to use normal `<root>` and `<logger>` elements in the configuration. The AsyncLoggerContextSelector will ensure that all loggers are asynchronous, using a mechanism that is different from what happens when you configure `<asyncRoot>` or `<asyncLogger>`. The latter elements are intended for mixing async with sync loggers.
+
+### 混合使用Synchronous和Asynchronous Loggers
+需要`disruptor-3.0.0.jar`或更高版本的jar包，不需要设置系统属性`Log4jContextSelector`，在配置中可以混合使用`Synchronous`和`asynchronous loggers`，使用`<AsyncRoot>`或者`<AsyncLogger>`去指定需要异步的Loggers，`<AsyncLogger>`元素还可以包含`<Root>`和`<Logger>`用于同步的Loggers。注意如果使用的是`<AsyncRoot>`或者`<AsyncLogger>`，那么就无需设置系统属性`Log4jContextSelector`了。
+
+一个混合了同步和异步的Loggers配置如下：
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- No need to set system property "Log4jContextSelector" to any value
+     when using <asyncLogger> or <asyncRoot>. -->
+<Configuration status="WARN">
+  <Appenders>
+    <!-- Async Loggers will auto-flush in batches, so switch off immediateFlush. -->
+    <RandomAccessFile name="RandomAccessFile" fileName="asyncWithLocation.log"
+              immediateFlush="false" append="false">
+      <PatternLayout>
+        <Pattern>%d %p %class{1.} [%t] %location %m %ex%n</Pattern>
+      </PatternLayout>
+    </RandomAccessFile>
+  </Appenders>
+  <Loggers>
+    <!-- pattern layout actually uses location, so we need to include it -->
+    <AsyncLogger name="com.foo.Bar" level="trace" includeLocation="true">
+      <AppenderRef ref="RandomAccessFile"/>
+    </AsyncLogger>
+    <Root level="info" includeLocation="true">
+      <AppenderRef ref="RandomAccessFile"/>
+    </Root>
+  </Loggers>
+</Configuration>
+```
+
+**参考资料**
+【1】[Different log files for multiple threads using log4j2](http://stackoverflow.com/questions/19976211/different-log-files-for-multiple-threads-using-log4j2)
+【2】[log4j2: Location for setting Log4jContextSelector system property for asynchronous logging](http://stackoverflow.com/questions/27154558/log4j2-location-for-setting-log4jcontextselector-system-property-for-asynchrono)
+【3】[Making All Loggers Asynchronous](https://logging.apache.org/log4j/2.x/manual/async.html#AllAsync)
+【4】[AsyncAppender](https://logging.apache.org/log4j/2.x/manual/appenders.html#AsyncAppender)
+【5】[Mixing Synchronous and Asynchronous Loggers](https://logging.apache.org/log4j/2.x/manual/async.html#MixedSync-Async)
+【6】[How to verify log4j2 is logging asynchronously via LMAX disruptor?](http://stackoverflow.com/questions/33293059/how-to-verify-log4j2-is-logging-asynchronously-via-lmax-disruptor)
+【7】[Log4j2 synchronous logging](http://stackoverflow.com/questions/38043488/log4j2-synchronous-logging)
+【8】[Log4J2 sync loggers faster than mixed async/sync loggers](http://stackoverflow.com/questions/30338034/log4j2-sync-loggers-faster-than-mixed-async-sync-loggers)
+【9】[Difference between Asynclogger and AsyncAppender in Log4j2](http://stackoverflow.com/questions/24177601/difference-between-asynclogger-and-asyncappender-in-log4j2)

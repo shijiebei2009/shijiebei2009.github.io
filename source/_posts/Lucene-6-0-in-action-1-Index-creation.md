@@ -84,3 +84,132 @@ Lucene是很多搜索引擎的一个基础实现，被很多大公司所采用�
  *
  * @param indexPath
  * @param create
+ * @throws IOException
+ */
+public IndexWriter getIndexWriter(String indexPath, boolean create) throws IOException {
+    IndexWriterConfig indexWriterConfig = new IndexWriterConfig(new StandardAnalyzer());
+    if (create) {
+        indexWriterConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+    } else {
+        indexWriterConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+    }
+    Directory directory = FSDirectory.open(Paths.get(indexPath));
+    IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+    return indexWriter;
+}
+```
+如果仅仅做测试用，还可以将索引文件存储在内存之中，此时需要使用RAMDirectory
+```java
+public class LuceneDemo {
+    private Directory directory;
+    private String[] ids = {"1", "2"};
+    private String[] unIndex = {"Netherlands", "Italy"};
+    private String[] unStored = {"Amsterdam has lots of bridges", "Venice has lots of canals"};
+    private String[] text = {"Amsterdam", "Venice"};
+    private IndexWriter indexWriter;
+
+    private IndexWriterConfig indexWriterConfig = new IndexWriterConfig(new StandardAnalyzer());
+
+    @Test
+    public void createIndex() throws IOException {
+        directory = new RAMDirectory();
+        //指定将索引创建信息打印到控制台
+        indexWriterConfig.setInfoStream(System.out);
+        indexWriter = new IndexWriter(directory, indexWriterConfig);
+        indexWriterConfig = (IndexWriterConfig) indexWriter.getConfig();
+        FieldType fieldType = new FieldType();
+        fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+        fieldType.setStored(true);//存储
+        fieldType.setTokenized(true);//分词
+        for (int i = 0; i < ids.length; i++) {
+            Document document = new Document();
+            document.add(new Field("id", ids[i], fieldType));
+            document.add(new Field("country", unIndex[i], fieldType));
+            document.add(new Field("contents", unStored[i], fieldType));
+            document.add(new Field("city", text[i], fieldType));
+            indexWriter.addDocument(document);
+        }
+        indexWriter.commit();
+    }
+}
+```
+**NOTES**：在调用IndexWriter的close()方法时会自动调用commit()方法，在调用commit()方法时会自动调用flush()方法。所以一般无需这样操作
+```java
+indexWriter.flush();
+indexWriter.commit();
+indexWriter.close();
+```
+
+控制台输出索引创建信息如下：
+>IFD 0 [2016-05-19T07:10:21.127Z; main]: init: current segments file is "segments"; deletionPolicy=org.apache.lucene.index.KeepOnlyLastCommitDeletionPolicy@691a7f8f
+IFD 0 [2016-05-19T07:10:21.167Z; main]: delete []
+IFD 0 [2016-05-19T07:10:21.167Z; main]: now checkpoint "" [0 segments ; isCommit = false]
+IFD 0 [2016-05-19T07:10:21.167Z; main]: delete []
+IFD 0 [2016-05-19T07:10:21.167Z; main]: 0 msec to checkpoint
+IW 0 [2016-05-19T07:10:21.167Z; main]: init: create=true
+IW 0 [2016-05-19T07:10:21.168Z; main]: 
+...
+...
+DW 0 [2016-05-19T07:10:21.271Z; main]: main finishFullFlush success=true
+IW 0 [2016-05-19T07:10:21.271Z; main]: startCommit(): start
+IW 0 [2016-05-19T07:10:21.271Z; main]:   skip startCommit(): no changes pending
+IFD 0 [2016-05-19T07:10:21.271Z; main]: delete []
+IW 0 [2016-05-19T07:10:21.271Z; main]: commit: pendingCommit == null; skip
+IW 0 [2016-05-19T07:10:21.271Z; main]: commit: took 0.4 msec
+IW 0 [2016-05-19T07:10:21.271Z; main]: commit: done
+IW 0 [2016-05-19T07:10:21.271Z; main]: rollback
+IW 0 [2016-05-19T07:10:21.271Z; main]: all running merges have aborted
+IW 0 [2016-05-19T07:10:21.271Z; main]: rollback: done finish merges
+DW 0 [2016-05-19T07:10:21.271Z; main]: abort
+DW 0 [2016-05-19T07:10:21.271Z; main]: done abort success=true
+IW 0 [2016-05-19T07:10:21.271Z; main]: rollback: infos=_0(6.0.0):c2
+IFD 0 [2016-05-19T07:10:21.271Z; main]: now checkpoint "_0(6.0.0):c2" [1 segments ; isCommit = false]
+IFD 0 [2016-05-19T07:10:21.272Z; main]: delete []
+IFD 0 [2016-05-19T07:10:21.272Z; main]: 0 msec to checkpoint
+IFD 0 [2016-05-19T07:10:21.272Z; main]: delete []
+IFD 0 [2016-05-19T07:10:21.272Z; main]: delete []
+
+### 删除文档
+在IndexWriter中提供了从索引中删除Document的接口，分别是
+- deleteDocuments(Query... queries)：删除所有匹配到查询语句的Document
+- deleteDocuments(Term... terms)：删除所有包含有terms的Document
+- deleteAll()：删除索引中所有的Document
+
+NOTES: deleteDocuments(Term... terms)方法，只接受Term参数，而Term只提供如下四个构造函数
+- Term(String fld, BytesRef bytes)
+- Term(String fld, BytesRefBuilder bytesBuilder)
+- Term(String fld, String text)
+- Term(String fld)
+
+所以我们无法使用deleteDocuments(Term... terms)去删除一些非String值的Field，例如IntPoint，LongPoint，FloatPoint，DoublePoint等。这时候就需要借助传递Query实例的方法去删除包含某些特定类型Field的Document。
+```java
+@Test
+public void testDelete() throws IOException {
+    RAMDirectory ramDirectory = new RAMDirectory();
+    IndexWriter indexWriter = new IndexWriter(ramDirectory, new IndexWriterConfig(new StandardAnalyzer()));
+    Document document = new Document();
+    document.add(new IntPoint("ID", 1));
+    indexWriter.addDocument(document);
+    indexWriter.commit();
+    //无法删除ID为1的
+    indexWriter.deleteDocuments(new Term("ID", "1"));
+    indexWriter.commit();
+    DirectoryReader open = DirectoryReader.open(ramDirectory);
+    IndexSearcher indexSearcher = new IndexSearcher(open);
+    Query query = IntPoint.newExactQuery("ID", 1);
+    TopDocs search = indexSearcher.search(query, 10);
+    //命中，1，说明并未删除
+    System.out.println(search.totalHits);
+
+    //使用Query删除
+    indexWriter.deleteDocuments(query);
+    indexWriter.commit();
+    indexSearcher = new IndexSearcher(DirectoryReader.openIfChanged(open));
+    search = indexSearcher.search(query, 10);
+    //未命中，0，说明已经删除
+    System.out.println(search.totalHits);
+}
+```
+
+参考资料
+【1】http://www.cnblogs.com/huangfox/p/3616298.html

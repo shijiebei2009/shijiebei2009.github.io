@@ -892,4 +892,85 @@ print('Is h1 bigger than h2?', h1 > h2) # prints True
 print('Is h2 smaller than h3?', h2 < h3) # prints True
 print('Is h2 greater than or equal to h1?', h2 >= h1) # Prints False
 print('Which one is biggest?', max(houses)) # Prints 'h3: 1101-square-foot Split'
-print('Which is smallest?', min(houses)) # Prints 'h2: 846-sq
+print('Which is smallest?', min(houses)) # Prints 'h2: 846-square-foot Ranch'
+```
+
+#### 创建缓存实例
+在创建一个类的对象时，如果之前使用同样参数创建过这个对象，你想返回它的缓存引用。为了达到这样的效果，你需要使用一个和类本身分开的工厂函数，例如：
+```python
+# The class in question
+class Spam:
+    def __init__(self, name):
+        self.name = name
+
+# Caching support
+import weakref
+_spam_cache = weakref.WeakValueDictionary()
+def get_spam(name):
+    if name not in _spam_cache:
+        s = Spam(name)
+        _spam_cache[name] = s
+    else:
+        s = _spam_cache[name]
+    return s
+```
+对于大部分程序而已，这里代码已经够用了。不过还是有一些更高级的实现值得了解下。首先是这里使用到了一个全局变量，并且工厂函数跟类放在一块。我们可以通过将缓存代码放到一个单独的缓存管理器中：
+```python
+import weakref
+
+class CachedSpamManager:
+    def __init__(self):
+        self._cache = weakref.WeakValueDictionary()
+
+    def get_spam(self, name):
+        if name not in self._cache:
+            s = Spam(name)
+            self._cache[name] = s
+        else:
+            s = self._cache[name]
+        return s
+
+    def clear(self):
+            self._cache.clear()
+
+class Spam:
+    manager = CachedSpamManager()
+    def __init__(self, name):
+        self.name = name
+
+    def get_spam(name):
+        return Spam.manager.get_spam(name)
+```
+但是这样暴露了类的实例化给用户，如果想阻止用户实例化该类的话，可以通过如下方法解决
+```python
+# ------------------------最后的修正方案------------------------
+class CachedSpamManager2:
+    def __init__(self):
+        self._cache = weakref.WeakValueDictionary()
+
+    def get_spam(self, name):
+        if name not in self._cache:
+            temp = Spam3._new(name)  # Modified creation
+            self._cache[name] = temp
+        else:
+            temp = self._cache[name]
+        return temp
+
+    def clear(self):
+            self._cache.clear()
+
+class Spam3:
+    def __init__(self, *args, **kwargs):
+        raise RuntimeError("Can't instantiate directly")
+
+    # Alternate constructor
+    @classmethod
+    def _new(cls, name):
+        self = cls.__new__(cls)
+        self.name = name
+        return self
+```
+参考资料
+【1】[A Byte of Python3][id]
+【2】[python3-cookbook](http://python3-cookbook.readthedocs.org/zh_CN/latest/c01/p08_calculating_with_dict.html)
+[id]:http://code.google.com/p/proden/downloads/detail?name=A%20Byte%20of%20Python3(%E4%B8%AD%E6%96%87%E7%89%88).pdf

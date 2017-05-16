@@ -286,4 +286,170 @@ public class OptionalDemo {
 package cn.codepub.guava.demo;
 
 import com.google.common.base.Charsets;
-import com.google.common.hash.Ha
+import com.google.common.hash.HashCode;
+import com.google.common.hash.Hashing;
+
+/**
+ * <p>
+ * Created with IntelliJ IDEA. 2015/11/29 16:24
+ * </p>
+ * <p>
+ * ClassName:HashingDemo
+ * </p>
+ * <p>
+ * Description:TODO
+ * </P>
+ *
+ * @author Wang Xu
+ * @version V1.0.0
+ * @since V1.0.0
+ */
+public class HashingDemo {
+    public static void main(String[] args) {
+        byte sex = 1;
+        Person person = new Person(100, "eric", "wang", 1L, sex);
+        System.out.println(person.hashCode());//1935260882
+    }
+}
+class Person {
+    private int age;
+    private String firstName;
+    private String lastName;
+    private long id;
+    private byte sex;
+
+    public Person(int age, String firstName, String lastName, long id, byte sex) {
+        this.age = age;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.id = id;
+        this.sex = sex;
+    }
+
+    public int getAge() {
+        return this.age;
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    public long getId() {
+        return this.id;
+    }
+
+    public byte getSex() {
+        return this.sex;
+    }
+
+    @Override
+    public int hashCode() {
+        HashCode hashCode = Hashing.murmur3_128().newHasher().putInt(this.getAge()).putLong(this.getId())
+        .putString(this.getFirstName(), Charsets.UTF_8).putString(this.getLastName(), Charsets.UTF_8)
+        .putByte(this.getSex()).hash();
+        return hashCode.hashCode();
+    }
+}
+```
+##### Caching
+```java
+package cn.codepub.guava.demo;
+
+import com.google.common.cache.*;
+import com.sun.corba.se.impl.orbutil.graph.Graph;
+
+import java.security.Key;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * <p>
+ * Created with IntelliJ IDEA. 2015/11/29 16:54
+ * </p>
+ * <p>
+ * ClassName:CachingDemo
+ * </p>
+ * <p>
+ * Description:TODO
+ * </P>
+ *
+ * @author Wang Xu
+ * @version V1.0.0
+ * @since V1.0.0
+ */
+public class CachingDemo {
+    LoadingCache<Key, Graph> cache = CacheBuilder.newBuilder().maximumSize(10000)
+    .expireAfterWrite(10, TimeUnit.MINUTES).removalListener(new RemovalListener<Object, Object>() {
+        @Override
+        public void onRemoval(RemovalNotification<Object, Object> removalNotification) {
+            //implements your listener
+        }
+    }).build(new CacheLoader<Key, Graph>() {
+        @Override
+        public Graph load(Key key) throws Exception {
+            return null;
+        }
+    });
+}
+```
+
+##### 链式调用
+Guava中提供了大量方法，让我们可以使用链式调用的方式从而减少代码量。简单来说方法链一般适合对一个对象进行连续操作（集中在一句代码）。一定程度上可以减少代码量，缺点是它占用了函数的返回值。如果不需要使用到函数返回值的话，建议大家在封装自己的代码库的时候可以使用这种方式，提供一个简单的demo如下：
+```java
+package cn.codepub.guava.demo;
+
+/**
+ * <p>
+ * Created with IntelliJ IDEA. 2015/11/29 16:00
+ * </p>
+ * <p>
+ * ClassName:ChainEncapsulationDemo
+ * </p>
+ * <p>
+ * Description:TODO
+ * </P>
+ *
+ * @author Wang Xu
+ * @version V1.0.0
+ * @since V1.0.0
+ */
+public class ChainEncapsulationDemo {
+    private String message = "";
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public static void main(String[] args) {
+        ChainEncapsulationDemo chainEncapsulationDemo = new ChainEncapsulationDemo();
+        chainEncapsulationDemo = chainEncapsulationDemo.method1().method2().method3();
+        System.out.println(chainEncapsulationDemo.getMessage());
+
+    }
+
+    public ChainEncapsulationDemo method1() {
+        this.setMessage(this.getMessage() + "add method1 ...\n");
+        return this;
+    }
+
+
+    public ChainEncapsulationDemo method2() {
+        this.setMessage(this.getMessage() + "add method2 ...\n");
+        return this;
+    }
+
+    public ChainEncapsulationDemo method3() {
+        this.setMessage(this.getMessage() + "add method3 ...");
+        return this;
+    }
+}
+```
+##### Apache VS. Guava
+关于使用Apache Commons还是Guava的讨论看[这里](http://stackoverflow.com/questions/4542550/what-are-the-big-improvements-between-guava-and-apache-equivalent-libraries)

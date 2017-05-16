@@ -159,4 +159,71 @@ Person p = (Person)beanFactory.getBean("person");
 ```
 
 #### 容器后处理器
-Bean后处理器负责处理容器中的所有Bean实例，而容器后处理器则负责处理容器本身。容器后处理器必须实现`BeanFactoryPostProcessor`接口，并实现该接口的一个方法`postProcessBeanFactory(Conf
+Bean后处理器负责处理容器中的所有Bean实例，而容器后处理器则负责处理容器本身。容器后处理器必须实现`BeanFactoryPostProcessor`接口，并实现该接口的一个方法`postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)`实现该方法的方法体就是对Spring容器进行的处理，这种处理可以对Spring容器进行自定义扩展，当然也可以对Spring容器不进行任何处理。
+
+类似于`BeanPostProcessor`，`ApplicationContext`可自动检测到容器中的容器后处理器，并且自动注册容器后处理器。但若使用`BeanFactory`作为Spring容器，则必须手动调用该容器后处理器来处理`BeanFactory`容器。
+
+### Spring的“零配置”支持
+#### 搜索Bean类
+Spring提供如下几个Annotation来标注Spring Bean
+* `@Component`: 标注一个普通的Spring Bean类
+* `@Controller`: 标注一个控制器组件类
+* `@Service`: 标注一个业务逻辑组件类
+* `@Repository`: 标注一个DAO组件类
+
+在Spring配置文件中做如下配置，指定自动扫描的包
+```xml
+<context:component-scan base-package="edu.shu.spring.domain"/>
+```
+#### 使用@Resource配置依赖
+`@Resource`位于`javax.annotation`包下，是来自JavaEE规范的一个`Annotation`，Spring直接借鉴了该`Annotation`，通过使用该`Annotation`为目标Bean指定协作者Bean。使用`@Resource`与`<property.../>`元素的ref属性有相同的效果。
+`@Resource`不仅可以修饰setter方法，也可以直接修饰实例变量，如果使用`@Resource`修饰实例变量将会更加简单，此时Spring将会直接使用JavaEE规范的Field注入，此时连setter方法都可以不要。
+#### 使用@PostConstruct和@PreDestroy定制生命周期行为
+`@PostConstruct`和`@PreDestroy`同样位于javax.annotation包下，也是来自JavaEE规范的两个Annotation，Spring直接借鉴了它们，用于定制Spring容器中Bean的生命周期行为。它们都用于修饰方法，无须任何属性。其中前者修饰的方法时Bean的初始化方法；而后者修饰的方法时Bean销毁之前的方法。
+#### Spring4.0增强的自动装配和精确装配
+Spring提供了`@Autowired`注解来指定自动装配，`@Autowired`可以修饰setter方法、普通方法、实例变量和构造器等。当使用`@Autowired`标注setter方法时，默认采用byType自动装配策略。在这种策略下，符合自动装配类型的候选Bean实例常常有多个，这个时候就可能引起异常，为了实现精确的自动装配，Spring提供了`@Qualifier`注解，通过使用`@Qualifier`，允许根据Bean的id来执行自动装配。
+
+### Spring的AOP
+#### 为什么需要AOP
+AOP（Aspect Orient Programming）也就是面向切面编程，作为面向对象编程的一种补充，已经成为一种比较成熟的编程方式。其实AOP问世的时间并不太长，AOP和OOP互为补充，面向切面编程将程序运行过程分解成各个切面。
+
+AOP专门用于处理系统中分布于各个模块（不同方法）中的交叉关注点的问题，在JavaEE应用中，常常通过AOP来处理一些具有横切性质的系统级服务，如事务管理、安全检查、缓存、对象池管理等，AOP已经成为一种非常常用的解决方案。
+
+#### 使用AspectJ实现AOP
+AspectJ是一个基于Java语言的AOP框架，提供了强大的AOP功能，其他很多AOP框架都借鉴或采纳其中的一些思想。其主要包括两个部分：一个部分定义了如何表达、定义AOP编程中的语法规范，通过这套语法规范，可以方便地用AOP来解决Java语言中存在的交叉关注点的问题；另一个部分是工具部分，包括编译、调试工具等。
+
+AOP实现可分为两类
+1. 静态AOP实现: AOP框架在编译阶段对程序进行修改，即实现对目标类的增强，生成静态的AOP代理类，以AspectJ为代表
+2. 动态AOP实现: AOP框架在运行阶段动态生成AOP代理，以实现对目标对象的增强，以Spring AOP为代表
+
+一般来说，静态AOP实现具有较好的性能，但需要使用特殊的编译器。动态AOP实现是纯Java实现，因此无须特殊的编译器，但是通常性能略差。
+#### AOP的基本概念
+关于面向切面编程的一些术语
+* 切面（Aspect）: 切面用于组织多个Advice，Advice放在切面中定义
+* 连接点（Joinpoint）: 程序执行过程中明确的点，如方法的调用，或者异常的抛出。在Spring AOP中，连接点总是方法的调用
+* 增强处理（Advice）: AOP框架在特定的切入点执行的增强处理。处理有“around”、“before”和“after”等类型
+* 切入点（Pointcut）: 可以插入增强处理的连接点。简而言之，当某个连接点满足指定要求时，该连接点将被添加增强处理，该连接点也就变成了切入点
+
+#### Spring的AOP支持
+Spring中的AOP代理由Spring的IoC容器负责生成、管理，其依赖关系也由IoC容器负责管理。
+为了在应用中使用`@AspectJ`支持，Spring需要添加三个库
+* `aspectjweaver.jar`
+* `aspectjrt.jar`
+* `aopalliance.jar`
+
+并在Spring配置文件中做如下配置
+```xml
+<!--启动@AspectJ支持-->
+<aop:aspectj-autoproxy/>
+
+<!--指定自动搜索Bean组件、自动搜索切面类-->
+<context:component-scan base-package="edu.shu.sprint.service">
+    <context:include-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect"/>
+</context:component-scan>
+```
+
+参考资料
+【1】轻量级JavaEE企业应用实战-Struts2+Spring4+Hibernate整合开发
+  [1]: http://7xig3q.com1.z0.glb.clouddn.com/spring-logo.png
+  [2]: http://7xig3q.com1.z0.glb.clouddn.com/spring-overview-architecture.png
+  [3]: http://7xig3q.com1.z0.glb.clouddn.com/spring-bean-post-process.jpg
