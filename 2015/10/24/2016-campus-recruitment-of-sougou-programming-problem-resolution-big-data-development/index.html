@@ -59,19 +59,19 @@
 
 
 
-<meta name="description" content="最近邻居 解题思路：  使用JDK中的Point2D类，该类定义了坐标系空间中的一个点 Point2D是一个抽象类，但是在该类内部定义了静态的Double类，并且Double继承自Point2D 可以通过Double的构造方法来实例化空间中的某个点 将所有的输入数据全部实例化并存放在一个Point2D.Double的数组中 对该数组进行暴力破解，计算其中任意两个点之间的距离，时间复杂度为$O(n^">
+<meta name="description" content="###最近邻居 解题思路：  使用JDK中的Point2D类，该类定义了坐标系空间中的一个点 Point2D是一个抽象类，但是在该类内部定义了静态的Double类，并且Double继承自Point2D 可以通过Double的构造方法来实例化空间中的某个点 将所有的输入数据全部实例化并存放在一个Point2D.Double的数组中 对该数组进行暴力破解，计算其中任意两个点之间的距离，时间复杂度为$O">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搜狗2016校园招聘之编程题解析-大数据开发">
 <meta property="og:url" content="http://www.codepub.cn/2015/10/24/2016-campus-recruitment-of-sougou-programming-problem-resolution-big-data-development/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="最近邻居 解题思路：  使用JDK中的Point2D类，该类定义了坐标系空间中的一个点 Point2D是一个抽象类，但是在该类内部定义了静态的Double类，并且Double继承自Point2D 可以通过Double的构造方法来实例化空间中的某个点 将所有的输入数据全部实例化并存放在一个Point2D.Double的数组中 对该数组进行暴力破解，计算其中任意两个点之间的距离，时间复杂度为$O(n^">
+<meta property="og:description" content="###最近邻居 解题思路：  使用JDK中的Point2D类，该类定义了坐标系空间中的一个点 Point2D是一个抽象类，但是在该类内部定义了静态的Double类，并且Double继承自Point2D 可以通过Double的构造方法来实例化空间中的某个点 将所有的输入数据全部实例化并存放在一个Point2D.Double的数组中 对该数组进行暴力破解，计算其中任意两个点之间的距离，时间复杂度为$O">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/nearest_neighbor_sougou_examination_1.png">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/chaos_reduction_sougou_examination_2.png">
-<meta property="og:updated_time" content="2017-05-16T14:55:28.842Z">
+<meta property="og:updated_time" content="2017-05-16T15:24:00.912Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搜狗2016校园招聘之编程题解析-大数据开发">
-<meta name="twitter:description" content="最近邻居 解题思路：  使用JDK中的Point2D类，该类定义了坐标系空间中的一个点 Point2D是一个抽象类，但是在该类内部定义了静态的Double类，并且Double继承自Point2D 可以通过Double的构造方法来实例化空间中的某个点 将所有的输入数据全部实例化并存放在一个Point2D.Double的数组中 对该数组进行暴力破解，计算其中任意两个点之间的距离，时间复杂度为$O(n^">
+<meta name="twitter:description" content="###最近邻居 解题思路：  使用JDK中的Point2D类，该类定义了坐标系空间中的一个点 Point2D是一个抽象类，但是在该类内部定义了静态的Double类，并且Double继承自Point2D 可以通过Double的构造方法来实例化空间中的某个点 将所有的输入数据全部实例化并存放在一个Point2D.Double的数组中 对该数组进行暴力破解，计算其中任意两个点之间的距离，时间复杂度为$O">
 <meta name="twitter:image" content="http://7xig3q.com1.z0.glb.clouddn.com/nearest_neighbor_sougou_examination_1.png">
 
 
@@ -364,7 +364,7 @@
       
 
       
-        <h3 id="最近邻居"><a href="#最近邻居" class="headerlink" title="最近邻居"></a>最近邻居</h3><p><img src="http://7xig3q.com1.z0.glb.clouddn.com/nearest_neighbor_sougou_examination_1.png" alt=""></p>
+        <p>###最近邻居<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/nearest_neighbor_sougou_examination_1.png" alt=""></p>
 <p><strong>解题思路</strong>：</p>
 <ol>
 <li>使用JDK中的Point2D类，该类定义了坐标系空间中的一个点</li>
@@ -374,7 +374,8 @@
 <li>对该数组进行暴力破解，计算其中任意两个点之间的距离，时间复杂度为$O(n^2)$，并保留下最小的两个点的编号，且编号小的在前</li>
 </ol>
 <p><strong>Java算法实现</strong>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.awt.geom.Point2D;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * &lt;p&gt;</div><div class="line"> * Created with IntelliJ IDEA. 2015/9/26 15:26</div><div class="line"> * &lt;/p&gt;</div><div class="line"> * &lt;p&gt;</div><div class="line"> * ClassName:Main</div><div class="line"> * &lt;/p&gt;</div><div class="line"> * &lt;p&gt;</div><div class="line"> * Description:</div><div class="line"> * 测试数据</div><div class="line"> * 3</div><div class="line"> * 1.0 1.0002</div><div class="line"> * 3.03 3.023</div><div class="line"> * 0.0 -0.001</div><div class="line"> * Closest points: 0, 2</div><div class="line"> * Process finished with exit code 0</div><div class="line"> * &lt;/P&gt;</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> Wang Xu</div><div class="line"> * <span class="doctag">@version</span> V1.0.0</div><div class="line"> * <span class="doctag">@since</span> V1.0.0</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keyword">int</span>[] getClosest(Point2D.Double[] points) &#123;</div><div class="line">        <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</div><div class="line">        <span class="keyword">double</span> distance = Double.MAX_VALUE;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; points.length; i++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; points.length; j++) &#123;</div><div class="line">                <span class="keyword">if</span> (i != j) &#123;</div><div class="line">                    <span class="keyword">double</span> distance1 = points[i].distance(points[j]);</div><div class="line">                    <span class="keyword">if</span> (distance1 &lt; distance) &#123;</div><div class="line">                        distance = distance1;</div><div class="line">                        <span class="keyword">if</span> (i &lt; j) &#123;</div><div class="line">                            result[<span class="number">0</span>] = i;</div><div class="line">                            result[<span class="number">1</span>] = j;</div><div class="line">                        &#125; <span class="keyword">else</span> &#123;</div><div class="line">                            result[<span class="number">0</span>] = j;</div><div class="line">                            result[i] = i;</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Point2D.Double[] points;</div><div class="line">        Scanner input = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">int</span> n = input.nextInt();</div><div class="line">            input.nextLine();</div><div class="line">            points = <span class="keyword">new</span> Point2D.Double[n];</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</div><div class="line">                <span class="keyword">double</span> x = input.nextDouble();</div><div class="line">                <span class="keyword">double</span> y = input.nextDouble();</div><div class="line">                input.nextLine();</div><div class="line">                points[i] = <span class="keyword">new</span> Point2D.Double(x, y);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span>[] result = getClosest(points);</div><div class="line">        System.out.printf(<span class="string">"Closest points: %d, %d\n"</span>, result[<span class="number">0</span>], result[<span class="number">1</span>]);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="混乱还原"><a href="#混乱还原" class="headerlink" title="混乱还原"></a>混乱还原</h3><p><img src="http://7xig3q.com1.z0.glb.clouddn.com/chaos_reduction_sougou_examination_2.png" alt=""></p>
+<p>###混乱还原</p>
+<p><img src="http://7xig3q.com1.z0.glb.clouddn.com/chaos_reduction_sougou_examination_2.png" alt=""></p>
 <p><strong>解题思路</strong>：</p>
 <ol>
 <li>利用伪随机特性，只要时间种子一样且上限一样，其实随机数每次都会产生相同的数</li>
@@ -551,7 +552,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -560,7 +561,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -657,7 +658,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#最近邻居"><span class="nav-number">1.</span> <span class="nav-text">最近邻居</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#混乱还原"><span class="nav-number">2.</span> <span class="nav-text">混乱还原</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

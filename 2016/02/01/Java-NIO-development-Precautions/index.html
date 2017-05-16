@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="Java NIO的介绍首先要搞清楚两个概念，一个是NIO，另一个是NIO 2。NIO = New I/O是在JDK1.4中引入，也就是同步非阻塞I/O，简称NIO；而NIO 2是NIO的升级版，在JDK1.7中引入，也就是异步非阻塞I/O，简称AIO；而最早最传统的I/O属于同步阻塞I/O，简称BIO。 Java-NIO的优势 事件驱动模型 避免多线程 单线程处理多任务   非阻塞I/O，I/O读">
+<meta name="description" content="####Java NIO的介绍首先要搞清楚两个概念，一个是NIO，另一个是NIO 2。NIO = New I/O是在JDK1.4中引入，也就是同步非阻塞I/O，简称NIO；而NIO 2是NIO的升级版，在JDK1.7中引入，也就是异步非阻塞I/O，简称AIO；而最早最传统的I/O属于同步阻塞I/O，简称BIO。 ####Java-NIO的优势  事件驱动模型 避免多线程 单线程处理多任务   非阻">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java NIO开发注意点">
 <meta property="og:url" content="http://www.codepub.cn/2016/02/01/Java-NIO-development-Precautions/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="Java NIO的介绍首先要搞清楚两个概念，一个是NIO，另一个是NIO 2。NIO = New I/O是在JDK1.4中引入，也就是同步非阻塞I/O，简称NIO；而NIO 2是NIO的升级版，在JDK1.7中引入，也就是异步非阻塞I/O，简称AIO；而最早最传统的I/O属于同步阻塞I/O，简称BIO。 Java-NIO的优势 事件驱动模型 避免多线程 单线程处理多任务   非阻塞I/O，I/O读">
-<meta property="og:updated_time" content="2017-05-16T14:55:28.865Z">
+<meta property="og:description" content="####Java NIO的介绍首先要搞清楚两个概念，一个是NIO，另一个是NIO 2。NIO = New I/O是在JDK1.4中引入，也就是同步非阻塞I/O，简称NIO；而NIO 2是NIO的升级版，在JDK1.7中引入，也就是异步非阻塞I/O，简称AIO；而最早最传统的I/O属于同步阻塞I/O，简称BIO。 ####Java-NIO的优势  事件驱动模型 避免多线程 单线程处理多任务   非阻">
+<meta property="og:updated_time" content="2017-05-16T15:24:00.944Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java NIO开发注意点">
-<meta name="twitter:description" content="Java NIO的介绍首先要搞清楚两个概念，一个是NIO，另一个是NIO 2。NIO = New I/O是在JDK1.4中引入，也就是同步非阻塞I/O，简称NIO；而NIO 2是NIO的升级版，在JDK1.7中引入，也就是异步非阻塞I/O，简称AIO；而最早最传统的I/O属于同步阻塞I/O，简称BIO。 Java-NIO的优势 事件驱动模型 避免多线程 单线程处理多任务   非阻塞I/O，I/O读">
+<meta name="twitter:description" content="####Java NIO的介绍首先要搞清楚两个概念，一个是NIO，另一个是NIO 2。NIO = New I/O是在JDK1.4中引入，也就是同步非阻塞I/O，简称NIO；而NIO 2是NIO的升级版，在JDK1.7中引入，也就是异步非阻塞I/O，简称AIO；而最早最传统的I/O属于同步阻塞I/O，简称BIO。 ####Java-NIO的优势  事件驱动模型 避免多线程 单线程处理多任务   非阻">
 
 
 
@@ -361,8 +361,9 @@
       
 
       
-        <h4 id="Java-NIO的介绍"><a href="#Java-NIO的介绍" class="headerlink" title="Java NIO的介绍"></a>Java NIO的介绍</h4><p>首先要搞清楚两个概念，一个是<code>NIO</code>，另一个是<code>NIO 2</code>。<code>NIO = New I/O</code>是在<code>JDK1.4</code>中引入，也就是同步非阻塞<code>I/O</code>，简称<code>NIO</code>；而<code>NIO 2</code>是<code>NIO</code>的升级版，在<code>JDK1.7</code>中引入，也就是异步非阻塞<code>I/O</code>，简称<code>AIO</code>；而最早最传统的<code>I/O</code>属于同步阻塞<code>I/O</code>，简称<code>BIO</code>。</p>
-<h4 id="Java-NIO的优势"><a href="#Java-NIO的优势" class="headerlink" title="Java-NIO的优势"></a>Java-NIO的优势</h4><ul>
+        <p>####Java NIO的介绍<br>首先要搞清楚两个概念，一个是<code>NIO</code>，另一个是<code>NIO 2</code>。<code>NIO = New I/O</code>是在<code>JDK1.4</code>中引入，也就是同步非阻塞<code>I/O</code>，简称<code>NIO</code>；而<code>NIO 2</code>是<code>NIO</code>的升级版，在<code>JDK1.7</code>中引入，也就是异步非阻塞<code>I/O</code>，简称<code>AIO</code>；而最早最传统的<code>I/O</code>属于同步阻塞<code>I/O</code>，简称<code>BIO</code>。</p>
+<p>####Java-NIO的优势</p>
+<ul>
 <li>事件驱动模型<ul>
 <li>避免多线程</li>
 <li>单线程处理多任务</li>
@@ -373,12 +374,14 @@
 <li>更高级的<code>I/O</code>函数，<code>zero-copy</code></li>
 <li><code>I/O</code>多路复用大大提高了Java网络应用的可伸缩性和实用性</li>
 </ul>
-<h4 id="NIO工作原理"><a href="#NIO工作原理" class="headerlink" title="NIO工作原理"></a>NIO工作原理</h4><ul>
+<p>####NIO工作原理</p>
+<ul>
 <li>由一个专门的线程来处理所有的<code>I/O</code>事件，并负责分发</li>
 <li>事件驱动机制：事件到的时候触发，而不是同步的去监视事件</li>
 <li>线程通讯：线程之间通过<code>wait</code>，<code>notify</code>等方式通讯。保证每次上下文切换都是有意义的，减少无谓的线程切换</li>
 </ul>
-<h4 id="NIO开发相关模糊知识点"><a href="#NIO开发相关模糊知识点" class="headerlink" title="NIO开发相关模糊知识点"></a>NIO开发相关模糊知识点</h4><ol>
+<p>####NIO开发相关模糊知识点</p>
+<ol>
 <li><p>首先<code>Selector.open()</code>并不是单例模式，当你每次调用该静态方法时候，都返回一个全新的<code>Selector</code>实例</p>
 </li>
 <li><p><code>configureBlocking()</code>方法用来设置通道的阻塞模式，该方法会调用<code>implConfigureBlocking</code>方法，<code>implConfigureBlocking</code>方法会更改阻塞模式为新传入的值，如：默认为true，传入false，那么该通道将调整为非阻塞，可以通过调用<code>isBlocking()</code>方法来判断某个<code>socket</code>通道当前处于哪种模式</p>
@@ -478,8 +481,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/12/21/CCF-sixth-CSP-certification-exams-Solutions/" rel="next" title="CCF第六次CSP认证考试题解">
-                <i class="fa fa-chevron-left"></i> CCF第六次CSP认证考试题解
+              <a href="/2015/12/31/2015-year-end-summary/" rel="next" title="2015年终总结">
+                <i class="fa fa-chevron-left"></i> 2015年终总结
               </a>
             
           </div>
@@ -591,7 +594,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -600,7 +603,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -697,7 +700,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-NIO的介绍"><span class="nav-number">1.</span> <span class="nav-text">Java NIO的介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-NIO的优势"><span class="nav-number">2.</span> <span class="nav-text">Java-NIO的优势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO工作原理"><span class="nav-number">3.</span> <span class="nav-text">NIO工作原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NIO开发相关模糊知识点"><span class="nav-number">4.</span> <span class="nav-text">NIO开发相关模糊知识点</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="问题来源一般来说，一个稍微大些的项目都会有一些依赖的Jar包，而在将项目部署到服务器的过程中，如果没有持续集成环境的话，也就是说服务器不支持在线编译及打包，那么需要自己上传依赖的Jar包，然而可能服务器上已经存在了该项目所依赖的Jar包（比如项目修复BUG，重新打包上传，而依赖不变），无需再次上传，此时只需将该项目单独打包，在运行的时候指定CLASSPATH即可。 在将Jar包部署到服务器上之后，">
+<meta name="description" content="####问题来源一般来说，一个稍微大些的项目都会有一些依赖的Jar包，而在将项目部署到服务器的过程中，如果没有持续集成环境的话，也就是说服务器不支持在线编译及打包，那么需要自己上传依赖的Jar包，然而可能服务器上已经存在了该项目所依赖的Jar包（比如项目修复BUG，重新打包上传，而依赖不变），无需再次上传，此时只需将该项目单独打包，在运行的时候指定CLASSPATH即可。 在将Jar包部署到服务器">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux下使用java -jar运行可执行jar包的正确方式">
 <meta property="og:url" content="http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="问题来源一般来说，一个稍微大些的项目都会有一些依赖的Jar包，而在将项目部署到服务器的过程中，如果没有持续集成环境的话，也就是说服务器不支持在线编译及打包，那么需要自己上传依赖的Jar包，然而可能服务器上已经存在了该项目所依赖的Jar包（比如项目修复BUG，重新打包上传，而依赖不变），无需再次上传，此时只需将该项目单独打包，在运行的时候指定CLASSPATH即可。 在将Jar包部署到服务器上之后，">
-<meta property="og:updated_time" content="2017-05-16T14:55:28.870Z">
+<meta property="og:description" content="####问题来源一般来说，一个稍微大些的项目都会有一些依赖的Jar包，而在将项目部署到服务器的过程中，如果没有持续集成环境的话，也就是说服务器不支持在线编译及打包，那么需要自己上传依赖的Jar包，然而可能服务器上已经存在了该项目所依赖的Jar包（比如项目修复BUG，重新打包上传，而依赖不变），无需再次上传，此时只需将该项目单独打包，在运行的时候指定CLASSPATH即可。 在将Jar包部署到服务器">
+<meta property="og:updated_time" content="2017-05-16T15:24:01.020Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux下使用java -jar运行可执行jar包的正确方式">
-<meta name="twitter:description" content="问题来源一般来说，一个稍微大些的项目都会有一些依赖的Jar包，而在将项目部署到服务器的过程中，如果没有持续集成环境的话，也就是说服务器不支持在线编译及打包，那么需要自己上传依赖的Jar包，然而可能服务器上已经存在了该项目所依赖的Jar包（比如项目修复BUG，重新打包上传，而依赖不变），无需再次上传，此时只需将该项目单独打包，在运行的时候指定CLASSPATH即可。 在将Jar包部署到服务器上之后，">
+<meta name="twitter:description" content="####问题来源一般来说，一个稍微大些的项目都会有一些依赖的Jar包，而在将项目部署到服务器的过程中，如果没有持续集成环境的话，也就是说服务器不支持在线编译及打包，那么需要自己上传依赖的Jar包，然而可能服务器上已经存在了该项目所依赖的Jar包（比如项目修复BUG，重新打包上传，而依赖不变），无需再次上传，此时只需将该项目单独打包，在运行的时候指定CLASSPATH即可。 在将Jar包部署到服务器">
 
 
 
@@ -361,11 +361,11 @@
       
 
       
-        <h4 id="问题来源"><a href="#问题来源" class="headerlink" title="问题来源"></a>问题来源</h4><p>一般来说，一个稍微大些的项目都会有一些依赖的<strong>Jar</strong>包，而在将项目部署到服务器的过程中，如果没有持续集成环境的话，也就是说服务器不支持在线编译及打包，那么需要自己上传依赖的<strong>Jar</strong>包，然而可能服务器上已经存在了该项目所依赖的<strong>Jar</strong>包（比如项目修复BUG，重新打包上传，而依赖不变），无需再次上传，此时只需将该项目单独打包，在运行的时候指定<strong>CLASSPATH</strong>即可。</p>
+        <p>####问题来源<br>一般来说，一个稍微大些的项目都会有一些依赖的<strong>Jar</strong>包，而在将项目部署到服务器的过程中，如果没有持续集成环境的话，也就是说服务器不支持在线编译及打包，那么需要自己上传依赖的<strong>Jar</strong>包，然而可能服务器上已经存在了该项目所依赖的<strong>Jar</strong>包（比如项目修复BUG，重新打包上传，而依赖不变），无需再次上传，此时只需将该项目单独打包，在运行的时候指定<strong>CLASSPATH</strong>即可。</p>
 <p>在将<strong>Jar</strong>包部署到服务器上之后，设置<strong>CLASSPATH</strong>环境变量，运行<code>java -jar ...</code>命令出现<strong>ClassNotFoundException</strong>异常。之后又试用了诸多其它参数设置CLASSPATH，例如下面几个命令，同样都是报找不到类异常。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">set CLASSPATH = classpath1;classpath2...</div><div class="line">java -classpath &quot;.;D:\mylib\*&quot; -jar jar包 #Windows设置</div><div class="line">java -classpath &quot;.:/data/home/mylib/*&quot; -jar jar包 #Linux设置</div><div class="line">java -cp ...</div><div class="line">java -cp /lib/*</div></pre></td></tr></table></figure></p>
 <p>关于在<strong>CLASSPATH</strong>参数中使用通配符需要注意<br>正确方式（冒号代表是Linux，Windows使用分号）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java -classpath &quot;lib/*:.&quot; my.package.Program</div></pre></td></tr></table></figure></p>
 <p>不正确方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">java -classpath &quot;lib/a*.jar:.&quot; my.package.Program</div><div class="line">java -classpath &quot;lib/a*:.&quot;     my.package.Program</div><div class="line">java -classpath &quot;lib/*.jar:.&quot;  my.package.Program</div><div class="line">java -classpath  lib/*:.       my.package.Program</div></pre></td></tr></table></figure></p>
-<h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><p>首先你需要知道<strong>Jar</strong>包分为可执行<strong>Jar</strong>和非可执行<strong>Jar</strong>，一个可执行的<strong>Jar</strong>文件是一个自包含的<strong>Java</strong>应用程序，它存储在特别配置的<strong>JAR</strong>文件中，可以由<strong>JVM</strong>直接执行它而无需事先提取文件或者设置类路径。要运行存储在非可执行的<strong>JAR</strong>中的应用程序，必须将它加入到您的类路径中，并用名字调用应用程序的主类。但是使用可执行的<strong>JAR</strong>文件，我们可以不用提取它或者知道主要入口点就可以运行一个应用程序。可执行<strong>JAR</strong>有助于方便发布和执行<strong>Java</strong>应用程序。</p>
+<p>####解决办法<br>首先你需要知道<strong>Jar</strong>包分为可执行<strong>Jar</strong>和非可执行<strong>Jar</strong>，一个可执行的<strong>Jar</strong>文件是一个自包含的<strong>Java</strong>应用程序，它存储在特别配置的<strong>JAR</strong>文件中，可以由<strong>JVM</strong>直接执行它而无需事先提取文件或者设置类路径。要运行存储在非可执行的<strong>JAR</strong>中的应用程序，必须将它加入到您的类路径中，并用名字调用应用程序的主类。但是使用可执行的<strong>JAR</strong>文件，我们可以不用提取它或者知道主要入口点就可以运行一个应用程序。可执行<strong>JAR</strong>有助于方便发布和执行<strong>Java</strong>应用程序。</p>
 <p>对于可执行<strong>Jar</strong>，在运行<strong>java -jar</strong>选项的时候，那么环境变量<strong>CLASSPATH</strong>和在命令行中指定的所有类路径都将被<strong>JVM</strong>忽略，也就是说，对于一个可执行<strong>Jar</strong>，使用<strong>java -classpath</strong>或者<strong>java -cp</strong>或者<strong>set classpath=lib/commons-io-2.4.jar</strong>等等命令指定<strong>CLASSPATH</strong>都是无效的。</p>
 <p>对于一个可执行的<strong>JAR</strong>必须通过<strong>MANIFEST.MF</strong>文件的头引用它所需要的所有其他从属<strong>JAR</strong>，引用方式如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Class-Path: lib/commons-io-2.4.jar lib/commons-lang3-3.4.jar</div></pre></td></tr></table></figure></p>
 <p>如果有多个<strong>Jar</strong>包那么相互之间使用空格分隔。<strong>MANIFEST</strong>文件的一般格式如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Manifest-Version: 1.0</div><div class="line">Archiver-Version: Plexus Archiver</div><div class="line">Built-By: wangxu</div><div class="line">X-Compile-Target-JDK: 1.7</div><div class="line">X-Compile-Source-JDK: 1.7</div><div class="line">Created-By: Apache Maven 3.3.3</div><div class="line">Build-Jdk: 1.8.0_45</div><div class="line">Main-Class: com.yuewen.statistics.report.service.Main</div><div class="line">Class-Path: lib/commons-io-2.4.jar lib/commons-lang3-3.4.jar lib/guava-18.0.jar lib/junit-4.10.jar lib/log4j-api-2.0.jar lib/log4j-core-2.0.jar lib/lombok-1.16.4.jar lib/lucene-analyzers-common-5.5.0.jar lib/lucene-analyzers-smartcn-5.5.0.jar lib/lucene-core-5.5.0.jar lib/lucene-grouping-5.5.0.jar lib/lucene-queries-5.5.0.jar lib/lucene-queryparser-5.5.0.jar lib/mysql-connector-java-5.1.38-bin.jar</div></pre></td></tr></table></figure></p>
@@ -376,7 +376,7 @@
 <li>文件的冒号后面必须要空一个空格，否则会出错</li>
 <li>文件的最后一行必须是一个回车换行符，否则也会出错</li>
 </ul>
-<h4 id="多条java-jar命令的执行顺序问题"><a href="#多条java-jar命令的执行顺序问题" class="headerlink" title="多条java jar命令的执行顺序问题"></a>多条java jar命令的执行顺序问题</h4><p>通常情况下，我们会在服务器上配置<strong>shell</strong>脚本去定时调用自己的<strong>Jar</strong>包，但是当<strong>shell</strong>脚本中存在多条<code>java -jar</code>命令时，其执行情况是怎么样的呢？是同时并行执行，还是挨个按顺序执行呢？经过测试得出，多条<code>java -jar</code>命令是按顺序执行的，并且只有在第一条<code>java -jar</code>命令执行完毕后，才会执行下一条<code>java -jar</code>命令，依次类推。</p>
+<p>####多条java jar命令的执行顺序问题<br>通常情况下，我们会在服务器上配置<strong>shell</strong>脚本去定时调用自己的<strong>Jar</strong>包，但是当<strong>shell</strong>脚本中存在多条<code>java -jar</code>命令时，其执行情况是怎么样的呢？是同时并行执行，还是挨个按顺序执行呢？经过测试得出，多条<code>java -jar</code>命令是按顺序执行的，并且只有在第一条<code>java -jar</code>命令执行完毕后，才会执行下一条<code>java -jar</code>命令，依次类推。</p>
 <p>参考资料<br>【1】<a href="http://stackoverflow.com/questions/219585/setting-multiple-jars-in-java-classpath/219801#219801" target="_blank" rel="external">http://stackoverflow.com/questions/219585/setting-multiple-jars-in-java-classpath/219801#219801</a><br>【2】<a href="https://www.ibm.com/developerworks/cn/java/j-jar/" target="_blank" rel="external">https://www.ibm.com/developerworks/cn/java/j-jar/</a></p>
 
       
@@ -432,8 +432,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/15/A-small-trap-of-JDBC-connection-to-MySQL-in-java/" rel="next" title="Java之JDBC连接MySQL的一点坑">
-                <i class="fa fa-chevron-left"></i> Java之JDBC连接MySQL的一点坑
+              <a href="/2016/05/07/IntelliJ-IDEA-using-maven-javadoc-plugin-to-generate-the-Java-Doc-console-gibberish/" rel="next" title="IntelliJ IDEA使用maven-javadoc-plugin生成Java Doc控制台乱码">
+                <i class="fa fa-chevron-left"></i> IntelliJ IDEA使用maven-javadoc-plugin生成Java Doc控制台乱码
               </a>
             
           </div>
@@ -545,7 +545,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -554,7 +554,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -651,7 +651,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题来源"><span class="nav-number">1.</span> <span class="nav-text">问题来源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决办法"><span class="nav-number">2.</span> <span class="nav-text">解决办法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多条java-jar命令的执行顺序问题"><span class="nav-number">3.</span> <span class="nav-text">多条java jar命令的执行顺序问题</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

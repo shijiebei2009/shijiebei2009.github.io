@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="引言Lucene6.0于2016年4月8日发布，要求最低Java版本是Java 8。 相信大多数公司的数据库都需要采用分库分表等一些策略，而对于某些特定的业务需求，分别从不同的库不同的表中去检索特定的数据显得比较繁琐，而Lucene正好可以解决某些特殊需求，对于不同库不同表中的数据先建立全量索引，然后将需要检索的数据写入某个单独的表中，供其它业务需求方查询，以后的每天只需要做增量索引并写入数据表即">
+<meta name="description" content="###引言Lucene6.0于2016年4月8日发布，要求最低Java版本是Java 8。 相信大多数公司的数据库都需要采用分库分表等一些策略，而对于某些特定的业务需求，分别从不同的库不同的表中去检索特定的数据显得比较繁琐，而Lucene正好可以解决某些特殊需求，对于不同库不同表中的数据先建立全量索引，然后将需要检索的数据写入某个单独的表中，供其它业务需求方查询，以后的每天只需要做增量索引并写入数">
 <meta name="keywords" content="Lucene">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Lucene 6.0 实战（1）-创建索引">
 <meta property="og:url" content="http://www.codepub.cn/2016/05/20/Lucene-6-0-in-action-1-Index-creation/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="引言Lucene6.0于2016年4月8日发布，要求最低Java版本是Java 8。 相信大多数公司的数据库都需要采用分库分表等一些策略，而对于某些特定的业务需求，分别从不同的库不同的表中去检索特定的数据显得比较繁琐，而Lucene正好可以解决某些特殊需求，对于不同库不同表中的数据先建立全量索引，然后将需要检索的数据写入某个单独的表中，供其它业务需求方查询，以后的每天只需要做增量索引并写入数据表即">
-<meta property="og:updated_time" content="2017-05-16T14:55:28.875Z">
+<meta property="og:description" content="###引言Lucene6.0于2016年4月8日发布，要求最低Java版本是Java 8。 相信大多数公司的数据库都需要采用分库分表等一些策略，而对于某些特定的业务需求，分别从不同的库不同的表中去检索特定的数据显得比较繁琐，而Lucene正好可以解决某些特殊需求，对于不同库不同表中的数据先建立全量索引，然后将需要检索的数据写入某个单独的表中，供其它业务需求方查询，以后的每天只需要做增量索引并写入数">
+<meta property="og:updated_time" content="2017-05-16T15:24:00.954Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lucene 6.0 实战（1）-创建索引">
-<meta name="twitter:description" content="引言Lucene6.0于2016年4月8日发布，要求最低Java版本是Java 8。 相信大多数公司的数据库都需要采用分库分表等一些策略，而对于某些特定的业务需求，分别从不同的库不同的表中去检索特定的数据显得比较繁琐，而Lucene正好可以解决某些特殊需求，对于不同库不同表中的数据先建立全量索引，然后将需要检索的数据写入某个单独的表中，供其它业务需求方查询，以后的每天只需要做增量索引并写入数据表即">
+<meta name="twitter:description" content="###引言Lucene6.0于2016年4月8日发布，要求最低Java版本是Java 8。 相信大多数公司的数据库都需要采用分库分表等一些策略，而对于某些特定的业务需求，分别从不同的库不同的表中去检索特定的数据显得比较繁琐，而Lucene正好可以解决某些特殊需求，对于不同库不同表中的数据先建立全量索引，然后将需要检索的数据写入某个单独的表中，供其它业务需求方查询，以后的每天只需要做增量索引并写入数">
 
 
 
@@ -361,10 +361,10 @@
       
 
       
-        <h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p><strong>Lucene6.0</strong>于<strong>2016年4月8日</strong>发布，要求最低Java版本是<strong>Java 8</strong>。</p>
+        <p>###引言<br><strong>Lucene6.0</strong>于<strong>2016年4月8日</strong>发布，要求最低Java版本是<strong>Java 8</strong>。</p>
 <p>相信大多数公司的数据库都需要采用分库分表等一些策略，而对于某些特定的业务需求，分别从不同的库不同的表中去检索特定的数据显得比较繁琐，而Lucene正好可以解决某些特殊需求，对于不同库不同表中的数据先建立全量索引，然后将需要检索的数据写入某个单独的表中，供其它业务需求方查询，以后的每天只需要做增量索引并写入数据表即可。</p>
 <p>鉴于最近一直在做Lucene相关方面的工作，而本人一向又比较喜欢使用最新发布的版本，而网络上这类资源极少，故将一些要点及示例整理出来，本文主要从实战角度来介绍Lucene 6.0的使用，不涉及过多原理方面的东西，但是对于一些核心点也会有所提及。</p>
-<h3 id="Lucene为什么这么流行"><a href="#Lucene为什么这么流行" class="headerlink" title="Lucene为什么这么流行"></a>Lucene为什么这么流行</h3><p>Lucene是一个高效的，基于Java的全文检索库，生活中数据主要分为两种：结构化数据和非结构化数据。一般使用的XML、JSON、数据库等都是结构化数据，非结构化数据也叫全文数据，而这种全文数据正是Lucene的用武之地。全文检索主要有两个过程，索引创建（Indexing）和搜索索引（Search）。</p>
+<p>###Lucene为什么这么流行<br>Lucene是一个高效的，基于Java的全文检索库，生活中数据主要分为两种：结构化数据和非结构化数据。一般使用的XML、JSON、数据库等都是结构化数据，非结构化数据也叫全文数据，而这种全文数据正是Lucene的用武之地。全文检索主要有两个过程，索引创建（Indexing）和搜索索引（Search）。</p>
 <p>Lucene是很多搜索引擎的一个基础实现，被很多大公司所采用，例如Netflix，MySpace，LinkedIn，Twitter，IBM等。可以通过如下几点特性对Lucene有个大概的认识</p>
 <ul>
 <li>在现代的硬件上一小时可以索引150GB的数据</li>
@@ -393,7 +393,7 @@
 <li><strong>Ferret</strong>: Lucene implementation in Ruby (<a href="http://ferret.davebalmain.com/trac/" target="_blank" rel="external">http://ferret.davebalmain.com/trac/</a>)</li>
 <li><strong>Montezuma</strong>: Lucene implementation in Common Lisp (<a href="http://www.cliki.net/Montezuma" target="_blank" rel="external">http://www.cliki.net/Montezuma</a>)</li>
 </ul>
-<h3 id="存储索引"><a href="#存储索引" class="headerlink" title="存储索引"></a>存储索引</h3><p>索引由Lucene按照特定的格式创建，而创建出来的索引必然要存储在文件系统之上，Lucene在文件系统中存储索引的最基本的抽象实现类是BaseDirectory，该类继承自Directory，BaseDirectory有两个主要的实现类：</p>
+<p>###存储索引<br>索引由Lucene按照特定的格式创建，而创建出来的索引必然要存储在文件系统之上，Lucene在文件系统中存储索引的最基本的抽象实现类是BaseDirectory，该类继承自Directory，BaseDirectory有两个主要的实现类：</p>
 <ul>
 <li>FSDirectory：在文件系统上存储索引文件，有六个子类，如下是三个常用的子类<ul>
 <li>SimpleFSDirectory：使用Files.newByteChannel实现，对并发支持不好，它会在多线程读取同一份文件时进行同步操作</li>
@@ -415,7 +415,7 @@
 </ul>
 <p><strong>MMapDirectory</strong>就目前来说，是比较好的实现。它使用virtual memory和mmap来访问磁盘文件。一般的方法都是依赖系统调用在文件系统cache以及Java heap之间拷贝数据。那么怎么才能直接访问文件系统cache呢？这就是mmap的作用！</p>
 <p>简单说MMapDirectory就是把lucene的索引当作swap file来处理。mmap()系统调用让OS把整个索引文件映射到虚拟地址空间，这样Lucene就会觉得索引在内存中。然后Lucene就可以像访问一个超大的byte[]数据（在Java中这个数据被封装在ByteBuffer接口里）一样访问磁盘上的索引文件。Lucene在访问虚拟空间中的索引时，不需要任何的系统调用，CPU里的MMU（memory management unit）和TLB（translation lookaside buffers, 它cache了频繁被访问的page）会处理所有的映射工作。如果数据还在磁盘上，那么MMU会发起一个中断，OS将会把数据加载进文件系统Cache。如果数据已经在cache里了，MMU/TLB会直接把数据映射到内存，这只需要访问内存，速度很快。程序员不需要关心paging in/out，所有的这些都交给OS。而且，这种情况下没有并发的干扰，唯一的问题就是Java的ByteBuffer封装后的byte[]稍微慢一些，但是Java里要想用mmap就只能用这个接口。还有一个很大的优点就是所有的内存issue都由OS来负责，这样没有GC的问题。</p>
-<h3 id="索引核心类"><a href="#索引核心类" class="headerlink" title="索引核心类"></a>索引核心类</h3><p>执行简单的索引过程需要用到以下几个类：</p>
+<p>###索引核心类<br>执行简单的索引过程需要用到以下几个类：</p>
 <ul>
 <li><strong>IndexWriter</strong>：负责创建索引或打开已有索引</li>
 <li><strong>IndexWriterConfig</strong>：持有创建IndexWriter的所有配置项</li>
@@ -425,7 +425,7 @@
 <li><strong>Field</strong>：索引中的每个文档都包含一个或多个不同命名的域，每个域都有一个域名和对应的域值</li>
 <li><strong>FieldType</strong>：描述了Field的各种属性，在不使用某种具体的Field类型（例如StringField，TextField）时需要用到此类</li>
 </ul>
-<h3 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h3><p>索引的创建方式有三种，通过IndexWriterConfig.OpenMode进行指定，分别是</p>
+<p>###创建索引<br>索引的创建方式有三种，通过IndexWriterConfig.OpenMode进行指定，分别是</p>
 <ul>
 <li>CREATE：创建一个新的索引或者覆写已经存在的索引</li>
 <li>APPEND：打开一个已经存在的索引</li>
@@ -438,7 +438,7 @@
 <blockquote>
 <p>IFD 0 [2016-05-19T07:10:21.127Z; main]: init: current segments file is “segments”; deletionPolicy=org.apache.lucene.index.KeepOnlyLastCommitDeletionPolicy@691a7f8f<br>IFD 0 [2016-05-19T07:10:21.167Z; main]: delete []<br>IFD 0 [2016-05-19T07:10:21.167Z; main]: now checkpoint “” [0 segments ; isCommit = false]<br>IFD 0 [2016-05-19T07:10:21.167Z; main]: delete []<br>IFD 0 [2016-05-19T07:10:21.167Z; main]: 0 msec to checkpoint<br>IW 0 [2016-05-19T07:10:21.167Z; main]: init: create=true<br>IW 0 [2016-05-19T07:10:21.168Z; main]:<br>…<br>…<br>DW 0 [2016-05-19T07:10:21.271Z; main]: main finishFullFlush success=true<br>IW 0 [2016-05-19T07:10:21.271Z; main]: startCommit(): start<br>IW 0 [2016-05-19T07:10:21.271Z; main]:   skip startCommit(): no changes pending<br>IFD 0 [2016-05-19T07:10:21.271Z; main]: delete []<br>IW 0 [2016-05-19T07:10:21.271Z; main]: commit: pendingCommit == null; skip<br>IW 0 [2016-05-19T07:10:21.271Z; main]: commit: took 0.4 msec<br>IW 0 [2016-05-19T07:10:21.271Z; main]: commit: done<br>IW 0 [2016-05-19T07:10:21.271Z; main]: rollback<br>IW 0 [2016-05-19T07:10:21.271Z; main]: all running merges have aborted<br>IW 0 [2016-05-19T07:10:21.271Z; main]: rollback: done finish merges<br>DW 0 [2016-05-19T07:10:21.271Z; main]: abort<br>DW 0 [2016-05-19T07:10:21.271Z; main]: done abort success=true<br>IW 0 [2016-05-19T07:10:21.271Z; main]: rollback: infos=_0(6.0.0):c2<br>IFD 0 [2016-05-19T07:10:21.271Z; main]: now checkpoint “_0(6.0.0):c2” [1 segments ; isCommit = false]<br>IFD 0 [2016-05-19T07:10:21.272Z; main]: delete []<br>IFD 0 [2016-05-19T07:10:21.272Z; main]: 0 msec to checkpoint<br>IFD 0 [2016-05-19T07:10:21.272Z; main]: delete []<br>IFD 0 [2016-05-19T07:10:21.272Z; main]: delete []</p>
 </blockquote>
-<h3 id="删除文档"><a href="#删除文档" class="headerlink" title="删除文档"></a>删除文档</h3><p>在IndexWriter中提供了从索引中删除Document的接口，分别是</p>
+<p>###删除文档<br>在IndexWriter中提供了从索引中删除Document的接口，分别是</p>
 <ul>
 <li>deleteDocuments(Query… queries)：删除所有匹配到查询语句的Document</li>
 <li>deleteDocuments(Term… terms)：删除所有包含有terms的Document</li>
@@ -620,7 +620,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -629,7 +629,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -726,7 +726,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lucene为什么这么流行"><span class="nav-number">2.</span> <span class="nav-text">Lucene为什么这么流行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存储索引"><span class="nav-number">3.</span> <span class="nav-text">存储索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引核心类"><span class="nav-number">4.</span> <span class="nav-text">索引核心类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建索引"><span class="nav-number">5.</span> <span class="nav-text">创建索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除文档"><span class="nav-number">6.</span> <span class="nav-text">删除文档</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

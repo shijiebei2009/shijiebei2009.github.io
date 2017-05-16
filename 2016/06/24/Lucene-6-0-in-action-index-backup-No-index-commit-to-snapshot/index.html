@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="备份之前先提交在使用Lucene进行索引备份的时候，报错  Exception in thread “main” java.lang.IllegalStateException: No index commit to snapshotat org.apache.lucene.index.SnapshotDeletionPolicy.snapshot(SnapshotDeletionPolicy.j">
+<meta name="description" content="###备份之前先提交 在使用Lucene进行索引备份的时候，报错  Exception in thread “main” java.lang.IllegalStateException: No index commit to snapshotat org.apache.lucene.index.SnapshotDeletionPolicy.snapshot(SnapshotDeletionPoli">
 <meta name="keywords" content="Lucene">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Lucene 6.0 实战-索引备份No index commit to snapshot">
 <meta property="og:url" content="http://www.codepub.cn/2016/06/24/Lucene-6-0-in-action-index-backup-No-index-commit-to-snapshot/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="备份之前先提交在使用Lucene进行索引备份的时候，报错  Exception in thread “main” java.lang.IllegalStateException: No index commit to snapshotat org.apache.lucene.index.SnapshotDeletionPolicy.snapshot(SnapshotDeletionPolicy.j">
-<meta property="og:updated_time" content="2017-05-16T14:55:28.874Z">
+<meta property="og:description" content="###备份之前先提交 在使用Lucene进行索引备份的时候，报错  Exception in thread “main” java.lang.IllegalStateException: No index commit to snapshotat org.apache.lucene.index.SnapshotDeletionPolicy.snapshot(SnapshotDeletionPoli">
+<meta property="og:updated_time" content="2017-05-16T15:24:00.960Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lucene 6.0 实战-索引备份No index commit to snapshot">
-<meta name="twitter:description" content="备份之前先提交在使用Lucene进行索引备份的时候，报错  Exception in thread “main” java.lang.IllegalStateException: No index commit to snapshotat org.apache.lucene.index.SnapshotDeletionPolicy.snapshot(SnapshotDeletionPolicy.j">
+<meta name="twitter:description" content="###备份之前先提交 在使用Lucene进行索引备份的时候，报错  Exception in thread “main” java.lang.IllegalStateException: No index commit to snapshotat org.apache.lucene.index.SnapshotDeletionPolicy.snapshot(SnapshotDeletionPoli">
 
 
 
@@ -361,14 +361,16 @@
       
 
       
-        <h3 id="备份之前先提交"><a href="#备份之前先提交" class="headerlink" title="备份之前先提交"></a>备份之前先提交</h3><p>在使用Lucene进行索引备份的时候，报错</p>
+        <p>###备份之前先提交</p>
+<p>在使用Lucene进行索引备份的时候，报错</p>
 <blockquote>
 <p>Exception in thread “main” java.lang.IllegalStateException: No index commit to snapshot<br>at org.apache.lucene.index.SnapshotDeletionPolicy.snapshot(SnapshotDeletionPolicy.java:160)</p>
 </blockquote>
 <p>其中导致抛错的代码是<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SnapshotDeletionPolicy snapshotDeletionPolicy = (SnapshotDeletionPolicy)</div><div class="line">indexWriter.getConfig().getIndexDeletionPolicy();</div><div class="line">IndexCommit snapshot = snapshotDeletionPolicy.snapshot();</div></pre></td></tr></table></figure></p>
 <p>查看snapshot()方法源码发现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (lastCommit == <span class="keyword">null</span>) &#123;</div><div class="line">  <span class="comment">// No commit yet, eg this is a new IndexWriter:</span></div><div class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"No index commit to snapshot"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>可见如果是第一次也就是说还没有commit过，这种情况通常是第一次使用IndexWriter的时候，那么就会抛此异常。解决办法很简单，就是在热备之前commit索引，将所有的缓存flush到硬盘，这也是热备的正确逻辑，可以确保将索引的最新变动保存到备份之中。</p>
-<h3 id="确保使用同一个SnapshotDeletionPolicy"><a href="#确保使用同一个SnapshotDeletionPolicy" class="headerlink" title="确保使用同一个SnapshotDeletionPolicy"></a>确保使用同一个SnapshotDeletionPolicy</h3><p>另外还有一点需要注意，如果你在备份的时候使用的是新new的SnapshotDeletionPolicy，那么同样会抛出此异常<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SnapshotDeletionPolicy snapshot= <span class="keyword">new</span> SnapshotDeletionPolicy(<span class="keyword">new</span> KeepOnlyLastCommitDeletionPolicy());</div><div class="line">IndexCommit commit = snapshot.snapshot();</div><div class="line">Collection&lt;String&gt; fileNames = commit.getFileNames();</div></pre></td></tr></table></figure></p>
+<p>###确保使用同一个SnapshotDeletionPolicy</p>
+<p>另外还有一点需要注意，如果你在备份的时候使用的是新new的SnapshotDeletionPolicy，那么同样会抛出此异常<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SnapshotDeletionPolicy snapshot= <span class="keyword">new</span> SnapshotDeletionPolicy(<span class="keyword">new</span> KeepOnlyLastCommitDeletionPolicy());</div><div class="line">IndexCommit commit = snapshot.snapshot();</div><div class="line">Collection&lt;String&gt; fileNames = commit.getFileNames();</div></pre></td></tr></table></figure></p>
 <p>这是因为采用new的形式得到的SnapshotDeletionPolicy和最初实例化IndexWriter的时候使用的并不是同一个，所以对于IndexWriter所做的提交，新的SnapshotDeletionPolicy是无法知道的。正确方式如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">IndexWriterConfig config = (IndexWriterConfig) indexWriter.getConfig();</div><div class="line">SnapshotDeletionPolicy snapshotDeletionPolicy = (SnapshotDeletionPolicy) </div><div class="line">config.getIndexDeletionPolicy();</div><div class="line">IndexCommit snapshot = snapshotDeletionPolicy.snapshot();</div><div class="line"><span class="comment">//设置索引提交点，默认是null，会打开最后一次提交的索引点</span></div><div class="line">config.setIndexCommit(snapshot);</div><div class="line">Collection&lt;String&gt; fileNames = snapshot.getFileNames();</div></pre></td></tr></table></figure></p>
 
       
@@ -424,8 +426,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/24/Lucene-6-0-in-action-5-The-index-search-an-IndexSearcher/" rel="next" title="Lucene 6.0 实战（5）-索引搜索器IndexSearcher">
-                <i class="fa fa-chevron-left"></i> Lucene 6.0 实战（5）-索引搜索器IndexSearcher
+              <a href="/2016/06/10/Read-treat-time-as-a-friend/" rel="next" title="读《把时间当作朋友》">
+                <i class="fa fa-chevron-left"></i> 读《把时间当作朋友》
               </a>
             
           </div>
@@ -537,7 +539,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -546,7 +548,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -643,7 +645,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#备份之前先提交"><span class="nav-number">1.</span> <span class="nav-text">备份之前先提交</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#确保使用同一个SnapshotDeletionPolicy"><span class="nav-number">2.</span> <span class="nav-text">确保使用同一个SnapshotDeletionPolicy</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

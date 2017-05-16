@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 JSP与Servlet所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是  init(): 初始化JSP/Servlet的方法 destroy(): 销毁JSP/Servlet的方法 service(): 对用户请求生成响应的方法  JSP页面必须放到应用服务器中运行，当第一次访问JSP页">
+<meta name="description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 ###JSP与Servlet所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是  init(): 初始化JSP/Servlet的方法 destroy(): 销毁JSP/Servlet的方法 service(): 对用户请求生成响应的方法  JSP页面必须放到应用服务器中运行，当第一次访问J">
 <meta name="keywords" content="JSP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JSP&#x2F;Servlet基础知识汇总">
 <meta property="og:url" content="http://www.codepub.cn/2015/06/17/Basic-knowledge-summary-of-JSP-Servlet/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 JSP与Servlet所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是  init(): 初始化JSP/Servlet的方法 destroy(): 销毁JSP/Servlet的方法 service(): 对用户请求生成响应的方法  JSP页面必须放到应用服务器中运行，当第一次访问JSP页">
-<meta property="og:updated_time" content="2017-05-16T14:55:28.869Z">
+<meta property="og:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 ###JSP与Servlet所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是  init(): 初始化JSP/Servlet的方法 destroy(): 销毁JSP/Servlet的方法 service(): 对用户请求生成响应的方法  JSP页面必须放到应用服务器中运行，当第一次访问J">
+<meta property="og:updated_time" content="2017-05-16T15:24:00.921Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JSP&#x2F;Servlet基础知识汇总">
-<meta name="twitter:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 JSP与Servlet所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是  init(): 初始化JSP/Servlet的方法 destroy(): 销毁JSP/Servlet的方法 service(): 对用户请求生成响应的方法  JSP页面必须放到应用服务器中运行，当第一次访问JSP页">
+<meta name="twitter:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 ###JSP与Servlet所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是  init(): 初始化JSP/Servlet的方法 destroy(): 销毁JSP/Servlet的方法 service(): 对用户请求生成响应的方法  JSP页面必须放到应用服务器中运行，当第一次访问J">
 
 
 
@@ -362,7 +362,7 @@
 
       
         <p><strong><em>力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员</em></strong></p>
-<h3 id="JSP与Servlet"><a href="#JSP与Servlet" class="headerlink" title="JSP与Servlet"></a>JSP与Servlet</h3><p>所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是</p>
+<p>###JSP与Servlet<br>所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是</p>
 <ul>
 <li>init(): 初始化JSP/Servlet的方法</li>
 <li>destroy(): 销毁JSP/Servlet的方法</li>
@@ -370,9 +370,11 @@
 </ul>
 <p>JSP页面必须放到应用服务器中运行，当第一次访问JSP页面时，该JSP页面会被编译成Servlet，如果JSP没有改动的话，以后访问的都是第一次编译成功的Servlet。</p>
 <a id="more"></a>
-<h3 id="JSP的4种基本语法"><a href="#JSP的4种基本语法" class="headerlink" title="JSP的4种基本语法"></a>JSP的4种基本语法</h3><h4 id="JSP注释"><a href="#JSP注释" class="headerlink" title="JSP注释"></a>JSP注释</h4><p><code>&lt;%--JSP注释--%&gt;</code> 这种注释在客户端浏览器中使用查看源代码是无法查看的<br><code>&lt;!--HTML注释--&gt;</code> 这种注释在客户端浏览器中使用查看源代码可以进行查看</p>
-<h4 id="JSP声明、输出、脚本"><a href="#JSP声明、输出、脚本" class="headerlink" title="JSP声明、输出、脚本"></a>JSP声明、输出、脚本</h4><p><code>&lt;%! 声明部分 %&gt;</code> 相当于全局变量或方法，可使用private、public、static等<br><code>&lt;%=count++%&gt;</code> 输出表达式语法后不能有分号<br><code>&lt;% scriptlet %&gt;</code> JSP脚本会转换成_jspService方法里的可执行代码，而Java语法不允许在方法里定义方法，所以JSP脚本里不能定义方法；不能使用private、public、static等</p>
-<h3 id="JSP的3个编译指令"><a href="#JSP的3个编译指令" class="headerlink" title="JSP的3个编译指令"></a>JSP的3个编译指令</h3><ul>
+<p>###JSP的4种基本语法</p>
+<p>####JSP注释<br><code>&lt;%--JSP注释--%&gt;</code> 这种注释在客户端浏览器中使用查看源代码是无法查看的<br><code>&lt;!--HTML注释--&gt;</code> 这种注释在客户端浏览器中使用查看源代码可以进行查看</p>
+<p>####JSP声明、输出、脚本<br><code>&lt;%! 声明部分 %&gt;</code> 相当于全局变量或方法，可使用private、public、static等<br><code>&lt;%=count++%&gt;</code> 输出表达式语法后不能有分号<br><code>&lt;% scriptlet %&gt;</code> JSP脚本会转换成_jspService方法里的可执行代码，而Java语法不允许在方法里定义方法，所以JSP脚本里不能定义方法；不能使用private、public、static等</p>
+<p>###JSP的3个编译指令</p>
+<ul>
 <li>page: 该指令是针对当前页面的指令</li>
 <li>include: 用于指定包含另一个页面</li>
 <li>taglib: 用于定义和访问自定义标签</li>
@@ -380,7 +382,8 @@
 <p>其中<code>&lt;%@ include file=&quot;scriptlet.jsp&quot; %&gt;</code>是静态包含指令，该指令包含进来的页面不需要是一个完整的页面，同时会将被包含页面的编译指令包含进来，如果两个页面的编译指令冲突，那么页面就会报错</p>
 <p>动态包含如下所示<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:include page="&#123;scriptlet.jsp|&lt;%=expressi%&gt;&#125;"&gt;</div><div class="line">    &#123;&lt;jsp:param name="parameterName" value="parameterValue"&gt;&#125;</div><div class="line">&lt;/jsp:include&gt;</div></pre></td></tr></table></figure></p>
 <p>该动态指令仅仅会将被包含页面的body内容插入本页面，这时候被包含页面的编译指令不会被插入本页面</p>
-<h3 id="JSP的7个动作指令"><a href="#JSP的7个动作指令" class="headerlink" title="JSP的7个动作指令"></a>JSP的7个动作指令</h3><ul>
+<p>###JSP的7个动作指令</p>
+<ul>
 <li>jsp:forward: 执行页面转向，将请求的处理转发到下一个页面，属于服务器端跳转，地址栏不变，执行forward时不会丢失请求参数</li>
 <li>jsp:param: 用于传递参数，必须与其他支持参数的标签一起使用，主要是结合include、forward、plugin指令使用</li>
 <li>jsp:include: 用于动态引入一个JSP页面</li>
@@ -399,7 +402,8 @@
 <p>setProperty语法<br><code>&lt;jsp:setProperty name=&quot;BeanName&quot; property=&quot;propertyName&quot; value=&quot;value&quot;&gt;</code></p>
 <p>getProperty语法<br><code>&lt;jsp:getProperty name=&quot;BeanName&quot; property=&quot;propertyName&quot;&gt;</code></p>
 <p>其实，当使用setProperty和getProperty时，底层是调用setBeanName()和getBeanName()方法来操作实例的属性的</p>
-<h3 id="JSP的9大内置对象"><a href="#JSP的9大内置对象" class="headerlink" title="JSP的9大内置对象"></a>JSP的9大内置对象</h3><ul>
+<p>###JSP的9大内置对象</p>
+<ul>
 <li>application: javax.servlet.ServletContext的实例，该实例代表JSP所属的Web应用本身，可用于JSP页面，或者在Servlet之间交换信息</li>
 <li>config: javax.servlet.ServletConfig的实例，该实例代表JSP的配置信息，该对象使用较少</li>
 <li>exception: java.lang.Throwable的实例，该实例代表其他页面中的异常和错误。只有当页面编译指令page的isErrorPage属性为true时，该对象才可以使用</li>
@@ -423,15 +427,15 @@
 <li><p>不要滥用session，通常只应该把与用户会话状态相关的信息放入session范围内，不要仅仅为了两个页面之间交换信息，就将该信息放入session范围内。如果仅仅为了两个页面交换信息，建议使用request，然后forward请求即可。session机制通常用于保存客户端的状态信息，这些状态信息需要保存到Web服务器的硬盘上，所以要求session里的属性值必须是可序列化的，否则将引发不可序列化的异常。</p>
 </li>
 </ol>
-<h3 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h3><p>创建Filter必须实现javax.servlet.Filter接口，在该接口中定义了如下三个方法</p>
+<p>###Filter<br>创建Filter必须实现javax.servlet.Filter接口，在该接口中定义了如下三个方法</p>
 <ul>
 <li>void init(FilterConfig config): 用于完成Filter的初始化</li>
 <li>void destroy(): 用于Filter销毁前，完成某些资源的回收</li>
 <li>void doFilter(ServletRequest request, ServletResponse response, FilterChain chain): 实现过滤功能，该方法就是对每个请求及响应增加的额外处理</li>
 </ul>
 <p>Filter其实就是增强的Servlet，假设系统包含多个Servlet，这些Servlet都需要进行一些通用处理：比如权限控制、记录日志等，这将导致在这些Servlet的service方法中有部分代码是相同的——为了解决这种代码重复的问题，可以考虑把这些通用处理提取到Filter中完成，这样各Servlet中剩下的只是特定请求相关的处理代码，而通用处理则交给Filter完成。</p>
-<h3 id="使用URL-Rewrite实现网站伪静态"><a href="#使用URL-Rewrite实现网站伪静态" class="headerlink" title="使用URL Rewrite实现网站伪静态"></a>使用URL Rewrite实现网站伪静态</h3><p>下载<a href="http://www.tuckey.org/urlrewrite/" target="_blank" rel="external">地址</a>，目前最新版是urlrewritefilter-4.0.3.jar，在下载页面提供了使用方法，不再赘述。</p>
-<h3 id="Listener"><a href="#Listener" class="headerlink" title="Listener"></a>Listener</h3><p>常用的Web事件监听器接口有如下几个</p>
+<p>###使用URL Rewrite实现网站伪静态<br>下载<a href="http://www.tuckey.org/urlrewrite/" target="_blank" rel="external">地址</a>，目前最新版是urlrewritefilter-4.0.3.jar，在下载页面提供了使用方法，不再赘述。</p>
+<p>###Listener<br>常用的Web事件监听器接口有如下几个</p>
 <ul>
 <li>ServletContextListener: 用于监听Web应用的启动和关闭</li>
 <li>ServletContextAttributeListener: 用于监听ServletContext范围（application）内属性的改变</li>
@@ -440,8 +444,8 @@
 <li>HttpSessionListener: 用于监听用户session的开始和结束</li>
 <li>HttpSessionAttributeListener: 用于监听HttpSession范围（session）内属性的改变</li>
 </ul>
-<h3 id="JSP2特性"><a href="#JSP2特性" class="headerlink" title="JSP2特性"></a>JSP2特性</h3><p>目前Servlet3.1对应于JSP2.3规范，JSP2.3也被统称为JSP2。表达式语言是JSP2的一个重要特性，它并不是一种通用的程序语言，而仅仅是一种数据访问语言，可以方便地访问应用程序数据，避免使用JSP脚本。表达式语言的格式是<code>${expression}</code>，如果需要在支持表达式语言的页面中正常输出“\$”符号，则在“\$”符号前加转义字符“\”。</p>
-<h4 id="表达式语言的内置对象"><a href="#表达式语言的内置对象" class="headerlink" title="表达式语言的内置对象"></a>表达式语言的内置对象</h4><p>表达式语言包含如下11个内置对象</p>
+<p>###JSP2特性<br>目前Servlet3.1对应于JSP2.3规范，JSP2.3也被统称为JSP2。表达式语言是JSP2的一个重要特性，它并不是一种通用的程序语言，而仅仅是一种数据访问语言，可以方便地访问应用程序数据，避免使用JSP脚本。表达式语言的格式是<code>${expression}</code>，如果需要在支持表达式语言的页面中正常输出“\$”符号，则在“\$”符号前加转义字符“\”。</p>
+<p>####表达式语言的内置对象<br>表达式语言包含如下11个内置对象</p>
 <ul>
 <li>pageContext: 代表该页面的pageContext对象，与JSP的pageContext内置对象相同</li>
 <li>pageScope: 用于获取page范围的属性值</li>
@@ -455,7 +459,7 @@
 <li>initParam: 用于获取请求Web应用的初始化参数</li>
 <li>cookie: 用于获取指定的Cookie值</li>
 </ul>
-<h3 id="Servlet3-0新特性"><a href="#Servlet3-0新特性" class="headerlink" title="Servlet3.0新特性"></a>Servlet3.0新特性</h3><p>Servlet3.0规范在javax.servlet.annotation包下提供了如下注解</p>
+<p>###Servlet3.0新特性<br>Servlet3.0规范在javax.servlet.annotation包下提供了如下注解</p>
 <ul>
 <li>@WebServlet: 用于修饰一个Servlet类，用于部署Servlet类</li>
 <li>@WebInitParam: 用于与@WebServlet或@WebFilter一起使用，为Servlet、Filter配置参数</li>
@@ -521,8 +525,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/02/Windows-client-configuration-of-SSH-public-key-on-GitHub/" rel="next" title="Windows客户端配置GitHub的SSH公钥">
-                <i class="fa fa-chevron-left"></i> Windows客户端配置GitHub的SSH公钥
+              <a href="/2015/06/03/MySQL-dump-import-export-database-command-summary/" rel="next" title="MySQL dump导入导出数据库命令汇总">
+                <i class="fa fa-chevron-left"></i> MySQL dump导入导出数据库命令汇总
               </a>
             
           </div>
@@ -634,7 +638,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -643,7 +647,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -740,7 +744,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP与Servlet"><span class="nav-number">1.</span> <span class="nav-text">JSP与Servlet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP的4种基本语法"><span class="nav-number">2.</span> <span class="nav-text">JSP的4种基本语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JSP注释"><span class="nav-number">2.1.</span> <span class="nav-text">JSP注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSP声明、输出、脚本"><span class="nav-number">2.2.</span> <span class="nav-text">JSP声明、输出、脚本</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP的3个编译指令"><span class="nav-number">3.</span> <span class="nav-text">JSP的3个编译指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP的7个动作指令"><span class="nav-number">4.</span> <span class="nav-text">JSP的7个动作指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP的9大内置对象"><span class="nav-number">5.</span> <span class="nav-text">JSP的9大内置对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filter"><span class="nav-number">6.</span> <span class="nav-text">Filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用URL-Rewrite实现网站伪静态"><span class="nav-number">7.</span> <span class="nav-text">使用URL Rewrite实现网站伪静态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Listener"><span class="nav-number">8.</span> <span class="nav-text">Listener</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP2特性"><span class="nav-number">9.</span> <span class="nav-text">JSP2特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#表达式语言的内置对象"><span class="nav-number">9.1.</span> <span class="nav-text">表达式语言的内置对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet3-0新特性"><span class="nav-number">10.</span> <span class="nav-text">Servlet3.0新特性</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

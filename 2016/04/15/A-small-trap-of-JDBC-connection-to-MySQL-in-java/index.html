@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="对代码不满足，是任何真正有天才的程序员的根本特征。  Value ‘0000-00-00’ can not be represented as java.sql.Timestamp在查询MySql数据库某表的timestamp列的时候，发现此异常，问题来源表述如下  先创建一个测试表 123456create table test.mytest(id int PRIMARY KEY AUTO_IN">
+<meta name="description" content="对代码不满足，是任何真正有天才的程序员的根本特征。  ####Value ‘0000-00-00’ can not be represented as java.sql.Timestamp在查询MySql数据库某表的timestamp列的时候，发现此异常，问题来源表述如下  先创建一个测试表 123456create table test.mytest(id int PRIMARY KEY AUT">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java之JDBC连接MySQL的一点坑">
 <meta property="og:url" content="http://www.codepub.cn/2016/04/15/A-small-trap-of-JDBC-connection-to-MySQL-in-java/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="对代码不满足，是任何真正有天才的程序员的根本特征。  Value ‘0000-00-00’ can not be represented as java.sql.Timestamp在查询MySql数据库某表的timestamp列的时候，发现此异常，问题来源表述如下  先创建一个测试表 123456create table test.mytest(id int PRIMARY KEY AUTO_IN">
-<meta property="og:updated_time" content="2017-05-16T14:55:28.842Z">
+<meta property="og:description" content="对代码不满足，是任何真正有天才的程序员的根本特征。  ####Value ‘0000-00-00’ can not be represented as java.sql.Timestamp在查询MySql数据库某表的timestamp列的时候，发现此异常，问题来源表述如下  先创建一个测试表 123456create table test.mytest(id int PRIMARY KEY AUT">
+<meta property="og:updated_time" content="2017-05-16T15:24:00.915Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java之JDBC连接MySQL的一点坑">
-<meta name="twitter:description" content="对代码不满足，是任何真正有天才的程序员的根本特征。  Value ‘0000-00-00’ can not be represented as java.sql.Timestamp在查询MySql数据库某表的timestamp列的时候，发现此异常，问题来源表述如下  先创建一个测试表 123456create table test.mytest(id int PRIMARY KEY AUTO_IN">
+<meta name="twitter:description" content="对代码不满足，是任何真正有天才的程序员的根本特征。  ####Value ‘0000-00-00’ can not be represented as java.sql.Timestamp在查询MySql数据库某表的timestamp列的时候，发现此异常，问题来源表述如下  先创建一个测试表 123456create table test.mytest(id int PRIMARY KEY AUT">
 
 
 
@@ -363,7 +363,7 @@
       
         <blockquote class="blockquote-center"><br><strong>对代码不满足，是任何真正有天才的程序员的根本特征。</strong><br></blockquote>
 
-<h4 id="Value-‘0000-00-00’-can-not-be-represented-as-java-sql-Timestamp"><a href="#Value-‘0000-00-00’-can-not-be-represented-as-java-sql-Timestamp" class="headerlink" title="Value ‘0000-00-00’ can not be represented as java.sql.Timestamp"></a>Value ‘0000-00-00’ can not be represented as java.sql.Timestamp</h4><p>在查询<strong>MySql</strong>数据库某表的<strong>timestamp</strong>列的时候，发现此异常，问题来源表述如下</p>
+<p>####Value ‘0000-00-00’ can not be represented as java.sql.Timestamp<br>在查询<strong>MySql</strong>数据库某表的<strong>timestamp</strong>列的时候，发现此异常，问题来源表述如下</p>
 <ol>
 <li><p>先创建一个测试表</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> test.mytest(</div><div class="line"><span class="keyword">id</span> <span class="built_in">int</span> PRIMARY <span class="keyword">KEY</span> AUTO_INCREMENT ,</div><div class="line">createtime <span class="keyword">timestamp</span> <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="keyword">current_timestamp</span> , <span class="comment">--创建时间</span></div><div class="line">updatetime <span class="keyword">timestamp</span> <span class="keyword">not</span> <span class="literal">null</span> , <span class="comment">--更新时间</span></div><div class="line">testtime <span class="keyword">timestamp</span> <span class="literal">null</span> <span class="comment">--发布时间</span></div><div class="line">);</div></pre></td></tr></table></figure>
@@ -469,13 +469,13 @@
 <p>jdbc:mysql://yourserver:3306/yourdatabase?zeroDateTimeBehavior=convertToNull</p>
 </blockquote>
 <p>这样在程序中取出来的数据就是<strong>null</strong>了。</p>
-<h4 id="resultSet-getRow-总是返回0"><a href="#resultSet-getRow-总是返回0" class="headerlink" title="resultSet.getRow()总是返回0"></a>resultSet.getRow()总是返回0</h4><p>在使用<strong>resultSet.getRow()</strong>的时候，发现总是返回0，注意该方法返回的是数据库当前的行数，所以当你没调用<strong>resultSet.next()</strong>的时候，该方法总是返回0。</p>
-<h4 id="resultSet-getFetchSize-总是返回0"><a href="#resultSet-getFetchSize-总是返回0" class="headerlink" title="resultSet.getFetchSize()总是返回0"></a>resultSet.getFetchSize()总是返回0</h4><p>另外使用<strong>resultSet.getFetchSize()</strong>的时候也是每次都返回0，这是怎么回事呢？<strong>getFetchSize()</strong>方法不是获得记录数，而是获得每次抓取的记录数，默认是0，也就是说不限制。可以用<strong>setFetchSize()</strong>来设置，而<strong>getFetchSize()</strong>是用来读出那个设置值。<strong>setFetchSize()</strong>最主要是为了减少网络交互次数设计的，访问<strong>ResultSet</strong>时，如果它每次只从服务器上取一行数据，则会产生大量的开销，<strong>setFetchSize()</strong>的意思是当调用<strong>resultSet.next()</strong>时，<strong>resultSet</strong>会一次性从服务器上取多行数据回来，这样在下次<strong>resultSet.next()</strong>时，它可以直接从内存中获得数据，而不需要网络交互，提高了效率。</p>
+<p>####resultSet.getRow()总是返回0<br>在使用<strong>resultSet.getRow()</strong>的时候，发现总是返回0，注意该方法返回的是数据库当前的行数，所以当你没调用<strong>resultSet.next()</strong>的时候，该方法总是返回0。</p>
+<p>####resultSet.getFetchSize()总是返回0<br>另外使用<strong>resultSet.getFetchSize()</strong>的时候也是每次都返回0，这是怎么回事呢？<strong>getFetchSize()</strong>方法不是获得记录数，而是获得每次抓取的记录数，默认是0，也就是说不限制。可以用<strong>setFetchSize()</strong>来设置，而<strong>getFetchSize()</strong>是用来读出那个设置值。<strong>setFetchSize()</strong>最主要是为了减少网络交互次数设计的，访问<strong>ResultSet</strong>时，如果它每次只从服务器上取一行数据，则会产生大量的开销，<strong>setFetchSize()</strong>的意思是当调用<strong>resultSet.next()</strong>时，<strong>resultSet</strong>会一次性从服务器上取多行数据回来，这样在下次<strong>resultSet.next()</strong>时，它可以直接从内存中获得数据，而不需要网络交互，提高了效率。</p>
 <p><strong>Note</strong>：有时候觉得英文确实表述更准确，请看原汁原味的解释</p>
 <blockquote>
 <p>The fetch size is the number of rows that should be retrieved from the database in each roundtrip. It has nothing to do with the number of rows returned.</p>
 </blockquote>
-<h4 id="获取查询的数据集的行数"><a href="#获取查询的数据集的行数" class="headerlink" title="获取查询的数据集的行数"></a>获取查询的数据集的行数</h4><p>如果你是想获得符合条件的记录数目，最少有三种方法</p>
+<p>####获取查询的数据集的行数<br>如果你是想获得符合条件的记录数目，最少有三种方法</p>
 <ol>
 <li><p>自己维护计数器</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line"><span class="keyword">while</span>(resultSet.next())&#123;</div><div class="line">  count++;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -558,16 +558,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/27/Read-the-programmer-you-can-not-afford-injuries/" rel="next" title="读《程序员，你伤不起》">
-                <i class="fa fa-chevron-left"></i> 读《程序员，你伤不起》
+              <a href="/2016/04/15/Log4j-print-exception-stack-information-to-the-log/" rel="next" title="Log4j打印异常堆栈信息到日志">
+                <i class="fa fa-chevron-left"></i> Log4j打印异常堆栈信息到日志
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/" rel="prev" title="Linux下使用java -jar运行可执行jar包的正确方式">
-                Linux下使用java -jar运行可执行jar包的正确方式 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/05/07/IntelliJ-IDEA-using-maven-javadoc-plugin-to-generate-the-Java-Doc-console-gibberish/" rel="prev" title="IntelliJ IDEA使用maven-javadoc-plugin生成Java Doc控制台乱码">
+                IntelliJ IDEA使用maven-javadoc-plugin生成Java Doc控制台乱码 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -671,7 +671,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -680,7 +680,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -777,7 +777,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Value-‘0000-00-00’-can-not-be-represented-as-java-sql-Timestamp"><span class="nav-number">1.</span> <span class="nav-text">Value ‘0000-00-00’ can not be represented as java.sql.Timestamp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resultSet-getRow-总是返回0"><span class="nav-number">2.</span> <span class="nav-text">resultSet.getRow()总是返回0</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resultSet-getFetchSize-总是返回0"><span class="nav-number">3.</span> <span class="nav-text">resultSet.getFetchSize()总是返回0</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取查询的数据集的行数"><span class="nav-number">4.</span> <span class="nav-text">获取查询的数据集的行数</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

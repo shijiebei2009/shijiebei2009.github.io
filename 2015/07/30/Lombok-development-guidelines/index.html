@@ -59,22 +59,22 @@
 
 
 
-<meta name="description" content="Lombok简介Lombok是一款好用顺手的工具，就像Google Guava一样，在此予以强烈推荐，每一个Java工程师都应该使用它。Lombok是一种Java™实用工具，可用来帮助开发人员消除Java的冗长代码，尤其是对于简单的Java对象（POJO）。它通过注释实现这一目的。通过在开发环境中实现Lombok，开发人员可以节省构建诸如hashCode()和equals()这样的方法以及以往用来">
+<meta name="description" content="##Lombok简介Lombok是一款好用顺手的工具，就像Google Guava一样，在此予以强烈推荐，每一个Java工程师都应该使用它。Lombok是一种Java™实用工具，可用来帮助开发人员消除Java的冗长代码，尤其是对于简单的Java对象（POJO）。它通过注释实现这一目的。通过在开发环境中实现Lombok，开发人员可以节省构建诸如hashCode()和equals()这样的方法以及以往">
 <meta name="keywords" content="Lombok">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Lombok开发指南">
 <meta property="og:url" content="http://www.codepub.cn/2015/07/30/Lombok-development-guidelines/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="Lombok简介Lombok是一款好用顺手的工具，就像Google Guava一样，在此予以强烈推荐，每一个Java工程师都应该使用它。Lombok是一种Java™实用工具，可用来帮助开发人员消除Java的冗长代码，尤其是对于简单的Java对象（POJO）。它通过注释实现这一目的。通过在开发环境中实现Lombok，开发人员可以节省构建诸如hashCode()和equals()这样的方法以及以往用来">
+<meta property="og:description" content="##Lombok简介Lombok是一款好用顺手的工具，就像Google Guava一样，在此予以强烈推荐，每一个Java工程师都应该使用它。Lombok是一种Java™实用工具，可用来帮助开发人员消除Java的冗长代码，尤其是对于简单的Java对象（POJO）。它通过注释实现这一目的。通过在开发环境中实现Lombok，开发人员可以节省构建诸如hashCode()和equals()这样的方法以及以往">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/eclipse-lombok.png">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-plugin-lombok.png">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-lombok.png">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-maven-auto-import.png">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-lombok-java-demo.jpg">
-<meta property="og:updated_time" content="2017-05-16T14:55:28.872Z">
+<meta property="og:updated_time" content="2017-05-16T15:24:00.951Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lombok开发指南">
-<meta name="twitter:description" content="Lombok简介Lombok是一款好用顺手的工具，就像Google Guava一样，在此予以强烈推荐，每一个Java工程师都应该使用它。Lombok是一种Java™实用工具，可用来帮助开发人员消除Java的冗长代码，尤其是对于简单的Java对象（POJO）。它通过注释实现这一目的。通过在开发环境中实现Lombok，开发人员可以节省构建诸如hashCode()和equals()这样的方法以及以往用来">
+<meta name="twitter:description" content="##Lombok简介Lombok是一款好用顺手的工具，就像Google Guava一样，在此予以强烈推荐，每一个Java工程师都应该使用它。Lombok是一种Java™实用工具，可用来帮助开发人员消除Java的冗长代码，尤其是对于简单的Java对象（POJO）。它通过注释实现这一目的。通过在开发环境中实现Lombok，开发人员可以节省构建诸如hashCode()和equals()这样的方法以及以往">
 <meta name="twitter:image" content="http://7xig3q.com1.z0.glb.clouddn.com/eclipse-lombok.png">
 
 
@@ -367,20 +367,26 @@
       
 
       
-        <h2 id="Lombok简介"><a href="#Lombok简介" class="headerlink" title="Lombok简介"></a>Lombok简介</h2><p><code>Lombok</code>是一款好用顺手的工具，就像<code>Google Guava</code>一样，在此予以强烈推荐，每一个Java工程师都应该使用它。Lombok是一种Java™实用工具，可用来帮助开发人员消除Java的冗长代码，尤其是对于简单的Java对象（POJO）。它通过注释实现这一目的。通过在开发环境中实现Lombok，开发人员可以节省构建诸如<code>hashCode()</code>和<code>equals()</code>这样的方法以及以往用来分类各种<code>accessor</code>和<code>mutator</code>的大量时间。</p>
+        <p>##Lombok简介<br><code>Lombok</code>是一款好用顺手的工具，就像<code>Google Guava</code>一样，在此予以强烈推荐，每一个Java工程师都应该使用它。Lombok是一种Java™实用工具，可用来帮助开发人员消除Java的冗长代码，尤其是对于简单的Java对象（POJO）。它通过注释实现这一目的。通过在开发环境中实现Lombok，开发人员可以节省构建诸如<code>hashCode()</code>和<code>equals()</code>这样的方法以及以往用来分类各种<code>accessor</code>和<code>mutator</code>的大量时间。</p>
 <p>Lombok官网地址：<a href="https://projectlombok.org/" target="_blank" rel="external">https://projectlombok.org/</a> 里面还提供了一个简短的学习视频。</p>
-<h2 id="安装Lombok"><a href="#安装Lombok" class="headerlink" title="安装Lombok"></a>安装Lombok</h2><h3 id="Eclipse安装Lombok"><a href="#Eclipse安装Lombok" class="headerlink" title="Eclipse安装Lombok"></a>Eclipse安装Lombok</h3><h4 id="双击Jar安装"><a href="#双击Jar安装" class="headerlink" title="双击Jar安装"></a>双击Jar安装</h4><p>首先下载Jar包，下载地址：<a href="http://projectlombok.org/download.html" target="_blank" rel="external">http://projectlombok.org/download.html</a><br><img src="http://7xig3q.com1.z0.glb.clouddn.com/eclipse-lombok.png" alt=""><br>注意如果eclipse没有安装到默认目录，那么需要点击Specify选择eclipse.exe所在的路径，然后Install即可完成安装。</p>
+<p>##安装Lombok</p>
+<p>###Eclipse安装Lombok</p>
+<p>####双击Jar安装<br>首先下载Jar包，下载地址：<a href="http://projectlombok.org/download.html" target="_blank" rel="external">http://projectlombok.org/download.html</a><br><img src="http://7xig3q.com1.z0.glb.clouddn.com/eclipse-lombok.png" alt=""><br>注意如果eclipse没有安装到默认目录，那么需要点击Specify选择eclipse.exe所在的路径，然后Install即可完成安装。</p>
 <p>在新建项目之后，使用Lombok如果程序还报错，那么点击eclipse菜单的Project选项的clean，清理一下即可。</p>
-<h4 id="Eclipse手动安装Lombok步骤"><a href="#Eclipse手动安装Lombok步骤" class="headerlink" title="Eclipse手动安装Lombok步骤"></a>Eclipse手动安装Lombok步骤</h4><ul>
+<p>####Eclipse手动安装Lombok步骤</p>
+<ul>
 <li>将<strong>lombok.jar</strong>复制到<strong>myeclipse.ini/eclipse.ini</strong>所在的文件夹目录下</li>
 <li>打开<strong>eclipse.ini/myeclipse.ini</strong>，在最后面插入以下两行并保存：<br><strong>-Xbootclasspath/a:lombok.jar</strong><br><strong>-javaagent:lombok.jar</strong></li>
 <li>重启<strong>eclipse/myeclipse</strong></li>
 </ul>
 <p>最后需要注意的是，在使用<code>lombok</code>注解的时候记得要导入<code>lombok.jar</code>包到工程，如果使用的是<code>Maven Project</code>，要在<code>pom.xml</code>中添加依赖，并设置<code>Maven</code>为自动导入，参见IntelliJ部分。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.16.8<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<h3 id="IntelliJ安装Lombok"><a href="#IntelliJ安装Lombok" class="headerlink" title="IntelliJ安装Lombok"></a>IntelliJ安装Lombok</h3><h4 id="通过IntelliJ的插件中心安装"><a href="#通过IntelliJ的插件中心安装" class="headerlink" title="通过IntelliJ的插件中心安装"></a>通过IntelliJ的插件中心安装</h4><p><img src="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-plugin-lombok.png" alt=""><br><img src="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-lombok.png" alt=""><br>注意一点，在IntelliJ中如果创建的是Maven项目，那么在pom.xml文件中添加依赖后，需要设置Maven为自动导入。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-maven-auto-import.png" alt=""></p>
-<h4 id="IntelliJ手动安装Lombok"><a href="#IntelliJ手动安装Lombok" class="headerlink" title="IntelliJ手动安装Lombok"></a>IntelliJ手动安装Lombok</h4><p>如果不想通过IntelliJ的插件中心安装的话，也可以手动安装，详细步骤参见Github上的说明：<a href="https://github.com/mplushnikov/lombok-intellij-plugin" target="_blank" rel="external">https://github.com/mplushnikov/lombok-intellij-plugin</a></p>
+<p>###IntelliJ安装Lombok</p>
+<p>####通过IntelliJ的插件中心安装<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-plugin-lombok.png" alt=""><br><img src="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-lombok.png" alt=""><br>注意一点，在IntelliJ中如果创建的是Maven项目，那么在pom.xml文件中添加依赖后，需要设置Maven为自动导入。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-maven-auto-import.png" alt=""></p>
+<p>####IntelliJ手动安装Lombok<br>如果不想通过IntelliJ的插件中心安装的话，也可以手动安装，详细步骤参见Github上的说明：<a href="https://github.com/mplushnikov/lombok-intellij-plugin" target="_blank" rel="external">https://github.com/mplushnikov/lombok-intellij-plugin</a></p>
 <p>简单点说手动安装步骤如下：<br>Download the <a href="https://github.com/mplushnikov/lombok-intellij-plugin/releases/tag/releasebuild_0.11" target="_blank" rel="external">latest release</a> and install it manually using Preferences &gt; Plugins &gt; Install plugin from disk…</p>
-<h2 id="Lombok用法"><a href="#Lombok用法" class="headerlink" title="Lombok用法"></a>Lombok用法</h2><h3 id="Lombok注解说明"><a href="#Lombok注解说明" class="headerlink" title="Lombok注解说明"></a>Lombok注解说明</h3><ul>
+<p>##Lombok用法</p>
+<p>###Lombok注解说明</p>
+<ul>
 <li><code>val</code>：用在局部变量前面，相当于将变量声明为final</li>
 <li><code>@NonNull</code>：给方法参数增加这个注解会自动在方法内对该参数进行是否为空的校验，如果为空，则抛出NPE（NullPointerException）</li>
 <li><code>@Cleanup</code>：自动管理资源，用在局部变量之前，在当前变量范围内即将执行完毕退出之前会自动清理资源，自动生成try-finally这样的代码来关闭流</li>
@@ -404,7 +410,8 @@
 </ul>
 </li>
 </ul>
-<h3 id="Lombok使用示例"><a href="#Lombok使用示例" class="headerlink" title="Lombok使用示例"></a>Lombok使用示例</h3><ul>
+<p>###Lombok使用示例</p>
+<ul>
 <li><p>val示例</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    val sets = <span class="keyword">new</span> HashSet&lt;String&gt;();</div><div class="line">    val lists = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">    val maps = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</div><div class="line">    <span class="comment">//=&gt;相当于如下</span></div><div class="line">    <span class="keyword">final</span> Set&lt;String&gt; sets2 = <span class="keyword">new</span> HashSet&lt;&gt;();</div><div class="line">    <span class="keyword">final</span> List&lt;String&gt; lists2 = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    <span class="keyword">final</span> Map&lt;String, String&gt; maps2 = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
@@ -501,8 +508,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/07/07/Python-implementation-string-similarity-edit-distance/" rel="next" title="Python实现字符串相似度-编辑距离">
-                <i class="fa fa-chevron-left"></i> Python实现字符串相似度-编辑距离
+              <a href="/2015/07/13/Python3-beginner-s-handbook-four/" rel="next" title="Python3入门手册之四">
+                <i class="fa fa-chevron-left"></i> Python3入门手册之四
               </a>
             
           </div>
@@ -614,7 +621,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -623,7 +630,7 @@ var jiathis_config = {data_track_clickback:'true'};
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -720,7 +727,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lombok简介"><span class="nav-number">1.</span> <span class="nav-text">Lombok简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Lombok"><span class="nav-number">2.</span> <span class="nav-text">安装Lombok</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Eclipse安装Lombok"><span class="nav-number">2.1.</span> <span class="nav-text">Eclipse安装Lombok</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#双击Jar安装"><span class="nav-number">2.1.1.</span> <span class="nav-text">双击Jar安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Eclipse手动安装Lombok步骤"><span class="nav-number">2.1.2.</span> <span class="nav-text">Eclipse手动安装Lombok步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IntelliJ安装Lombok"><span class="nav-number">2.2.</span> <span class="nav-text">IntelliJ安装Lombok</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通过IntelliJ的插件中心安装"><span class="nav-number">2.2.1.</span> <span class="nav-text">通过IntelliJ的插件中心安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IntelliJ手动安装Lombok"><span class="nav-number">2.2.2.</span> <span class="nav-text">IntelliJ手动安装Lombok</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lombok用法"><span class="nav-number">3.</span> <span class="nav-text">Lombok用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lombok注解说明"><span class="nav-number">3.1.</span> <span class="nav-text">Lombok注解说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lombok使用示例"><span class="nav-number">3.2.</span> <span class="nav-text">Lombok使用示例</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
