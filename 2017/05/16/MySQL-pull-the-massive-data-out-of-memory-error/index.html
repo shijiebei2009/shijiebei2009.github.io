@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="title: “MySQL 拉取海量数据报 OutOfMemoryError”date: 2017-05-12 22:40:37tags: [MySQL]categories: Database  在用最基本的JDBC拉取数据的时候，由于拉取的是海量数据，所以程序跑了一段时间之后报java.lang.OutOfMemoryError: Java heap space，这个错误很简单，也很好解决，网">
+<meta name="description" content="志不强者智不达，言不信者行不果">
 <meta name="keywords" content="IT草根, 代码馆, http:&#x2F;&#x2F;codepub.cn&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IT草根">
 <meta property="og:url" content="http://www.codepub.cn/2017/05/16/MySQL-pull-the-massive-data-out-of-memory-error/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="title: “MySQL 拉取海量数据报 OutOfMemoryError”date: 2017-05-12 22:40:37tags: [MySQL]categories: Database  在用最基本的JDBC拉取数据的时候，由于拉取的是海量数据，所以程序跑了一段时间之后报java.lang.OutOfMemoryError: Java heap space，这个错误很简单，也很好解决，网">
-<meta property="og:updated_time" content="2017-05-16T15:30:11.297Z">
+<meta property="og:description" content="志不强者智不达，言不信者行不果">
+<meta property="og:updated_time" content="2017-05-16T15:38:20.002Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IT草根">
-<meta name="twitter:description" content="title: “MySQL 拉取海量数据报 OutOfMemoryError”date: 2017-05-12 22:40:37tags: [MySQL]categories: Database  在用最基本的JDBC拉取数据的时候，由于拉取的是海量数据，所以程序跑了一段时间之后报java.lang.OutOfMemoryError: Java heap space，这个错误很简单，也很好解决，网">
+<meta name="twitter:description" content="志不强者智不达，言不信者行不果">
 
 
 
@@ -342,30 +342,7 @@
       
 
       
-        <p>title: “MySQL 拉取海量数据报 OutOfMemoryError”<br>date: 2017-05-12 22:40:37<br>tags: [MySQL]<br>categories: Database</p>
-<hr>
-<p>在用最基本的<code>JDBC</code>拉取数据的时候，由于拉取的是海量数据，所以程序跑了一段时间之后报<code>java.lang.OutOfMemoryError: Java heap space</code>，这个错误很简单，也很好解决，网上一搜一大把，只需要设置<code>ResultSet</code>获取数据模式为<code>row-by-row</code>，但是总结多数的解决方案是如下两种：<br>① 以PreparedStatement为例，需要设置四个参数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">preparedStatement = connection.prepareStatement(formatSql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);</div><div class="line">preparedStatement.setFetchSize(Integer.MIN_VALUE);</div><div class="line">preparedStatement.setFetchDirection(ResultSet.FETCH_REVERSE);</div></pre></td></tr></table></figure></p>
-<p>② 同样以PreparedStatement为例，需要设置三个参数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">preparedStatement = connection.prepareStatement(formatSql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);</div><div class="line">preparedStatement.setFetchSize(Integer.MIN_VALUE);</div></pre></td></tr></table></figure></p>
-<p>这种解决方案是可以的，那么本文还有无存在的必要呢？当然有。这两种方案基本上都是参看MySQL官方说明来解决的，具体链接<a href="https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-implementation-notes.html" target="_blank" rel="external">点我</a>，内容摘录如下</p>
-<blockquote>
-<p>By default, ResultSets are completely retrieved and stored in memory. In most cases this is the most efficient way to operate and, due to the design of the MySQL network protocol, is easier to implement. If you are working with ResultSets that have a large number of rows or large values and cannot allocate heap space in your JVM for the memory required, you can tell the driver to stream the results back one row at a time.</p>
-<p>To enable this functionality, create a Statement instance in the following manner:</p>
-<p>stmt = conn.createStatement(java.sql.ResultSet.TYPE_FORWARD_ONLY, java.sql.ResultSet.CONCUR_READ_ONLY);<br>stmt.setFetchSize(Integer.MIN_VALUE);</p>
-<p>The combination of a forward-only, read-only result set, with a fetch size of Integer.MIN_VALUE serves as a signal to the driver to stream result sets row-by-row. After this, any result sets created with the statement will be retrieved row-by-row.</p>
-<p>There are some caveats with this approach. You must read all of the rows in the result set (or close it) before you can issue any other queries on the connection, or an exception will be thrown.</p>
-<p>The earliest the locks these statements hold can be released (whether they be MyISAM table-level locks or row-level locks in some other storage engine such as InnoDB) is when the statement completes.</p>
-<p>If the statement is within scope of a transaction, then locks are released when the transaction completes (which implies that the statement needs to complete first). As with most other databases, statements are not complete until all the results pending on the statement are read or the active result set for the statement is closed.</p>
-<p>Therefore, if using streaming results, process them as quickly as possible if you want to maintain concurrent access to the tables referenced by the statement producing the result set.</p>
-</blockquote>
-<p>但是我想说，其实一个参数就足矣。只需要设置<code>fetch size</code>为<code>Integer.MIN_VALUE</code>即可。代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">preparedStatement = connection.prepareStatement(formatSql);</div><div class="line">preparedStatement.setFetchSize(Integer.MIN_VALUE);</div></pre></td></tr></table></figure></p>
-<p>这样为什么可以呢？我们来看源码，点开prepareStatement的具体实现。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.mysql.jdbc;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectionImpl</span> <span class="keyword">extends</span> <span class="title">ConnectionPropertiesImpl</span> <span class="keyword">implements</span> <span class="title">MySQLConnection</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> PreparedStatement <span class="title">prepareStatement</span><span class="params">(String sql)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.prepareStatement(sql, <span class="number">1003</span>, <span class="number">1007</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>可以看到即使你调用的是<code>prepareStatement(formatSql)</code>，但是在实现中调用的是<code>prepareStatement(sql, 1003, 1007)</code>，而<code>ResultSet.TYPE_FORWARD_ONLY = 1003</code>，<code>ResultSet.CONCUR_READ_ONLY = 1007</code>，所以不需要在调用的时候传递<code>TYPE_FORWARD_ONLY</code>和<code>CONCUR_READ_ONLY</code>。</p>
-<p>再来看<code>setFetchDirection</code>的具体实现类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.mysql.jdbc;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StatementImpl</span> <span class="keyword">implements</span> <span class="title">Statement</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFetchDirection</span><span class="params">(<span class="keyword">int</span> direction)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">        <span class="keyword">switch</span>(direction) &#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">1000</span>:</div><div class="line">        <span class="keyword">case</span> <span class="number">1001</span>:</div><div class="line">        <span class="keyword">case</span> <span class="number">1002</span>:</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">throw</span> SQLError.createSQLException(Messages.getString(<span class="string">"Statement.5"</span>), <span class="string">"S1009"</span>, <span class="keyword">this</span>.getExceptionInterceptor());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>可知，在实现中，当<code>direction</code>值是1000、1001和1002时，其处理逻辑是一样的，那么这些值表示什么意思呢？在<code>ResultSet</code>类中可以查到<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> FETCH_FORWARD = <span class="number">1000</span>;</div><div class="line"><span class="keyword">int</span> FETCH_REVERSE = <span class="number">1001</span>;</div><div class="line"><span class="keyword">int</span> FETCH_UNKNOWN = <span class="number">1002</span>;</div></pre></td></tr></table></figure></p>
-<p>所以再调用<code>preparedStatement.setFetchDirection(ResultSet.FETCH_REVERSE);</code>这一句其实完全没必要，因为不论你传递的是哪个值，其结果都是相同的，所以说，使用流式结果集获取海量数据一个参数足矣，不要迷信网上二手信息，同样不要迷信官网，只有源码最靠谱。</p>
-<p>如果想继续深究，可以查看MySQL判断是否开启流式结果集的方法，实现如下，判断逻辑很简单<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.mysql.jdbc;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StatementImpl</span> <span class="keyword">implements</span> <span class="title">Statement</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">createStreamingResultSet</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.resultSetType == <span class="number">1003</span> &amp;&amp; <span class="keyword">this</span>.resultSetConcurrency == <span class="number">1007</span> &amp;&amp; <span class="keyword">this</span>.fetchSize == -<span class="number">2147483648</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
+        
       
     </div>
 
@@ -421,7 +398,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/05/16/Hexo-blog-theme-switching-from-Jacman-to-NexT-Mist/" rel="prev" title="">
+              <a href="/2017/05/16/Git-filtering-method-of-uploaded-files/" rel="prev" title="">
                  <i class="fa fa-chevron-right"></i>
               </a>
             

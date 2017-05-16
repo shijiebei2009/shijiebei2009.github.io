@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="title: Lucene 6.0 索引文件格式date: 2016-12-05 22:01:55tags: [Lucene]categories: Programming Notes  定义在Lucene中基本的概念包括：index、document、field和term。一个index包含一个documents的序列  一个document是一个fields的序列 一个field是一个命名的t">
+<meta name="description" content="志不强者智不达，言不信者行不果">
 <meta name="keywords" content="IT草根, 代码馆, http:&#x2F;&#x2F;codepub.cn&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IT草根">
 <meta property="og:url" content="http://www.codepub.cn/2017/05/16/Lucene-6-0-index-file-format/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="title: Lucene 6.0 索引文件格式date: 2016-12-05 22:01:55tags: [Lucene]categories: Programming Notes  定义在Lucene中基本的概念包括：index、document、field和term。一个index包含一个documents的序列  一个document是一个fields的序列 一个field是一个命名的t">
-<meta property="og:updated_time" content="2017-05-16T15:30:11.291Z">
+<meta property="og:description" content="志不强者智不达，言不信者行不果">
+<meta property="og:updated_time" content="2017-05-16T15:38:20.084Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IT草根">
-<meta name="twitter:description" content="title: Lucene 6.0 索引文件格式date: 2016-12-05 22:01:55tags: [Lucene]categories: Programming Notes  定义在Lucene中基本的概念包括：index、document、field和term。一个index包含一个documents的序列  一个document是一个fields的序列 一个field是一个命名的t">
+<meta name="twitter:description" content="志不强者智不达，言不信者行不果">
 
 
 
@@ -342,173 +342,7 @@
       
 
       
-        <p>title: Lucene 6.0 索引文件格式<br>date: 2016-12-05 22:01:55<br>tags: [Lucene]<br>categories: Programming Notes</p>
-<hr>
-<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>在Lucene中基本的概念包括：index、document、field和term。一个index包含一个documents的序列</p>
-<ul>
-<li>一个document是一个fields的序列</li>
-<li>一个field是一个命名的terms序列</li>
-<li>一个term是一个bytes的序列</li>
-</ul>
-<p>在两个不同fields中的相同bytes序列被认为是不同的term。因此，term表示为一对：命名field的字符串，以及field内的bytes。</p>
-<h4 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h4><p>谈到倒排索引，那么首先看看正排是什么样子的呢？假设文档1包含【中文、英文、日文】，文档2包含【英文、日文、韩文】，文档3包含【韩文，中文】那么根据文档去查找内容的话</p>
-<ul>
-<li>文档1-&gt;【中文、英文、日文】</li>
-<li>文档2-&gt;【英文、日文、韩文】</li>
-<li>文档3-&gt;【韩文，中文】</li>
-</ul>
-<p>反过来，根据内容去查找文档</p>
-<ul>
-<li>中文-&gt;【文档1、文档3】</li>
-<li>英文-&gt;【文档1、文档2】</li>
-<li>日文-&gt;【文档1、文档2】</li>
-<li>韩文-&gt;【文档2、文档3】</li>
-</ul>
-<p>就是倒排索引，而Lucene擅长的也正在于此。</p>
-<h4 id="Fields的类型"><a href="#Fields的类型" class="headerlink" title="Fields的类型"></a>Fields的类型</h4><ul>
-<li>TextField：索引并分词，不包含词向量，多用于文本的正文</li>
-<li>StringField：索引但不分词，整个String作为单个标记索引，例如可用于“国家名称”或“ID”等，或者其它任何你想要用来排序的字段</li>
-<li>IntPoint：int型用于精确/范围查询的索引</li>
-<li>LongPoint：long型用于精确/范围查询的索引</li>
-<li>FloatPoint：float型用于精确/范围查询的索引</li>
-<li>DoublePoint：double型用于精确/范围查询的索引</li>
-<li>SortedDocValuesField：存储每个文档BytesRef值的字段，索引用于排序，如果需要存储值，需要再用StoredField实例</li>
-<li>SortedSetDocValuesField：存储每个文档一组BytesRef值的字段，索引用于faceting/grouping/joining，如果需要存储值，需要再用StoredField实例</li>
-<li>NumericDocValuesField：存储每个文档long值的字段，用于scoring/sorting/值检索</li>
-<li>SortedNumericDocValuesField：存储每个文档一组long值的字段，用于scoring/sorting/值检索</li>
-<li>StoredField：用于在汇总结果中检索的仅存储值</li>
-</ul>
-<h4 id="段（Segments）"><a href="#段（Segments）" class="headerlink" title="段（Segments）"></a>段（Segments）</h4><p>Lucene的索引可能是由多个子索引或Segments组成。每个Segment是一个完全独立地索引，可以单独用于搜索。索引涉及</p>
-<ol>
-<li>为新添加的documents创建新的segments</li>
-<li>合并已经存在的segments</li>
-</ol>
-<p>搜索可能涉及多个segments或/和多个索引，每个索引可能由一组segments组成。</p>
-<h4 id="文档编号"><a href="#文档编号" class="headerlink" title="文档编号"></a>文档编号</h4><p>Lucene通过一个整型的文档编号指向每个文档，第一个被加入索引的文档编号为0，后续加入的文档编号依次递增。注意文档编号是可能发生变化的，所以在Lucene外部存储这些值时需要格外小心。</p>
-<h3 id="索引结构概述"><a href="#索引结构概述" class="headerlink" title="索引结构概述"></a>索引结构概述</h3><p>每个segment索引包括信息</p>
-<ul>
-<li>Segment info：包含有关segment的元数据，例如文档编号，使用的文件</li>
-<li>Field names：包含索引中使用的字段名称集合</li>
-<li>Stored Field values：对于每个document，它包含属性-值对的列表，其中属性是字段名称。这些用于存储有关文档的辅助信息，例如其标题、url或访问数据库的标识符</li>
-<li>Term dictionary：包含所有文档的所有索引字段中使用的所有terms的字典。字典还包括包含term的文档编号，以及指向term的频率和接近度的指针</li>
-<li>Term Frequency data：对于字典中的每个term，包含该term的所有文档的数量以及该term在该文档中的频率，除非省略频率（IndexOptions.DOCS）</li>
-<li>Term Proximity data：对于字典中的每个term，term在每个文档中出现的位置。注意，如果所有文档中的所有字段都省略位置数据，则不会存在</li>
-<li>Normalization factors：对于每个文档中的每个字段，存储一个值，该值将乘以该字段上的匹配的分数</li>
-<li>Term Vectors：对于每个文档中的每个字段，可以存储term vector，term vector由term文本和term频率组成</li>
-<li>Per-document values：与存储的值类似，这些也以文档编号作为key，但通常旨在被加载到主存储器中以用于快速访问。存储的值通常用于汇总来自搜索的结果，而每个文档值对于诸如评分因子是有用的</li>
-<li>Live documents：一个可选文件，指示哪些文档是活动的</li>
-<li>Point values：可选的文件对，记录索引字段尺寸，以实现快速数字范围过滤和大数值（例如BigInteger、BigDecimal（1D）、地理形状交集（2D，3D））</li>
-</ul>
-<h3 id="文件命名"><a href="#文件命名" class="headerlink" title="文件命名"></a>文件命名</h3><p>属于一个段的所有文件具有相同的名称和不同的扩展名。当使用复合索引文件，这些文件（除了段信息文件、锁文件和已删除的文档文件）将压缩成单个<code>.cfs</code>文件。当任何索引文件被保存到目录时，它被赋予一个从未被使用过的文件名字。</p>
-<h3 id="文件扩展名摘要"><a href="#文件扩展名摘要" class="headerlink" title="文件扩展名摘要"></a>文件扩展名摘要</h3><table>
-<thead>
-<tr>
-<th>名称</th>
-<th>文件扩展名</th>
-<th>简短描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Segments File</td>
-<td>segments_N</td>
-<td>保存了一个提交点（a commit point）的信息</td>
-</tr>
-<tr>
-<td>Lock File</td>
-<td>write.lock</td>
-<td>防止多个IndexWriter同时写到一份索引文件中</td>
-</tr>
-<tr>
-<td>Segment Info</td>
-<td>.si</td>
-<td>保存了索引段的元数据信息</td>
-</tr>
-<tr>
-<td>Compound File</td>
-<td>.cfs，.cfe</td>
-<td>一个可选的虚拟文件，把所有索引信息都存储到复合索引文件中</td>
-</tr>
-<tr>
-<td>Fields</td>
-<td>.fnm</td>
-<td>保存fields的相关信息</td>
-</tr>
-<tr>
-<td>Field Index</td>
-<td>.fdx</td>
-<td>保存指向field data的指针</td>
-</tr>
-<tr>
-<td>Field Data</td>
-<td>.fdt</td>
-<td>文档存储的字段的值</td>
-</tr>
-<tr>
-<td>Term Dictionary</td>
-<td>.tim</td>
-<td>term词典，存储term信息</td>
-</tr>
-<tr>
-<td>Term Index</td>
-<td>.tip</td>
-<td>到Term Dictionary的索引</td>
-</tr>
-<tr>
-<td>Frequencies</td>
-<td>.doc</td>
-<td>由包含每个term以及频率的docs列表组成</td>
-</tr>
-<tr>
-<td>Positions</td>
-<td>.pos</td>
-<td>存储出现在索引中的term的位置信息</td>
-</tr>
-<tr>
-<td>Payloads</td>
-<td>.pay</td>
-<td>存储额外的per-position元数据信息，例如字符偏移和用户payloads</td>
-</tr>
-<tr>
-<td>Norms</td>
-<td>.nvd，.nvm</td>
-<td>.nvm文件保存索引字段加权因子的元数据，.nvd文件保存索引字段加权数据</td>
-</tr>
-<tr>
-<td>Per-Document Values</td>
-<td>.dvd，.dvm</td>
-<td>.dvm文件保存索引文档评分因子的元数据，.dvd文件保存索引文档评分数据</td>
-</tr>
-<tr>
-<td>Term Vector Index</td>
-<td>.tvx</td>
-<td>将偏移存储到文档数据文件中</td>
-</tr>
-<tr>
-<td>Term Vector Documents</td>
-<td>.tvd</td>
-<td>包含有term vectors的每个文档信息</td>
-</tr>
-<tr>
-<td>Term Vector Fields</td>
-<td>.tvf</td>
-<td>字段级别有关term vectors的信息</td>
-</tr>
-<tr>
-<td>Live Documents</td>
-<td>.liv</td>
-<td>哪些是有效文件的信息</td>
-</tr>
-<tr>
-<td>Point values</td>
-<td>.dii，.dim</td>
-<td>保留索引点，如果有的话</td>
-</tr>
-</tbody>
-</table>
-<h4 id="锁文件"><a href="#锁文件" class="headerlink" title="锁文件"></a>锁文件</h4><p>默认情况下，存储在索引目录中的锁文件名为“write.lock”。如果锁目录与索引目录不同，则锁文件将命名为“XXXX-write.lock”，其中XXXX是从索引目录的完整路径导出的唯一前缀。此锁文件确保每次只有一个写入程序在修改索引。</p>
-<p>英文文档参见：<a href="https://lucene.apache.org/core/6_0_0/core/org/apache/lucene/codecs/lucene60/package-summary.html" target="_blank" rel="external">https://lucene.apache.org/core/6_0_0/core/org/apache/lucene/codecs/lucene60/package-summary.html</a></p>
-
+        
       
     </div>
 
@@ -775,7 +609,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#倒排索引"><span class="nav-number">1.1.</span> <span class="nav-text">倒排索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fields的类型"><span class="nav-number">1.2.</span> <span class="nav-text">Fields的类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#段（Segments）"><span class="nav-number">1.3.</span> <span class="nav-text">段（Segments）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文档编号"><span class="nav-number">1.4.</span> <span class="nav-text">文档编号</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引结构概述"><span class="nav-number">2.</span> <span class="nav-text">索引结构概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件命名"><span class="nav-number">3.</span> <span class="nav-text">文件命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件扩展名摘要"><span class="nav-number">4.</span> <span class="nav-text">文件扩展名摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#锁文件"><span class="nav-number">4.1.</span> <span class="nav-text">锁文件</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

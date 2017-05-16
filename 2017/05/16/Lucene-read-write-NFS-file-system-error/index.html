@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="title: Lucene读写NFS文件系统异常date: 2016-08-12 22:47:34tags: [Lucene]categories: Programming Notes   Caused by: java.lang.InternalError: a fault occurred in a recent unsafe memory access operation in compil">
+<meta name="description" content="志不强者智不达，言不信者行不果">
 <meta name="keywords" content="IT草根, 代码馆, http:&#x2F;&#x2F;codepub.cn&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IT草根">
 <meta property="og:url" content="http://www.codepub.cn/2017/05/16/Lucene-read-write-NFS-file-system-error/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="title: Lucene读写NFS文件系统异常date: 2016-08-12 22:47:34tags: [Lucene]categories: Programming Notes   Caused by: java.lang.InternalError: a fault occurred in a recent unsafe memory access operation in compil">
-<meta property="og:updated_time" content="2017-05-16T15:30:11.293Z">
+<meta property="og:description" content="志不强者智不达，言不信者行不果">
+<meta property="og:updated_time" content="2017-05-16T15:38:20.087Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IT草根">
-<meta name="twitter:description" content="title: Lucene读写NFS文件系统异常date: 2016-08-12 22:47:34tags: [Lucene]categories: Programming Notes   Caused by: java.lang.InternalError: a fault occurred in a recent unsafe memory access operation in compil">
+<meta name="twitter:description" content="志不强者智不达，言不信者行不果">
 
 
 
@@ -342,15 +342,7 @@
       
 
       
-        <p>title: Lucene读写NFS文件系统异常<br>date: 2016-08-12 22:47:34<br>tags: [Lucene]<br>categories: Programming Notes</p>
-<hr>
-<blockquote>
-<p>Caused by: java.lang.InternalError: a fault occurred in a recent unsafe memory access operation in compiled Java code<br>at org.apache.lucene.store.DataInput.readVInt(DataInput.java:134) ~[lucene-core-5.5.0.jar:5.5.0 2a228b3920a07f930f7afb6a42d0d20e184a943c - mike - 2016-02-16 15:18:34]<br>at org.apache.lucene.codecs.blocktree.SegmentTermsEnumFrame.loadBlock(SegmentTermsEnumFrame.java:157) ~[lucene-core-5.5.0.jar:5.5.0 2a228b3920a07f930f7afb6a42d0d20e184a943c - mike - 2016-02-16 15:18:34]<br>at org.apache.lucene.codecs.blocktree.SegmentTermsEnum.seekExact(SegmentTermsEnum.java:507) ~[lucene-core-5.5.0.jar:5.5.0 2a228b3920a07f930f7afb6a42d0d20e184a943c - mike - 2016-02-16 15:18:34]<br>at org.apache.lucene.index.LeafReader.docFreq(LeafReader.java:152) ~[lucene-core-5.5.0.jar:5.5.0 2a228b3920a07f930f7afb6a42d0d20e184a943c - mike - 2016-02-16 15:18:34]<br>at org.apache.lucene.search.IndexSearcher.count(IndexSearcher.java:394) ~[lucene-core-5.5.0.jar:5.5.0 2a228b3920a07f930f7afb6a42d0d20e184a943c - mike - 2016-02-16 15:18:34]</p>
-</blockquote>
-<p>通常来说，在NFS上大规模的操作总是容易出问题的。如果你使用的是NFS（Network File System）那么建议你升级NFS文件系统所在机器的JDK到Java的最新版，而不是升级你跑程序的机器，因为NFS文件系统所在的服务器很可能和你跑程序的不在同一台服务器，通常情况下都是将NFS作为一块硬盘挂载到某个服务器之上。</p>
-<p>另外Lucene本身对NFS的支持就不够好，所以如果你服务器资源充足的话，建议在一个服务器上跑写索引进程，在另一台服务器上跑读索引进程，这样也能避免此类问题。</p>
-<p>另外，<a href="http://www.gossamer-threads.com/lists/lucene/java-user/253368" target="_blank" rel="external">unsafe memory access operation</a>这个帖子中碰到了同样的问题，可以参考之。</p>
-
+        
       
     </div>
 
@@ -398,7 +390,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/16/Lucene-index-file-lock-principle/" rel="next" title="">
+              <a href="/2017/05/16/Lucene-sets-a-single-index-file-size-of-the-performance-test/" rel="next" title="">
                 <i class="fa fa-chevron-left"></i> 
               </a>
             

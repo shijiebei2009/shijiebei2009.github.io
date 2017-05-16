@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="问题重现在使用IDEA生成Java Doc的过程中，发现IDEA控制台乱码，作为有轻微代码强迫症的我来说，这是不可忍受的，需要鼓捣一番。先上pom.xml中的javadoc插件配置 123456789101112131415161718192021&amp;lt;!--配置生成Javadoc包--&amp;gt;&amp;lt;plugin&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.maven.p">
+<meta name="description" content="志不强者智不达，言不信者行不果">
 <meta name="keywords" content="IT草根, 代码馆, http:&#x2F;&#x2F;codepub.cn&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IT草根">
 <meta property="og:url" content="http://www.codepub.cn/2017/05/16/IntelliJ-IDEA-using-maven-javadoc-plugin-to-generate-the-Java-Doc-console-gibberish/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="问题重现在使用IDEA生成Java Doc的过程中，发现IDEA控制台乱码，作为有轻微代码强迫症的我来说，这是不可忍受的，需要鼓捣一番。先上pom.xml中的javadoc插件配置 123456789101112131415161718192021&amp;lt;!--配置生成Javadoc包--&amp;gt;&amp;lt;plugin&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.maven.p">
-<meta property="og:updated_time" content="2017-05-16T15:30:11.269Z">
+<meta property="og:description" content="志不强者智不达，言不信者行不果">
+<meta property="og:updated_time" content="2017-05-16T15:38:20.055Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IT草根">
-<meta name="twitter:description" content="问题重现在使用IDEA生成Java Doc的过程中，发现IDEA控制台乱码，作为有轻微代码强迫症的我来说，这是不可忍受的，需要鼓捣一番。先上pom.xml中的javadoc插件配置 123456789101112131415161718192021&amp;lt;!--配置生成Javadoc包--&amp;gt;&amp;lt;plugin&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.maven.p">
+<meta name="twitter:description" content="志不强者智不达，言不信者行不果">
 
 
 
@@ -342,21 +342,7 @@
       
 
       
-        <h4 id="问题重现"><a href="#问题重现" class="headerlink" title="问题重现"></a>问题重现</h4><p>在使用<strong>IDEA</strong>生成<strong>Java Doc</strong>的过程中，发现<strong>IDEA</strong>控制台乱码，作为有轻微代码强迫症的我来说，这是不可忍受的，需要鼓捣一番。先上<strong>pom.xml</strong>中的<strong>javadoc</strong>插件配置</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--配置生成Javadoc包--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-javadoc-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.10.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">encoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">encoding</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">aggregate</span>&gt;</span>true<span class="tag">&lt;/<span class="name">aggregate</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">charset</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">charset</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">docencoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">docencoding</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">executions</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">execution</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>attach-javadocs<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">phase</span>&gt;</span>package<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">goals</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">goal</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>在运行<strong>mvn clean package</strong>命令进行打包之后，控制台会打印出如下信息，可以看到在使用<strong>javadoc</strong>插件的过程中，控制台输出乱码</p>
-<blockquote>
-<p>[INFO] — maven-javadoc-plugin:2.10.3:jar (attach-javadocs) @ lucene —<br>[INFO]<br>���ڼ���Դ�ļ�D:\Multi-module-project\Lucene\src\main\java\AnalyzerDemo.java…<br>���ڼ���Դ�ļ�D:\Multi-module-project\Lucene\src\main\java\BaiduAPI.java…<br>���ڼ���Դ�ļ�D:\Multi-module-project\Lucene\src\main\java\CustomQueryParser.java…<br>…<br>…</p>
-</blockquote>
-<h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><p>在<strong>IDEA</strong>中，打开<strong>File | Settings | Build, Execution, Deployment | Build Tools | Maven | Runner</strong>在<strong>VM Options</strong>中添加<code>-Dfile.encoding=GBK</code>，切记一定是<strong>GBK</strong>。即使用<strong>UTF-8</strong>的话，依然是乱码，这是因为<strong>Maven</strong>的默认平台编码是<strong>GBK</strong>，如果你在命令行中输入<code>mvn -version</code>的话，会得到如下信息，根据<strong>Default locale</strong>可以看出</p>
-<blockquote>
-<p>Maven home:…<br>Java version:…<br>Java home:…<br><strong>Default locale: zh_CN, platform encoding: GBK</strong><br>…<br>…</p>
-</blockquote>
-<p>再次运行<strong>mvn clean package</strong>，控制台输出一切正常</p>
-<blockquote>
-<p>[INFO] — maven-javadoc-plugin:2.10.3:jar (attach-javadocs) @ lucene —<br>[INFO]<br>正在加载源文件D:\Multi-module-project\Lucene\src\main\java\AnalyzerDemo.java…<br>正在加载源文件D:\Multi-module-project\Lucene\src\main\java\BaiduAPI.java…<br>正在加载源文件D:\Multi-module-project\Lucene\src\main\java\CustomQueryParser.java…<br>…<br>…</p>
-</blockquote>
-
+        
       
     </div>
 
@@ -404,7 +390,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/16/Gradle-uses-extended-attributes-to-manage-dependent-version-numbers/" rel="next" title="">
+              <a href="/2017/05/16/IntelliJ-IDEA-in-Maven-plugin-could-not-update-the-index-of-the-solution/" rel="next" title="">
                 <i class="fa fa-chevron-left"></i> 
               </a>
             
@@ -623,7 +609,7 @@ var jiathis_config = {data_track_clickback:'true'};
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题重现"><span class="nav-number">1.</span> <span class="nav-text">问题重现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决办法"><span class="nav-number">2.</span> <span class="nav-text">解决办法</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

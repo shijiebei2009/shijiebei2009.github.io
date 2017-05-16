@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="title: “Log4j打印异常堆栈信息到日志”date: 2016-04-15 23:38:41tags: [Log4j]categories: Programming Notestoc: false  把辛勤的耕作当做生命的必要，即使没有收获的指望依然心平气和的继续耕种。路遥  在Java中，通常情况下，需要将异常堆栈信息输出到日志中，这样便于纠错及修正Bug，而多数情况下，大家最常用的是使">
+<meta name="description" content="志不强者智不达，言不信者行不果">
 <meta name="keywords" content="IT草根, 代码馆, http:&#x2F;&#x2F;codepub.cn&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IT草根">
 <meta property="og:url" content="http://www.codepub.cn/2017/05/16/Log4j-print-exception-stack-information-to-the-log/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="title: “Log4j打印异常堆栈信息到日志”date: 2016-04-15 23:38:41tags: [Log4j]categories: Programming Notestoc: false  把辛勤的耕作当做生命的必要，即使没有收获的指望依然心平气和的继续耕种。路遥  在Java中，通常情况下，需要将异常堆栈信息输出到日志中，这样便于纠错及修正Bug，而多数情况下，大家最常用的是使">
-<meta property="og:updated_time" content="2017-05-16T15:30:11.278Z">
+<meta property="og:description" content="志不强者智不达，言不信者行不果">
+<meta property="og:updated_time" content="2017-05-16T15:38:20.069Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IT草根">
-<meta name="twitter:description" content="title: “Log4j打印异常堆栈信息到日志”date: 2016-04-15 23:38:41tags: [Log4j]categories: Programming Notestoc: false  把辛勤的耕作当做生命的必要，即使没有收获的指望依然心平气和的继续耕种。路遥  在Java中，通常情况下，需要将异常堆栈信息输出到日志中，这样便于纠错及修正Bug，而多数情况下，大家最常用的是使">
+<meta name="twitter:description" content="志不强者智不达，言不信者行不果">
 
 
 
@@ -342,24 +342,7 @@
       
 
       
-        <p>title: “Log4j打印异常堆栈信息到日志”<br>date: 2016-04-15 23:38:41<br>tags: [Log4j]<br>categories: Programming Notes<br>toc: false</p>
-<hr>
-<blockquote class="blockquote-center"><br><strong>把辛勤的耕作当做生命的必要，即使没有收获的指望依然心平气和的继续耕种。</strong><br><br>路遥<br></blockquote>
-
-<p>在<strong>Java</strong>中，通常情况下，需要将异常堆栈信息输出到日志中，这样便于纠错及修正<strong>Bug</strong>，而多数情况下，大家最常用的是使用<code>e.printStackTrace()</code>直接打印堆栈信息完事，这并不是值的推荐的做法。</p>
-<ol>
-<li>当出现异常时，调用<code>e.printStackTrace();</code>其实相当于什么都没做，同时也不会把异常信息输出到日志文件中</li>
-<li>使用<code>log.error(e.getMessage());</code>只能够输出异常信息，但是并不包括异常堆栈，所以无法追踪出错的源点</li>
-<li>使用<code>log.error(e);</code>除了输出异常信息外，还能输出异常类型，但是同样不包括异常堆栈，该方法<strong>doc</strong>说明为：<strong>Logs a message object with the ERROR level.</strong>显然并不会记录异常堆栈信息</li>
-<li>当然也可以自己手动写个工具类，来挨个输出<code>e.getStackTrace();</code>获得的堆栈信息，显然繁琐麻烦</li>
-<li>其实在<strong>log4j</strong>中只需要这样调用，就可以获得异常及堆栈信息<code>log.error(Object var1, Throwable var2);</code>，该方法<strong>doc</strong>说明为：<strong>Logs a message at the ERROR level including the stack trace of the Throwable t passed as parameter.</strong></li>
-</ol>
-<p><strong>例如：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testError</span><span class="params">()</span> </span>&#123;</div><div class="line">        String s = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            s.length();</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            log.error(s, e);</div><div class="line">            <span class="comment">//当然如果你懒得想提示信息的话，直接这样log.error("", e);</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<p><strong>输出：</strong></p>
-<blockquote>
-<p>2016.04.14 12:41:56 GMT+08:00 ERROR XX XX testError - null java.lang.NullPointerException at XX(XX.java:YY) [classes/:?]<br>……<br>……</p>
-</blockquote>
-
+        
       
     </div>
 
@@ -415,7 +398,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/05/16/Lucene-6-0-directory-structure-and-functional-module/" rel="prev" title="">
+              <a href="/2017/05/16/Lucene-6-0-in-action-index-backup-No-index-commit-to-snapshot/" rel="prev" title="">
                  <i class="fa fa-chevron-right"></i>
               </a>
             

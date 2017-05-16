@@ -59,17 +59,17 @@
 
 
 
-<meta name="description" content="title: “CentOS 7.1 切换命令行模式与桌面模式”tags: [CentOS]categories: Operating Systemdate: 2015-06-22 19:37:06toc: false  首先你需要知道自己的Linux版本信息，下面介绍一些常用的查看Linux系统版本的命令  查看内核版本命令，以下三个命令任选 12345678[hadoop@localhost">
+<meta name="description" content="志不强者智不达，言不信者行不果">
 <meta name="keywords" content="IT草根, 代码馆, http:&#x2F;&#x2F;codepub.cn&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IT草根">
 <meta property="og:url" content="http://www.codepub.cn/2017/05/16/CentOS-7-1-switch-in-command-line-mode-and-desktop-mode/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="title: “CentOS 7.1 切换命令行模式与桌面模式”tags: [CentOS]categories: Operating Systemdate: 2015-06-22 19:37:06toc: false  首先你需要知道自己的Linux版本信息，下面介绍一些常用的查看Linux系统版本的命令  查看内核版本命令，以下三个命令任选 12345678[hadoop@localhost">
-<meta property="og:updated_time" content="2017-05-16T15:30:11.256Z">
+<meta property="og:description" content="志不强者智不达，言不信者行不果">
+<meta property="og:updated_time" content="2017-05-16T15:38:20.047Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IT草根">
-<meta name="twitter:description" content="title: “CentOS 7.1 切换命令行模式与桌面模式”tags: [CentOS]categories: Operating Systemdate: 2015-06-22 19:37:06toc: false  首先你需要知道自己的Linux版本信息，下面介绍一些常用的查看Linux系统版本的命令  查看内核版本命令，以下三个命令任选 12345678[hadoop@localhost">
+<meta name="twitter:description" content="志不强者智不达，言不信者行不果">
 
 
 
@@ -342,21 +342,7 @@
       
 
       
-        <p>title: “CentOS 7.1 切换命令行模式与桌面模式”<br>tags: [CentOS]<br>categories: Operating System<br>date: 2015-06-22 19:37:06<br>toc: false</p>
-<hr>
-<p>首先你需要知道自己的Linux版本信息，下面介绍一些常用的查看Linux系统版本的命令</p>
-<ol>
-<li><p>查看内核版本命令，以下三个命令任选</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[hadoop@localhost ~]$ cat /proc/version</div><div class="line">Linux version 3.10.0-229.el7.x86_64 (builder@kbuilder.dev.centos.org) (gcc version 4.8.2 20140120 (Red Hat 4.8.2-16) (GCC) ) <span class="comment">#1 SMP Fri Mar 6 11:36:42 UTC 2015</span></div><div class="line"></div><div class="line">[hadoop@localhost ~]$ uname <span class="_">-a</span></div><div class="line">Linux localhost.localdomain 3.10.0-229.el7.x86_64 <span class="comment">#1 SMP Fri Mar 6 11:36:42 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</span></div><div class="line"></div><div class="line">[hadoop@localhost ~]$ uname -r</div><div class="line">3.10.0-229.el7.x86_64</div></pre></td></tr></table></figure>
-</li>
-<li><p>查看linux版本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[hadoop@localhost ~]$ cat /etc/redhat-release </div><div class="line">CentOS Linux release 7.1.1503 (Core)</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>那么知道了版本之后如何修改默认启动时进入命令行还是桌面环境呢？在<code>CentOS7.x</code>之前的版本都是通过修改<code>/etc/inittab</code>文件来设置启动顺序，具体可参考<a href="http://www.habadog.com/2012/03/03/centos-model-switch/" target="_blank" rel="external">这里</a>。但是此种方法并不适应于<code>CentOS7.x</code>版本，在该版本中，我们查看<code>/etc/inittab</code>文件可得<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">[hadoop@localhost ~]$ vim /etc/inittab</div><div class="line"><span class="comment"># inittab is no longer used when using systemd.</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># ADDING CONFIGURATION HERE WILL HAVE NO EFFECT ON YOUR SYSTEM.</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># Ctrl-Alt-Delete is handled by /usr/lib/systemd/system/ctrl-alt-del.target</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># systemd uses 'targets' instead of runlevels. By default, there are two main targets:</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># multi-user.target: analogous to runlevel 3</span></div><div class="line"><span class="comment"># graphical.target: analogous to runlevel 5</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># To view current default target, run:</span></div><div class="line"><span class="comment"># systemctl get-default</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># To set a default target, run:</span></div><div class="line"><span class="comment"># systemctl set-default TARGET.target</span></div></pre></td></tr></table></figure></p>
-<p>该文件中已经详细说明了，不再使用inittab文件而是使用systemd代替，并且还指出，现在只有<code>multi-user</code>相当于运行级别是3和<code>graphical</code>相当于运行级别是5，现在可以使用如下命令设置默认启动级别了，注意要以root用户，或者是使用sudo权限<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@localhost hadoop]<span class="comment"># systemctl set-default multi-user.target</span></div><div class="line">rm <span class="string">'/etc/systemd/system/default.target'</span></div><div class="line">ln <span class="_">-s</span> <span class="string">'/usr/lib/systemd/system/multi-user.target'</span> <span class="string">'/etc/systemd/system/default.target'</span></div><div class="line">[root@localhost hadoop]<span class="comment">#</span></div></pre></td></tr></table></figure></p>
-<p>设置成功之后reboot一下，即可顺利进入命令行界面了，如果想要再次进入图形界面，在命令行中运行<code>startx</code>即可。</p>
-
+        
       
     </div>
 
@@ -404,7 +390,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/16/Read-the-black-swan/" rel="next" title="">
+              <a href="/2017/05/16/Read-Hackers-and-Painters-Big-Ideas-from-the-Computer-Age/" rel="next" title="">
                 <i class="fa fa-chevron-left"></i> 
               </a>
             
@@ -412,7 +398,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/05/16/Introduction-to-Apache-Commons/" rel="prev" title="">
+              <a href="/2017/05/16/Ubuntu14-10-install-and-uninstall-sogou-input-method/" rel="prev" title="">
                  <i class="fa fa-chevron-right"></i>
               </a>
             
