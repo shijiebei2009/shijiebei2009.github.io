@@ -1,4 +1,4 @@
-title: "读《蚁族：大学毕业生聚居村实录》"
+title: 读《蚁族：大学毕业生聚居村实录》
 date: 2017-04-25 22:35:41
 tags: [Thinking]
 categories: Life-Talk
