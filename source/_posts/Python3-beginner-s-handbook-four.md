@@ -1,4 +1,3 @@
-date: 2015-07-13 23:03:44
 title: "Python3入门手册之四"
 tags: [Python3]
 categories: Programming Notes
@@ -6,8 +5,8 @@ categories: Programming Notes
 ---
 *Version：Python 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:44:40) [MSC v.1600 64 bit (AMD64)] on win32*
 
-###函数
-####可接受任意数量参数的函数
+### 函数
+#### 可接受任意数量参数的函数
 为了能让一个函数接受任意数量的位置参数，可以使用一个`*参数`
 ```python
 def avg(first, *rest):
@@ -52,7 +51,7 @@ anyargs('a', 'b', 'c', 'd', 'e', key1='1', key2='2')
 使用这个函数时，所有位置参数会被放到`args元组`中，所有关键字参数会被放到`字典kwargs`中。
 一个`*参数`只能出现在函数定义中最后一个位置参数后面，而 `**参数`只能出现在最后一个参数。 有一点要注意的是，在`*参数`后面仍然可以定义其他参数。
 
-####只接受关键字参数的函数
+#### 只接受关键字参数的函数
 利用这种技术，我们还能在接受任意多个位置参数的函数中指定关键字参数。
 ```python
 def mininum(*values, clip=None):
@@ -64,7 +63,7 @@ def mininum(*values, clip=None):
 minimum(1, 5, 2, -5, 10) # Returns -5
 minimum(1, 5, 2, -5, 10, clip=0) # Returns 0</pre>
 ```
-####返回多个值的函数
+#### 返回多个值的函数
 为了能返回多个值，函数直接return一个元组就行了。
 ```python
 >>> def myfun():
@@ -81,7 +80,7 @@ minimum(1, 5, 2, -5, 10, clip=0) # Returns 0</pre>
 >>> b
 (1, 2)
 ```
-####定义有默认参数的函数
+#### 定义有默认参数的函数
 定义一个有可选参数的函数是非常简单的，直接在函数定义中给参数指定一个默认值，并放到参数列表最后就行了。
 ```python
 def spam(a, b=42):
@@ -147,7 +146,7 @@ def spam(a, b=None):
     ...
 ```
 
-####定义匿名或内联函数
+#### 定义匿名或内联函数
 当一些函数很简单，仅仅只是计算一个表达式的值的时候，就可以使用`lambda`表达式来代替了。
 ```python
 >>> add = lambda x, y: x + y
@@ -217,7 +216,7 @@ def spam(a, b=None):
 ```
 通过使用函数默认值参数形式，`lambda`函数在定义时就能绑定到值。
 
-####减少可调用对象的参数个数
+#### 减少可调用对象的参数个数
 如果需要减少某个函数的参数个数，你可以使用`functools.partial()`。`partial()`允许你给一个或多个参数设置固定的值，减少接下来被调用时的参数个数。
 ```python
 from functools import partial
@@ -273,8 +272,8 @@ if __name__ == '__main__':
     p.close()
     p.join()
 ```
-###类与对象
-####改变对象的字符串显示
+### 类与对象
+#### 改变对象的字符串显示
 要改变一个实例的字符串表示，可重新定义它的`__str__()`和`__repr__()`方法。
 ```python
 class Pair:
@@ -322,7 +321,7 @@ def __repr__(self):
 def __repr__(self):
     return 'Pair(%r, %r)' % (self.x, self.y)
 ```
-####让对象支持上下文管理协议
+#### 让对象支持上下文管理协议
 为了让一个对象兼容`with`语句，你需要实现`__enter()__`和`__exit__()`方法。例如，考虑如下的一个类，它能为我们创建一个网络连接：
 
 ```python
@@ -398,7 +397,7 @@ with conn as s1:
 
 在需要管理一些资源比如文件、网络连接和锁的编程环境中，使用上下文管理器是很普遍的。这些资源的一个主要特征是它们必须被手动的关闭或释放来确保程序的正确运行。例如，如果你请求了一个锁，那么你必须确保之后释放了它，否则就可能产生死锁。通过实现`__enter__()`和`__exit__()`方法并使用`with`语句可以很容易的避免这些问题，因为`__exit__()`方法可以让你无需担心这些了。
 
-####创建大量对象时节省内存方法
+#### 创建大量对象时节省内存方法
 对于主要是用来当成简单的数据结构的类而言，你可以通过给类添加`__slots__`属性来极大的减少实例所占的内存。
 ```python
 class Date:
@@ -411,7 +410,7 @@ class Date:
 
 当你定义`__slots__`后，Python就会为实例使用一种更加紧凑的内部表示。实例通过一个很小的固定大小的数组来构建，而不是为每个实例定义一个字典，这跟元组或列表很类似。在`__slots__`中列出的属性名在内部被映射到这个数组的指定小标上。使用`slots`一个不好的地方就是我们不能再给实例添加新的属性了，只能使用在`__slots__`中定义的那些属性名。
 
-####在类中封装属性名
+#### 在类中封装属性名
 `Python`程序员不去依赖语言特性去封装数据，而是通过遵循一定的属性和方法命名规约来达到这个效果。第一个约定是任何以单下划线`_`开头的名字都应该是内部实现。
 
 ```python
@@ -514,7 +513,7 @@ class Person:
     # Make a property from existing get/set methods
     name = property(get_first_name, set_first_name, del_first_name)
 ```
-####调用父类方法
+#### 调用父类方法
 ```python
 class A:
     def spam(self):
@@ -538,7 +537,7 @@ class B(A):
         super().__init__()
         self.y = 1
 ```
-####定义接口或者抽象基类
+#### 定义接口或者抽象基类
 使用`abs`模块可以很轻松的定义抽象基类:
 ```python
 from abc import ABCMeta, abstractmethod
@@ -704,7 +703,7 @@ class NewDate(Date):
 c = Date.today() # Creates an instance of Date (cls=Date)
 d = NewDate.today() # Creates an instance of NewDate (cls=NewDate)
 ```
-####创建不调用init方法的实例
+#### 创建不调用init方法的实例
 可以通过`__new__()`方法创建一个未初始化的实例。例如考虑如下这个类：
 
 ```python
@@ -737,7 +736,7 @@ AttributeError: 'Date' object has no attribute 'year'
 8
 >>>
 ```
-####实现状态对象或者状态机
+#### 实现状态对象或者状态机
 你想实现一个状态机或者是在不同状态下执行操作的对象，但是又不想在代码中出现太多的条件判断语句。那么如下是最好的实现方式
 ```python
 
@@ -896,7 +895,7 @@ print('Which one is biggest?', max(houses)) # Prints 'h3: 1101-square-foot Split
 print('Which is smallest?', min(houses)) # Prints 'h2: 846-square-foot Ranch'
 ```
 
-####创建缓存实例
+#### 创建缓存实例
 在创建一个类的对象时，如果之前使用同样参数创建过这个对象，你想返回它的缓存引用。为了达到这样的效果，你需要使用一个和类本身分开的工厂函数，例如：
 ```python
 # The class in question

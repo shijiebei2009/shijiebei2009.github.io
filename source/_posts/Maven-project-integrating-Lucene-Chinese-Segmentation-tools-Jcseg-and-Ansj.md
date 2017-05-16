@@ -5,7 +5,7 @@ categories: Programming Notes
 
 ---
 
-####开发环境
+#### 开发环境
 **Windows**：Win7 64 bit
 **Java**：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VM
 **Lucene**：5.5
@@ -14,15 +14,15 @@ categories: Programming Notes
 **Ansj_lucene5_plug**：3.0
 **Maven**：3.3.3
 
-####Lucene集成Jcseg
-#####Jcseg简介
+#### Lucene集成Jcseg
+##### Jcseg简介
 **Jcseg**是使用**Java**开发的一个开源中文分词器，使用流行的**mmseg**算法实现，有兴趣的可以参考[算法原文](http://technology.chtsai.org/mmseg/)，并且提供了最高版本的**lucene**、**solr**、**elasticsearch**的分词接口。
 
 **Google Code**最新版**V1.9.6**：https://code.google.com/archive/p/jcseg/
 **Git OSChina**最新版**V1.9.7**：http://git.oschina.net/lionsoul/jcseg
 **GitHub**地址：https://github.com/lionsoul2014/jcseg
 
-#####Maven编译Jcseg项目源码
+##### Maven编译Jcseg项目源码
 从**OSChina**上下载**ZIP**压缩包之后，解压即可，文件夹重命名为**jcseg**，进入**jcseg**根目录，使用**mvn clean package**命令打包，前提是已经配置过**maven**环境变量，否则**mvn**无法识别。成功打包之后如下所示
 >[INFO] Reactor Summary:
 [INFO]
@@ -39,7 +39,7 @@ categories: Programming Notes
 [INFO] Final Memory: 31M/282M
 [INFO] ------------------------------------------------------------------------
 
-#####Maven将Jar包安装到本地仓库
+##### Maven将Jar包安装到本地仓库
 打开**maven**的**settings.xml**文件，配置本地仓库路径
 ```xml
 <settings>
@@ -78,7 +78,7 @@ categories: Programming Notes
 [INFO] Final Memory: 31M/253M
 [INFO] ------------------------------------------------------------------------
 
-#####Maven项目配置Jcseg
+##### Maven项目配置Jcseg
 如果按照默认添加依赖方式如下所示
 ```xml
 <dependency>
@@ -118,7 +118,7 @@ categories: Programming Notes
 </dependency>
 ```
 
-#####Lucene集成Jcseg的测试代码
+##### Lucene集成Jcseg的测试代码
 将**jcseg**源码包中的**lexicon**和**jcseg.properties**两个文件复制到**src/main/resources**下，并修改**jcseg.properties**中的`lexicon.path = src/main/resources/lexicon`
 ```java
 @Test
@@ -166,8 +166,8 @@ public void test() throws IOException, ParseException {
 得分：0.080312796
 jcseg是使用Java开发的一款开源的中文分词器, 基于流行的mmseg算法实现，分词准确率高达98.4%, 支持中文人名识别, 同义词匹配, 停止词过滤等。并且提供了最新版本的lucene,solr,elasticsearch分词接口。
 
-####Lucene集成Ansj
-#####Ansj简介
+#### Lucene集成Ansj
+##### Ansj简介
 **Ansj**是一个**ICTCLAS**的**Java**实现。基本上重写了所有的数据结构和算法。词典是用的开源版的**ICTCLAS**所提供的。并且进行了部分的人工优化。
 
 还是一个基于**n-Gram+**条件随机场模型的中文分词的**Java**实现。分词速度达到每秒钟大约200万字左右（Mac Air下测试），准确率能达到96%以上。目前实现了中文分词、中文姓名识别、用户自定义词典。可以应用到自然语言处理等方面，适用于对分词效果要求高的各种项目。
@@ -175,7 +175,7 @@ jcseg是使用Java开发的一款开源的中文分词器, 基于流行的mmseg�
 **GitHub**项目地址：https://github.com/NLPchina/ansj_seg
 **Ansj**的仓库地址，包括针对**Lucene**的插件：http://maven.nlpcn.org/org/ansj/
 
-#####Maven项目配置Ansj
+##### Maven项目配置Ansj
 根据官方手册，在**pom.xml**文件中加入依赖，如下所示
 ```xml
 <dependency>
@@ -236,7 +236,7 @@ jcseg是使用Java开发的一款开源的中文分词器, 基于流行的mmseg�
         </mirror>
 </mirrors>
 ```
-#####Maven之镜像
+##### Maven之镜像
 如果仓库**X**可以提供仓库**Y**存储的所有内容，那么就可以认为**X**是**Y**的一个镜像。换句话说，任何一个可以从仓库**Y**获得的构建，都能够从它的镜像中获取。
 
 关于镜像的一个更为常见的用法是结合私服。由于私服可以代理任何外部的公共仓库，因此，对于组织内部的**Maven**用户来说，使用一个私服地址就等于使用了所有需要的外部仓库，这可以将配置集中到私服，从而简化**Maven**本身的配置。
@@ -250,7 +250,7 @@ jcseg是使用Java开发的一款开源的中文分词器, 基于流行的mmseg�
 ```
 需要注意的是，由于镜像仓库完全屏蔽了被镜像仓库，当镜像仓库不稳定或者停止服务的时候，**Maven**仍将无法访问被镜像仓库，因而将无法下载构建。
 
-#####Maven中自定义变量
+##### Maven中自定义变量
 通常在依赖一个项目多个组件的时候，为每一个组件单独指定版本号是可以的，但是当升级版本号的时候，就需要对每个组件都做升级，很麻烦，这时就需要自定义变量了。在**pom.xml**中定义如下
 ```xml
 <properties>
@@ -271,7 +271,7 @@ jcseg是使用Java开发的一款开源的中文分词器, 基于流行的mmseg�
 </dependency>
 ```
 
-#####Maven内置变量
+##### Maven内置变量
 **Maven**本身就内置了很多预定义变量，可以直接引用，选取一些举例如下
 - 内置属性
     * **${basedir}** represents the directory containing pom.xml
@@ -299,7 +299,7 @@ jcseg是使用Java开发的一款开源的中文分词器, 基于流行的mmseg�
 - 自定义属性
     * `<properties><my.version>hello</my.version></properties>`则引用 **${my.version}**就会得到值hello
 
-#####Lucene集成Ansj的测试代码
+##### Lucene集成Ansj的测试代码
 **Ansj In Lucene**的官方参考文档：http://nlpchina.github.io/ansj_seg/
 
 到https://github.com/NLPchina/ansj_seg 下载**ZIP**压缩文件，解压，将其中的**library**文件夹和`library.properties`文件拷贝到**maven**项目下的`src/main/resources`中，修改`library.properties`内容如下
@@ -440,7 +440,7 @@ public class IndexTest {
 
 意思是说所有的非抽象子类必须是**final**的或者至少有一个**final**修饰的**incrementToken()**覆写方法。但是**Ansj**针对**Lucene**的插件中，这两者都没有做！！！
 
-#####Lucene集成Ansj报错解决方案
+##### Lucene集成Ansj报错解决方案
 
 1. 既然**Ansj**两者都没做，那么一种方法就是修改**Ansj**的源码，但是我们使用的是**Ansj**仓库中提供的**Jar**包，修改源码之后，只能本地引用修改后的**Jar**包，不方便项目的迁移，所以不采用
 2. 提供一个**final**修饰的覆写方法**incrementToken()**，通过实现两个内部类，分别继承自**AnsjAnalyzer**和**AnsjTokenizer**，在使用的时候调用自己实现的内部类
@@ -620,7 +620,7 @@ text:"季德胜 蛇药片"
 "季德胜蛇药片":共找到1条记录!
 <font color="red">季德胜</font><font color="red">蛇药片</font> 10片*6板
 
-#####Ansj设置词典路径
+##### Ansj设置词典路径
 1. 正规方式
 创建**library.properties**中增加
 ```bash
@@ -640,10 +640,10 @@ loadLibrary.loadLibrary(String path)方式加载
 ```
 路径可以是具体文件也可以是一个目录，如果是一个目录，那么会扫描目录下的**dic**文件自动加入词典。
 
-#####Lucene集成Ansj添加自定义词典
+##### Lucene集成Ansj添加自定义词典
 如果需要添加自己的自定义词典，参考**default.dic**格式即可。用户自定义词典的格式是`word[tab]nature[tab]freq`，**example**: 小李子 nr 100
 
-####分布式分词组件Word
+#### 分布式分词组件Word
 ***Notes***：另外发现了一个分布式中文分词组件，希望以后有机会可以深入研究，地址：https://github.com/ysc/word
 
 **Word**分词是一个**Java**实现的分布式的中文分词组件，提供了多种基于词典的分词算法，并利用**ngram**模型来消除歧义。能准确识别英文、数字，以及日期、时间等数量词，能识别人名、地名、组织机构名等未登录词。能通过自定义配置文件来改变组件行为，能自定义用户词库、自动检测词库变化、支持大规模分布式环境，能灵活指定多种分词算法，能使用**refine**功能灵活控制分词结果，还能使用词频统计、词性标注、同义标注、反义标注、拼音标注等功能。提供了10种分词算法，还提供了10种文本相似度算法，同时还无缝和**Lucene**、**Solr**、**ElasticSearch**、**Luke**集成。注意：**word1.3**需要**JDK1.8**。

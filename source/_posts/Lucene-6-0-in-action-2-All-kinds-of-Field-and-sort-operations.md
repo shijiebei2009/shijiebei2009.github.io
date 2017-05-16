@@ -5,7 +5,7 @@ categories: Programming Notes
 
 ---
 
-###Field简述
+### Field简述
 在Lucene中，各种Field都是IndexableField接口的实现，该接口中提供了一些通用的方法，用于获取Field相关的属性
 
 ```java
@@ -54,7 +54,7 @@ field.fieldType().setTokenized(true);
 | StoredField  | 存储Field的值，可以用 IndexSearcher.doc和IndexReader.document来获取存储的Field和存储的值|
 
 
-###IntPoint的使用
+### IntPoint的使用
 ```java
 public void addIntPoint(Document document, String name, int value) {
     Field field = new IntPoint(name, value);
@@ -102,7 +102,7 @@ Document<stored<intValue:10>>
 ```
 FloatPoint，LongPoint，DoublePoint使用方法类似，不再赘述。
 
-###BinaryDocValuesField的使用
+### BinaryDocValuesField的使用
 ```java
 public void addBinaryDocValuesField(Document document, String name, String value) {
     Field field = new BinaryDocValuesField(name, new BytesRef(value));
@@ -145,7 +145,7 @@ Document<stored<intValue:12345>>
 Document<stored<binaryValue:1234>>
 ```
 
-###StringField的使用
+### StringField的使用
 ```java
 public void addStringField(Document document, String name, String value) {
     Field field = new StringField(name, value, Field.Store.YES);
@@ -187,7 +187,7 @@ Document<stored,indexed,tokenized,omitNorms,indexOptions=DOCS<stringValue:12345>
 Document<stored,indexed,tokenized,omitNorms,indexOptions=DOCS<stringValue:1234>>
 ```
 
-###TextField的使用
+### TextField的使用
 ```java
 public void addTextField(Document document, String name, String value) {
     Field field = new TextField(name, value, Field.Store.YES);

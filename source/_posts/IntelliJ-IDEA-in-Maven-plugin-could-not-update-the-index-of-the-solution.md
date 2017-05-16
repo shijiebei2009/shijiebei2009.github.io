@@ -5,7 +5,7 @@ categories: Programming Notes
 
 ---
 
-####Maven的仓库、索引
+#### Maven的仓库、索引
 **中央仓库**：目前来说，[http://repo1.maven.org/maven2/](http://repo1.maven.org/maven2/) 是真正的`Maven`中央仓库的地址，该地址内置在`Maven`的源码中，其它地址包括著名的[ibiblio.org](http://mirrors.ibiblio.org/pub/mirrors/maven2/)，都是镜像。
 
 **索引**：中央仓库带有索引文件以方便用户对其进行搜索，完整的索引文件至2015年12月8日大小约为1.11G，索引每周更新一次。
@@ -20,20 +20,20 @@ categories: Programming Notes
 ```
 **提交内容**：只要你的项目是开源的，而且你能提供完备的`POM`等信息，你就可以提交项目文件至中央仓库，这可以通过`Sonatype`提供的[开源Maven仓库托管服务](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide)实现。
 
-####IntelliJ IDEA利用索引实现自动补全
+#### IntelliJ IDEA利用索引实现自动补全
 众所周知，由于伟大的中国防火墙，所以在使用IDEA下载Maven仓库索引的时候，要么无法访问，要么就是速度极慢，这对开发人员带来了极大的不便，所以一般公司都用Nexus搭建一个公司内部的私服。同时利用私服更有利于对公司内部开发人员依赖的Jar包版本进行控制。
 
 也许你会问，中央仓库带有索引，为什么本地的IDEA也需要下载索引呢？那么直接看下图你就明白了，如果本地没有下载索引的话，在`pom.xml`文件中添加依赖是得不到任何提示的。
 ![](http://7xig3q.com1.z0.glb.clouddn.com/maven_after_update_maven_index_add_dependence%20.gif)
 
-####IntelliJ IDEA中Maven插件配置
+#### IntelliJ IDEA中Maven插件配置
 IntelliJ已经内置了对Maven插件的支持，当然你也可以配置自己的Maven，只需要进入`Settings->Maven->Maven home directory|User settings file|Local repository`配置即可。注意如果使用自己配置的Maven，那么一定要勾选`Override`，否则配置不生效。
 ![](http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ_plugin_maven_config.png)
 
-####IntelliJ14.1更新索引失败原因
+#### IntelliJ14.1更新索引失败原因
 在使用14.1.X版本的IntelliJ时，更新Maven索引出现如下错误[Indexed Maven Repositories - type remore - Error - Idea 14.1.5](https://devnet.jetbrains.com/message/5560886;jsessionid=565FE35134A3F90A560B993435EAC7EF#5560886)，根据该链接内所述原因为：这是IntelliJ14.1.X版本中的一个BUG，并且会在下一个发布版本中进行修复，推荐将IntelliJ升级到版本15。
 
-####使用国内Maven仓库的镜像
+#### 使用国内Maven仓库的镜像
 鉴于伟大的防火墙，所以推荐使用国内的镜像资源作为Maven中央仓库。推荐使用[开源中国Maven库使用帮助](http://maven.oschina.net/help.html)，配置很简单就不详述了，有两种方式，其一打开**settings.xml**文件，加入
 ```xml
 <mirrors>
@@ -99,13 +99,13 @@ IntelliJ已经内置了对Maven插件的支持，当然你也可以配置自己�
 ```
 另外你也可以下载开源中国提供的官方纯净版[settings.xml](http://maven.oschina.net/static/xml/settings.xml)文件。
 
-####下载Maven仓库的索引
+#### 下载Maven仓库的索引
 在配置完成之后就可以下载仓库索引了，注意这是一个非常耗时的过程，建议利用晚上或者出去午饭时间下载。下载过程及下载完成之后状态如下图所示。本次下载整体耗时在一个小时左右。
 ![](http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ_maven_download_local_index.png)
 另外我在思考既然下载一次这么麻烦，那么下载下来的索引存放在哪里呢？我能否将其拷贝到其他机器重复利用呢？于是经过一番搜索我发现了索引的存放位置，并且将其打包拷贝到其他机器的同样位置，但未做测试，不知能否重复利用，如有网友测试完毕，可以告诉我，感谢之。
 ![](http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ_maven_index_location_detailed.png)
 
-####利用本地Tomcat作为索引下载服务器
+#### 利用本地Tomcat作为索引下载服务器
 - 首先下载如下两个文件：
 http://repo1.maven.org/maven2/.index/nexus-maven-repository-index.properties
 http://repo1.maven.org/maven2/.index/nexus-maven-repository-index.gz
@@ -120,7 +120,7 @@ http://repo1.maven.org/maven2/.index/nexus-maven-repository-index.gz
 
 最后如果你想自己配置一个私服，可以参考[Maven仓库管理之Nexus](http://my.oschina.net/aiguozhe/blog/101537?fromerr=kOXkYkdf)。
 
-####开源中国镜像存在的问题
+#### 开源中国镜像存在的问题
 - 开源中国镜像不是很稳定，有时候很快下载完成有时候一直处于`Resolving dependencies of ... `状态而无法下载
 - 在配置了开源中国第三方库镜像之后，发现一个问题，该库内容更新不及时，很多第三方库中的Jar包版本都非常陈旧。
 - 开源中国的中央仓库与第三方库中存在很多交叉的情况，也就是说中央仓库包括了第三方库中的内容，而且在下载jar文件的时候，默认就是直接从开源中国的中央仓库镜像下载，而不是开源中国的第三方仓库镜像下载。

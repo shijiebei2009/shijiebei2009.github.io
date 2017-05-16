@@ -1,8 +1,8 @@
-title: 读《拆掉思维里的墙》
-date: 2017-01-02 21:06:28
-tags: [Thinking]
-categories: Life-Talk
-toc: false
+title: 读《拆掉思维里的墙》
+date: 2017-01-02 21:06:28
+tags: [Thinking]
+categories: Life-Talk
+toc: false
 
 ---
 
@@ -12,8 +12,8 @@ toc: false
 
 “从绝望中寻找希望，人生终将辉煌！这是我当年被新东方吸引的原因。但今天的青年，他们不绝望，更多是迷茫。人生终将辉煌，但哪一种是他们的辉煌？我的回答是：成长，长成为自己的样子！”2007年，创办新精英生涯，希望帮助30%的青年人，成长，长成为自己的样子。
 
-<blockquote  class="blockquote-center">
-**Three passions, simple but overwhelmingly strong, have governed my life: the longing for love, the search for knowledge, and unbearable pity for the suffering of mankind.**
+<blockquote  class="blockquote-center">
+**Three passions, simple but overwhelmingly strong, have governed my life: the longing for love, the search for knowledge, and unbearable pity for the suffering of mankind.**
 ——罗素
 </blockquote>
 

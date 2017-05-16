@@ -7,7 +7,7 @@ categories: Programming Notes
 
 ***力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员***
 
-###JSP与Servlet
+### JSP与Servlet
 所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是
 * init(): 初始化JSP/Servlet的方法
 * destroy(): 销毁JSP/Servlet的方法
@@ -17,16 +17,16 @@ JSP页面必须放到应用服务器中运行，当第一次访问JSP页面时�
 
 <!-- more -->
 
-###JSP的4种基本语法
-####JSP注释
+### JSP的4种基本语法
+#### JSP注释
 `<%--JSP注释--%>` 这种注释在客户端浏览器中使用查看源代码是无法查看的
 `<!--HTML注释-->` 这种注释在客户端浏览器中使用查看源代码可以进行查看
-####JSP声明、输出、脚本
+#### JSP声明、输出、脚本
 `<%! 声明部分 %>` 相当于全局变量或方法，可使用private、public、static等
 `<%=count++%>` 输出表达式语法后不能有分号
 `<% scriptlet %>` JSP脚本会转换成_jspService方法里的可执行代码，而Java语法不允许在方法里定义方法，所以JSP脚本里不能定义方法；不能使用private、public、static等
 
-###JSP的3个编译指令
+### JSP的3个编译指令
 * page: 该指令是针对当前页面的指令
 * include: 用于指定包含另一个页面
 * taglib: 用于定义和访问自定义标签
@@ -41,7 +41,7 @@ JSP页面必须放到应用服务器中运行，当第一次访问JSP页面时�
 ```
 该动态指令仅仅会将被包含页面的body内容插入本页面，这时候被包含页面的编译指令不会被插入本页面
 
-###JSP的7个动作指令
+### JSP的7个动作指令
 * jsp:forward: 执行页面转向，将请求的处理转发到下一个页面，属于服务器端跳转，地址栏不变，执行forward时不会丢失请求参数
 * jsp:param: 用于传递参数，必须与其他支持参数的标签一起使用，主要是结合include、forward、plugin指令使用
 * jsp:include: 用于动态引入一个JSP页面
@@ -65,7 +65,7 @@ getProperty语法
 `<jsp:getProperty name="BeanName" property="propertyName">`
 
 其实，当使用setProperty和getProperty时，底层是调用setBeanName()和getBeanName()方法来操作实例的属性的
-###JSP的9大内置对象
+### JSP的9大内置对象
 * application: javax.servlet.ServletContext的实例，该实例代表JSP所属的Web应用本身，可用于JSP页面，或者在Servlet之间交换信息
 * config: javax.servlet.ServletConfig的实例，该实例代表JSP的配置信息，该对象使用较少
 * exception: java.lang.Throwable的实例，该实例代表其他页面中的异常和错误。只有当页面编译指令page的isErrorPage属性为true时，该对象才可以使用
@@ -91,7 +91,7 @@ request.getRequestDispatcher("/a.jsp").forward(request,response)代替<jsp:forwa
 ```
 5. 不要滥用session，通常只应该把与用户会话状态相关的信息放入session范围内，不要仅仅为了两个页面之间交换信息，就将该信息放入session范围内。如果仅仅为了两个页面交换信息，建议使用request，然后forward请求即可。session机制通常用于保存客户端的状态信息，这些状态信息需要保存到Web服务器的硬盘上，所以要求session里的属性值必须是可序列化的，否则将引发不可序列化的异常。
 
-###Filter
+### Filter
 创建Filter必须实现javax.servlet.Filter接口，在该接口中定义了如下三个方法
 * void init(FilterConfig config): 用于完成Filter的初始化
 * void destroy(): 用于Filter销毁前，完成某些资源的回收
@@ -99,10 +99,10 @@ request.getRequestDispatcher("/a.jsp").forward(request,response)代替<jsp:forwa
 
 Filter其实就是增强的Servlet，假设系统包含多个Servlet，这些Servlet都需要进行一些通用处理：比如权限控制、记录日志等，这将导致在这些Servlet的service方法中有部分代码是相同的——为了解决这种代码重复的问题，可以考虑把这些通用处理提取到Filter中完成，这样各Servlet中剩下的只是特定请求相关的处理代码，而通用处理则交给Filter完成。
 
-###使用URL Rewrite实现网站伪静态
+### 使用URL Rewrite实现网站伪静态
 下载[地址](http://www.tuckey.org/urlrewrite/)，目前最新版是urlrewritefilter-4.0.3.jar，在下载页面提供了使用方法，不再赘述。
 
-###Listener
+### Listener
 常用的Web事件监听器接口有如下几个
 * ServletContextListener: 用于监听Web应用的启动和关闭
 * ServletContextAttributeListener: 用于监听ServletContext范围（application）内属性的改变
@@ -111,9 +111,9 @@ Filter其实就是增强的Servlet，假设系统包含多个Servlet，这些Ser
 * HttpSessionListener: 用于监听用户session的开始和结束
 * HttpSessionAttributeListener: 用于监听HttpSession范围（session）内属性的改变
 
-###JSP2特性
+### JSP2特性
 目前Servlet3.1对应于JSP2.3规范，JSP2.3也被统称为JSP2。表达式语言是JSP2的一个重要特性，它并不是一种通用的程序语言，而仅仅是一种数据访问语言，可以方便地访问应用程序数据，避免使用JSP脚本。表达式语言的格式是`${expression}`，如果需要在支持表达式语言的页面中正常输出“\$”符号，则在“\$”符号前加转义字符“\”。
-####表达式语言的内置对象
+#### 表达式语言的内置对象
 表达式语言包含如下11个内置对象
 * pageContext: 代表该页面的pageContext对象，与JSP的pageContext内置对象相同
 * pageScope: 用于获取page范围的属性值
@@ -127,7 +127,7 @@ Filter其实就是增强的Servlet，假设系统包含多个Servlet，这些Ser
 * initParam: 用于获取请求Web应用的初始化参数
 * cookie: 用于获取指定的Cookie值
 
-###Servlet3.0新特性
+### Servlet3.0新特性
 Servlet3.0规范在javax.servlet.annotation包下提供了如下注解
 * @WebServlet: 用于修饰一个Servlet类，用于部署Servlet类
 * @WebInitParam: 用于与@WebServlet或@WebFilter一起使用，为Servlet、Filter配置参数

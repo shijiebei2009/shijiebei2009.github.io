@@ -5,13 +5,13 @@ categories: Programming Notes
 
 ---
 
-###索引备份的几个关键问题
+### 索引备份的几个关键问题
 - 最简单的备份方式是关闭IndexWriter，然后逐一拷贝索引文件，但是如果索引比较大，那么这种备份操作会持续较长时间，而在备份期间，程序无法对索引文件进行修改，很多搜索程序是不能接受索引操作期间如此长时间停顿的
 - 那么不关闭IndexWriter又如何呢？这样也不行，因为在拷贝索引期间，如果索引文件发生变化，会导致备份的索引文件损坏
 - 另外一个问题就是如果原索引文件损坏的话，再备份它也毫无意义，所以一定要备份的是最后一次成功commit之后的索引文件
 - 每次在备份之前，如果程序将要覆盖上一个备份，需要先删除备份中未出现在当前快照中的文件，因为这些文件已经不会被当前索引引用了；如果每次都更改备份路径的话，那么就直接拷贝即可
 
-###索引热备份
+### 索引热备份
 从Lucene 2.3版本开始，Lucene提供了一个热备策略，就是SnapshotDeletionPolicy，这样就能在不关闭IndexWriter的情况下，对程序最近一次索引修改提交操作时的文件引用进行备份，从而能建立一个连续的索引备份镜像。那么你也许会有疑问，在备份期间，索引出现变化怎么办呢？这就是SnapshotDeletionPolicy的牛逼之处，在使用SnapshotDeletionPolicy.snapshot()获取快照之后，索引更新提交时刻的所有文件引用都不会被IndexWriter删除，只要IndexWriter并未关闭，即使IndexWriter在进行更新、优化操作等也不会删除这些文件。如果说索引拷贝过程耗时较长也不会出现问题，因为被拷贝的文件时索引快照，在快照的有效期，其引用的文件会一直存在于磁盘上。
 
 所以在备份期间，索引会比通常情况下占用更大的磁盘空间，当索引备份完成后，可以调用SnapshotDeletionPolicy.release (IndexCommit commit) 释放指定的某次提交，以便让IndexWriter删除这些已被关闭或下次将要更新的文件。
@@ -140,7 +140,7 @@ public class TestIndexBackupRecovery {
 }
 ```
 
-###索引文件格式
+### 索引文件格式
 首先索引里都存了些什么呢？一个索引包含一个documents的序列，一个document是一个fields的序列，一个field是一个有名的terms序列，一个term是一个比特序列。
 
 根据[Summary of File Extensions](https://lucene.apache.org/core/6_0_0/core/index.html?org/apache/lucene/codecs/lucene60/package-summary.html)的说明，目前Lucene 6.0中存在的索引格式如下
@@ -173,7 +173,7 @@ public class TestIndexBackupRecovery {
 
 如果想要查看中文，可以参考[这里](http://my.oschina.net/rickylau/blog/527602)。
 
-###恢复索引
+### 恢复索引
 恢复索引步骤如下
 - 关闭索引目录下的全部reader和writer，这样才能进行文件恢复。对于Windows系统来说，如果还有其它进程在使用这些文件，那么备份程序仍然不能覆盖这些文件
 - 删除当前索引目录下的所有文件，如果删除过程出现“访问被拒绝”（Access is denied）错误，那么再次检查上一步是否已完成
@@ -220,7 +220,7 @@ public class TestIndexBackupRecovery {
 }
 ```
 
-###修复索引
+### 修复索引
 当其它所有方法都无法解决索引损坏问题时，你的最后一个选项就是使用CheckIndex工具了。该工具除了能汇报索引细节状况以外，还能完成修复索引的工作。该工具会强制删除索引中出现问题的段，需要注意的是，该操作还会全部删除这些段包含的文档，该工具的使用目标应主要着眼于能够在紧急状况下让搜索程序再次运行起来，一旦我们进行了索引备份，并且备份完好，应优先使用恢复索引，而不是修复索引。
 ```java
 /**

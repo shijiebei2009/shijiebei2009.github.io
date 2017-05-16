@@ -5,11 +5,11 @@ categories: Programming Notes
 
 ---
 
-####Guava简介
+#### Guava简介
 Google Guava很优秀，大有取代Apache Commons之势。闲话少叙，直接上Guava的终极目标，用原汁原味的英文来说就是****"Our goal is for you to write less code and for the code you do write to be simpler, cleaner, and more readable"****，Guava中主要包括****Basic Utilities，Collections，Caches，Functional Idioms，Concurrency，Strings，Primitives Support，Ranges，I/O等等****，API参考文档[点我](http://google.github.io/guava/releases/snapshot/api/docs/)，Guava在Github上仓库地址[点我](https://github.com/google/guava)
 
-####Guava使用示例
-#####Preconditions
+#### Guava使用示例
+##### Preconditions
 可以用在方法的开始或者是构造函数的开始，对于不合法的校验可以快速报错
 ```java
 package cn.codepub.guava.demo;
@@ -51,7 +51,7 @@ class Car {
     }
 }
 ```
-#####MoreObjects.toStringHelper()
+##### MoreObjects.toStringHelper()
 让你可以更优雅的覆写Object.toString()方法
 ```java
 package cn.codepub.guava.demo;
@@ -91,7 +91,7 @@ public class MoreObjectsDemo {
     }
 }
 ```
-#####用Stopwatch代替System.nanoTime()
+##### 用Stopwatch代替System.nanoTime()
 简单点说就是Stopwatch使用纳秒计时，使用该类度量时间比使用`System.nanoTime()`好，好处在哪呢？基于性能和测试来说，它可以作为另一种替代时间源；根据`System.nanoTime()`的说明，返回的值没有绝对意义，只能解释为相对于另一个返回的时间戳。Stopwatch是一个更有效的抽象,因为它只公开这些相对的值,而不是绝对值。可以通过其提供的`start`和`stop`方法得到。
 ```java
 package cn.codepub.guava.demo;
@@ -134,7 +134,7 @@ public class StopWatchDemo {
     }
 }
 ```
-#####CharMatcher
+##### CharMatcher
 ```java
 package cn.codepub.guava.demo;
 
@@ -167,7 +167,7 @@ public class CharMatcherDemo {
     }
 }
 ```
-#####String Joining
+##### String Joining
 ```java
 package cn.codepub.guava.demo;
 
@@ -201,7 +201,7 @@ public class StringJoiningDemo {
     }
 }
 ```
-#####String Splitting
+##### String Splitting
 使用指定的分隔符对字符串进行拆分，默认对空白符不做任何处理，并且不会静默的丢弃末尾分隔符，如果需要处理的话要显式调用`trimResults()`，`omitEmptyStrings()`
 
 ```java
@@ -240,7 +240,7 @@ public class SplitterDemo {
 
 }
 ```
-#####Optional
+##### Optional
 ```java
 package cn.codepub.guava.demo;
 
@@ -281,7 +281,7 @@ public class OptionalDemo {
 
 }
 ```
-#####Hashing
+##### Hashing
 ```java
 package cn.codepub.guava.demo;
 
@@ -355,7 +355,7 @@ class Person {
     }
 }
 ```
-#####Caching
+##### Caching
 ```java
 package cn.codepub.guava.demo;
 
@@ -396,7 +396,7 @@ public class CachingDemo {
 }
 ```
 
-#####链式调用
+##### 链式调用
 Guava中提供了大量方法，让我们可以使用链式调用的方式从而减少代码量。简单来说方法链一般适合对一个对象进行连续操作（集中在一句代码）。一定程度上可以减少代码量，缺点是它占用了函数的返回值。如果不需要使用到函数返回值的话，建议大家在封装自己的代码库的时候可以使用这种方式，提供一个简单的demo如下：
 ```java
 package cn.codepub.guava.demo;
@@ -451,5 +451,5 @@ public class ChainEncapsulationDemo {
     }
 }
 ```
-#####Apache VS. Guava
+##### Apache VS. Guava
 关于使用Apache Commons还是Guava的讨论看[这里](http://stackoverflow.com/questions/4542550/what-are-the-big-improvements-between-guava-and-apache-equivalent-libraries)

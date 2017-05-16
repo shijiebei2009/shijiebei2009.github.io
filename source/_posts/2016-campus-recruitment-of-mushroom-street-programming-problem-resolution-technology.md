@@ -5,7 +5,7 @@ categories: Algorithms
 
 ---
 
-####回文串
+#### 回文串
 
 ![NO1](http://7xig3q.com1.z0.glb.clouddn.com/palindrome-mogujie-1.png "NO1")
 
@@ -77,7 +77,7 @@ public class Main {
 }
 ```
 
-####聊天
+#### 聊天
 
 ![NO2](http://7xig3q.com1.z0.glb.clouddn.com/chat-mogujie-2.png "NO2")
 
@@ -177,7 +177,7 @@ public class Main2 {
 
 ```
 
-####搬圆桌
+#### 搬圆桌
 
 ![NO3](http://7xig3q.com1.z0.glb.clouddn.com/move-table-mogujie-3.png "NO3")
 

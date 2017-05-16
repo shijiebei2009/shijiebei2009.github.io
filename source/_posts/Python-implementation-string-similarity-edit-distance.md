@@ -5,7 +5,7 @@ categories: Algorithms
 date: 2015-07-07 21:14:59
 
 ---
-###编辑距离
+### 编辑距离
 关于维基上的定义参见[这里](https://zh.wikipedia.org/zh-cn/%E7%B7%A8%E8%BC%AF%E8%B7%9D%E9%9B%A2)。编辑距离，又称`Levenshtein`距离，是指两个字串之间，由一个转成另一个所需的最少编辑操作次数。通常许可的编辑操作包括:
 * 将一个字符替换成另一个字符
 * 插入一个字符
@@ -18,7 +18,7 @@ date: 2015-07-07 21:14:59
 
 俄罗斯科学家[`Vladimir Levenshtein`](https://zh.wikipedia.org/wiki/Vladimir_Levenshtein)在1965年提出了这个概念。
 
-###算法
+### 算法
 动态规划经常被用来作为这个问题的解决手段之一。伪代码如下
 ```
 整数 Levenshtein距离(字符 str1[1..lenStr1], 字符 str2[1..lenStr2])
@@ -42,7 +42,7 @@ date: 2015-07-07 21:14:59
 
    返回 d[lenStr1, lenStr2]
 ```
-###Python实现
+### Python实现
 ```python
 # -*- coding: utf-8 -*-
 """

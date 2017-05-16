@@ -5,7 +5,7 @@ categories: Programming Notes
 
 ---
 
-###备份之前先提交
+### 备份之前先提交
 
 在使用Lucene进行索引备份的时候，报错
 >Exception in thread "main" java.lang.IllegalStateException: No index commit to snapshot
@@ -26,7 +26,7 @@ if (lastCommit == null) {
 ```
 可见如果是第一次也就是说还没有commit过，这种情况通常是第一次使用IndexWriter的时候，那么就会抛此异常。解决办法很简单，就是在热备之前commit索引，将所有的缓存flush到硬盘，这也是热备的正确逻辑，可以确保将索引的最新变动保存到备份之中。
 
-###确保使用同一个SnapshotDeletionPolicy
+### 确保使用同一个SnapshotDeletionPolicy
 
 另外还有一点需要注意，如果你在备份的时候使用的是新new的SnapshotDeletionPolicy，那么同样会抛出此异常
 ```java

@@ -6,8 +6,8 @@ date: 2015-07-06 20:50:25
 ---
 *Version：Python 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:44:40) [MSC v.1600 64 bit (AMD64)] on win32*
 
-###文件与I/O
-####读写文本数据
+### 文件与I/O
+#### 读写文本数据
 使用带有`rt`模式的`open()`函数读取文本文件
 ```python
 with open('test.csv', mode='rt', encoding='utf-8') as f:
@@ -37,7 +37,7 @@ with open('dest.csv', mode='wt', encoding='utf-8') as f:
 row = ('a', 'b', 'c')
 print(*row, sep=',', end='。') # Prints a,b,c。
 ```
-####读写字节数据
+#### 读写字节数据
 使用模式为`rb`或`wb`的`open()`函数来读取或写入二进制数据
 ```python
 with open('dest2.csv', mode='wb') as f:
@@ -75,7 +75,7 @@ o
 111
 ...
 ```
-####向不存在的文件中写入数据
+#### 向不存在的文件中写入数据
 如果只允许向不存在的文件写入数据，可以在`open()`函数中使用`x`模式来代替`w`模式来解决这个问题。
 ```python
 with open('dest2.csv', mode='xt') as f:
@@ -87,7 +87,7 @@ Traceback (most recent call last):
 FileExistsError: [Errno 17] File exists: 'dest2.csv'
 ```
 由提示信息可知，当该文件在系统中已经存在的时候，是不允许继续向其中写入内容的。如果文件是二进制的，使用`xb`来代替`xt`。
-####字符串的I/O操作
+#### 字符串的I/O操作
 使用`io.StringIO()`和`io.BytesIO()`类来创建类文件对象操作字符串数据
 ```python
 import io
@@ -112,7 +112,7 @@ print(s.read())
 >>> s.getvalue()
 b'binary data'
 ```
-####读写压缩文件
+#### 读写压缩文件
 `gzip`和`bz2`模块可以很容易的处理这些文件。两个模块都为`open()`函数提供了另外的实现来解决这个问题
 ```python
 # gzip compression
@@ -153,7 +153,7 @@ with gzip.open(f, 'rt') as g:
     text = g.read()
 ```
 这样就允许`gzip`和`bz2`模块可以工作在许多类文件对象上，比如套接字，管道和内存中文件等。
-####读取二进制数据到可变缓冲区中
+#### 读取二进制数据到可变缓冲区中
 ```python
 import os.path
 
@@ -193,7 +193,7 @@ with open('somefile', 'rb') as f:
         # Use the contents of buf
         ...
 ```
-####文件路径名的操作
+#### 文件路径名的操作
 ```python
 >>> import os
 >>> path = '/Users/beazley/Data/data.csv'
@@ -275,7 +275,7 @@ file_metadata = [(name, os.stat(name)) for name in pyfiles]
 for name, meta in file_metadata:
     print(name, meta.st_size, meta.st_mtime)
 ```
-####增加或改变已打开文件的编码
+#### 增加或改变已打开文件的编码
 如果你想给一个以二进制模式打开的文件添加`Unicode`编码/解码方式，可以使用`io.TextIOWrapper()`对象包装它。
 ```python
 import urllib.request
@@ -307,7 +307,7 @@ Hello
 >>>
 ```
 类似的，能够通过读取文本文件的`buffer`属性来读取二进制数据。
-####创建临时文件和文件夹
+#### 创建临时文件和文件夹
 `tempfile`模块中有很多的函数可以完成这任务。为了创建一个匿名的临时文件，可以使用`tempfile.TemporaryFile`：
 ```python
 from tempfile import TemporaryFile
@@ -350,7 +350,7 @@ with TemporaryDirectory() as dirname:
 # Directory and all contents destroyed
 ```
 `TemporaryFile()`、`NamedTemporaryFile()`和`TemporaryDirectory()`函数应该是处理临时文件目录的最简单的方式了，因为它们会自动处理所有的创建和清理步骤。在一个更低的级别，你可以使用`mkstemp()`和`mkdtemp()`来创建临时文件和目录。
-####与串行端口的数据通信
+#### 与串行端口的数据通信
 尽管你可以通过使用Python内置的I/O模块来完成这个任务，但对于串行通信最好的选择是使用[pySerial](http://pyserial.sourceforge.net/)包。这个包的使用非常简单，先安装`pySerial`，使用类似下面这样的代码就能很容易的打开一个串行端口：
 ```python
 import serial
@@ -365,7 +365,7 @@ ser = serial.Serial('/dev/tty.usbmodem641', # Device name varies
 ser.write(b'G1 X50 Y50\r\n')
 resp = ser.readline()
 ```
-####序列化Python对象
+#### 序列化Python对象
 对于序列化最普遍的做法就是使用`pickle`模块。为了将一个对象保存到一个文件中，可以这样做：
 ```python
 import pickle
@@ -385,8 +385,8 @@ data = pickle.load(f)
 # Restore from a string
 data = pickle.loads(s)
 ```
-###数据编码和处理
-####读写CSV数据
+### 数据编码和处理
+#### 读写CSV数据
 ```python
 import csv
 from collections import namedtuple
@@ -440,7 +440,7 @@ with open('stocks.csv','w') as f:
     f_csv.writeheader()
     f_csv.writerows(rows)
 ```
-####读写JSON数据
+#### 读写JSON数据
 `json`模块提供了一种很简单的方式来编码和解码JSON数据。其中两个主要的函数是`json.dumps()`和`json.loads()`，要比其他序列化函数库如`pickle`的接口少得多。
 ```python
 import json
@@ -463,7 +463,7 @@ with open('data.json', 'w') as f:
 with open('data.json', 'r') as f:
     data = json.load(f)
 ```
-####解析简单的XML数据
+#### 解析简单的XML数据
 可以使用`xml.etree.ElementTree`模块从简单的XML文档中提取数据。
 ```python
 from urllib.request import urlopen
@@ -490,7 +490,7 @@ for item in doc.iterfind('channel/item'):
 
 有一点要强调的是`xml.etree.ElementTree`并不是`XML`解析的唯一方法。对于更高级的应用程序，你需要考虑使用`lxml`。它使用了和`ElementTree`同样的编程接口，因此上面的例子同样也适用于`lxml`。你只需要将刚开始的`import`语句换成`from lxml.etree import parse`就行了。`lxml`完全遵循`XML`标准，并且速度也非常快，同时还支持验证，`XSLT`和`XPath`等特性。
 
-####增量式解析大型XML文件
+#### 增量式解析大型XML文件
 任何时候只要你遇到增量式的数据处理时，第一时间就应该想到迭代器和生成器。 下面是一个很简单的函数，只使用很少的内存就能增量式的处理一个大型XML文件。
 ```python
 from xml.etree.ElementTree import iterparse
@@ -520,7 +520,7 @@ def parse_and_remove(filename, path):
 `iterparse()`方法允许对`XML`文档进行增量操作。使用时，你需要提供文件名和一个包含下面一种或多种类型的事件列表：`start`,`end`,`start-ns`和`end-ns`。由`iterparse()`创建的迭代器会产生形如(event, elem)的元组，其中`event`是上述事件列表中的某一个，而`elem`是相应的XML元素。
 
 `start`事件在某个元素第一次被创建并且还没有被插入其他数据(如子元素)时被创建。而`end`事件在某个元素已经完成时被创建。尽管没有在例子中演示，`start-ns`和`end-ns`事件被用来处理`XML`文档命名空间的声明。
-####将字典转换为XML
+#### 将字典转换为XML
 ```python
 from xml.etree.ElementTree import Element
 
@@ -546,11 +546,11 @@ b'<stock><price>490.1</price><shares>100</shares><name>GOOG</name></stock>'
 ```python
 >>> from xml.sax.saxutils import escape, unescape
 >>> escape('<spam>')
-'&lt;spam&gt;'
+'<spam>'
 >>> unescape(_)
 '<spam>'
 ```
-####解析和修改XML
+#### 解析和修改XML
 ```python
 >>> from xml.etree.ElementTree import parse, Element
 >>> doc = parse('pred.xml')
@@ -571,7 +571,7 @@ b'<stock><price>490.1</price><shares>100</shares><name>GOOG</name></stock>'
 >>> # Write back to a file
 >>> doc.write('newpred.xml', xml_declaration=True)
 ```
-####编码和解码十六进制数
+#### 编码和解码十六进制数
 ```python
 >>> # Initial byte string
 >>> s = b'hello'
@@ -603,7 +603,7 @@ b'68656C6C6F'
 68656C6C6F
 ```
 在解码十六进制数时，函数`b16decode()`和`a2b_hex()`可以接受字节或`unicode`字符串。但是，`unicode`字符串必须仅仅只包含`ASCII`编码的十六进制数。
-####编码解码Base64数据
+#### 编码解码Base64数据
 `base64`模块中有两个函数`b64encode()`and`b64decode()`可以帮你解决这个问题。
 ```python
 >>> # Some byte data
@@ -619,7 +619,7 @@ b'aGVsbG8='
 >>> base64.b64decode(a)
 b'hello'
 ```
-####读写二进制数组数据
+#### 读写二进制数组数据
 可以使用`struct`模块处理二进制数据。下面是一段示例代码将一个Python元组列表写入一个二进制文件，并使用`struct`将每个元组编码为一个结构体。
 ```python
 from struct import Struct

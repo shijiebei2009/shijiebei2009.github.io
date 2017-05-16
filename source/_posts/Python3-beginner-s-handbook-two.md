@@ -5,8 +5,8 @@ date: 2015-07-04 21:16:41
 
 ---
 *Version：Python 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:44:40) [MSC v.1600 64 bit (AMD64)] on win32*
-###数字日期和时间
-####数字的四舍五入
+### 数字日期和时间
+#### 数字的四舍五入
 ```python
 #!/usr/bin/python
 # coding: UTF-8
@@ -32,7 +32,7 @@ print(round(a, -3))
 # 格式化浮点数，保留指定的小数点后保留位数
 print(format(1.23456, '0.2f'))
 ```
-####执行精确的浮点数运算
+#### 执行精确的浮点数运算
 如果需要精确的浮点数计算，那么推荐使用`decimal`模块的`Decimal`
 ```python
 from decimal import Decimal
@@ -48,7 +48,7 @@ d = a + b
 print(c)  # Prints 6.3
 print(d)  # Prints 6.3
 ```
-####无穷大与NaN
+#### 无穷大与NaN
 ```python
 a = float('inf')
 b = float('-inf')
@@ -61,7 +61,7 @@ import math
 print(math.isinf(a))  # Prints True
 print(math.isnan(c))  # Prints True
 ```
-####分数运算
+#### 分数运算
 ```python
 # fractions模块可以被用来执行包含分数的数学运算
 from fractions import Fraction
@@ -78,7 +78,7 @@ d = 3.75
 e = Fraction(*d.as_integer_ratio())  # 强转float类型到分数类型
 print(e)
 ```
-####大型数组运算
+#### 大型数组运算
 涉及到数组的重量级运算操作，可以使用`NumPy`库。`NumPy`的一个主要特征是它会给Python提供一个数组对象，相比标准的Python列表而言更适合用来做数学运算
 ```python
 >>> # Python lists
@@ -170,7 +170,7 @@ array([[ 1, 2, 3, 4],
         [ 9, 10, 10, 10]])
 ```
 通常我们导入`NumPy`模块的时候会使用语句`import numpy as np`。这样的话你就不用再你的程序里面一遍遍的敲入`numpy`，只需要输入`np`就行了，节省了不少时间。
-####基本的日期与时间转换
+#### 基本的日期与时间转换
 为了执行不同时间单位的转换和计算，请使用`datetime`模块
 ```python
 >>> from datetime import timedelta
@@ -230,7 +230,7 @@ relativedelta(months=+2, days=+28)
 >>> d.days
 28
 ```
-####字符串转换为日期
+#### 字符串转换为日期
 使用Python的标准模块`datetime`可以很容易的解决这个问题
 ```python
 from datetime import datetime
@@ -251,7 +251,7 @@ datetime.datetime(2012, 9, 23, 21, 37, 4, 177393)
 >>> nice_z
 'Sunday September 23, 2012'
 ```
-####结合时区的日期操作
+#### 结合时区的日期操作
 对几乎所有涉及到时区的问题，你都应该使用`pytz`模块。这个包提供了`Olson`时区数据库，它是时区信息的事实上的标准，在很多语言和操作系统里面都可以找到。`pytz`模块一个主要用途是将`datetime`库创建的简单日期对象本地化。
 ```python
 from datetime import datetime
@@ -276,8 +276,8 @@ print(bang_d)  # Prints 2015-01-01 23:30:00+08:00
 print(pytz.country_timezones['CN'])  # Prints ['Asia/Shanghai', 'Asia/Urumqi']
 ```
 
-###迭代器与生成器
-####代理迭代
+### 迭代器与生成器
+#### 代理迭代
 Python的迭代器协议需要`__iter__()`方法返回一个实现了`__next__()`方法的迭代器对象。如果你只是迭代遍历其他容器的内容，你无须担心底层是怎样实现的。你所要做的只是传递迭代请求既可。这里的`iter()`函数的使用简化了代码，`iter(s)`只是简单的通过调用`s.__iter__()`方法来返回对应的迭代器对象，就跟`len(s)`会调用`s.__len__()`原理是一样的。
 ```python
 #!/usr/bin/python
@@ -309,7 +309,7 @@ if __name__=='__main__':
     for ch in root:
         print(ch)
 ```
-####反向迭代
+#### 反向迭代
 反向迭代仅仅当对象的大小可预先确定或者对象实现了`__reversed__()`的特殊方法时才能生效。如果两者都不符合，那你必须先将对象转换为一个列表才行
 ```python
 a = [1, 2, 3, 4]
@@ -348,7 +348,7 @@ for rr in Countdown(30):
     print(rr)
 ```
 定义一个反向迭代器可以使得代码非常的高效，因为它不再需要将数据填充到一个列表中然后再去反向迭代这个列表。
-####迭代器切片
+#### 迭代器切片
 函数`itertools.islice()`正好适用于在迭代器和生成器上做切片操作
 ```python
 >>> def count(n):
@@ -379,7 +379,7 @@ TypeError: 'generator' object is not subscriptable
 19
 ```
 函数`islice()`返回一个可以生成指定元素的迭代器，它通过遍历并丢弃直到切片开始索引位置的所有元素。然后才开始一个个的返回元素，并直到切片结束索引位置。这里要着重强调的一点是`islice()`会消耗掉传入的迭代器中的数据。必须考虑到迭代器是不可逆的这个事实。所以如果你需要之后再次访问这个迭代器的话，那你就得先将它里面的数据放入一个列表中。
-####跳过可迭代对象的开始部分
+#### 跳过可迭代对象的开始部分
 为了演示，假定你在读取一个开始部分是几行注释的源文件
 ```python
 >>> with open('/etc/passwd') as f:
@@ -409,7 +409,7 @@ nobody:*:-2:-2:Unprivileged User:/var/empty:/usr/bin/false
 root:*:0:0:System Administrator:/var/root:/bin/sh
 ...
 ```
-####排列组合的迭代
+#### 排列组合的迭代
 `itertools`模块提供了三个函数来解决这类问题。其中一个是`itertools.permutations()`，它接受一个集合并产生一个元组序列，每个元组由集合中所有元素的一个可能排列组成。也就是说通过打乱集合中元素排列顺序生成一个元组
 ```python
 >>> items = ['a', 'b', 'c']
@@ -476,7 +476,7 @@ root:*:0:0:System Administrator:/var/root:/bin/sh
 ('b', 'c', 'c')
 ('c', 'c', 'c')
 ```
-####序列上索引值迭代
+#### 序列上索引值迭代
 ```python
 >>> my_list = ['a', 'b', 'c']
 >>> for idx, val in enumerate(my_list):
@@ -523,7 +523,7 @@ for n, (x, y) in enumerate(data):
 for n, x, y in enumerate(data):
     ...
 ```
-####同时迭代多个序列
+#### 同时迭代多个序列
 为了同时迭代多个序列，使用`zip()`函数
 ```python
 >>> xpts = [1, 5, 4, 2, 10, 7]
@@ -576,7 +576,7 @@ for n, x, y in enumerate(data):
 >>> list(zip(a, b))
 [(1, 10), (2, 11), (3, 12)]
 ```
-####不同集合上元素的迭代
+#### 不同集合上元素的迭代
 当可迭代对象类型不一样的时候`chain()`同样可以很好的工作，它接受一个可迭代对象列表作为输入，并返回一个迭代器，有效的屏蔽掉在多个容器中迭代细节。
 ```python
 >>> from itertools import chain
@@ -594,7 +594,7 @@ y
 z
 >>>
 ```
-####展开嵌套的序列
+#### 展开嵌套的序列
 可以写一个包含`yield from`语句的递归生成器来轻松解决这个问题
 ```python
 from collections import Iterable
@@ -622,7 +622,7 @@ Paula
 Thomas
 Lewis
 ```
-####顺序迭代合并后的排序迭代对象
+#### 顺序迭代合并后的排序迭代对象
 ```python
 >>> import heapq
 >>> a = [1, 4, 7, 10]

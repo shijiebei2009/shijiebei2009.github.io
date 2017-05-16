@@ -7,24 +7,24 @@ categories: Programming Notes
 *Version：Python 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:44:40) [MSC v.1600 64 bit (AMD64)] on win32*
 
 **There are two ways of constructing a software design: one way is to make it so simple that there are obviously no deficiences; the other is to make it so complicated that there are no obvious deficiences.**
---- C.A.R.Hoare
+---- C.A.R.Hoare
 
 **Success in life is a matter not so much of talent and opportunity as of concentration and perseverance**
---- C.W.Wendte
+---- C.W.Wendte
 
 
-###选择Python的原因
+### 选择Python的原因
 * 简单易学，功能强大，具有高效的高层数据结构，支持面向对象编程
 * 解释性语言，可扩展性，可嵌入性，丰富的库
 
-###选择一个编辑器
+### 选择一个编辑器
 工欲善其事必先利其器，所以选择编辑器首当其冲。
 * IDLE：Python自带，极简利器，支持语法高亮
 * Vim/Emacs：`Linux/FreeBSD`平台上的开发利器，二者择其一
 * PyCharm：号称最智能的Python编辑器，的确是的，但是略微复杂
 
-###数据结构和算法
-####解压序列赋值给多个变量
+### 数据结构和算法
+#### 解压序列赋值给多个变量
 ```python
 # 变量的数量需要和序列元素的数量一致
 data = ['a', 'b', 'c', 'd']
@@ -53,7 +53,7 @@ a b c d
 Dave 847-555-1212
 '''
 ```
-####查找最大或最小的N个元素
+#### 查找最大或最小的N个元素
 ```python
 import heapq
 
@@ -81,7 +81,7 @@ expensive = heapq.nlargest(3, portfolio, key=lambda s: s['price'])
 print(cheap)
 print(expensive)
 ```
-####字典操作相关
+#### 字典操作相关
 ```python
 # 求字典中值的最小值、最大值
 prices = {
@@ -133,7 +133,7 @@ a.keys() - b.keys()  # { 'z' }
 a.items() & b.items()  # { ('y', 2) }
 ```
 
-####序列中出现次数最多的元素
+#### 序列中出现次数最多的元素
 ```python
 words = [
     'look', 'into', 'my', 'eyes', 'look', 'into', 'my', 'eyes',
@@ -161,7 +161,7 @@ word_counts = word_counts - test
 print(word_counts)
 ```
 
-####通过某个关键字排序一个字典列表
+#### 通过某个关键字排序一个字典列表
 ```python
 # 通过某个关键字排序一个字典列表
 rows = [
@@ -193,7 +193,7 @@ from operator import attrgetter
 users = [User(23), User(28), User(26)]
 print(sorted(users, key=attrgetter('userId')))
 ```
-####通过某个字段将记录分组
+#### 通过某个字段将记录分组
 ```python
 rows = [
     {'address': '5412 N CLARK', 'date': '07/01/2012'},
@@ -235,7 +235,7 @@ OutPut:
 '''
 ```
 
-####过滤序列元素
+#### 过滤序列元素
 ```python
 values = ['1', '2', '-3', '-', '4', 'N/A', '5']
 def is_int(val):
@@ -248,7 +248,7 @@ ivals = list(filter(is_int, values))
 print(ivals)
 # Outputs ['1', '2', '-3', '4', '5']
 ```
-####转换并同时计算数据
+#### 转换并同时计算数据
 ```python
 # Determine if any .py files exist in a directory
 import os
@@ -274,7 +274,7 @@ min_shares = min(s['shares'] for s in portfolio)
 # Alternative: Returns {'name': 'AOL', 'shares': 20}
 min_shares = min(portfolio, key=lambda s: s['shares'])
 ```
-####合并多个字典或映射
+#### 合并多个字典或映射
 ```python
 a = {'x': 1, 'z': 3 }
 b = {'y': 2, 'z': 4 }
@@ -290,8 +290,8 @@ print(c['z']) # Outputs 3 (from a)
 a['x'] = 42
 print(c['x']) # Outputs 42 (from a)
 ```
-###字符串和文本
-####使用多个界定符分割字符串
+### 字符串和文本
+#### 使用多个界定符分割字符串
 `string`对象的`split()`方法只适应于非常简单的字符串分割情形，它并不允许有多个分隔符或者是分隔符周围不确定的空格。当你需要更加灵活的切割字符串的时候，最好使用`re.split()`方法。
 ```python
 import re
@@ -311,7 +311,7 @@ print(fields) # Prints ['abcd', ' ', 'efg', ';', 'hijk', ' ', '', ',', 'lmn']
 res = re.split(r'(?:,|;|\s)\s*', line)
 print(res) # Prints ['abcd', 'efg', 'hijk', '', 'lmn']
 ```
-####字符串匹配
+#### 字符串匹配
 ```python
 # 检查多种匹配可能，需要将所有的匹配项放入到一个元组中，然后传给startswith()或者endswith()方法
 strs = list()
@@ -339,7 +339,7 @@ print(fnmatch('foo.txt', '*.TXT'))  # On Windows Prints True
 # 完全使用你的模式大小写进行匹配
 print(fnmatchcase('foo.txt', '*.TXT'))  # Prints False
 ```
-####字符串搜索和替换
+#### 字符串搜索和替换
 一个替换回调函数的参数是一个`match`对象，也就是`match()`或者`find()`返回的对象。使用`group()`方法来提取特定的匹配部分。回调函数最后返回替换字符串。如果除了替换后的结果外，你还想知道有多少替换发生了，可以使用`re.subn()`来代替。
 ```python
 # 使用re模块进行匹配和搜索
@@ -370,7 +370,7 @@ text = 'UPPER PYTHON, lower python, Mixed Python'
 re.findall('python', text, flags=re.IGNORECASE) # ['PYTHON', 'python', 'Python']
 re.sub('python', 'snake', text, flags=re.IGNORECASE) # 'UPPER snake, lower snake, Mixed snake'
 ```
-####最短匹配模式
+#### 最短匹配模式
 在这个例子中，模式`r'\"(.*)\"'`的意图是匹配被双引号包含的文本。但是在正则表达式中*操作符是贪婪的，因此匹配操作会查找最长的可能匹配。 
 ```python
 str_pat = re.compile(r'\"(.*)\"')
@@ -383,7 +383,7 @@ str_pat.findall(text)  # ['no.', 'yes.']
 ```
 这样就使得匹配变成非贪婪模式，从而得到最短的匹配，也就是我们想要的结果。
 
-####多行匹配模式
+#### 多行匹配模式
 这个问题很典型的出现在当你用点(.)去匹配任意字符的时候，忘记了点(.)不能匹配换行符的事实。为了修正这个问题，你可以修改模式字符串，增加对换行的支持。比如：
 ```python
 text = '''/* this is a
@@ -400,7 +400,7 @@ comment = re.compile(r'/\*(.*?)\*/', re.DOTALL)
 com = comment.findall(text)
 print(com)  # Prints [' this is a\nmultiline comment ']
 ```
-####删除字符串中不需要的字符
+#### 删除字符串中不需要的字符
 `strip()`方法能用于删除开始或结尾的字符。`lstrip()`和`rstrip()`分别从左和从右执行删除操作。默认情况下，这些方法会去除空白字符，但是你也可以指定其他字符。
 如果你想处理中间的空格，那么你需要求助其他技术。比如使用`replace()`方法或者是用正则表达式替换。
 ```python
@@ -409,7 +409,7 @@ s = 'Hello        World!'
 m = re.sub('\s+', ' ', s)
 print(m) # Prints Hello World!
 ```
-####字符串对齐
+#### 字符串对齐
 对于基本的字符串对齐操作，可以使用字符串的`ljust()`,`rjust()`和`center()`方法。
 ```python
 text = 'Hello World!'
@@ -430,7 +430,7 @@ print(text.center(20, '*'))
 # 当格式化多个值的时候，这些格式代码也可以被用在 format() 方法中
 print('{:+>10s} {:->10s}'.format('Hello', 'World')) # Prints +++++Hello -----World
 ```
-####字符串中插入变量
+#### 字符串中插入变量
 ```python
 s = '{name} has {n} messages.'
 print(s.format(name='Guido', n=37))
@@ -441,7 +441,7 @@ name = 'Guido'
 n = 37
 print(s.format_map(vars()))
 ```
-####以指定列宽格式化字符串
+#### 以指定列宽格式化字符串
 ```python
 >>> import textwrap
 >>> print(textwrap.fill(s, 70))
@@ -468,7 +468,7 @@ Look into my eyes, look into my eyes,
     the eyes, look into my eyes, you're
     under.
 ```
-####在字符串中处理html和xml
+#### 在字符串中处理html和xml
 如果你想替换文本字符串中的`‘<’`或者`‘>’`，使用html.escape()函数可以很容易的完成。比如：
 ```python
 >>> s = 'Elements are written as "<tag>text</tag>".'
@@ -485,7 +485,7 @@ Elements are written as "<tag>text</tag>".
 ```
 如果你接收到了一些含有编码值的原始文本，需要手动去做替换，通常你只需要使用`HTML`或者`XML`解析器的一些相关工具函数/方法即可。比如：
 ```python
->>> s = 'Spicy "Jalape&#241;o&quot.'
+>>> s = 'Spicy "Jalapeño".'
 >>> from html.parser import HTMLParser
 >>> p = HTMLParser()
 >>> p.unescape(s)
@@ -498,7 +498,7 @@ Elements are written as "<tag>text</tag>".
 >>>
 ```
 
-####字节字符串上的字符串操作
+#### 字节字符串上的字符串操作
 ```python
 >>> data = b'Hello World'
 >>> data[0:5]

@@ -13,10 +13,10 @@ LTP：V3.2.0
 LTP4J：V1.0
 Microsoft VS C++：V2010
 
-###编译LTP4J.jar
-####下载Ant
+### 编译LTP4J.jar
+#### 下载Ant
 ltp4j的源码使用ant进行编译，首先需要下载ant，[点我下载](http://ant.apache.org/bindownload.cgi)
-####配置Ant环境变量
+#### 配置Ant环境变量
 我的电脑-->属性-->高级系统设置-->环境变量
 新建ANT_HOME值为：“D:\apache-ant-1.9.4”
 编辑PATH，在PATH变量值的末尾添加：“;%ANT_HOME%\bin” 
@@ -26,7 +26,7 @@ Buildfile: build.xml does not exist!
 Build failed
 
 这样的话，说明配置成功，因为ant默认运行build.xml文件，该文件需要手动创建。
-####编译LTP4J
+#### 编译LTP4J
 首先需要[下载ltp4j源代码](https://github.com/HIT-SCIR/ltp4j)，下载完成之后，解压，比如我的地址为：D:\ltp4j-master（推荐重命名为ltp4j），打开cmd，进入d盘ltp4j项目根目录下，运行ant命令，得到：
 >D:\ltp4j>ant
 Buildfile: D:\ltp4j\build.xml
@@ -46,22 +46,22 @@ Total time: 4 seconds
 
 说明编译成功！查看目录：D:\ltp4j\output\jar，发现存在ltp4j.jar文件，这时该Jar包就可以使用了。
 
-###编译C++代理程序
-####安装CMake
+### 编译C++代理程序
+#### 安装CMake
 ltp4j使用的C++代理程序使用编译工具CMake构建项目。 在编译代理程序之前，你需要首先安装CMake。 CMake的网站在[这里](http://www.cmake.org/)。如果你是Windows用户，请下载CMake的二进制安装包；如果你是Linux，Mac OS或Cygwin的用户，可以通过编译源码的方式安装CMake，当然，你也可以使用Linux的软件源来安装。
 
-下载地址点[这里](http://www.cmake.org/download/)，我选择的是Windows ZIP	cmake-3.2.2-win32-x86.zip
+下载地址点[这里](http://www.cmake.org/download/)，我选择的是Windows ZIP    cmake-3.2.2-win32-x86.zip
 
-####下载LTP的C++源码
+#### 下载LTP的C++源码
 [下载地址](https://github.com/HIT-SCIR/ltp)，下载完成之后解压，我的存放路径为：D:\ltp-master（推荐重命名为ltp）。
-####配置LTP的安装路径
+#### 配置LTP的安装路径
 修改D:\ltp4j目录下的CMakeLists.txt文件，修改如下部分的斜体加粗部分为你自己的LTP源码路径
 >find_package(JNI)
 ***set (LTP_HOME "D:/ltp" CACHE STRING "Use to specified ltp path")***
 >set (LIBRARY_OUTPUT_PATH    \${PROJECT_SOURCE_DIR}/libs)
 >set (JNI_SOURCE_DIR         \${PROJECT_SOURCE_DIR}/jni)
 
-####构建VC Project
+#### 构建VC Project
 在项目文件夹下新建一个名为build的文件夹，使用CMake Gui，在source code中填入项目文件夹，在binaries中填入build文件夹。然后Configure --> Generate。
 
 在点击configure之后出现如下错误：
@@ -170,7 +170,7 @@ configure结束之后点击generate。
 
 cmake3.x之前的版本下载地址：http://www.cmake.org/files/v2.8/
 
-###编译源码
+### 编译源码
 构建后得到ALL_BUILD、RUN_TESTS、ZERO_CHECK三个VC Project。使用VS打开ALL_BUILD项目，选择Release(*)方式构建项目。
 
 (注*：boost::multi_array与VS2010不兼容的bug已经在3.1.0中得到修复，3.1.x及以上版本已经可以使用Debug方式构建，但出于效率考虑，仍旧建议使用Release方式构建。*)
@@ -189,7 +189,7 @@ cmake3.x之前的版本下载地址：http://www.cmake.org/files/v2.8/
 如果X64目录不包含在库目录中，需要手动添加到库目录中。如下图所示
 ![添加x64库][2]
 
-####编译LTP
+#### 编译LTP
 再次编译LTP4J出现如下错误：
 >LINK : fatal error LNK1181: cannot open input file 'postagger.lib'
 >LINK : fatal error LNK1181: cannot open input file 'ner.lib'
@@ -198,7 +198,7 @@ cmake3.x之前的版本下载地址：http://www.cmake.org/files/v2.8/
 ![LTP-x64][3]
 之后在LTP的build目录下会生成VS Project，用VS打开D:\ltp\build\ALL_BUILD.vcxproj，使用Release X64方式进行编译，如果顺利的话，编译结果见下图
 ![ltp编译成功][4]
-####再次编译LTP4J
+#### 再次编译LTP4J
 在LTP编译成功之后，将D:\ltp\lib\Release下的所有文件拷贝到D:\ltp4j\build目录下，然后在VS中打开D:\ltp4j\build\ALL_BUILD.vcxproj，选择Release X64进行编译，编译结果如下：
 >1>------ 已启动生成: 项目: ZERO_CHECK, 配置: Release x64 ------
 2>------ 已启动生成: 项目: split_sentence_jni, 配置: Release x64 ------
@@ -224,15 +224,15 @@ cmake3.x之前的版本下载地址：http://www.cmake.org/files/v2.8/
 ========== 生成: 成功 7 个，失败 0 个，最新 0 个，跳过 1 个 ==========
 
 
-###在Eclipse中使用离线版LTP
-####配置Eclipse中项目所需资源
+### 在Eclipse中使用离线版LTP
+#### 配置Eclipse中项目所需资源
 在Eclipse中新建Java Project
 + *导入ltp4j.jar*
 + *windows下将ltp4j的libs文件夹中生成的所有动态库、以及原ltp lib文件夹下的splitsnt、segmentor、postagger、ner、parser、srl 6个动态库拷贝到项目根目录*
 + *linux下export LD_LIBRARY_PATH=#jni动态库路径#*
 配置完成之后，项目视图如下所示：
 ![项目结构图][5]
-####本地接口使用示例
+#### 本地接口使用示例
 
 分词接口
 ```java
@@ -258,26 +258,26 @@ import edu.hit.ir.ltp4j.Segmentor;
  *
  */
 public class TestSegment {
-	public static void main(String[] args) {
-		// /MyTest/
-		if (Segmentor.create("ltp_data/cws.model") < 0) {
-			System.err.println("load failed");
-			return;
-		}
-		String sent = "我是中国人";
-		List<String> words = new ArrayList<String>();
-		int size = Segmentor.segment(sent, words);
+    public static void main(String[] args) {
+        // /MyTest/
+        if (Segmentor.create("ltp_data/cws.model") < 0) {
+            System.err.println("load failed");
+            return;
+        }
+        String sent = "我是中国人";
+        List<String> words = new ArrayList<String>();
+        int size = Segmentor.segment(sent, words);
 
-		for (int i = 0; i < size; i++) {
-			System.out.print(words.get(i));
-			if (i == size - 1) {
-				System.out.println();
-			} else {
-				System.out.print("\t");
-			}
-		}
-		Segmentor.release();
-	}
+        for (int i = 0; i < size; i++) {
+            System.out.print(words.get(i));
+            if (i == size - 1) {
+                System.out.println();
+            } else {
+                System.out.print("\t");
+            }
+        }
+        Segmentor.release();
+    }
 }
 ```
 词性标注接口
@@ -304,30 +304,30 @@ import edu.hit.ir.ltp4j.Postagger;
  *
  */
 public class TestPostag {
-	public static void main(String[] args) {
-		if (Postagger.create("ltp_data/pos.model") < 0) {
-			System.err.println("load failed");
-			return;
-		}
+    public static void main(String[] args) {
+        if (Postagger.create("ltp_data/pos.model") < 0) {
+            System.err.println("load failed");
+            return;
+        }
 
-		List<String> words = new ArrayList<String>();
-		words.add("我");
-		words.add("是");
-		words.add("中国");
-		words.add("人");
-		List<String> postags = new ArrayList<String>();
+        List<String> words = new ArrayList<String>();
+        words.add("我");
+        words.add("是");
+        words.add("中国");
+        words.add("人");
+        List<String> postags = new ArrayList<String>();
 
-		int size = Postagger.postag(words, postags);
-		for (int i = 0; i < size; i++) {
-			System.out.print(words.get(i) + "_" + postags.get(i));
-			if (i == size - 1) {
-				System.out.println();
-			} else {
-				System.out.print("|");
-			}
-		}
-		Postagger.release();
-	}
+        int size = Postagger.postag(words, postags);
+        for (int i = 0; i < size; i++) {
+            System.out.print(words.get(i) + "_" + postags.get(i));
+            if (i == size - 1) {
+                System.out.println();
+            } else {
+                System.out.print("|");
+            }
+        }
+        Postagger.release();
+    }
 }
 ```
 
@@ -356,44 +356,44 @@ import edu.hit.ir.ltp4j.NER;
  */
 public class TestNer {
 
-	public static void main(String[] args) {
-		if (NER.create("ltp_data/ner.model") < 0) {
-			System.err.println("load failed");
-			return;
-		}
-		List<String> words = new ArrayList<String>();
-		List<String> tags = new ArrayList<String>();
-		List<String> ners = new ArrayList<String>();
-		words.add("中国");
-		tags.add("ns");
-		words.add("国际");
-		tags.add("n");
-		words.add("广播");
-		tags.add("n");
-		words.add("电台");
-		tags.add("n");
-		words.add("创办");
-		tags.add("v");
-		words.add("于");
-		tags.add("p");
-		words.add("1941年");
-		tags.add("m");
-		words.add("12月");
-		tags.add("m");
-		words.add("3日");
-		tags.add("m");
-		words.add("。");
-		tags.add("wp");
+    public static void main(String[] args) {
+        if (NER.create("ltp_data/ner.model") < 0) {
+            System.err.println("load failed");
+            return;
+        }
+        List<String> words = new ArrayList<String>();
+        List<String> tags = new ArrayList<String>();
+        List<String> ners = new ArrayList<String>();
+        words.add("中国");
+        tags.add("ns");
+        words.add("国际");
+        tags.add("n");
+        words.add("广播");
+        tags.add("n");
+        words.add("电台");
+        tags.add("n");
+        words.add("创办");
+        tags.add("v");
+        words.add("于");
+        tags.add("p");
+        words.add("1941年");
+        tags.add("m");
+        words.add("12月");
+        tags.add("m");
+        words.add("3日");
+        tags.add("m");
+        words.add("。");
+        tags.add("wp");
 
-		NER.recognize(words, tags, ners);
+        NER.recognize(words, tags, ners);
 
-		for (int i = 0; i < words.size(); i++) {
-			System.out.println(ners.get(i));
-		}
+        for (int i = 0; i < words.size(); i++) {
+            System.out.println(ners.get(i));
+        }
 
-		NER.release();
+        NER.release();
 
-	}
+    }
 }
 ```
 依存句法分析接口
@@ -421,37 +421,37 @@ import edu.hit.ir.ltp4j.Parser;
  */
 public class TestParser {
 
-	public static void main(String[] args) {
-		if (Parser.create("ltp_data/parser.model") < 0) {
-			System.err.println("load failed");
-			return;
-		}
-		List<String> words = new ArrayList<String>();
-		List<String> tags = new ArrayList<String>();
-		words.add("一把手");
-		tags.add("n");
-		words.add("亲自");
-		tags.add("d");
-		words.add("过问");
-		tags.add("v");
-		words.add("。");
-		tags.add("wp");
-		List<Integer> heads = new ArrayList<Integer>();
-		List<String> deprels = new ArrayList<String>();
+    public static void main(String[] args) {
+        if (Parser.create("ltp_data/parser.model") < 0) {
+            System.err.println("load failed");
+            return;
+        }
+        List<String> words = new ArrayList<String>();
+        List<String> tags = new ArrayList<String>();
+        words.add("一把手");
+        tags.add("n");
+        words.add("亲自");
+        tags.add("d");
+        words.add("过问");
+        tags.add("v");
+        words.add("。");
+        tags.add("wp");
+        List<Integer> heads = new ArrayList<Integer>();
+        List<String> deprels = new ArrayList<String>();
 
-		int size = Parser.parse(words, tags, heads, deprels);
+        int size = Parser.parse(words, tags, heads, deprels);
 
-		for (int i = 0; i < size; i++) {
-			System.out.print(heads.get(i) + ":" + deprels.get(i));
-			if (i == size - 1) {
-				System.out.println();
-			} else {
-				System.out.print("        ");
-			}
-		}
+        for (int i = 0; i < size; i++) {
+            System.out.print(heads.get(i) + ":" + deprels.get(i));
+            if (i == size - 1) {
+                System.out.println();
+            } else {
+                System.out.print("        ");
+            }
+        }
 
-		Parser.release();
-	}
+        Parser.release();
+    }
 }
 ```
 语义角色标注接口
@@ -480,54 +480,54 @@ import edu.hit.ir.ltp4j.SRL;
  */
 public class TestSrl {
 
-	public static void main(String[] args) {
-		SRL.create("ltp_data/srl");
-		ArrayList<String> words = new ArrayList<String>();
-		words.add("一把手");
-		words.add("亲自");
-		words.add("过问");
-		words.add("。");
-		ArrayList<String> tags = new ArrayList<String>();
-		tags.add("n");
-		tags.add("d");
-		tags.add("v");
-		tags.add("wp");
-		ArrayList<String> ners = new ArrayList<String>();
-		ners.add("O");
-		ners.add("O");
-		ners.add("O");
-		ners.add("O");
-		ArrayList<Integer> heads = new ArrayList<Integer>();
-		heads.add(2);
-		heads.add(2);
-		heads.add(-1);
-		heads.add(2);
-		ArrayList<String> deprels = new ArrayList<String>();
-		deprels.add("SBV");
-		deprels.add("ADV");
-		deprels.add("HED");
-		deprels.add("WP");
-		List<Pair<Integer, List<Pair<String, Pair<Integer, Integer>>>>> srls = new ArrayList<Pair<Integer, List<Pair<String, Pair<Integer, Integer>>>>>();
-		SRL.srl(words, tags, ners, heads, deprels, srls);
-		System.out.println(srls.size());
-		for (int i = 0; i < srls.size(); ++i) {
-			System.out.println(srls.get(i).first + ":");
-			for (int j = 0; j < srls.get(i).second.size(); ++j) {
-				System.out.println("   tpye = " + srls.get(i).second.get(j).first + " beg = "
-						+ srls.get(i).second.get(j).second.first + " end = " + srls.get(i).second.get(j).second.second);
-			}
-		}
-		SRL.release();
-	}
+    public static void main(String[] args) {
+        SRL.create("ltp_data/srl");
+        ArrayList<String> words = new ArrayList<String>();
+        words.add("一把手");
+        words.add("亲自");
+        words.add("过问");
+        words.add("。");
+        ArrayList<String> tags = new ArrayList<String>();
+        tags.add("n");
+        tags.add("d");
+        tags.add("v");
+        tags.add("wp");
+        ArrayList<String> ners = new ArrayList<String>();
+        ners.add("O");
+        ners.add("O");
+        ners.add("O");
+        ners.add("O");
+        ArrayList<Integer> heads = new ArrayList<Integer>();
+        heads.add(2);
+        heads.add(2);
+        heads.add(-1);
+        heads.add(2);
+        ArrayList<String> deprels = new ArrayList<String>();
+        deprels.add("SBV");
+        deprels.add("ADV");
+        deprels.add("HED");
+        deprels.add("WP");
+        List<Pair<Integer, List<Pair<String, Pair<Integer, Integer>>>>> srls = new ArrayList<Pair<Integer, List<Pair<String, Pair<Integer, Integer>>>>>();
+        SRL.srl(words, tags, ners, heads, deprels, srls);
+        System.out.println(srls.size());
+        for (int i = 0; i < srls.size(); ++i) {
+            System.out.println(srls.get(i).first + ":");
+            for (int j = 0; j < srls.get(i).second.size(); ++j) {
+                System.out.println("   tpye = " + srls.get(i).second.get(j).first + " beg = "
+                        + srls.get(i).second.get(j).second.first + " end = " + srls.get(i).second.get(j).second.second);
+            }
+        }
+        SRL.release();
+    }
 }
 ```
 
-####等等，最后一步
+#### 等等，最后一步
 ***注意点***
 在ltp4j中提供的ltp_data中的model仅仅是作为你测试代码的正确性，其并非完整的model，如果需要在生产环境中使用，需要到[这里](http://pan.baidu.com/share/link?shareid=1988562907&uk=2738088569#path=%252Fltp-models)下载完整版的model，将下载的完整版ltp_data拷贝到项目中即可。
 
 
-####其他错误
+#### 其他错误
 >Cannot open include file: 'ammintrin.h': No such file or directory
 
 参考文章：

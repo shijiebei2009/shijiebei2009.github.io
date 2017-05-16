@@ -5,7 +5,7 @@ categories: Operating System
 
 ---
 
-###安装搜狗输入法
+### 安装搜狗输入法
 - 参考了其他一些资料都说添加`fcitx`的`PPA`，但是我不确定有木有用
 
 ```bash
@@ -154,7 +154,7 @@ eric@eric-VirtualBox:~/Desktop$
 输入`sudo dpkg -i sogoupinyin_2.0.0.0068_amd64.deb`命令开始安装输入法，可使用`tab`键自动补全命令，安装完成之后使用如下命令启用`sudo im-config -s fcitx -z default`，完成之后别忘记重启系统。重启之后点击右上角的那个软件盘即可看到搜狗输入法安装成功，点击即可输入汉字了。
 ![](http://7xig3q.com1.z0.glb.clouddn.com/ubuntu-sogou-input-method-success.jpg)
 
-###卸载搜狗输入法
+### 卸载搜狗输入法
 
 - 首先使用命令查看下安装的搜狗拼音输入法`sudo dpkg -l so*`，然后先卸载搜狗拼音`sudo apt-get purge sogoupinyin`
 

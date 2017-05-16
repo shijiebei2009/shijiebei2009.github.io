@@ -4,7 +4,7 @@ tags: [Java]
 categories: Programming Notes
 
 ---
-####前奏
+#### 前奏
 因为`NIO`并不容易掌握，所以这注定会是一篇长文，而且即便篇幅很大，亦难以把很多细节解释清楚，只能侧重于从整体上进行把握，并实现一个简单的客户端服务端消息通信框架作为例子，以便有需要的开发人员参考之。借用淘宝伯岩给出的忠告就是
 - 尽量不要尝试实现自己的`NIO`框架，除非有经验丰富的工程师
 - 尽量使用经过广泛实践的开源`NIO`框架`Mina/Netty/xSocket`
@@ -26,8 +26,8 @@ categories: Programming Notes
 - `Sockets API`主要是`NIO1`中的`Selector`模式实现同步非阻塞
 - `Asynchronous Channel API`由`NIO1`中的`Selector`模式变成方法回调模式，使用更加方便，主要是可以异步实现文件的读写了
 
-####AIO应用开发
-#####Future方式
+#### AIO应用开发
+##### Future方式
 `Future`是在`JDK1.5`中加入`Java`并发包的，该接口提供`get()`方法用于获取任务完成之后的处理结果。在`AIO`中，可以接受一个`I/O`连接请求，返回一个`Future`对象，然后可以基于该返回对象进行后续的操作，包括使其阻塞、查看是否完成、超时异常，使用方式如下。
 **服务端代码**
 ```java
@@ -195,7 +195,7 @@ public class ClientOnFuture {
 }
 ```
 
-#####Future方式实现为多客户端并发服务
+##### Future方式实现为多客户端并发服务
 如何让服务端同时可以接受多个客户端的连接呢？一个简单的处理方法就是使用`ExecutorService`。每次新建一个连接，并且获得返回值之后，这个返回值就是一个`AsynchronousSocketChannel`的通道，将其提交给线程池，由一个工作线程进行后续处理。然后一个新的线程准备好在等待接受下一个连接。代码示例如下。
 ```java
 import lombok.extern.log4j.Log4j2;
@@ -290,7 +290,7 @@ public class ServerOnFutureForMultiClients {
 }
 ```
 
-#####Callback方式
+##### Callback方式
 方法回调模式，即提交一个`I/O`操作请求，并且指定一个`CompletionHandler`。当异步操作完成时，便会发一个通知，此时该`CompletionHandler`对象覆写的方法将被调用，如果成功调用`completed`方法，如果失败调用`failed`方法，首先看下`Java API`。
 ```java
 public interface CompletionHandler<V,A> {
@@ -518,7 +518,7 @@ public class ClientOnCompletionHandler {
     }
 }
 ```
-#####Reader/Writer方式实现
+##### Reader/Writer方式实现
 其实除了使用匿名内部类的形式外，还有可以指定读写者的`read`和`write`方法，另外你还可以指定超时时间，这种实现方式相对来说比匿名内部类形式看起来代码解耦合更好，代码更简洁。
 **抽象的接口**
 ```java
@@ -852,7 +852,7 @@ public class ClientOnReaderAndWriter {
 }
 ```
 
-#####Reader/Writer方式实现支持多客户端并发服务
+##### Reader/Writer方式实现支持多客户端并发服务
 想要使服务端支持多并发，必须要使用到`AsynchronousChannelGroup`，有关细节在下一节详述，`AsynchronousChannelGroup`用于管理异步通道资源，封装一个处理`I/O`完成的机制。该组对象关联一个线程池，可以将处理任务提交到线程池，这个组对象相当于是一个`Dispatcher`。
 ```java
 import lombok.extern.log4j.Log4j2;
@@ -919,7 +919,7 @@ public class ServerOnReaderAndWriterForMultiClients {
     }
 }
 ```
-####线程池和Group
+#### 线程池和Group
 四种异步通道的`open`方法可以指定`group`参数，或者不指定。每个异步通道都必须关联一个组，要么是系统默认组，要么是用户创建的组。如果不使用`group`参数，`java`使用一个默认的系统范围的组对象。系统默认的组对象的线程池参数可以使用两个属性进行配置：
 - java.nio.channels.DefaultThreadPool.threadFactory 默认组对象不会将其关联的线程池中的线程进行额外的配置，因此，这些线程都是`daemon`线程。
 - java.nio.channels.DefaultThreadPool.initialSize: 处理`I/O`事件的最大线程数量。
@@ -928,12 +928,12 @@ public class ServerOnReaderAndWriterForMultiClients {
 
 不使用`group`，最大的好处是不用传递`group`参数。缺点是：必须注意处理非`daemon`线程的完成和退出，不小心的话，将会导致异步通道的工作丢失；同时还需要处理线程工厂和最大线程数的配置。
 
-####PendingException 和 AsynchronousChannel
+#### PendingException 和 AsynchronousChannel
 如果一个读写操作没有完成，程序又发送一个读写操作命令，则导致`ReadPendingException`或者`WritePendingException`。如果你的程序非要这样的话，只有一个解决办法，将读写操作的命令使用队列排队进行。通常应该不会出现这种需求，如果有的话，很有可能是设计上的缺陷。
 
 读写超时。`AsynchronousChannel`的读写操作可以指定超时参数，但是超时发生之后，传递给读写操作的`ByteBuffer`参数不应该向正常读写完成一样进行处理。通常设计如果超时发生，一般应该丢弃当前期望数据结果。
 
-####ByteBuffer
+#### ByteBuffer
 `AIO`鼓励使用`DirectByteBuffer`。就算应用程序代码中不使用`DirectByteBuffer`，`AIO`内核实现也会使用`DirectByteBuffer`来复制外部传入的`HeadByteBuffer`内容。
 
 `ByteBuffer`主要有两个继承的类分别是：`HeapByteBuffer`和`MappedByteBuffer`。他们的不同之处在于`HeapByteBuffer`会在`JVM`的堆上分配内存资源，而`MappedByteBuffer`的资源则会由`JVM`之外的操作系统内核来分配。`DirectByteBuffer`继承了`MappedByteBuffer`，采用了直接内存映射的方式，将文件直接映射到虚拟内存，同时减少在内核缓冲区和用户缓冲区之间的调用，尤其在处理大文件方面有很大的性能优势。但是在使用内存映射的时候会造成文件句柄一直被占用而无法删除的情况，网上也有很多介绍。

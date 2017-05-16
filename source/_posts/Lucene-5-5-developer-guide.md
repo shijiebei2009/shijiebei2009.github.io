@@ -5,12 +5,12 @@ categories: Programming Notes
 
 ---
 
-####Lucene和Solr的历史版本
+#### Lucene和Solr的历史版本
 [Lucene历史版本](http://archive.apache.org/dist/lucene/java/)，不妨点进去看看，会发现**Lucene**的版本更新很频繁，所以**Lucene**的**Doc**注释比**JDK**的**Doc**注释差太多，在研读`Lucene In Action`的过程中，发现此书的**Lucene**版本为**3.0**，而自己使用的**Lucene**版本是**5.5**，所以会有诸多冲突之处，现聊记之，以备查用。另外附上[Solr历史版本](http://archive.apache.org/dist/lucene/solr/)。
 
 在学习**Lucene**过程中，官方推荐的**Lucene**索引查看工具是`Luke`，下载地址[点我](https://github.com/DmitryKey/luke/releases)。
 
-####Lucene API变动相关
+#### Lucene API变动相关
 - **Field**类中的枚举**Index**已被废弃，转而采用**FieldType**，并通过**setIndexOptions**方法设置索引选项
 - **IndexWriter**的**optimize**方法已被删除，推荐用**forceMerge**方法代替
 - 对**Document**加权在**4.x**版本之后已经删除，如果想要对文档加权，需要对该文档中的每个**Field**都进行加权
@@ -54,7 +54,7 @@ Spans spans = weight.getSpans(indexReader.getContext().leaves().get(0), SpanWeig
 - **TermVectorMapper**被删除，相应地其子类**PositionBasedTermVectorMapper**、**SortedTermVectorMapper**、**FieldSortedTermVectorMapper**亦被删除
 - **FieldSelectorResult**被删除，**TermVector**被废弃
 
-####Lucene 开发相关
+#### Lucene 开发相关
 - 索引数字时，需要选择一个不丢弃数字的分析器，**WhitespaceAnalyzer**和**StandardAnalyzer**可以作为候选，而**SimpleAnalyzer**和**StopAnalyzer**两个类会将语汇单元流中的数字剔除
 - 优化索引只能提高搜索速度，而不是索引速度。注意索引优化会消耗大量的**CPU**和**I/O**资源，在优化期间，索引会占用较大的磁盘空间，大约为优化初期的3倍
 - 对于一个索引来说，一次只能打开一个**Writer**，**Lucene**采用文件锁来提供保障，该锁只有当**IndexWriter**对象被关闭时才会释放
@@ -107,7 +107,7 @@ System.out.println(query.toString("field"));
 - 索引差值规则：先后保存两个整数的时候，后面的整数仅仅保存和前面整数的差值即可，例如：**5,9,11**存储为`|5|4(9-5)|3(11-9)|`
 - 关于Directory子类的选择问题，最简单的方式是使用`public static FSDirectory open(Path path)`，让Lucene来替你尽力选择最适合当前硬件环境的实现
 
-####Lucene事务相关
+#### Lucene事务相关
 - 通过IndexWriter.getReader()获得的Reader是能看到上次commit之后，IndexWriter执行至当前的所有变化，该方法提供一种"near real-time"近实时的搜索
 - 当IndexWriter正在做更改的时候，所有更改都不会对当前搜索该索引的IndexReader可见，直到你commit或者打开了一个新的NRT(near real-time)Reader。一次只能有一个IndexWriter实例对索引进行更改
 - 仅在一个新的目录上打开一个IndexWriter并不会产生一个空的commit操作，即你无法在这个目录上打开一个IndexReader，直到你完成一次commit
@@ -116,7 +116,7 @@ System.out.println(query.toString("field"));
 - 你可以在commit的时候传送userData`(Map<String,String>)`，用于记录关于本次commit的一些用户自定义信息（对Lucene不透明），然后使用IndexReader.listCommits方法获得索引的所有commit信息。一旦你找到了一次commit，你可以在其上找开一个IndexReader对commit点上的索引数据进行搜索
 - 你也可以基于之前的commit打开一个IndexWriter，回滚之后的所有变动。这有点类似于rollback方法，不同之处在于它允许你在多个commit间rollback，而不仅是回滚当前IndexWriter会话中所做的变动
 
-####Lucene的QueryParse表达式说明
+#### Lucene的QueryParse表达式说明
 |表达式   | 匹配文档  |
 | ------------ | ------------ |
 |java|在字段中包含java|
@@ -134,7 +134,7 @@ System.out.println(query.toString("field"));
 
 **注意：**如果查询表达式使用了以下特殊字符，你就应该对其进行转义操作，使这些字符在一般的表达式中能够发挥作用。**QueryParser**在各个项中使用反斜杠`(\)`来表示转义字符。需要进行转义的字符有：`\ + - ! ( ) : ^ ] { } ~ * ?`
 
-####Lucene常见Field
+#### Lucene常见Field
 |表达式   | 匹配文档  |
 | ------------ | ------------ |
 |IntField|主要对int类型的字段进行存储，需要注意的是如果需要对IntField进行排序使用SortField.Type.INT来比较，如果进范围查询或过滤，需要采用NumericRangeQuery.newIntRange()|

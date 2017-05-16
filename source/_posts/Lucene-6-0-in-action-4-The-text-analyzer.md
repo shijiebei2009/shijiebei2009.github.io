@@ -5,7 +5,7 @@ categories: Programming Notes
 
 ---
 
-###Analyzer简介
+### Analyzer简介
 在Lucene的org.apache.lucene.analysis模块中提供了顶层的抽象类Analyzer，Analyzer主要是用来构建TokenStreams，如果想实现自定义的Analyzer，必须覆写createComponents(String)方法，并定义自己的TokenStreamComponents。
 
 为什么要有Analyzer呢？对于Lucene而言，不管是索引还是检索，都是针对纯文本而言，对于纯文本的来源可以是PDF，Word，Excel，PPT，HTML等，Lucene对此并不关心，只要保证传递给Lucene的是纯文本即可。
@@ -24,7 +24,7 @@ Lucene常用分析器整理如下
 | SmartChineseAnalyzer  | SmartChineseAnalyzer是一个智能中文分词模块，能够利用概率对汉语句子进行最优切分，并内嵌英文tokenizer，能有效处理中英文混合的文本内容。它的原理基于自然语言处理领域的隐马尔科夫模型（HMM），利用大量语料库的训练来统计汉语词汇的词频和跳转概率，从而根据这些统计结果对整个汉语句子计算最似然（likelihood）的切分。因为智能分词需要词典来保存词汇的统计值，SmartChineseAnalyzer的运行需要指定词典位置，如何指定词典位置请参考org.apache.lucene.analysis.cn.smart.AnalyzerProfile。SmartChineseAnalyzer的算法和语料库词典来自于[ICTCLAS](http://ictclas.nlpir.org/downloads)|
 | CJKAnalyzer  | CJK表示中日韩，目的是要把分别来自中文、日文、韩文、越文中，本质、意义相同、形状一样或稍异的表意文字（主要为汉字，但也有仿汉字如日本国字、韩国独有汉字、越南的喃字）在ISO 10646及Unicode标准内赋予相同编码。对于中文是交叉双字分割，二元分词法  |
 
-###Analyzer部分子类分词示例
+### Analyzer部分子类分词示例
 选取了六个实现类，并分别输出它们对英文、中文、特殊符号及邮箱等的切分效果。
 ```java
 public class AnalyzerDemo {
@@ -98,7 +98,7 @@ SmartChineseAnalyzer analyzing : 北京市北京大学
 北京市[0,3:word] 北京大学[3,7:word]
 ```
 
-###Analyzer之TokenStream
+### Analyzer之TokenStream
 TokenStream是分析处理组件中的一种中间数据格式，它从一个reader中获取文本，并以TokenStream作为输出结果。在所有的过滤器中，TokenStream同时充当着输入和输出格式。Tokenizer和TokenFilter继承自TokenStream，Tokenizer是一个TokenStream，其输入源是一个Reader；TokenFilter也是一个TokenStream，其输入源是另一个TokenStream。而TokenStream简单点说就是生成器的输出结果。TokenStream是一个分词后的Token结果组成的流，通过流能够不断的得到下一个Token。
 ```java
 @Test
@@ -119,7 +119,7 @@ public void testTokenStream() throws IOException {
 输出结果：
 >[This][is][a][test][text][for][token!]
 
-###Analyzer之TokenAttribute
+### Analyzer之TokenAttribute
 在调用tokenStream()方法之后，我们可以通过为之添加多个Attribute，从而可以了解到分词之后详细的词元信息，比如CharTermAttribute用于保存词元的内容，TypeAttribute用于保存词元的类型。
 
 在Lucene中提供了几种类型的Attribute，每种类型的Attribute提供一个不同的方面或者token的元数据，罗列如下
@@ -170,7 +170,7 @@ public void testAttribute() throws IOException {
 [some increment:1 start:44 end:48 type:<ALPHANUM> payload:null]
 [word increment:1 start:49 end:53 type:<ALPHANUM> payload:null]
 
-###Analyzer之TokenFilter
+### Analyzer之TokenFilter
 TokenFilter主要用于TokenStream的过滤操作，用来处理Tokenizer或者上一个TokenFilter处理后的结果，如果是对现有分词器进行扩展或修改，推荐使用自定义TokenFilter方式。自定义TokenFilter需要实现incrementToken()抽象函数，并且该方法需要声明为final的，在此函数中对过滤Term的CharTermAttribute和PositionIncrementAttribute等属性进行操作，就能实现过滤功能，例如一个简单的词扩展过滤器如下
 ```java
 import org.apache.lucene.analysis.Analyzer;
@@ -234,7 +234,7 @@ class CourtesyTitleFilter extends TokenFilter {
 输出结果如下
 >Hi, doctor Wang, mister Liu asks if you stay with miss Liu yesterday!
 
-###自定义Analyzer实现扩展停用词
+### 自定义Analyzer实现扩展停用词
 1. 继承自Analyzer并覆写createComponents(String)方法
 2. 维护自己的停用词词典
 3. 重写TokenStreamComponents，选择合适的过滤策略
@@ -302,7 +302,7 @@ class StopAnalyzerExtend extends Analyzer {
 }
 ```
 
-###自定义Analyzer实现字长过滤
+### 自定义Analyzer实现字长过滤
 ```java
 class LongFilterAnalyzer extends Analyzer {
     private int len;
@@ -358,7 +358,7 @@ coder!
 ```
 可以看到，长度小于两个字符的文本都被过滤掉了。
 
-###Analyzer之PerFieldAnalyzerWrapper
+### Analyzer之PerFieldAnalyzerWrapper
 PerFieldAnalyzerWrapper的doc注释中提供了详细的说明，该类提供处理不同的Field使用不同的Analyzer的技术方案。PerFieldAnalyzerWrapper可以像其它的Analyzer一样使用，包括索引和查询分析。
 ```java
 public void testPerFieldAnalyzerWrapper() throws IOException, ParseException {

@@ -1,20 +1,20 @@
-﻿title: "使用Selenium模拟用户登录支付宝账户查询交易详情"
+title: "使用Selenium模拟用户登录支付宝账户查询交易详情"
 tags: [Selenium]
 categories: Programming Notes
 date: 2015-08-29 21:39:00
 
 ---
 
-###Selenium简介
+### Selenium简介
 `Selenium`是一个用于Web应用程序测试的工具。`Selenium`测试直接运行在浏览器中，就像真正的用户在操作一样。支持的浏览器包括IE、Mozilla Firefox、Chrome等。这个工具的主要功能包括：测试与浏览器的兼容性——测试你的应用程序看是否能够很好得工作在不同浏览器和操作系统之上。测试系统功能——创建回归测试检验软件功能和用户需求。支持自动录制动作和自动生成`.Net`、`Java`、`Perl`等不同语言的测试脚本。`Selenium`是`ThoughtWorks`专门为Web应用程序编写的一个验收测试工具。
-###Selenium的优势
+### Selenium的优势
 据`Selenium`主页所说，与其他测试工具相比，使用`Selenium`的最大好处是：`Selenium`测试直接在浏览器中运行，就像真实用户所做的一样。`Selenium`测试可以在`Windows`、`Linux`和`Macintosh`上的`Internet Explorer`、`Mozilla`和`Firefox`中运行。其他测试工具都不能覆盖如此多的平台。使用`Selenium`和在浏览器中运行测试还有很多其他好处。下面是主要的两大好处：
 - 通过编写模仿用户操作的`Selenium`测试脚本，可以从终端用户的角度来测试应用程序
 - 通过在不同浏览器中运行测试，更容易发现浏览器的不兼容性
 
 `Selenium`的核心，也称`browser bot`，是用`JavaScript`编写的。这使得测试脚本可以在受支持的浏览器中运行。`browser bot`负责执行从测试脚本接收到的命令，测试脚本要么是用`HTML`的表布局编写的，要么是使用一种受支持的编程语言编写的。
 
-###Selenium-WebDriver
+### Selenium-WebDriver
 `Selenium-WebDriver`支持如下浏览器，在所有支持这些浏览器的操作系统中能都运行良好。
 
 *   Google Chrome 12.0.712.0+
@@ -25,11 +25,11 @@ date: 2015-08-29 21:39:00
 *   Android – 2.3+ for phones and tablets (devices & emulators)
 *   iOS 3+ for phones (devices & emulators) and 3.2+ for tablets (devices & emulators)
 
-###Selenium开发环境
+### Selenium开发环境
 如欲使用Java语言，那么JDK的环境是必备的。使用`Selenium`来驱动浏览器，那么必须要有[浏览器驱动包](http://pan.baidu.com/s/1o6quY5G)，同样还需要[Selenium的Jar包](http://pan.baidu.com/s/1o6vKGh8)，点击下载即可。
 
-###Selenium启动浏览器
-####启动Firefox
+### Selenium启动浏览器
+#### 启动Firefox
 ```java
 //后一个参数是Firefox的安装路径
 System.setProperty("webdriver.firefox.bin", "C:/Program Files (x86)/Mozilla Firefox/firefox.exe");
@@ -37,14 +37,14 @@ WebDriver driver = new FirefoxDriver();
 driver.get("www.baidu.com");
 ```
 
-####启动Chrome
+#### 启动Chrome
 ```java
 //后一个参数是Chrome浏览器的驱动，需要下载
 System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
 WebDriver driver = new ChromeDriver();
 driver.get("www.baidu.com");
 ```
-####启动IE
+#### 启动IE
 作为开发人员，建议您应该远离IE，虽然我不太愿意提供IE的启动方式给您！
 ```java
 System.setProperty("webdriver.ie.driver", "D:/IEDriverServer.exe");
@@ -52,7 +52,7 @@ WebDriver driver = new InternetExplorerDriver();
 driver.get("www.baidu.com");
 ```
 
-###常见问题的处理方法
+### 常见问题的处理方法
 >How to select any element from the web element with “display: none” attribute using Selenium ?
 特别是在处理因为`<select>`标签中带有`style='display:none'`而无法设置option的情况时很有效！
 
@@ -75,7 +75,7 @@ Select select = new Select(selectElement);
 select.selectByVisibleText("SECURITY");
 ```
 
-###模拟用户登录支付宝查询交易信息的程序
+### 模拟用户登录支付宝查询交易信息的程序
 ```java
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -217,7 +217,7 @@ public class SeleniumAlipay {
 }
 ```
 
-###效果图
+### 效果图
 ![](http://7xig3q.com1.z0.glb.clouddn.com/automatic-query-alipay-treasure-transaction-information.gif)
 
 

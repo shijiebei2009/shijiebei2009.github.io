@@ -5,21 +5,21 @@ categories: Programming Notes
 
 ---
 
-##Lombok简介
+## Lombok简介
 `Lombok`是一款好用顺手的工具，就像`Google Guava`一样，在此予以强烈推荐，每一个Java工程师都应该使用它。Lombok是一种Java™实用工具，可用来帮助开发人员消除Java的冗长代码，尤其是对于简单的Java对象（POJO）。它通过注释实现这一目的。通过在开发环境中实现Lombok，开发人员可以节省构建诸如`hashCode()`和`equals()`这样的方法以及以往用来分类各种`accessor`和`mutator`的大量时间。
 
 Lombok官网地址：https://projectlombok.org/ 里面还提供了一个简短的学习视频。
 
-##安装Lombok
-###Eclipse安装Lombok
-####双击Jar安装
+## 安装Lombok
+### Eclipse安装Lombok
+#### 双击Jar安装
 首先下载Jar包，下载地址：http://projectlombok.org/download.html
 ![](http://7xig3q.com1.z0.glb.clouddn.com/eclipse-lombok.png)
 注意如果eclipse没有安装到默认目录，那么需要点击Specify选择eclipse.exe所在的路径，然后Install即可完成安装。
 
 在新建项目之后，使用Lombok如果程序还报错，那么点击eclipse菜单的Project选项的clean，清理一下即可。
 
-####Eclipse手动安装Lombok步骤
+#### Eclipse手动安装Lombok步骤
 - 将**lombok.jar**复制到**myeclipse.ini/eclipse.ini**所在的文件夹目录下
 - 打开**eclipse.ini/myeclipse.ini**，在最后面插入以下两行并保存：
 **-Xbootclasspath/a:lombok.jar**
@@ -35,21 +35,21 @@ Lombok官网地址：https://projectlombok.org/ 里面还提供了一个简短�
 </dependency>
 ```
 
-###IntelliJ安装Lombok
-####通过IntelliJ的插件中心安装
+### IntelliJ安装Lombok
+#### 通过IntelliJ的插件中心安装
 ![](http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-plugin-lombok.png)
 ![](http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-lombok.png)
 注意一点，在IntelliJ中如果创建的是Maven项目，那么在pom.xml文件中添加依赖后，需要设置Maven为自动导入。
 ![](http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-maven-auto-import.png)
 
-####IntelliJ手动安装Lombok
+#### IntelliJ手动安装Lombok
 如果不想通过IntelliJ的插件中心安装的话，也可以手动安装，详细步骤参见Github上的说明：https://github.com/mplushnikov/lombok-intellij-plugin
 
 简单点说手动安装步骤如下：
 Download the [latest release](https://github.com/mplushnikov/lombok-intellij-plugin/releases/tag/releasebuild_0.11) and install it manually using Preferences > Plugins > Install plugin from disk...
 
-##Lombok用法
-###Lombok注解说明
+## Lombok用法
+### Lombok注解说明
 - `val`：用在局部变量前面，相当于将变量声明为final
 - `@NonNull`：给方法参数增加这个注解会自动在方法内对该参数进行是否为空的校验，如果为空，则抛出NPE（NullPointerException）
 - `@Cleanup`：自动管理资源，用在局部变量之前，在当前变量范围内即将执行完毕退出之前会自动清理资源，自动生成try-finally这样的代码来关闭流
@@ -71,7 +71,7 @@ Download the [latest release](https://github.com/mplushnikov/lombok-intellij-plu
   - `@Slf4j` Creates log = org.slf4j.LoggerFactory.getLogger(LogExample.class);
   - `@XSlf4j` Creates log = org.slf4j.ext.XLoggerFactory.getXLogger(LogExample.class);
 
-###Lombok使用示例
+### Lombok使用示例
 - val示例
 ```java
 public static void main(String[] args) {

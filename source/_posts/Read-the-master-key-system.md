@@ -1,17 +1,17 @@
-title: '读《万能钥匙》'
-date: 2016-10-07 20:15:59
-tags: [Thinking]
-categories: Life-Talk
-toc: false
+title: '读《万能钥匙》'
+date: 2016-10-07 20:15:59
+tags: [Thinking]
+categories: Life-Talk
+toc: false
 
 ---
 
-<blockquote  class="blockquote-center">
+<blockquote  class="blockquote-center">
 **花半秒钟就看透事物本质的人，和花一辈子都看不清事物本质的人，注定是截然不同的命运。
 ——《教父》**
 </blockquote>
 
-**简介：**[《万能钥匙》](http://baike.baidu.com/subview/92577/5447101.htm#viewPageContent)（The Master Key System）是一本奇书，由作者在1912年创作出版，当时销售了20多万册，1933年起，它奇迹般的从市场上消失了，原因是很多成功的商人不愿意让更多的人看到此书，而担心更多人因此书而创富。这些商人联合起来，让美国教会查禁了这本书。
+**简介：**[《万能钥匙》](http://baike.baidu.com/subview/92577/5447101.htm#viewPageContent)（The Master Key System）是一本奇书，由作者在1912年创作出版，当时销售了20多万册，1933年起，它奇迹般的从市场上消失了，原因是很多成功的商人不愿意让更多的人看到此书，而担心更多人因此书而创富。这些商人联合起来，让美国教会查禁了这本书。
 
 这本上是硅谷最神奇的成功奇书，早年，这本书的手抄本甚至炒到3000多美金，几乎所有硅谷的亿万富翁都阅读过此书，世界首富比尔·盖茨在哈佛大学上学时，因为偶然的机会读到此书，立即决定弃学从商，从而创造了软件帝国的神话。美国成功学之父拿破仑·希尔因为得到本书的启示成为成功学大师。
 

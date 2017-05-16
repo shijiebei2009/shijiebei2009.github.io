@@ -5,7 +5,7 @@ categories: Programming Notes
 
 ---
 
-####机器环境
+#### 机器环境
 **Windows**：Win7 64 bit
 **Java**：java version "1.8.0_45"；Java HotSpot(TM) 64-Bit Server VM
 **Solr**：5.5
@@ -16,13 +16,13 @@ Lucene和Solr下载地址：http://lucene.apache.org/
 Windows选择下载zip压缩包，Linux选择下载tgz压缩包
 Tomcat下载地址：http://tomcat.apache.org/ ，选择Binary Distributions下的Core中的64-bit Windows zip (pgp, md5, sha1)下载之后文件名称是：apache-tomcat-8.0.32-windows-x64
 
-####Windows下启动Tomcat并添加服务
-#####配置环境变量
+#### Windows下启动Tomcat并添加服务
+##### 配置环境变量
 注意**JDK**和**Tomcat**的目录中最好别有中文，首先在系统环境变量中配置**JAVA_HOME**，值是`C:/Program Files/Java/jdk1.8.0_45`，然后在**Path**中添加`;%JAVA_HOME%/bin`。
 
 添加环境变量**CATALINA_HOME**值是`D:/apache-tomcat-8.0.32`，然后点击 **tomcat**的**bin**下的**startup.bat**就应该可以启动**tomcat**了。
 
-#####添加Tomcat到Windows服务
+##### 添加Tomcat到Windows服务
 如果想把**tomcat**添加到**Windows**服务中，需要打开**cmd**运行**Tomcat**的**bin**目录下的`service.bat`脚本，安装命令如下，其中**tomcat8**是自己起的服务名称，当然也可以使用其它名称
 >D:\apache-tomcat-8.0.32>cd bin
 D:\apache-tomcat-8.0.32\bin>service.bat install tomcat8
@@ -41,7 +41,7 @@ Removing the service 'tomcat8' ...
 Using CATALINA_BASE:    "D:\apache-tomcat-8.0.32"
 The service 'tomcat8' has been removed
 
-#####配置Tomcat管理员
+##### 配置Tomcat管理员
 在**Tomcat**启动之后，可以在浏览器中输入http://localhost:8080/ 查看是否配置成功，如果出现**Tomcat**主界面，点击**Manager App**，提示权限不足，此时需要在`D:/apache-tomcat-8.0.32/conf/tomcat-users.xml`文件中添加如下内容
 ```xml
 <role rolename="manager-gui"/>
@@ -49,7 +49,7 @@ The service 'tomcat8' has been removed
 ```
 重启**Tomcat**，打开浏览器点击**Manager App**会弹出登录框，使用配置的用户名和密码登录即可。
 
-####Tomcat启动Solr
+#### Tomcat启动Solr
 1. 解压从官网下载的**solr-5.5.0.zip**压缩包，解压到**D:/solr-5.5.0**
 2. 复制**solr-5.5.0/server/solr-webapp/webapp**到**tomcat**下的**webapps**目录下，改名为**solr**
 3. 将**solr-5.5.0/server/lib/ext/**目录下的所有**jar**包复制到**tomcat/webapps/solr/WEB-INF/lib/**下
@@ -68,7 +68,7 @@ The service 'tomcat8' has been removed
 8. 在**tomcat/solrhome/**目录下创建**core**(自定义)，在其目录下创建**data**文件夹，并将**D:/apache-tomcat-8.0.32/bin/solr/configsets/basic_configs/**目录下的**conf**文件夹复制到**core**下。然后在**solr**控制台点击**Add Core**即可完成创建。
 ![](http://7xig3q.com1.z0.glb.clouddn.com/Solr_add_core_config.png)
 
-####Jetty启动Solr
+#### Jetty启动Solr
 **Solr**自带**Jetty**服务器，并且提供了可运行的**jar**包，该**jar**包存在于`D:/solr-5.5.0/server`目录中，但是不能直接双击该**jar**包运行，需要在命令行中进行启动。打开**cmd**命令行，按照网上提示，输入启动命令
 >d:\solr-5.5.0\server>java -jar start.jar
 WARNING: Nothing to start, exiting ...

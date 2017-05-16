@@ -5,14 +5,14 @@ categories: Programming Notes
 
 ---
 
-###引言
+### 引言
 **Lucene6.0**于**2016年4月8日**发布，要求最低Java版本是**Java 8**。
 
 相信大多数公司的数据库都需要采用分库分表等一些策略，而对于某些特定的业务需求，分别从不同的库不同的表中去检索特定的数据显得比较繁琐，而Lucene正好可以解决某些特殊需求，对于不同库不同表中的数据先建立全量索引，然后将需要检索的数据写入某个单独的表中，供其它业务需求方查询，以后的每天只需要做增量索引并写入数据表即可。
 
 鉴于最近一直在做Lucene相关方面的工作，而本人一向又比较喜欢使用最新发布的版本，而网络上这类资源极少，故将一些要点及示例整理出来，本文主要从实战角度来介绍Lucene 6.0的使用，不涉及过多原理方面的东西，但是对于一些核心点也会有所提及。
 
-###Lucene为什么这么流行
+### Lucene为什么这么流行
 Lucene是一个高效的，基于Java的全文检索库，生活中数据主要分为两种：结构化数据和非结构化数据。一般使用的XML、JSON、数据库等都是结构化数据，非结构化数据也叫全文数据，而这种全文数据正是Lucene的用武之地。全文检索主要有两个过程，索引创建（Indexing）和搜索索引（Search）。
 
 Lucene是很多搜索引擎的一个基础实现，被很多大公司所采用，例如Netflix，MySpace，LinkedIn，Twitter，IBM等。可以通过如下几点特性对Lucene有个大概的认识
@@ -41,7 +41,7 @@ Lucene是很多搜索引擎的一个基础实现，被很多大公司所采用�
 - **Ferret**: Lucene implementation in Ruby (http://ferret.davebalmain.com/trac/)
 - **Montezuma**: Lucene implementation in Common Lisp (http://www.cliki.net/Montezuma)
 
-###存储索引
+### 存储索引
 索引由Lucene按照特定的格式创建，而创建出来的索引必然要存储在文件系统之上，Lucene在文件系统中存储索引的最基本的抽象实现类是BaseDirectory，该类继承自Directory，BaseDirectory有两个主要的实现类：
 - FSDirectory：在文件系统上存储索引文件，有六个子类，如下是三个常用的子类
   - SimpleFSDirectory：使用Files.newByteChannel实现，对并发支持不好，它会在多线程读取同一份文件时进行同步操作
@@ -61,7 +61,7 @@ Lucene是很多搜索引擎的一个基础实现，被很多大公司所采用�
 
 简单说MMapDirectory就是把lucene的索引当作swap file来处理。mmap()系统调用让OS把整个索引文件映射到虚拟地址空间，这样Lucene就会觉得索引在内存中。然后Lucene就可以像访问一个超大的byte[]数据（在Java中这个数据被封装在ByteBuffer接口里）一样访问磁盘上的索引文件。Lucene在访问虚拟空间中的索引时，不需要任何的系统调用，CPU里的MMU（memory management unit）和TLB（translation lookaside buffers, 它cache了频繁被访问的page）会处理所有的映射工作。如果数据还在磁盘上，那么MMU会发起一个中断，OS将会把数据加载进文件系统Cache。如果数据已经在cache里了，MMU/TLB会直接把数据映射到内存，这只需要访问内存，速度很快。程序员不需要关心paging in/out，所有的这些都交给OS。而且，这种情况下没有并发的干扰，唯一的问题就是Java的ByteBuffer封装后的byte[]稍微慢一些，但是Java里要想用mmap就只能用这个接口。还有一个很大的优点就是所有的内存issue都由OS来负责，这样没有GC的问题。
 
-###索引核心类
+### 索引核心类
 执行简单的索引过程需要用到以下几个类：
 - **IndexWriter**：负责创建索引或打开已有索引
 - **IndexWriterConfig**：持有创建IndexWriter的所有配置项
@@ -72,7 +72,7 @@ Lucene是很多搜索引擎的一个基础实现，被很多大公司所采用�
 - **FieldType**：描述了Field的各种属性，在不使用某种具体的Field类型（例如StringField，TextField）时需要用到此类
 
 
-###创建索引
+### 创建索引
 索引的创建方式有三种，通过IndexWriterConfig.OpenMode进行指定，分别是
 - CREATE：创建一个新的索引或者覆写已经存在的索引
 - APPEND：打开一个已经存在的索引
@@ -169,7 +169,7 @@ IFD 0 [2016-05-19T07:10:21.272Z; main]: 0 msec to checkpoint
 IFD 0 [2016-05-19T07:10:21.272Z; main]: delete []
 IFD 0 [2016-05-19T07:10:21.272Z; main]: delete []
 
-###删除文档
+### 删除文档
 在IndexWriter中提供了从索引中删除Document的接口，分别是
 - deleteDocuments(Query... queries)：删除所有匹配到查询语句的Document
 - deleteDocuments(Term... terms)：删除所有包含有terms的Document

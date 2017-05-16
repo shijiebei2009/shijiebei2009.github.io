@@ -304,8 +304,8 @@ baidu_search:     ## http://zn.baidu.com/
 ```
 不蒜子的官方服务网站是[不蒜子](http://service.ibruce.info/)，目前最大的弊端就是不开放注册，所以对于运行了一段时间的网站，不蒜子的数据都是从1开始，没办法设置，只有等后期开放注册之后，登入网站才能对统计计数进行设置。
 
-###Jacman主题相关
-####为jacman主题添加最新评论
+### Jacman主题相关
+#### 为jacman主题添加最新评论
 本方法针对使用hexo搭建Github Pages静态博客，并且使用jacman主题的童鞋们。
 
 首先在`\themes\jacman\layout\_widget`目录下新建`latest_comment.ejs`，放入“多说”最新评论代码，其中“多说”的最新评论代码[点我获取](http://dev.duoshuo.com/docs/4ff28d95552860f21f000010)，注意修改`var duoshuoQuery = {short_name:"您的多说二级域名"};`将其中的“short_name”设置为在多说配置的二级域名即可。在`latest_comment.ejs`的首行注意添加
@@ -314,14 +314,14 @@ baidu_search:     ## http://zn.baidu.com/
 ```
 然后进入`\themes\jacman\_config.yml`：在`widgets`下添加`latest_comment`即可，注意Windows下编码一定要采用UTF-8无BOM编码。
 
-####为jacman主题添加热评文章
+#### 为jacman主题添加热评文章
 与上一条类似，首先在`\themes\jacman\layout\_widget`目录下新建`hot_comments.ejs`，然后去你在多说网站的后台管理界面`http://codepub.duoshuo.com/admin/tools/`中点击工具->热评文章获取代码，将代码复制到`hot_comments.ejs`文件中。同样在行首添加
 ```html
 <p class="asidetitle">热评文章</p>
 ```
 然后在`_config.yml`中启用该widgets即可。
 
-####Jacman主题问题解答
+#### Jacman主题问题解答
 Q：如何添加数学公式`mathjax`？
 A：主题支持写`LaTex`数学公式。只需要在文章文件开头的`front-matter`中，加上一行`mathjax: true`，即可在文中写`LaTex`公式。
 

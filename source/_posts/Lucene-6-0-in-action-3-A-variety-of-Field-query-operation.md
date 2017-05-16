@@ -5,7 +5,7 @@ categories: Programming Notes
 
 ---
 
-###IntPoint查询
+### IntPoint查询
 XXXPoint类中提供了一些常用的静态工厂查询方法，可以直接用来构建查询语句。
 ```java
 @Test
@@ -68,7 +68,7 @@ public void testIntPointQuery() throws IOException {
 集合查询：Document<stored<age:22>>
 ```
 
-###LongPoint查询
+### LongPoint查询
 ```java
 @Test
 public void testLongPointQuery() throws IOException {
@@ -130,7 +130,7 @@ public void testLongPointQuery() throws IOException {
 集合查询：Document<stored<age:22>>
 ```
 
-###FloatPoint查询
+### FloatPoint查询
 ```java
 @Test
 public void testFloatPointQuery() throws IOException {
@@ -192,7 +192,7 @@ public void testFloatPointQuery() throws IOException {
 集合查询：Document<stored<age:22.2>>
 ```
 
-###DoublePoint查询
+### DoublePoint查询
 ```java
 @Test
 public void testDoublePointQuery() throws IOException {

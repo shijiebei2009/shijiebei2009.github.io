@@ -1,10 +1,4 @@
-title: 'IntelliJ IDEA使用maven-javadoc-plugin生成Java Doc控制台乱码'
-date: 2016-05-07 08:19:40
-tags: [IntelliJ]
-categories: Programming Notes
-
----
-####问题重现
+#### 问题重现
 在使用**IDEA**生成**Java Doc**的过程中，发现**IDEA**控制台乱码，作为有轻微代码强迫症的我来说，这是不可忍受的，需要鼓捣一番。先上**pom.xml**中的**javadoc**插件配置
 
 ```xml
@@ -39,7 +33,7 @@ categories: Programming Notes
 ...
 ...
 
-####解决办法
+#### 解决办法
 在**IDEA**中，打开**File | Settings | Build, Execution, Deployment | Build Tools | Maven | Runner**在**VM Options**中添加`-Dfile.encoding=GBK`，切记一定是**GBK**。即使用**UTF-8**的话，依然是乱码，这是因为**Maven**的默认平台编码是**GBK**，如果你在命令行中输入`mvn -version`的话，会得到如下信息，根据**Default locale**可以看出
 >Maven home:...
 Java version:...

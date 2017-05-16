@@ -1,8 +1,8 @@
-title: "Apache Commons入门"
-date: 2015-04-19 20:29:21
-tags: [Java]
-categories: Programming Notes
-toc: false
+title: "Apache Commons入门"
+date: 2015-04-19 20:29:21
+tags: [Java]
+categories: Programming Notes
+toc: false
 
 ---
 Apache Commons是Apache软件基金会的项目，曾隶属于Jakarta项目。Commons的目的是提供可重用的、开源的Java代码。Commons由三部分组成：Proper（是一些已发布的项目）、Sandbox（是一些正在开发的项目）和Dormant（是一些刚启动或者已经停止维护的项目）。
@@ -19,7 +19,7 @@ Apache Commons提供了全方位可重用的Java组件，在我们日常开发�
   
   
 以最常用的Commons包封装的方法为例，介绍一些简单的使用示例
-+ 将输入流转换成文本
++ 将输入流转换成文本
 
 ```java
 package edu.shu.commons.io.test;
@@ -40,7 +40,7 @@ System.out.println(string);
 }
 ```
 
-+ 读文件与写文件
++ 读文件与写文件
 
 ```java
 package edu.shu.commons.io.test;
@@ -63,7 +63,7 @@ FileUtils.writeStringToFile(new File("destination.txt"), content, "UTF-8");
 }
 ```
 
-+ 输出结果为HTML
++ 输出结果为HTML
 
 ```java
 package edu.shu.commons.io.test;
@@ -82,7 +82,7 @@ System.out.println(escapeHtml4);
 }
 ```
 
-+ 将文本按行读取并以行为元素存入List列表
++ 将文本按行读取并以行为元素存入List列表
 
 ```java
 package edu.shu.commons.io.test;
@@ -101,7 +101,7 @@ System.out.println(contents);
 }
 ```
 
-+ 从ClassLoader加载器加载资源，并且读出文本内容、
++ 从ClassLoader加载器加载资源，并且读出文本内容、
 
 ```java
 package edu.shu.commons.io.test;
@@ -120,7 +120,7 @@ System.out.println(content);
 }
 ```
 
-+ commons mail包主要是对java mail的封装，可以方便快速的发送邮件
++ commons mail包主要是对java mail的封装，可以方便快速的发送邮件
 
 ```java
 import org.apache.commons.mail.DefaultAuthenticator;

@@ -8,7 +8,7 @@ categories: Database
 **对代码不满足，是任何真正有天才的程序员的根本特征。**
 </blockquote>
 
-####Value '0000-00-00' can not be represented as java.sql.Timestamp
+#### Value '0000-00-00' can not be represented as java.sql.Timestamp
 在查询**MySql**数据库某表的**timestamp**列的时候，发现此异常，问题来源表述如下
 1. 先创建一个测试表
 ```sql
@@ -54,16 +54,16 @@ select * from mytest;
 
 这样在程序中取出来的数据就是**null**了。
 
-####resultSet.getRow()总是返回0
+#### resultSet.getRow()总是返回0
 在使用**resultSet.getRow()**的时候，发现总是返回0，注意该方法返回的是数据库当前的行数，所以当你没调用**resultSet.next()**的时候，该方法总是返回0。
 
-####resultSet.getFetchSize()总是返回0
+#### resultSet.getFetchSize()总是返回0
 另外使用**resultSet.getFetchSize()**的时候也是每次都返回0，这是怎么回事呢？**getFetchSize()**方法不是获得记录数，而是获得每次抓取的记录数，默认是0，也就是说不限制。可以用**setFetchSize()**来设置，而**getFetchSize()**是用来读出那个设置值。**setFetchSize()**最主要是为了减少网络交互次数设计的，访问**ResultSet**时，如果它每次只从服务器上取一行数据，则会产生大量的开销，**setFetchSize()**的意思是当调用**resultSet.next()**时，**resultSet**会一次性从服务器上取多行数据回来，这样在下次**resultSet.next()**时，它可以直接从内存中获得数据，而不需要网络交互，提高了效率。
 
 **Note**：有时候觉得英文确实表述更准确，请看原汁原味的解释
 > The fetch size is the number of rows that should be retrieved from the database in each roundtrip. It has nothing to do with the number of rows returned.
 
-####获取查询的数据集的行数
+#### 获取查询的数据集的行数
 如果你是想获得符合条件的记录数目，最少有三种方法
 1. 自己维护计数器
 ```java

@@ -5,7 +5,7 @@ categories: Programming Notes
 
 ---
 
-###Lucene的主要搜索API
+### Lucene的主要搜索API
 一个简单的搜索应用主要包括索引和搜索两部分，在Lucene中，IndexSearcher类是用于对索引中文档进行搜索的核心类，它有几个重载的搜索方法，可以使用最常用的方法对特定的项进行搜索，一个项由一个字符串类型的域值和对应的域名构成。现将搜索相关API汇总如下
 
 | 类  | 目的 |
@@ -16,7 +16,7 @@ categories: Programming Notes
 | TopDocs | 保持由IndexSearcher.search()方法返回的具有较高评分的顶部文档  |
 | ScoreDoc|  提供对TopDocs中每条搜索结果的访问接口 |
 
-###IndexSearcher简介
+### IndexSearcher简介
 首先看IndexSearcher的doc注释
 >Implements search over a single IndexReader.
 Applications usually need only call the inherited search(Query, int) or search(Query, Filter, int) methods. For performance reasons, if your index is unchanging, you should share a single IndexSearcher instance across multiple searches instead of creating a new one per-search. If your index has changed and you wish to see the changes reflected in searching, you should use DirectoryReader.openIfChanged(DirectoryReader) to obtain a new reader and then create a new IndexSearcher from that. Also, for low-latency turnaround it's best to use a near-real-time reader (DirectoryReader.open(IndexWriter)). Once you have a new IndexReader, it's relatively cheap to create a new IndexSearcher from it. 
@@ -31,7 +31,7 @@ NOTE: IndexSearcher instances are completely thread safe, meaning multiple threa
 - IndexSearcher实例是完全线程安全的，这意味着多个线程可以并发调用任何方法。如果需要外部同步，无需对IndexSearcher实例进行同步
 
 
-###Lucene的多样化查询
+### Lucene的多样化查询
 - 通过项进行搜索-TermQuery类
 - 在指定的项范围内搜索-TermRangeQuery类
 - 通过字符串搜索-PrefixQuery类
@@ -274,7 +274,7 @@ public class IndexSearchDemo {
 
 有关QueryParser的详细语法请参考[这里](http://lucene.apache.org/core/6_0_0/queryparser/index.html?org/apache/lucene/queryparser/classic/package-summary.html)。
 
-###Lucene的高级搜索技术
+### Lucene的高级搜索技术
 Lucene包含了一个建立在SpanQuery类基础上的整套查询体系，大致反映了Lucene的Query类体系。SpanQuery是指域中的起始语汇单元和终止语汇单元的位置。SpanQuery有一些常用的子类，如下所示
 
 | SpanQuery类型  | 描述  |
@@ -554,7 +554,7 @@ public class SpanQueryDemo {
 }
 ```
 
-###禁用模糊查询和通配符查询
+### 禁用模糊查询和通配符查询
 有时候，可能不希望用户使用模糊查询或者通配符查询，这时候可以通过实现自己的QueryParser达到禁用的目的。例如
 ```java
 import org.apache.lucene.analysis.Analyzer;
@@ -595,7 +595,7 @@ public class CustomQueryParser extends QueryParser {
     }
 }
 ```
-###多索引的搜索合并方法
+### 多索引的搜索合并方法
 如果存在多索引文件，需要如何搜索并合并搜索结果呢？此时需要使用MultiReader，通过该类的构造函数MultiReader(IndexReader... subReaders)可以接收多个IndexReader实例，而一个IndexReader实例对应一个索引文件目录，之后用该MultiReader实例初始化IndexSearcher。
 
 注意，IndexReader实例是完全线程安全的，多线程可以调用其任何方法，而无需对IndexReader实例进行同步。如果你的应用需要外部同步操作，对你自己的对象进行同步，而不是Lucene的。
