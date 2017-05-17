@@ -1,8 +1,8 @@
-title: 读《动物农场》
-tags: [Thinking]
-categories: Life-Talk
-date: 2016-11-20 17:00:35
-toc: false
+title: 读《动物农场》
+tags: [Thinking]
+categories: Life-Talk
+date: 2016-11-20 17:00:35
+toc: false
 
 ---
 

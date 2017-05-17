@@ -1,8 +1,8 @@
-title: 2016年终总结
-tags: [Thinking]
-categories: Life-Talk
-date: 2016-12-31 22:27:45
-toc: false
+title: 2016年终总结
+tags: [Thinking]
+categories: Life-Talk
+date: 2016-12-31 22:27:45
+toc: false
 
 ---
 

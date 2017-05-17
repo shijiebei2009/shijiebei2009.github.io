@@ -1,7 +1,7 @@
-title: "使用坚果云同步IntelliJ IDEA的配置文件"
-date: 2016-08-09 21:50:39
-tags: [IntelliJ]
-categories: Programming Notes
+title: "使用坚果云同步IntelliJ IDEA的配置文件"
+date: 2016-08-09 21:50:39
+tags: [IntelliJ]
+categories: Programming Notes
 
 ---
 

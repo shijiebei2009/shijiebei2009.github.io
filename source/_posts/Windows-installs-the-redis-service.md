@@ -1,8 +1,8 @@
-title: Windows安装Redis服务
-date: 2016-11-19 08:52:32
-toc: false
-tags: [Redis]
-categories: Programming Notes
+title: Windows安装Redis服务
+date: 2016-11-19 08:52:32
+toc: false
+tags: [Redis]
+categories: Programming Notes
 
 ---
 

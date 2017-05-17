@@ -1,8 +1,8 @@
-title: "又见IT精英过劳猝死"
-date: 2015-04-09 16:03:13
-tags: [IT, Elite]
-categories: Life-Talk
-toc: false
+title: "又见IT精英过劳猝死"
+date: 2015-04-09 16:03:13
+tags: [IT, Elite]
+categories: Life-Talk
+toc: false
 
 ---
 

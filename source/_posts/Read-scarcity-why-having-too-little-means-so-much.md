@@ -1,7 +1,7 @@
-title: 读《稀缺:我们是如何陷入贫穷与忙碌的》
-date: 2016-11-19 08:54:19
-tags: [Thinking]
-categories: Life-Talk
+title: 读《稀缺:我们是如何陷入贫穷与忙碌的》
+date: 2016-11-19 08:54:19
+tags: [Thinking]
+categories: Life-Talk
 
 ---
 

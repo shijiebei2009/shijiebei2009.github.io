@@ -1,7 +1,7 @@
-title: 提高中文输入效率—自然双拼输入法
-date: 2017-04-06 21:19:41
-tags: [Input Method]
-categories: Skill
+title: 提高中文输入效率—自然双拼输入法
+date: 2017-04-06 21:19:41
+tags: [Input Method]
+categories: Skill
 
 ---
 

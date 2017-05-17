@@ -1,8 +1,8 @@
-title: '读《大数据：正在到来的数据革命》'
-date: 2016-08-18 21:19:01
-tags: [Thinking]
-categories: Life-Talk
-toc: false
+title: '读《大数据：正在到来的数据革命》'
+date: 2016-08-18 21:19:01
+tags: [Thinking]
+categories: Life-Talk
+toc: false
 
 ---
 

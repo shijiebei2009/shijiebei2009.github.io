@@ -1,7 +1,7 @@
-title: "Java之volatile boolean，AutomaticBoolean分析"
-date: 2015-04-10 17:42:13
-tags: [Java]
-categories: Programming Notes
+title: "Java之volatile boolean，AutomaticBoolean分析"
+date: 2015-04-10 17:42:13
+tags: [Java]
+categories: Programming Notes
 
 ---
 ### volatile概述

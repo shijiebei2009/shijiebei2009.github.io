@@ -1,7 +1,7 @@
-title: 读《鞋狗》
-date: 2016-12-19 22:25:58
-tags: [Thinking]
-categories: Life-Talk
+title: 读《鞋狗》
+date: 2016-12-19 22:25:58
+tags: [Thinking]
+categories: Life-Talk
 
 ---
 

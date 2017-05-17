@@ -1,7 +1,7 @@
-title: 读《腾讯传》
-date: 2016-12-21 21:18:41
-tags: [Thinking]
-categories: Life-Talk
+title: 读《腾讯传》
+date: 2016-12-21 21:18:41
+tags: [Thinking]
+categories: Life-Talk
 
 ---
 

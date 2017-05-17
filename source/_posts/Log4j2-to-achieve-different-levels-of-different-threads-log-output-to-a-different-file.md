@@ -1,7 +1,7 @@
-title: Log4j2实现不同线程不同级别日志输出到不同的文件中
-date: 2016-12-18 20:00:16
-tags: [Log4j2]
-categories: Programming Notes
+title: Log4j2实现不同线程不同级别日志输出到不同的文件中
+date: 2016-12-18 20:00:16
+tags: [Log4j2]
+categories: Programming Notes
 
 ---
 

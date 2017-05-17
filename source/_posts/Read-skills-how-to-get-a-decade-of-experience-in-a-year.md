@@ -1,7 +1,7 @@
-title: 读《技巧：如何用一年时间获得十年的经验》
-date: 2016-12-30 22:11:02
-tags: [Thinking]
-categories: Life-Talk
+title: 读《技巧：如何用一年时间获得十年的经验》
+date: 2016-12-30 22:11:02
+tags: [Thinking]
+categories: Life-Talk
 
 ---
 

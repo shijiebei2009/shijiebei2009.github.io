@@ -1,7 +1,7 @@
-title: 多说已死，切换Hexo博客评论插件到Disqus
-date: 2017-03-23 22:26:35
-tags: [Hexo]
-categories: Git/GitHub
+title: 多说已死，切换Hexo博客评论插件到Disqus
+date: 2017-03-23 22:26:35
+tags: [Hexo]
+categories: Git/GitHub
 
 ---
 
