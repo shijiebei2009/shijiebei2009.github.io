@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2016/03/20/Hexo-blog-theme-switching-from-Jacman-to-NexT-Mist/</loc>
+    <lastmod>2017-05-17T14:23:13.810Z</lastmod>
+    <data>
+        <display>
+        <title>Hexo博客主题从Jacman切换到NexT.Mist</title>
+        <pubTime>2016-03-20T15:53:34.000Z</pubTime>
+        
+        <tag>Hexo</tag>
+         
+         
+           
+             
+              <breadCrumb title="Git/GitHub" url="http://www.codepub.cn/categories/Git-GitHub/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
     <lastmod>2017-05-17T00:33:02.235Z</lastmod>
     <data>
@@ -1780,26 +1800,6 @@
         <pubTime>2015-06-02T07:44:10.000Z</pubTime>
         
         <tag>Git</tag>
-         
-         
-           
-             
-              <breadCrumb title="Git/GitHub" url="http://www.codepub.cn/categories/Git-GitHub/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2016/03/20/Hexo-blog-theme-switching-from-Jacman-to-NexT-Mist/</loc>
-    <lastmod>2017-05-17T00:32:19.439Z</lastmod>
-    <data>
-        <display>
-        <title>Hexo博客主题从Jacman切换到NexT.Mist</title>
-        <pubTime>2016-03-20T15:53:34.000Z</pubTime>
-        
-        <tag>Hexo</tag>
          
          
            
