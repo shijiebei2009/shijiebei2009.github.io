@@ -1,7 +1,7 @@
-title: Lucene 6.0 索引文件格式
-date: 2016-12-05 22:01:55
-tags: [Lucene]
-categories: Programming Notes
+title: Lucene 6.0 索引文件格式
+date: 2016-12-05 22:01:55
+tags: [Lucene]
+categories: Programming Notes
 
 ---
 

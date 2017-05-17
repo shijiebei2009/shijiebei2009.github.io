@@ -1,8 +1,8 @@
-title: "Log4j打印异常堆栈信息到日志"
-date: 2016-04-15 23:38:41
-tags: [Log4j]
-categories: Programming Notes
-toc: false
+title: "Log4j打印异常堆栈信息到日志"
+date: 2016-04-15 23:38:41
+tags: [Log4j]
+categories: Programming Notes
+toc: false
 
 ---
 <blockquote  class="blockquote-center">

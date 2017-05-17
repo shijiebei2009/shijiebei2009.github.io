@@ -1,7 +1,7 @@
-title: Gradle使用扩展属性管理依赖版本号
-date: 2017-05-09 21:15:19
-tags: [Gradle]
-categories: Programming Notes
+title: Gradle使用扩展属性管理依赖版本号
+date: 2017-05-09 21:15:19
+tags: [Gradle]
+categories: Programming Notes
 
 ---
 

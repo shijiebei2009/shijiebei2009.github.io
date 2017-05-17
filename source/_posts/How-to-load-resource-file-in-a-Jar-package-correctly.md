@@ -1,8 +1,8 @@
-title: "Jar包中如何正确地加载资源文件"
-date: 2015-04-22 21:07:22
-tags: [Java]
-categories: Programming Notes
-toc: false
+title: "Jar包中如何正确地加载资源文件"
+date: 2015-04-22 21:07:22
+tags: [Java]
+categories: Programming Notes
+toc: false
 
 ---
 

@@ -1,8 +1,8 @@
-title: 读《拆掉思维里的墙》
-date: 2017-01-02 21:06:28
-tags: [Thinking]
-categories: Life-Talk
-toc: false
+title: 读《拆掉思维里的墙》
+date: 2017-01-02 21:06:28
+tags: [Thinking]
+categories: Life-Talk
+toc: false
 
 ---
 

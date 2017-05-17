@@ -1,7 +1,7 @@
-title: 读《创新者的窘境》
-date: 2017-01-04 22:38:05
-tags: [Thinking]
-categories: Life-Talk
+title: 读《创新者的窘境》
+date: 2017-01-04 22:38:05
+tags: [Thinking]
+categories: Life-Talk
 
 ---
 

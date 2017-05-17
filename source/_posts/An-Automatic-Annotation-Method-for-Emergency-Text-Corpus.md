@@ -1,7 +1,7 @@
-title: 一种面向突发事件的文本语料自动标注方法
-date: 2015-09-26 21:34:28
-tags: [Java]
-categories: Algorithms
+title: 一种面向突发事件的文本语料自动标注方法
+date: 2015-09-26 21:34:28
+tags: [Java]
+categories: Algorithms
 
 ---
 

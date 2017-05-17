@@ -1,8 +1,8 @@
-title: '读《异类》'
-date: 2016-10-10 20:15:07
-tags: [Thinking]
-categories: Life-Talk
-toc: false
+title: '读《异类》'
+date: 2016-10-10 20:15:07
+tags: [Thinking]
+categories: Life-Talk
+toc: false
 
 ---
 

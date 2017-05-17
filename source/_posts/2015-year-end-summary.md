@@ -1,8 +1,8 @@
-title: "2015年终总结"
-date: 2015-12-31 20:36:42
-categories: Life-Talk
-toc: false
-tags: [Thinking]
+title: "2015年终总结"
+date: 2015-12-31 20:36:42
+categories: Life-Talk
+toc: false
+tags: [Thinking]
 
 ---
 公元**2015**年就这么过去了，我们都是不知不觉也极不情愿地又向坟墓迈进了一步。也许多年以后，当2015年已成为历史长河中的一粒沙，偶有后人回望历史，我想他们也会觉得这一年注定是多事之秋吧。

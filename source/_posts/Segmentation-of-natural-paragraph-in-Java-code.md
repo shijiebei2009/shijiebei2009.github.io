@@ -1,8 +1,8 @@
-title: "Java代码实现按照文本的自然段落进行切分"
-date: 2015-04-25 14:58:43
-tags: [Java]
-categories: Programming Notes
-toc: false
+title: "Java代码实现按照文本的自然段落进行切分"
+date: 2015-04-25 14:58:43
+tags: [Java]
+categories: Programming Notes
+toc: false
 
 ---
 本文给出了五种自然段落的组合方式，具体形式参见底部给出的链接，无积分下载，不管各个段落形式如何，只要段落之间存在换行分隔，该程序即可正确运行。在此提供两种切分段落的方法，分别见下面的法一和法二。

@@ -1,7 +1,7 @@
-title: 读《精益创业》
-date: 2016-11-20 15:05:34
-tags: [Thinking]
-categories: Life-Talk
+title: 读《精益创业》
+date: 2016-11-20 15:05:34
+tags: [Thinking]
+categories: Life-Talk
 
 ---
 

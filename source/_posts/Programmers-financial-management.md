@@ -1,7 +1,7 @@
-title: 程序员理财之道
-date: 2016-09-14 21:02:08
-tags: [Thinking]
-categories: Life-Talk
+title: 程序员理财之道
+date: 2016-09-14 21:02:08
+tags: [Thinking]
+categories: Life-Talk
 
 ---
 

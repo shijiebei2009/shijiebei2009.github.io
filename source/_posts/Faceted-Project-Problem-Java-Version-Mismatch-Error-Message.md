@@ -1,8 +1,8 @@
-title: Faceted Project Problem (Java Version Mismatch) Error Message
-date: 2015-06-02 16:38:58
-tags: [Java, Eclipse]
-categories: Programming Notes
-toc: false
+title: Faceted Project Problem (Java Version Mismatch) Error Message
+date: 2015-06-02 16:38:58
+tags: [Java, Eclipse]
+categories: Programming Notes
+toc: false
 
 ---
 

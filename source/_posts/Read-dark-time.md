@@ -1,8 +1,8 @@
-title: 读《暗时间》
-date: 2017-03-04 18:18:12
-tags: [Thinking]
-categories: Life-Talk
-toc: false
+title: 读《暗时间》
+date: 2017-03-04 18:18:12
+tags: [Thinking]
+categories: Life-Talk
+toc: false
 
 ---
 
