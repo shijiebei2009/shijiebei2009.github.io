@@ -1,0 +1,970 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Lucene," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="FieldSelector提高Lucene检索性能的方法有很多种，这里简单介绍一种常用且便捷可行的方法快速提高Lucene检索性能。在早期的Lucene版本中，使用FieldSelector来决定哪些Fields应该被加载，并以何种方式加载，但是在LUCENE-3309中该接口被废弃，并且提出了新的替代接口StoredFieldVisitor。 FieldCache另一种提高检索性能的方案是使用F">
+<meta name="keywords" content="Lucene">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用DocumentStoredFieldVisitor提高Lucene检索速度">
+<meta property="og:url" content="http://www.codepub.cn/2017/05/31/Improve-the-retrieval-speed-of-lucene-by-DocumentStoredFieldVisitor/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="FieldSelector提高Lucene检索性能的方法有很多种，这里简单介绍一种常用且便捷可行的方法快速提高Lucene检索性能。在早期的Lucene版本中，使用FieldSelector来决定哪些Fields应该被加载，并以何种方式加载，但是在LUCENE-3309中该接口被废弃，并且提出了新的替代接口StoredFieldVisitor。 FieldCache另一种提高检索性能的方案是使用F">
+<meta property="og:updated_time" content="2017-05-31T13:44:49.361Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用DocumentStoredFieldVisitor提高Lucene检索速度">
+<meta name="twitter:description" content="FieldSelector提高Lucene检索性能的方法有很多种，这里简单介绍一种常用且便捷可行的方法快速提高Lucene检索性能。在早期的Lucene版本中，使用FieldSelector来决定哪些Fields应该被加载，并以何种方式加载，但是在LUCENE-3309中该接口被废弃，并且提出了新的替代接口StoredFieldVisitor。 FieldCache另一种提高检索性能的方案是使用F">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 使用DocumentStoredFieldVisitor提高Lucene检索速度 | IT草根 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1254721753&web_id=1254721753" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">IT草根</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-book fa-fw"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-link fa-fw"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'CEs2u-bRR6iHSt4ynbFA','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用DocumentStoredFieldVisitor提高Lucene检索速度
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-31T21:42:38+08:00" content="2017-05-31">
+              2017-05-31
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Programming-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Notes</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+		
+		
+			<!-- 在下面的位置加上如下代码 -->
+			<span id="busuanzi_container_page_pv">&nbsp; | &nbsp; 热度&nbsp; <span id="busuanzi_value_page_pv"></span>°C</span>    
+			<!-- 在上面的位置加上如上代码 -->  
+		
+		  
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/31/Improve-the-retrieval-speed-of-lucene-by-DocumentStoredFieldVisitor/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/31/Improve-the-retrieval-speed-of-lucene-by-DocumentStoredFieldVisitor/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+
+      
+        <h4 id="FieldSelector"><a href="#FieldSelector" class="headerlink" title="FieldSelector"></a>FieldSelector</h4><p>提高Lucene检索性能的方法有很多种，这里简单介绍一种常用且便捷可行的方法快速提高Lucene检索性能。在早期的Lucene版本中，使用<strong>FieldSelector</strong>来决定哪些Fields应该被加载，并以何种方式加载，但是在<a href="https://issues.apache.org/jira/browse/LUCENE-3309" target="_blank" rel="external">LUCENE-3309</a>中该接口被废弃，并且提出了新的替代接口<strong>StoredFieldVisitor</strong>。</p>
+<h4 id="FieldCache"><a href="#FieldCache" class="headerlink" title="FieldCache"></a>FieldCache</h4><p>另一种提高检索性能的方案是使用FieldCache来缓存Lucene的term values信息，不过该接口目前已被移至<code>org.apache.lucene.uninverting</code>包下，并且访问权限变成包级私有，也就是说，用户再也无法直接使用FieldCache了，该接口以后仅限于Lucene内部使用。FieldCache的主要作用是缓存用来排序field的值，Lucene会将需要排序的字段都读到内存中进行排序，所占内存大小和文档数量相关。其替代方案是使用DocValues类。其实深入一步，当你的Document只有一个Token的时候，FieldCache还可以被用来快速获取每个Document的field值，因为Lucene只做了反向索引，这种Document-&gt;field正向索引是极其耗时的，而FieldCache正好能解决这个问题。</p>
+<p>由于这两个接口基本相当于被废弃，这里不再赘述，主要讲解目前实用的<strong>StoredFieldVisitor</strong>方案。</p>
+<h4 id="StoredFieldVisitor"><a href="#StoredFieldVisitor" class="headerlink" title="StoredFieldVisitor"></a>StoredFieldVisitor</h4><p>StoredFieldVisitor是一个抽象类，它有一个唯一对外暴露的实现类DocumentStoredFieldVisitor，查看该实现类的Doc文档说明，可知其作用是支持加载所有的stored fields，或者通过Set集合指定请求的fields。</p>
+<p>查看DocumentStoredFieldVisitor构造函数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">DocumentStoredFieldVisitor</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">this</span>.fieldsToAdd = <span class="keyword">null</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">DocumentStoredFieldVisitor</span><span class="params">(Set&lt;String&gt; fieldsToAdd)</span> </span>&#123;</div><div class="line">  <span class="keyword">this</span>.fieldsToAdd = fieldsToAdd;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/** Load only fields named in the provided fields. */</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">DocumentStoredFieldVisitor</span><span class="params">(String... fields)</span> </span>&#123;</div><div class="line">  fieldsToAdd = <span class="keyword">new</span> HashSet&lt;&gt;(fields.length);</div><div class="line">  <span class="keyword">for</span>(String field : fields) &#123;</div><div class="line">    fieldsToAdd.add(field);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>一个无参构造函数，一个接收Set参数的构造函数，还有一个接收可变参数的构造函数，而可变参数的构造函数中其实就是把可变参数加入Set集合，所以其原理和接收Set集合的构造函数是一样的。</p>
+<p>讲了这么多，那么DocumentStoredFieldVisitor的使用场景是什么呢？当用户需要访问各个文档中的某个field的值时，使用IndexSearcher.doc(int docID)可以获得Document，然后再从Document中获得某个域值，当一个Document中field非常多的时候，这种访问速度比较慢，而且只能获得Stored域的值。这时候使用DocumentStoredFieldVisitor可以极大地提高访问速度。下面写个简单的测试代码来看看其性能差距。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> com.google.common.base.Stopwatch;</div><div class="line"><span class="keyword">import</span> org.apache.commons.lang3.RandomStringUtils;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.cjk.CJKAnalyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.*;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.DirectoryReader;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.IndexSearcher;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.Query;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.ScoreDoc;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.TopDocs;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.HashSet;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Set;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.*;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * &lt;p&gt;</div><div class="line"> * Created by wangxu on 2017/05/27 17:37.</div><div class="line"> * &lt;/p&gt;</div><div class="line"> * &lt;p&gt;</div><div class="line"> * Description: 基于Lucene 6.5.0实现</div><div class="line"> * &lt;/p&gt;</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> Wang Xu</div><div class="line"> * <span class="doctag">@version</span> V1.0.0</div><div class="line"> * <span class="doctag">@since</span> V1.0.0 &lt;br/&gt;</div><div class="line"> * WebSite: http://codepub.cn &lt;br&gt;</div><div class="line"> * Licence: Apache v2 License</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestStoredFieldVisitor</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> IndexSearcher indexSearcher;</div><div class="line">    <span class="keyword">static</span> Query query;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">        IndexWriter indexWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> CJKAnalyzer()));</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000</span>; i++) &#123;</div><div class="line">            Document document = <span class="keyword">new</span> Document();</div><div class="line">            document.add(<span class="keyword">new</span> LongPoint(<span class="string">"ID"</span>, i));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"title"</span>, i + <span class="string">"title"</span>, Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> TextField(<span class="string">"content"</span>, i + <span class="string">"content"</span>, Field.Store.YES));</div><div class="line">            <span class="keyword">if</span> (i % <span class="number">2</span> == <span class="number">0</span>) &#123;</div><div class="line">                document.add(<span class="keyword">new</span> StringField(<span class="string">"sex"</span>, <span class="string">"male"</span>, Field.Store.YES));</div><div class="line">                document.add(<span class="keyword">new</span> TextField(<span class="string">"tags"</span>, <span class="string">"The "</span> + i + <span class="string">"th male!"</span>, Field.Store.YES));</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                document.add(<span class="keyword">new</span> StringField(<span class="string">"sex"</span>, <span class="string">"female"</span>, Field.Store.YES));</div><div class="line">                document.add(<span class="keyword">new</span> TextField(<span class="string">"tags"</span>, <span class="string">"The "</span> + i + <span class="string">"th female!"</span>, Field.Store.YES));</div><div class="line">            &#125;</div><div class="line">            document.add(<span class="keyword">new</span> TextField(<span class="string">"hobbies"</span>, <span class="string">"I like playing the "</span> + i + <span class="string">" toys!"</span>, Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField1"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField2"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField3"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField4"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField5"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField6"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField7"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField8"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            indexWriter.addDocument(document);</div><div class="line">        &#125;</div><div class="line">        indexWriter.commit();</div><div class="line">        indexWriter.close();</div><div class="line">        indexSearcher = <span class="keyword">new</span> IndexSearcher(DirectoryReader.open(ramDirectory));</div><div class="line">        query = LongPoint.newRangeQuery(<span class="string">"ID"</span>, <span class="number">0</span>, Math.addExact(<span class="number">1000000</span>, -<span class="number">1</span>));</div><div class="line">        <span class="keyword">int</span> count = indexSearcher.count(query);</div><div class="line">        <span class="keyword">long</span> total = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">            Future&lt;Long&gt; submit = Executors.newSingleThreadExecutor().submit(<span class="keyword">new</span> Worker1(count));<span class="comment">//average time cost by 10 times : 8024 ms</span></div><div class="line">            <span class="comment">//Future&lt;Long&gt; submit = Executors.newSingleThreadExecutor().submit(new Worker2(count));//average time cost by 10 times : 6507 ms</span></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                total += submit.get();</div><div class="line">            &#125; <span class="keyword">catch</span> (InterruptedException | ExecutionException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="string">"average time cost by 10 times : "</span> + total / <span class="number">10</span> + <span class="string">" ms"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Worker1</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Long</span>&gt; </span>&#123;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Worker1</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.count = count;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> Long <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            Stopwatch started = Stopwatch.createStarted();</div><div class="line">            List&lt;String&gt; titles = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">            <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">                TopDocs docs = indexSearcher.search(query, count);</div><div class="line">                ScoreDoc[] scoreDocs = docs.scoreDocs;</div><div class="line">                <span class="keyword">for</span> (ScoreDoc scoreDoc : scoreDocs) &#123;</div><div class="line">                    Document doc = indexSearcher.doc(scoreDoc.doc);</div><div class="line">                    titles.add(doc.get(<span class="string">"title"</span>));</div><div class="line">                &#125;</div><div class="line">                System.out.println(<span class="string">"No DocumentStoredFieldVisitor get title counts = "</span> + titles.size());</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">long</span> elapsed = started.elapsed(TimeUnit.MILLISECONDS);</div><div class="line">            System.out.println(<span class="string">"No DocumentStoredFieldVisitor: "</span> + elapsed + <span class="string">" ms"</span>);</div><div class="line">            <span class="keyword">return</span> elapsed;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Worker2</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Long</span>&gt; </span>&#123;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Worker2</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.count = count;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> Long <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            Stopwatch started = Stopwatch.createStarted();</div><div class="line">            Set&lt;String&gt; title = <span class="keyword">new</span> HashSet&lt;&gt;();</div><div class="line">            title.add(<span class="string">"title"</span>);</div><div class="line">            DocumentStoredFieldVisitor titleVisitor = <span class="keyword">new</span> DocumentStoredFieldVisitor(title);</div><div class="line">            <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">                TopDocs docs = indexSearcher.search(query, count);</div><div class="line">                ScoreDoc[] scoreDocs = docs.scoreDocs;</div><div class="line">                <span class="keyword">for</span> (ScoreDoc scoreDoc : scoreDocs) &#123;</div><div class="line">                    indexSearcher.doc(scoreDoc.doc, titleVisitor);</div><div class="line">                &#125;</div><div class="line">                Document document = titleVisitor.getDocument();</div><div class="line">                System.out.println(<span class="string">"With DocumentStoredFieldVisitor get title counts = "</span> + document.getValues(<span class="string">"title"</span>).length);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">long</span> elapsed = started.elapsed(TimeUnit.MILLISECONDS);</div><div class="line">            System.out.println(<span class="string">"With DocumentStoredFieldVisitor: "</span> + elapsed + <span class="string">" ms"</span>);</div><div class="line">            <span class="keyword">return</span> elapsed;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在索引1000000个文档之后，每个文档添加14个不同类型的Field，分别运行Worker1和Worker2，进行十次的基于ID的范围查询，取十次结果的平均值，得到使用DocumentStoredFieldVisitor平均单次耗时6507 ms，不使用DocumentStoredFieldVisitor平均单次耗时8024 ms。可见性能提升还是很可观的，当然该测试并不权威，但是可以给出一个简单直观的比较。</p>
+
+      
+    </div>
+
+	<div align="center">
+	  
+		<div class="copyright">
+		<p><span>
+		<b>本文地址：</b><a href="/2017/05/31/Improve-the-retrieval-speed-of-lucene-by-DocumentStoredFieldVisitor/" title="使用DocumentStoredFieldVisitor提高Lucene检索速度">http://www.codepub.cn/2017/05/31/Improve-the-retrieval-speed-of-lucene-by-DocumentStoredFieldVisitor/</a><br/><b>转载请注明出处，谢谢！</b>
+		</span></p>
+		</div>
+	  
+	</div>
+	<!-- 添加广告位 -->
+    <div>
+      
+        
+<div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton", disable="enable", onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}", style="cursor: pointer; border: 0; outline: 0; border-radius: 100%; padding: 0; margin: 0; letter-spacing: normal; text-transform: none; text-indent: 0px; text-shadow: none">
+    <span onmouseover="this.style.color='rgb(236,96,0)';this.style.background='rgb(204,204,204)'" onMouseOut="this.style.color='#fff';this.style.background='rgb(236,96,0)'" style="display: inline-block; width: 70px; height: 70px; border-radius: 100%; line-height: 81px; color: #fff; font: 400 35px/75px 'microsofty'; background: rgb(236,96,0)">赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu WeChat Pay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>微信打赏</p>
+      </div>
+    
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu Alipay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>支付宝打赏</p>
+      </div>
+    
+  </div>
+<div>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Lucene/" rel="tag">#Lucene</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/23/My-library-time-in-SHU-0/" rel="next" title="我的图书馆时光">
+                <i class="fa fa-chevron-left"></i> 我的图书馆时光
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share?uid=2067139" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<!-- UJian Button BEGIN -->
+	<div class="ujian-hook"></div>
+	<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js"></script>
+<!-- UJian Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+		  
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/author.jpg"
+               alt="Wang Xu" />
+          <p class="site-author-name" itemprop="name">Wang Xu</p>
+          <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">105</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/shijiebei2009" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/codepub" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i> Linkedin
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank">
+                  
+                    <i class="fa fa-stackoverflow"></i> Stackoverflow
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/codepub.cn" target="_blank">
+                  
+                    <i class="fa fa-zhihu"></i> ZhiHu
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/shijiebei2009/" target="_blank">
+                  
+                    <i class="fa fa-douban"></i> DouBan
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1779238484" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#FieldSelector"><span class="nav-number">1.</span> <span class="nav-text">FieldSelector</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FieldCache"><span class="nav-number">2.</span> <span class="nav-text">FieldCache</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#StoredFieldVisitor"><span class="nav-number">3.</span> <span class="nav-text">StoredFieldVisitor</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>&nbsp;&nbsp;&nbsp;
+  <a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_pv">
+  <i class="fa fa-user" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_pv"></span>
+  </span>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_uv">
+  <i class="fa fa-eye" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_uv"></span>
+  </span>
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'codepubcn';
+      var disqus_identifier = '2017/05/31/Improve-the-retrieval-speed-of-lucene-by-DocumentStoredFieldVisitor/';
+      var disqus_title = '使用DocumentStoredFieldVisitor提高Lucene检索速度';
+      var disqus_url = 'http://www.codepub.cn/2017/05/31/Improve-the-retrieval-speed-of-lucene-by-DocumentStoredFieldVisitor/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+<a href="https://github.com/shijiebei2009"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+</body>
+</html>

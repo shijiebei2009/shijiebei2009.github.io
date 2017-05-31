@@ -4,8 +4,28 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2017/05/23/my-library-time-in-SHU/</loc>
-    <lastmod>2017-05-23T00:36:46.165Z</lastmod>
+    <loc>http://www.codepub.cn/2017/05/31/Improve-the-retrieval-speed-of-lucene-by-DocumentStoredFieldVisitor/</loc>
+    <lastmod>2017-05-31T13:44:49.361Z</lastmod>
+    <data>
+        <display>
+        <title>使用DocumentStoredFieldVisitor提高Lucene检索速度</title>
+        <pubTime>2017-05-31T13:42:38.000Z</pubTime>
+        
+        <tag>Lucene</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2017/05/23/My-library-time-in-SHU-0/</loc>
+    <lastmod>2017-05-31T13:43:47.835Z</lastmod>
     <data>
         <display>
         <title>我的图书馆时光</title>
@@ -25,7 +45,7 @@
     
   <url>
     <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
-    <lastmod>2017-05-17T14:25:08.881Z</lastmod>
+    <lastmod>2017-05-23T00:38:57.157Z</lastmod>
     <data>
         <display>
         <title>2015年终总结</title>
