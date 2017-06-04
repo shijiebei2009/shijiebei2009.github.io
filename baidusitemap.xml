@@ -4,8 +4,28 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
+    <lastmod>2017-06-02T13:31:57.633Z</lastmod>
+    <data>
+        <display>
+        <title>2015年终总结</title>
+        <pubTime>2015-12-31T12:36:42.000Z</pubTime>
+        
+        <tag>Thinking</tag>
+         
+         
+           
+             
+              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2017/05/06/The-name-of-the-people/</loc>
-    <lastmod>2017-06-02T13:20:01.969Z</lastmod>
+    <lastmod>2017-06-02T13:31:39.001Z</lastmod>
     <data>
         <display>
         <title>人民的名义</title>
@@ -45,7 +65,7 @@
     
   <url>
     <loc>http://www.codepub.cn/2017/05/31/Improve-the-retrieval-speed-of-lucene-by-DocumentStoredFieldVisitor/</loc>
-    <lastmod>2017-05-31T13:44:49.361Z</lastmod>
+    <lastmod>2017-05-31T13:52:00.439Z</lastmod>
     <data>
         <display>
         <title>使用DocumentStoredFieldVisitor提高Lucene检索速度</title>
@@ -57,26 +77,6 @@
            
              
               <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
-    <lastmod>2017-05-23T00:38:57.157Z</lastmod>
-    <data>
-        <display>
-        <title>2015年终总结</title>
-        <pubTime>2015-12-31T12:36:42.000Z</pubTime>
-        
-        <tag>Thinking</tag>
-         
-         
-           
-             
-              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
           
         </display>
     </data>
