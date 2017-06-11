@@ -4,8 +4,28 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2017/06/11/Read-a-brief-history-of-tomorrow/</loc>
+    <lastmod>2017-06-11T14:39:09.569Z</lastmod>
+    <data>
+        <display>
+        <title>读《未来简史》</title>
+        <pubTime>2017-06-11T14:35:34.000Z</pubTime>
+        
+        <tag>Thinking</tag>
+         
+         
+           
+             
+              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
-    <lastmod>2017-06-02T13:31:57.633Z</lastmod>
+    <lastmod>2017-06-04T02:07:12.555Z</lastmod>
     <data>
         <display>
         <title>2015年终总结</title>
@@ -131,9 +151,9 @@
         <title>IntelliJ IDEA使用maven-javadoc-plugin生成Java Doc控制台乱码</title>
         <pubTime>2016-05-06T09:26:59.000Z</pubTime>
         
-        <tag>IntelliJ</tag>
-         
         <tag>Maven</tag>
+         
+        <tag>IntelliJ</tag>
          
          
            
