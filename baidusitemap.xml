@@ -3,30 +3,9 @@
 
 
     
-    
-  <url>
-    <loc>http://www.codepub.cn/2017/06/13/Maven-introduces-local-dependency-jar-to-executable-jar-packages/</loc>
-    <lastmod>2017-06-13T14:18:42.452Z</lastmod>
-    <data>
-        <display>
-        <title>Maven引入本地依赖Jar到可执行Jar包中</title>
-        <pubTime>2017-06-13T14:17:24.000Z</pubTime>
-        
-        <tag>Maven</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
   <url>
     <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
-    <lastmod>2017-06-11T14:40:32.310Z</lastmod>
+    <lastmod>2017-06-13T14:23:43.674Z</lastmod>
     <data>
         <display>
         <title>2015年终总结</title>
@@ -38,6 +17,27 @@
            
              
               <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://www.codepub.cn/2017/06/13/Maven-introduces-local-dependency-jar-to-executable-jar-packages/</loc>
+    <lastmod>2017-06-13T14:23:00.551Z</lastmod>
+    <data>
+        <display>
+        <title>Maven引入本地依赖Jar到可执行Jar包中</title>
+        <pubTime>2017-06-13T14:17:24.000Z</pubTime>
+        
+        <tag>Maven</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
           
         </display>
     </data>
@@ -172,9 +172,9 @@
         <title>IntelliJ IDEA使用maven-javadoc-plugin生成Java Doc控制台乱码</title>
         <pubTime>2016-05-06T09:26:59.000Z</pubTime>
         
-        <tag>Maven</tag>
-         
         <tag>IntelliJ</tag>
+         
+        <tag>Maven</tag>
          
          
            
