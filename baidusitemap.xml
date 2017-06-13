@@ -4,12 +4,32 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2017/06/11/Read-a-brief-history-of-tomorrow/</loc>
-    <lastmod>2017-06-11T14:39:09.569Z</lastmod>
+    <loc>http://www.codepub.cn/2017/06/13/Maven-introduces-local-dependency-jar-to-executable-jar-packages/</loc>
+    <lastmod>2017-06-13T14:18:42.452Z</lastmod>
     <data>
         <display>
-        <title>读《未来简史》</title>
-        <pubTime>2017-06-11T14:35:34.000Z</pubTime>
+        <title>Maven引入本地依赖Jar到可执行Jar包中</title>
+        <pubTime>2017-06-13T14:17:24.000Z</pubTime>
+        
+        <tag>Maven</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
+    <lastmod>2017-06-11T14:40:32.310Z</lastmod>
+    <data>
+        <display>
+        <title>2015年终总结</title>
+        <pubTime>2015-12-31T12:36:42.000Z</pubTime>
         
         <tag>Thinking</tag>
          
@@ -24,12 +44,12 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
-    <lastmod>2017-06-04T02:07:12.555Z</lastmod>
+    <loc>http://www.codepub.cn/2017/06/11/Read-a-brief-history-of-tomorrow/</loc>
+    <lastmod>2017-06-11T14:40:19.045Z</lastmod>
     <data>
         <display>
-        <title>2015年终总结</title>
-        <pubTime>2015-12-31T12:36:42.000Z</pubTime>
+        <title>读《未来简史》</title>
+        <pubTime>2017-06-11T14:35:34.000Z</pubTime>
         
         <tag>Thinking</tag>
          
