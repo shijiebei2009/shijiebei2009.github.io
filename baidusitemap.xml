@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2016/06/24/Lucene-6-0-in-action-the-index-of-hot-backup-and-recovery/</loc>
+    <lastmod>2017-06-17T06:59:45.428Z</lastmod>
+    <data>
+        <display>
+        <title>Lucene 6.0 实战-索引热备份及恢复</title>
+        <pubTime>2016-06-24T15:24:43.000Z</pubTime>
+        
+        <tag>Lucene</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
     <lastmod>2017-06-13T14:23:43.674Z</lastmod>
     <data>
@@ -713,26 +733,6 @@
         <display>
         <title>Lucene 6.0 实战（1）-创建索引</title>
         <pubTime>2016-05-20T13:25:37.000Z</pubTime>
-        
-        <tag>Lucene</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2016/06/24/Lucene-6-0-in-action-the-index-of-hot-backup-and-recovery/</loc>
-    <lastmod>2017-05-17T00:32:19.533Z</lastmod>
-    <data>
-        <display>
-        <title>Lucene 6.0 实战-索引热备份及恢复</title>
-        <pubTime>2016-06-24T15:24:43.000Z</pubTime>
         
         <tag>Lucene</tag>
          
