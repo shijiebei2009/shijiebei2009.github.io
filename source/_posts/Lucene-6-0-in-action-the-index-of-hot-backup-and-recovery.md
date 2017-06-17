@@ -1,3 +1,4 @@
+---
 title: Lucene 6.0 实战-索引热备份及恢复
 date: 2016-06-24 23:24:43
 tags: [Lucene]
@@ -168,7 +169,7 @@ public class TestIndexBackupRecovery {
 |Point values|.dii, .dim|Holds indexed points, if any|
 
 在Lucene索引结构中，既保存了正向信息，也保存了反向信息。
-正向信息存储在：段(segments_N)->field(.fnm/.fdx/.fdt)->term(.tvx/.tvd/.tvf)
+正向信息存储在：索引(index)->段(segment)->文档(document)->field(.fnm/.fdx/.fdt)->term(.tvx/.tvd/.tvf)
 反向信息存储在：词典(.tim)->倒排表(.doc/.pos)
 
 如果想要查看中文，可以参考[这里](http://my.oschina.net/rickylau/blog/527602)。
@@ -186,34 +187,34 @@ public class TestIndexBackupRecovery {
  * @param source 索引源
  * @param dest 索引目标
  * @param indexWriterConfig 配置相关
- */public static void recoveryIndex(String source, String dest, IndexWriterConfig indexWriterConfig) {
+ */
+public static void recoveryIndex(String source, String dest, IndexWriterConfig indexWriterConfig) {
     IndexWriter indexWriter = null;
- try {
+    try {
         indexWriter = new IndexWriter(FSDirectory.open(Paths.get(dest)), indexWriterConfig);
-  } catch (IOException e) {
+    } catch (IOException e) {
         log.error("", e);
-  } finally {
+    } finally {
         //说明IndexWriter正常打开了，无需恢复
-  if (indexWriter != null && indexWriter.isOpen()) {
+        if (indexWriter != null && indexWriter.isOpen()) {
             try {
                 indexWriter.close();
-  } catch (IOException e) {
+            } catch (IOException e) {
                 log.error("", e);
-  }
+            }
         } else {
             //说明IndexWriter已经无法打开，使用备份恢复索引
- //此处简单操作，先清空损坏的索引文件目录，如果索引特别大，可以比对每个文件，不必全部删除  try {
-                FileUtils.deleteDirectory(new File(dest));
-  FileUtils.copyDirectory(new File(source), new File(dest));
-  } catch (IOException e) {
-                log.error("", e);
-  //使用备份恢复出错，那么就使用最后一招修复索引
-  log.info("Check index {} now!", dest);
- try {
-                    IndexUtils.checkIndex(dest);
-  } catch (IOException | InterruptedException e1) {
-                    log.error("Check index error!", e1);
-  }
+            //此处简单操作，先清空损坏的索引文件目录，如果索引特别大，可以比对每个文件，不必全部删除  try {
+            FileUtils.deleteDirectory(new File(dest));
+            FileUtils.copyDirectory(new File(source), new File(dest));
+        } catch(IOException e){
+            log.error("", e);
+            //使用备份恢复出错，那么就使用最后一招修复索引
+            log.info("Check index {} now!", dest);
+            try {
+                IndexUtils.checkIndex(dest);
+            } catch (IOException | InterruptedException e1) {
+                log.error("Check index error!", e1);
             }
         }
     }
