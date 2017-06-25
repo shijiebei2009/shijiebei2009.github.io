@@ -1,24 +1,1404 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-
-  <title><![CDATA[{{ site.title | cdata_escape }}]]></title>
-  <link href="{{ site.url }}/atom.xml" rel="self"/>
-  <link href="{{ site.url }}/"/>
-  <updated>{{ site.time | date_to_xmlschema }}</updated>
-  <id>{{ site.url }}/</id>
+  <title>IT草根</title>
+  <subtitle>WangXu&#39;s 代码馆 BLOG</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://www.codepub.cn/"/>
+  <updated>2017-06-13T14:23:00.551Z</updated>
+  <id>http://www.codepub.cn/</id>
+  
   <author>
-    <name><![CDATA[{{ site.author | strip_html }}]]></name>
-    {% if site.email %}<email><![CDATA[{{ site.email }}]]></email>{% endif %}
+    <name>Wang Xu</name>
+    <email>wangx89@126.com</email>
   </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
-
-  {% for post in site.posts limit: 20 %}
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
   <entry>
-    <title type="html"><![CDATA[{% if site.titlecase %}{{ post.title | titlecase | cdata_escape }}{% else %}{{ post.title | cdata_escape }}{% endif %}]]></title>
-    <link href="{{ site.url }}{{ post.url }}"/>
-    <updated>{{ post.date | date_to_xmlschema }}</updated>
-    <id>{{ site.url }}{{ post.id }}</id>
-    <content type="html"><![CDATA[{{ post.content | expand_urls: site.url | cdata_escape }}]]></content>
+    <title>Maven引入本地依赖Jar到可执行Jar包中</title>
+    <link href="http://www.codepub.cn/2017/06/13/Maven-introduces-local-dependency-jar-to-executable-jar-packages/"/>
+    <id>http://www.codepub.cn/2017/06/13/Maven-introduces-local-dependency-jar-to-executable-jar-packages/</id>
+    <published>2017-06-13T14:17:24.000Z</published>
+    <updated>2017-06-13T14:23:00.551Z</updated>
+    
+    <content type="html"><![CDATA[<p>在Maven中，默认地，是不会将依赖的Jar包打入可执行Jar包的，如果需要将依赖打入可执行Jar包，需要在<code>pom</code>中添加<code>maven-assembly-plugin</code>插件，这个很容易实现，但是在正规开发中不推荐这样使用，为什么？因为稍微大型一些的项目都至少有几十个依赖项，而每次打包都将这些Jar包打入可执行Jar，使得最后生成的可执行Jar体积非常大。标准的做法是，将所有的依赖Jar包都打入lib目录中，而在可执行Jar的<code>MANIFEST.MF</code>中指定lib路径即可。这也很容易实现，并不是本文的重点，本文的重点是如何将不在Maven中央仓库中的Jar包，或者说依赖本地的Jar包打入可执行Jar，并更新<code>MANIFEST.MF</code>文件。</p>
+<p>例如在我的Maven项目中，需要依赖本地Jar，首先将依赖的Jar复制到<code>src/main/resources/lib</code>目录下，引用如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.yuewen<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.0-SNAPSHORT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;project.basedir&#125;/src/main/resources/lib/lucene-1.0.0-SNAPSHORT.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>这里的scope只能是system范围，systemPath属性指定Jar包的路径。</p>
+<p>下一步将所有依赖的Jar包打入lib目录中，方式如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--将依赖的资源全部打入lib目录--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-dependency-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">outputDirectory</span>&gt;</span>$&#123;project.build.directory&#125;/lib<span class="tag">&lt;/<span class="name">outputDirectory</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">excludeTransitive</span>&gt;</span>false<span class="tag">&lt;/<span class="name">excludeTransitive</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">stripVersion</span>&gt;</span>false<span class="tag">&lt;/<span class="name">stripVersion</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">executions</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">execution</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>copy-dependencies<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">phase</span>&gt;</span>package<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">goals</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">goal</span>&gt;</span>copy-dependencies<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">outputDirectory</span>&gt;</span>$&#123;project.build.directory&#125;/lib<span class="tag">&lt;/<span class="name">outputDirectory</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">excludeTransitive</span>&gt;</span>false<span class="tag">&lt;/<span class="name">excludeTransitive</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">stripVersion</span>&gt;</span>false<span class="tag">&lt;/<span class="name">stripVersion</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>至此，你在Maven项目中，依赖的所有Jar都被打入到<code>target/lib</code>目录下了，剩下的关键一步就是如何添加<code>MANIFEST.MF</code>文件了。在pom中添加如下插件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--打包插件，在Jar包中添加Class-Path和Main-Class--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-jar-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">archive</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--使用自己的Manifest文件，运行正常--&gt;</span></div><div class="line">            <span class="comment">&lt;!--&lt;manifestFile&gt;src/main/resources/META-INF/MANIFEST.MF&lt;/manifestFile&gt;--&gt;</span></div><div class="line">            <span class="comment">&lt;!--使用插件添加的Manifest文件，运行正常，一定要注意Manifest中jar包名称和lib文件夹下jar包名称版本号后缀等一定要一致，否则找不到依赖jar，此处有坑--&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">manifest</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">addClasspath</span>&gt;</span>true<span class="tag">&lt;/<span class="name">addClasspath</span>&gt;</span></div><div class="line">                <span class="comment">&lt;!--指定依赖资源路径前缀--&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">classpathPrefix</span>&gt;</span>lib/<span class="tag">&lt;/<span class="name">classpathPrefix</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">mainClass</span>&gt;</span>cn.codepub.maven.test.Main<span class="tag">&lt;/<span class="name">mainClass</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--可以把依赖本地系统的Jar包加入Manifest文件中--&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">manifestEntries</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">Class-Path</span>&gt;</span>lib/lucene-1.0.0-SNAPSHORT.jar<span class="tag">&lt;/<span class="name">Class-Path</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">manifestEntries</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">archive</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>运行<code>mvn clean package</code>执行打包，完成之后，将包含依赖资源的lib目录和可执行Jar放在同一级目录下即可，这样在运行<code>java -jar xxx.jar</code>的时候，可执行Jar包可以准确地找到依赖Jar包。并且以这种方式打出来的可执行Jar体积非常小，一般都是几百KB而已。完整的<code>MANIFEST.MF</code>文件如下所示</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Manifest-Version: 1.0</div><div class="line">Built-By: wangxu</div><div class="line">Class-Path: lib/lombok-1.16.12.jar lib/guava-20.0.jar lib/log4j-api-2.</div><div class="line"> 7.jar lib/log4j-core-2.7.jar lib/lucene-1.0.0-SNAPSHORT.jar</div><div class="line">Created-By: Apache Maven 3.3.3</div><div class="line">Build-Jdk: 1.8.0_45</div><div class="line">Main-Class: cn.codepub.maven.test.Main</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在Maven中，默认地，是不会将依赖的Jar包打入可执行Jar包的，如果需要将依赖打入可执行Jar包，需要在&lt;code&gt;pom&lt;/code&gt;中添加&lt;code&gt;maven-assembly-plugin&lt;/code&gt;插件，这个很容易实现，但是在正规开发中不推荐这样使用，为什么
+    
+    </summary>
+    
+      <category term="Programming Notes" scheme="http://www.codepub.cn/categories/Programming-Notes/"/>
+    
+    
+      <category term="Maven" scheme="http://www.codepub.cn/tags/Maven/"/>
+    
   </entry>
-  {% endfor %}
+  
+  <entry>
+    <title>读《未来简史》</title>
+    <link href="http://www.codepub.cn/2017/06/11/Read-a-brief-history-of-tomorrow/"/>
+    <id>http://www.codepub.cn/2017/06/11/Read-a-brief-history-of-tomorrow/</id>
+    <published>2017-06-11T14:35:34.000Z</published>
+    <updated>2017-06-11T14:40:19.045Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>作者简介：</strong>尤瓦尔•赫拉利，1976年生，青年怪才，全球瞩目的新锐历史学家，牛津大学历史学博士，耶路撒冷希伯来大学历史系教授，著有国际畅销书《人类简史》。其新作《未来简史》，以宏大视角审视人类未来的终极命运，甫一出版就在全球掀起一股风潮，引起广泛关注。</p>
+<h4 id="人类的新议题"><a href="#人类的新议题" class="headerlink" title="人类的新议题"></a>人类的新议题</h4><p>在这一章中，作者提出在21世纪，人类面临的三大议题似乎是不死、快乐和神性。现今因肥胖而死亡的人数已经远超因饥饿而死亡的人数了；同样因自杀而死亡的人数也已经远超因战争和恐怖主义而死亡的人数了，以目前的科技向前推进，在可以想象的未来，也许不死或者说永生可以成为一部分富人可选的一种生活方式呢。至于快乐不仅仅是物质上的，当然也包括精神上的，在这本书中，作者似乎特别喜欢谈动物，比如说松鼠储藏各类坚果不就是为了满足内心的快乐吗？这和人类储藏房产、纸币等等不是异曲同工吗？其实所谓的欲壑难填是有缘由的，在得到快感时，我们的反应不是满足，反而是想得到更多。这就不断的促使我们去持续地追求能够给我们带来快感的东西。在追求幸福和不死的过程中，人类事实上是试着把自己提升到神的地位。这时候的神不仅仅是宗教崇拜中那高高在上的神了，当人类自己能够实现永生并且可以获取无穷无尽的快乐，那么他们的心中估计已经把自己看作是地球的神了，那个时候，也许宗教就自然而然消逝了。</p>
+<h4 id="人类世"><a href="#人类世" class="headerlink" title="人类世"></a>人类世</h4><p>为什么叫人类世，很奇怪的一个名字，科学家将地球的历史分为不同的“世”，例如更新世、上新世和中新世。过去的七万年称为“人类世”，也就是人类的时代。原因在于这几万年来，人类已经成为全球生态变化唯一最重要的因素。现在拜人类所赐，全球大型动物（体重不只是几公斤）有超过90%不是人类就是家畜。全球大型动物数量中，人类约有3亿吨，野生大型动物约有1亿吨，家畜约有7亿吨。好莱坞大片中经常会以外星人入侵啦、或者行星撞击地球啦为噱头，其实完全不必担心，这样的风险小之又小。与其害怕小行星，还不如害怕人类自己。在过去不过短短一世纪，人类造成的影响可能已经超过6500万年前那颗灭绝恐龙的小行星。</p>
+<p>应该说，对地球上除了人类来说的所有其他物种来说，人类是最危险的杀手。在智人全球迁徙的过程中，他们灭掉了所有其他人类物种（现在的人类主要是智人，当年除了智人，还有很多人种）、澳大利亚90%的大型动物、美国75%的大型哺乳动物、全球大约50%的大型陆上哺乳动物；而且此时他们甚至还没开始种小麦，还没开始制作金属工具、还没开始写下任何文字，也还没铸出任何钱币。</p>
+<h4 id="人类的特殊之处"><a href="#人类的特殊之处" class="headerlink" title="人类的特殊之处"></a>人类的特殊之处</h4><p>这一章非常有趣，按理说啊，人类主宰世间万物，那么人类必然有优越于其他所有物种的地方，大多数人都坚信，人类拥有灵魂和心灵，而其他劣等动物并不具备这两者，这在科学上被证明了是胡诌，因为科学家无论怎样实验都无法证明人类拥有灵魂。而心灵和灵魂大不相同，心灵是脑中主观体验的流动。这些心理上的体验，就是各种紧密相连的感觉、情感和思想，忽闪忽现、立刻消失，接着其他体验又倏然浮现与消散，于电光火石间来了又去。把这种种体验集合起来，就构成了意识流。灵魂有人信有人不信，但就意识流来说，几乎所有人都相信。但是在这一点上，所有动物并不输于人类，所有哺乳动物和鸟类以及至少某些爬行动物和鱼类，都具有感觉和情感。就这两点来说，人类和其他各种动物其实是平等的。</p>
+<p>关于意识这个东西，不仅人类无法自证，而且无法他证，什么意思？假设人工智能不断发展，有一天人工智能说自己有意识，我们应该相信吗？早在几千年前，哲学家就已经发现，没有办法明确证明除了自己以外的任何事物具有意识。根据目前的科学定论，我所体验到的一切都是脑活动的结果，所以理论上确实能够模拟出一个我完全无法与“真实”世界分辨的虚拟世界。这不就是各种脑洞大开的电影里所展现的吗，甚至我们其实已经是活在营养液中而不自知呢，我们所感受到的驱壳等等一切行为感受，都是那个泡在营养液的大脑里的神经元之间不断流动的电子所致呢？所有的生老病死等等其实都是人工智能虚拟出来的结果呢？</p>
+<p>在这里作者点出，人类真正胜出的地方在于大规模且灵活的合作，这种合作与蜂群和象群、黑猩猩有所不同，蜜蜂虽然也能进行大规模的合作，但是它们缺乏灵活性，比如无论有多么严重的压迫与剥削，它们从不会把自己的蜂后送上断头台，进而建立共和国；而象群与猩猩很难进行陌生者之间的合作，它们的合作多是基于血缘关系或者是熟知关系，两只不认识的大象，别说进行合作，单是一只大象融入另一个陌生的象群都是难上加难，而只有智人才能进行这种大规模的无数陌生个体之间进行的合作。正是这种实际具体的能力，决定了为何目前主宰地球的是人类，而不是什么永恒的灵魂或是独有的意识。</p>
+<p>关于革命的精髓也是合作，以俄国爆发的十月革命为例，当时俄国中上阶层人数至少有300万人，但共产主义者仅有23000名，然而就是这么一小撮人建立的强大的苏维埃政权。在十月革命之前，俄国有1.8亿农民和工人，仅有300万俄国贵族、官员等，但是这些精英却知道如何合作守卫其共同利益，但那1.8亿平民却无法有效动员，直到23000名共产主义者的出现。想掀起一场革命，只靠人数绝对远远不够。</p>
+<p>智人统治世界，是因为只有智人能编织出互为主体的意义之网：其中的法律、约束力、实体和地点都只存在于他们共同的想象之中。这张网，让所有动物中只有人类能组织十字军、革命和人权运动。除此以外，另一个特殊之处是在所有动物中只有人类能够想象虚幻的东西的存在，例如猎豹埋伏着等待捕获猎物，但是它仅能想象这个世界上真实存在的东西例如羚羊，却无法想象不存在的东西，例如美元、谷歌或欧盟，如果它知道美元能买到大把的羚羊，也许它就不会费那么大力气去亲自捕猎了。到了21世纪，虚构想象有可能成为世界上最强大的力量，甚至超越自然选择。因此，如果我们想了解人类的未来，只是破译基因组、处理各种数据数字还远远不够，我们还必须破解种种赋予世界意义的虚构想象。</p>
+<h4 id="说书人"><a href="#说书人" class="headerlink" title="说书人"></a>说书人</h4><p>所有的现存世界，其立身之本都是依赖于人类虚构出来的各种概念，而且这就像既得利益阶层一样，每一个依靠这种虚构概念上位的人最后都会挺身而出继续维护这种虚构的权威性。虚构有其存在的必要性，正是所有人都在同一个虚构故事的体系之内，智人才能进行更加复杂的合作，因为所有人共同认同的价值体系，为内部的融合以及建立组织提供了先决条件，而动物世界就算是最大的族群也达不到人类组织一场现代化战争的规模，或者说，即便动物世界存在这样的族群，那么其必然无法进行有效的组织，结果就是乱作一团，每只动物都可以自作主张，毫无秩序可言。</p>
+<p>在21世纪，我们还会创造出比以往更强大的虚构概念以及更极权的宗教。在生物科技和计算机算法的帮助下，这些宗教不但会控制我们每分每秒的存在，甚至将塑造我们的身体、大脑和心智，创造出完整的虚拟世界。真要如此，在区分虚构与真实、宗教与科学将会变得更加困难，但又比以往更加重要。也许在不久的世纪里，人工智能统治世界，而人类的大脑仅仅存在于人工智能所为其构建的完美的虚拟世界之中。</p>
+<h4 id="一对冤家"><a href="#一对冤家" class="headerlink" title="一对冤家"></a>一对冤家</h4><p>这里说的一对冤家指的是科学与宗教。在人类的发展进程中，科学与宗教有合作有冲突；科学与宗教追求的都是真理，只是有时候它们追求的是各自推崇且不同的真理。但另外一些时候，科学或宗教都不那么在乎真理，因此二者十分容易妥协、共存甚至合作。宗教最在乎的是秩序，宗教的目的就是创造和维持社会结构；而科学最在乎的则是力量，科学的目的是通过研究得到力量。</p>
+<h4 id="与“现代”的契约"><a href="#与“现代”的契约" class="headerlink" title="与“现代”的契约"></a>与“现代”的契约</h4><p>如今，经济增长在全球已经取得了宗教般的地位，不管一个国家或地区存在什么样的问题，所有的当权者或者领导人都寄希望于经济增长，认为只要经济增长就能解决潜在的问题，包括贫困、落后、纷争、混乱等。所有的领导人都把经济的发展成果看成是一张大饼，只要尽量把这张饼摊得越大就能养活更多的人，所以理所应当的尽一切力量去推动经济的发展。过于关注摊大饼的结果就是，在发展的过程中忽略了其它许多重要的东西，例如维持社会平等、确保生态和谐、维持底层群众的上升通道等。</p>
+<p>科学的力量只是在近代才获得了最完美的体现，其实早期的人类发展中，之所以无法用科学来推动增长，是因为大家误以为各种宗教经典和古老传统里已经提供了世界上所有的重要知识。近代科学真正爆发的原因就是，科学让人类发现了自己的无知。人类发现自己对这个真实的世界所知甚少，就突然有了很好的理由去追求新知识，开启了用科学推动进步的道路。</p>
+<h4 id="人文主义革命"><a href="#人文主义革命" class="headerlink" title="人文主义革命"></a>人文主义革命</h4><p>人文主义把意义和权威的源头从天上转移到人类的内心，这个宇宙的本质也随之改变了。人文主义者认为生命就是一种内在的渐进变化过程，靠着经验，让人从无知走向启蒙。人文主义生活的最高目标，就是通过各式智力、情绪及身体体验，充分发展人的知识。人文主义相信自己的“感觉”，于是我们在与现代性的契约中虽然得利，却无须付出代价。所有的规则，以及远古的上帝都从人民的脑中移除，现在对于任何有关价值观的判断，并没有绝对的是非之分，比如古代同性恋会遭到整个社会的鄙视，而现在呢？管他呢，你觉得舒服，那就做吧，你是同性恋，还不能鄙视你，否则就涉嫌歧视了，所有的判断出发点都是人的主观感受。再比如雇佣童工在早期的资本主义世界很是普遍，现在为什么行不通了？因为虚伪的道德主义逼迫着人去同情这些孩子，并从孩子的角度出发去思考，孩子正在玩乐的年纪却要呆在工厂里，简直丧尽天良，而真实情况呢？对于那些家庭极度贫困的来说，童工可能就是他们家庭的最大收入来源了，也未可知呢，这样从人心出发而不论对错的人文主义，占尽了表面的道德高点，却未必是最好的。</p>
+<h4 id="实验室里的定时炸弹"><a href="#实验室里的定时炸弹" class="headerlink" title="实验室里的定时炸弹"></a>实验室里的定时炸弹</h4><p>所谓人类拥有的自由意识，在本书中作者给出了否定，并列举出了详细的证据，所谓的自由意识并不存在，无非是人类自己忽悠自己而已。人类有的就是一条意识流，欲望会在意识流中起伏来去，并没有什么永远不变的自我能够拥有这些欲望。自由意识流的本质不外乎两点，要么来自于生物预设，也就是说基因携带，天生所有；要么来自于随机发生，一切的自由意识并不是提前准备，而在某一个时刻将之释放出来的。说了这么多废话来证明人类没有自由意识到底是为何呢？如果这个证明正确，那么我们就可以利用药物、基因工程或者直接对脑做出刺激，就能操纵甚至控制人的欲望了。因为这并没有违反任何人类的天性，也没有改变人类的自由，所有利用科技手段对大脑实施的刺激控制等等都是合理且合法的。在过往的时期，自由主义还没有受到致命的威胁，现今面临着科技的进步，会给自由主义带来实实在在的挑战。我们即将拥有各种超级实用的设备、工具和制度，但这些设备、工具和制度并不允许个人自由意志的存在。</p>
+<h4 id="大分离"><a href="#大分离" class="headerlink" title="大分离"></a>大分离</h4><p>自由主义面临着三个实际威胁，一是人类将完全不具价值；二是人类整体仍然有价值，但个人将不再具有权威，而是由外部算法来管理；三是有些人仍然会不可或缺，算法系统也难以了解，而且会形成一个人数极少的特权精英阶层，由升级后的人类组成。</p>
+<p>如果科学发现和科技发展将人类分为两类，一类是绝大多数无用的普通人，另一类是一小部分经过升级的超人类，又或者各种事情的决定权已经完全从人类手中转移到具备高度智能的算法，在这两种情况下，自由主义都将崩溃。尽管现阶段所有人的共识是经济的发展使得穷人与富人的医疗水平差距在逐渐缩小，但这只是在特殊时代背景下的特殊情况，因为现代还需要大量的健康的士兵和产业工人，一旦科技的发展使得高精尖武器或者机器人取代士兵与产业工人，对于富人阶级来说，再继续维持庞大的底层人民的医疗开支将变成一笔巨大的负担，而这才是真正的转折点，当富人阶层不再需要依赖底层的大量人民的时候，不仅仅是医疗水平，各个方面，富人阶层都将开始起飞，而穷人阶层只能原地踏步，这导致的最终结果就是超人类阶层的出现，而这将会是全部由精英阶层所组成。</p>
+<h4 id="意识的海洋"><a href="#意识的海洋" class="headerlink" title="意识的海洋"></a>意识的海洋</h4><p>这一章详尽地探讨了科技人文主义。科技人文主义希望让人类的心智升级，让我们能够接触到目前未知的经验、目前未闻的意识状态。然而想要足够地了解我们的心智已经是一项极其艰巨的任务，在人类目前所知的范围内，已经掌握的知识犹如沧海一粟，真正的未知世界浩瀚无边，在追求改造心智的过程中，也许我们成功地让身体与大脑都升级了，却在过程中失去了心智。科技人文主义到最后可能会造成人类的降级。</p>
+<h4 id="信数据得永生"><a href="#信数据得永生" class="headerlink" title="信数据得永生"></a>信数据得永生</h4><p>在历史进程中，人类创造了一个全球性的网络，不论面对任何事物，都以它在这个网络中有何功能来给予评价。几千年来，这让人充满了自尊和偏见。人类在这个网络中执行着最重要的功能，也就很容易认为自己是这个网络所有成就的主要功臣，并认为自己就是造物的巅峰。至于其他所有动物，因为它们执行的只是网络中次要的功能，于是其生命和经验都遭到低估；只要动物不再能发挥任何功能，就躲不开惨遭灭绝的命运。然而，一旦人类对网络也不再能发挥重要功能，就会发现自己到头来也不是造物巅峰。我们自己设定的标准，会让我们也走上长毛象和白鱀豚的灭绝之路。到时回首过去，人类也只会成为宇宙数据流里的一片小小涟漪。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;作者简介：&lt;/strong&gt;尤瓦尔•赫拉利，1976年生，青年怪才，全球瞩目的新锐历史学家，牛津大学历史学博士，耶路撒冷希伯来大学历史系教授，著有国际畅销书《人类简史》。其新作《未来简史》，以宏大视角审视人类未来的终极命运，甫一出版就在全球掀起一股风潮，引起
+    
+    </summary>
+    
+      <category term="Life-Talk" scheme="http://www.codepub.cn/categories/Life-Talk/"/>
+    
+    
+      <category term="Thinking" scheme="http://www.codepub.cn/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用DocumentStoredFieldVisitor提高Lucene检索速度</title>
+    <link href="http://www.codepub.cn/2017/05/31/Improve-the-retrieval-speed-of-lucene-by-DocumentStoredFieldVisitor/"/>
+    <id>http://www.codepub.cn/2017/05/31/Improve-the-retrieval-speed-of-lucene-by-DocumentStoredFieldVisitor/</id>
+    <published>2017-05-31T13:42:38.000Z</published>
+    <updated>2017-05-31T13:52:00.439Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="FieldSelector"><a href="#FieldSelector" class="headerlink" title="FieldSelector"></a>FieldSelector</h4><p>提高Lucene检索性能的方法有很多种，这里简单介绍一种常用且便捷可行的方法快速提高Lucene检索性能。在早期的Lucene版本中，使用<strong>FieldSelector</strong>来决定哪些Fields应该被加载，并以何种方式加载，但是在<a href="https://issues.apache.org/jira/browse/LUCENE-3309" target="_blank" rel="external">LUCENE-3309</a>中该接口被废弃，并且提出了新的替代接口<strong>StoredFieldVisitor</strong>。</p>
+<h4 id="FieldCache"><a href="#FieldCache" class="headerlink" title="FieldCache"></a>FieldCache</h4><p>另一种提高检索性能的方案是使用FieldCache来缓存Lucene的term values信息，不过该接口目前已被移至<code>org.apache.lucene.uninverting</code>包下，并且访问权限变成包级私有，也就是说，用户再也无法直接使用FieldCache了，该接口以后仅限于Lucene内部使用。FieldCache的主要作用是缓存用来排序field的值，Lucene会将需要排序的字段都读到内存中进行排序，所占内存大小和文档数量相关。其替代方案是使用DocValues类。其实深入一步，当你的Document只有一个Token的时候，FieldCache还可以被用来快速获取每个Document的field值，因为Lucene只做了反向索引，这种Document-&gt;field正向索引是极其耗时的，而FieldCache正好能解决这个问题。</p>
+<p>由于这两个接口基本相当于被废弃，这里不再赘述，主要讲解目前实用的<strong>StoredFieldVisitor</strong>方案。</p>
+<h4 id="StoredFieldVisitor"><a href="#StoredFieldVisitor" class="headerlink" title="StoredFieldVisitor"></a>StoredFieldVisitor</h4><p>StoredFieldVisitor是一个抽象类，它有一个唯一对外暴露的实现类DocumentStoredFieldVisitor，查看该实现类的Doc文档说明，可知其作用是支持加载所有的stored fields，或者通过Set集合指定请求的fields。</p>
+<p>查看DocumentStoredFieldVisitor构造函数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">DocumentStoredFieldVisitor</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">this</span>.fieldsToAdd = <span class="keyword">null</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">DocumentStoredFieldVisitor</span><span class="params">(Set&lt;String&gt; fieldsToAdd)</span> </span>&#123;</div><div class="line">  <span class="keyword">this</span>.fieldsToAdd = fieldsToAdd;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/** Load only fields named in the provided fields. */</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">DocumentStoredFieldVisitor</span><span class="params">(String... fields)</span> </span>&#123;</div><div class="line">  fieldsToAdd = <span class="keyword">new</span> HashSet&lt;&gt;(fields.length);</div><div class="line">  <span class="keyword">for</span>(String field : fields) &#123;</div><div class="line">    fieldsToAdd.add(field);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>一个无参构造函数，一个接收Set参数的构造函数，还有一个接收可变参数的构造函数，而可变参数的构造函数中其实就是把可变参数加入Set集合，所以其原理和接收Set集合的构造函数是一样的。</p>
+<p>讲了这么多，那么DocumentStoredFieldVisitor的使用场景是什么呢？当用户需要访问各个文档中的某个field的值时，使用IndexSearcher.doc(int docID)可以获得Document，然后再从Document中获得某个域值，当一个Document中field非常多的时候，这种访问速度比较慢，而且只能获得Stored域的值。这时候使用DocumentStoredFieldVisitor可以极大地提高访问速度。下面写个简单的测试代码来看看其性能差距。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> com.google.common.base.Stopwatch;</div><div class="line"><span class="keyword">import</span> org.apache.commons.lang3.RandomStringUtils;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.cjk.CJKAnalyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.*;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.DirectoryReader;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.IndexSearcher;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.Query;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.ScoreDoc;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.TopDocs;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.HashSet;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Set;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.*;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * &lt;p&gt;</div><div class="line"> * Created by wangxu on 2017/05/27 17:37.</div><div class="line"> * &lt;/p&gt;</div><div class="line"> * &lt;p&gt;</div><div class="line"> * Description: 基于Lucene 6.5.0实现</div><div class="line"> * &lt;/p&gt;</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> Wang Xu</div><div class="line"> * <span class="doctag">@version</span> V1.0.0</div><div class="line"> * <span class="doctag">@since</span> V1.0.0 &lt;br/&gt;</div><div class="line"> * WebSite: http://codepub.cn &lt;br&gt;</div><div class="line"> * Licence: Apache v2 License</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestStoredFieldVisitor</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> IndexSearcher indexSearcher;</div><div class="line">    <span class="keyword">static</span> Query query;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">        IndexWriter indexWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> CJKAnalyzer()));</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000</span>; i++) &#123;</div><div class="line">            Document document = <span class="keyword">new</span> Document();</div><div class="line">            document.add(<span class="keyword">new</span> LongPoint(<span class="string">"ID"</span>, i));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"title"</span>, i + <span class="string">"title"</span>, Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> TextField(<span class="string">"content"</span>, i + <span class="string">"content"</span>, Field.Store.YES));</div><div class="line">            <span class="keyword">if</span> (i % <span class="number">2</span> == <span class="number">0</span>) &#123;</div><div class="line">                document.add(<span class="keyword">new</span> StringField(<span class="string">"sex"</span>, <span class="string">"male"</span>, Field.Store.YES));</div><div class="line">                document.add(<span class="keyword">new</span> TextField(<span class="string">"tags"</span>, <span class="string">"The "</span> + i + <span class="string">"th male!"</span>, Field.Store.YES));</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                document.add(<span class="keyword">new</span> StringField(<span class="string">"sex"</span>, <span class="string">"female"</span>, Field.Store.YES));</div><div class="line">                document.add(<span class="keyword">new</span> TextField(<span class="string">"tags"</span>, <span class="string">"The "</span> + i + <span class="string">"th female!"</span>, Field.Store.YES));</div><div class="line">            &#125;</div><div class="line">            document.add(<span class="keyword">new</span> TextField(<span class="string">"hobbies"</span>, <span class="string">"I like playing the "</span> + i + <span class="string">" toys!"</span>, Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField1"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField2"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField3"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField4"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField5"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField6"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField7"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"testField8"</span>, RandomStringUtils.randomAlphabetic(<span class="number">10</span>), Field.Store.YES));</div><div class="line">            indexWriter.addDocument(document);</div><div class="line">        &#125;</div><div class="line">        indexWriter.commit();</div><div class="line">        indexWriter.close();</div><div class="line">        indexSearcher = <span class="keyword">new</span> IndexSearcher(DirectoryReader.open(ramDirectory));</div><div class="line">        query = LongPoint.newRangeQuery(<span class="string">"ID"</span>, <span class="number">0</span>, Math.addExact(<span class="number">1000000</span>, -<span class="number">1</span>));</div><div class="line">        <span class="keyword">int</span> count = indexSearcher.count(query);</div><div class="line">        <span class="keyword">long</span> total = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">            Future&lt;Long&gt; submit = Executors.newSingleThreadExecutor().submit(<span class="keyword">new</span> Worker1(count));<span class="comment">//average time cost by 10 times : 8024 ms</span></div><div class="line">            <span class="comment">//Future&lt;Long&gt; submit = Executors.newSingleThreadExecutor().submit(new Worker2(count));//average time cost by 10 times : 6507 ms</span></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                total += submit.get();</div><div class="line">            &#125; <span class="keyword">catch</span> (InterruptedException | ExecutionException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="string">"average time cost by 10 times : "</span> + total / <span class="number">10</span> + <span class="string">" ms"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Worker1</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Long</span>&gt; </span>&#123;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Worker1</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.count = count;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> Long <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            Stopwatch started = Stopwatch.createStarted();</div><div class="line">            List&lt;String&gt; titles = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">            <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">                TopDocs docs = indexSearcher.search(query, count);</div><div class="line">                ScoreDoc[] scoreDocs = docs.scoreDocs;</div><div class="line">                <span class="keyword">for</span> (ScoreDoc scoreDoc : scoreDocs) &#123;</div><div class="line">                    Document doc = indexSearcher.doc(scoreDoc.doc);</div><div class="line">                    titles.add(doc.get(<span class="string">"title"</span>));</div><div class="line">                &#125;</div><div class="line">                System.out.println(<span class="string">"No DocumentStoredFieldVisitor get title counts = "</span> + titles.size());</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">long</span> elapsed = started.elapsed(TimeUnit.MILLISECONDS);</div><div class="line">            System.out.println(<span class="string">"No DocumentStoredFieldVisitor: "</span> + elapsed + <span class="string">" ms"</span>);</div><div class="line">            <span class="keyword">return</span> elapsed;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Worker2</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Long</span>&gt; </span>&#123;</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Worker2</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.count = count;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> Long <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            Stopwatch started = Stopwatch.createStarted();</div><div class="line">            Set&lt;String&gt; title = <span class="keyword">new</span> HashSet&lt;&gt;();</div><div class="line">            title.add(<span class="string">"title"</span>);</div><div class="line">            DocumentStoredFieldVisitor titleVisitor = <span class="keyword">new</span> DocumentStoredFieldVisitor(title);</div><div class="line">            <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">                TopDocs docs = indexSearcher.search(query, count);</div><div class="line">                ScoreDoc[] scoreDocs = docs.scoreDocs;</div><div class="line">                <span class="keyword">for</span> (ScoreDoc scoreDoc : scoreDocs) &#123;</div><div class="line">                    indexSearcher.doc(scoreDoc.doc, titleVisitor);</div><div class="line">                &#125;</div><div class="line">                Document document = titleVisitor.getDocument();</div><div class="line">                System.out.println(<span class="string">"With DocumentStoredFieldVisitor get title counts = "</span> + document.getValues(<span class="string">"title"</span>).length);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">long</span> elapsed = started.elapsed(TimeUnit.MILLISECONDS);</div><div class="line">            System.out.println(<span class="string">"With DocumentStoredFieldVisitor: "</span> + elapsed + <span class="string">" ms"</span>);</div><div class="line">            <span class="keyword">return</span> elapsed;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在索引1000000个文档之后，每个文档添加14个不同类型的Field，分别运行Worker1和Worker2，进行十次的基于ID的范围查询，取十次结果的平均值，得到使用DocumentStoredFieldVisitor平均单次耗时6507 ms，不使用DocumentStoredFieldVisitor平均单次耗时8024 ms。可见性能提升还是很可观的，当然该测试并不权威，但是可以给出一个简单直观的比较。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;FieldSelector&quot;&gt;&lt;a href=&quot;#FieldSelector&quot; class=&quot;headerlink&quot; title=&quot;FieldSelector&quot;&gt;&lt;/a&gt;FieldSelector&lt;/h4&gt;&lt;p&gt;提高Lucene检索性能的方法有很多种，这里简单介绍
+    
+    </summary>
+    
+      <category term="Programming Notes" scheme="http://www.codepub.cn/categories/Programming-Notes/"/>
+    
+    
+      <category term="Lucene" scheme="http://www.codepub.cn/tags/Lucene/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的图书馆时光</title>
+    <link href="http://www.codepub.cn/2017/05/23/My-library-time-in-SHU/"/>
+    <id>http://www.codepub.cn/2017/05/23/My-library-time-in-SHU/</id>
+    <published>2017-05-23T00:30:19.000Z</published>
+    <updated>2017-05-31T13:52:00.448Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="我的图书馆时光"><a href="#我的图书馆时光" class="headerlink" title="我的图书馆时光"></a>我的图书馆时光</h3><p><strong>姓名</strong>：codepub&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>学号</strong>：13721035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>学院</strong>：计算机工程与科学学院</p>
+<h4 id="一、入馆记录"><a href="#一、入馆记录" class="headerlink" title="一、入馆记录"></a>一、入馆记录</h4><p>2013年—2016年4月，一共到馆205次，第一次走进宝山校区图书馆是在2013年9月6日10时21分22秒。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/my_library_time_1.jpg" alt=""><br>13级硕士生平均入馆138.52次，我的次数是205次，我的入馆次数是平均次数的1.48倍。</p>
+<h4 id="二、选座记录"><a href="#二、选座记录" class="headerlink" title="二、选座记录"></a>二、选座记录</h4><p>2013年—2013年10月，一共预约座位4次，第一次预约的是本部图书馆的二楼综合阅览（东区）的141号座位，时间在2013年9月6日10时23分1秒。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/my_library_time_2.jpg" alt=""></p>
+<h4 id="三、上机记录"><a href="#三、上机记录" class="headerlink" title="三、上机记录"></a>三、上机记录</h4><p>您无上机记录。</p>
+<h4 id="四、借还记录"><a href="#四、借还记录" class="headerlink" title="四、借还记录"></a>四、借还记录</h4><p>2013年—2015年10月，一共借还图书69本，我第一次借还的书籍是《语义Web技术基础》，借阅时间是2013年11月11日，我最后一次借还的书籍是《文明之光.:第三册》，借阅时间是2015年10月18日，我的借阅偏好是：专业技术。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/my_library_time_3.jpg" alt=""><br>13级硕士生人均借还30.76册，我借还图书69册，我的借阅量是平均量的2.24倍。</p>
+<h4 id="五、我的借还清单"><a href="#五、我的借还清单" class="headerlink" title="五、我的借还清单"></a>五、我的借还清单</h4><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>书名</th>
+<th>作者</th>
+<th>出版社</th>
+<th>出版年</th>
+<th>借阅时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>语义Web技术基础</td>
+<td>Pascal Hitzler … [等] 著</td>
+<td>清华大学出版社</td>
+<td>2012</td>
+<td>20131111</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Hadoop实战</td>
+<td>(美) Chuck Lam著</td>
+<td>人民邮电出版社</td>
+<td>2011</td>
+<td>20131117</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Hadoop实战</td>
+<td>陆嘉恒著</td>
+<td>机械工业出版社</td>
+<td>2011</td>
+<td>20131117</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Lucene in action中文版</td>
+<td>(美) Otis Gospodnetic, Erik Hatcher著</td>
+<td>电子工业出版社</td>
+<td>2007</td>
+<td>20131117</td>
+</tr>
+<tr>
+<td>5</td>
+<td>解密搜索引擎技术实战 :Lucene &amp; Java精华版</td>
+<td>罗刚编著</td>
+<td>电子工业出版社</td>
+<td>2011</td>
+<td>20131117</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Hadoop源代码分析</td>
+<td>张鑫著</td>
+<td>中国铁道出版社</td>
+<td>2013</td>
+<td>20131117</td>
+</tr>
+<tr>
+<td>7</td>
+<td>搜索引擎原理与实践</td>
+<td>袁津生, 李群, 蔡岳编著</td>
+<td>北京邮电大学出版社</td>
+<td>2008</td>
+<td>20131117</td>
+</tr>
+<tr>
+<td>8</td>
+<td>数据挖掘原理与算法</td>
+<td>邵峰晶 … [等] 编著</td>
+<td>科学出版社</td>
+<td>2009</td>
+<td>20131117</td>
+</tr>
+<tr>
+<td>9</td>
+<td>大数据时代的历史机遇 :产业变革与数据科学</td>
+<td>赵国栋 … [等] 著</td>
+<td>清华大学出版社</td>
+<td>2013</td>
+<td>20131117</td>
+</tr>
+<tr>
+<td>10</td>
+<td>自己动手写网络爬虫</td>
+<td>罗刚, 王振东编著</td>
+<td>清华大学出版社</td>
+<td>2010</td>
+<td>20131117</td>
+</tr>
+<tr>
+<td>11</td>
+<td>增长的极限 :the 30-year update</td>
+<td>(美) 德内拉·梅多斯, 乔根·兰德斯, 丹尼斯·梅多斯著</td>
+<td>机械工业出版社</td>
+<td>2006</td>
+<td>20131117</td>
+</tr>
+<tr>
+<td>12</td>
+<td>大数据挑战与NoSQL数据库技术</td>
+<td>陆嘉恒编著</td>
+<td>电子工业出版社</td>
+<td>2013</td>
+<td>20131117</td>
+</tr>
+<tr>
+<td>13</td>
+<td>迅速搭建全文搜索平台 :开源搜索引擎实战教程</td>
+<td>于天恩编著</td>
+<td>清华大学出版社</td>
+<td>2007</td>
+<td>20131117</td>
+</tr>
+<tr>
+<td>14</td>
+<td>数据挖掘与数据化运营实战 :思路、方法、技巧与应用</td>
+<td>卢辉著</td>
+<td>机械工业出版社</td>
+<td>2013</td>
+<td>20131117</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Web 3.0 :互联网的语义革命 :the power of the Semantic Web to transform your business</td>
+<td>(美) 大卫·西格尔著</td>
+<td>科学出版社</td>
+<td>2013</td>
+<td>20131128</td>
+</tr>
+<tr>
+<td>16</td>
+<td>计算智能 :理论、技术与应用</td>
+<td>丁永生编著</td>
+<td>科学出版社</td>
+<td>2004</td>
+<td>20131128</td>
+</tr>
+<tr>
+<td>17</td>
+<td>PHP开发宝典</td>
+<td>刘欣, 李慧等编著</td>
+<td>机械工业出版社</td>
+<td>2012</td>
+<td>20131128</td>
+</tr>
+<tr>
+<td>18</td>
+<td>物联网关键技术</td>
+<td>徐勇军, 刘禹, 王峰编著</td>
+<td>电子工业出版社</td>
+<td>2012</td>
+<td>20131128</td>
+</tr>
+<tr>
+<td>19</td>
+<td>下一代互联网</td>
+<td>吴建平, 李星主编</td>
+<td>电子工业出版社</td>
+<td>2012</td>
+<td>20131128</td>
+</tr>
+<tr>
+<td>20</td>
+<td>物联网与云计算</td>
+<td>张为民, 赵立君, 刘玮编著</td>
+<td>电子工业出版社</td>
+<td>2012</td>
+<td>20131128</td>
+</tr>
+<tr>
+<td>21</td>
+<td>互联网之美</td>
+<td>张浩编著</td>
+<td>清华大学出版社</td>
+<td>2013</td>
+<td>20131128</td>
+</tr>
+<tr>
+<td>22</td>
+<td>QQ帮主 :马化腾其人</td>
+<td>刘世英, 李良忠著</td>
+<td>经济日报出版社</td>
+<td>2010</td>
+<td>20131202</td>
+</tr>
+<tr>
+<td>23</td>
+<td>马化腾谈创业与管理</td>
+<td>谢森任著</td>
+<td>海天出版社</td>
+<td>2011</td>
+<td>20131202</td>
+</tr>
+<tr>
+<td>24</td>
+<td>十亿美金的教训</td>
+<td>林军, 唐宏梅著</td>
+<td>浙江大学出版社</td>
+<td>2011</td>
+<td>20131202</td>
+</tr>
+<tr>
+<td>25</td>
+<td>企鹅凶猛 :马化腾的中国功夫</td>
+<td>薛芳著</td>
+<td>华文出版社</td>
+<td>2009</td>
+<td>20131202</td>
+</tr>
+<tr>
+<td>26</td>
+<td>中国互联网风云16年</td>
+<td>武帅著</td>
+<td>机械工业出版社</td>
+<td>2011</td>
+<td>20131202</td>
+</tr>
+<tr>
+<td>27</td>
+<td>矛盾与出路 :网络时代的文化价值观 :cultural values in the internet era</td>
+<td>金民卿, 王佳菲, 梁孝著</td>
+<td>经济科学出版社</td>
+<td>2013</td>
+<td>20131214</td>
+</tr>
+<tr>
+<td>28</td>
+<td>问道云计算</td>
+<td>王鹏著</td>
+<td>人民邮电出版社</td>
+<td>2011</td>
+<td>20131214</td>
+</tr>
+<tr>
+<td>29</td>
+<td>大数据时代 :生活、工作与思维的大变革 :a revolution that will transform how we live,</td>
+<td>(英) 维克托·迈尔-舍恩伯格, 肯尼思·库克耶著</td>
+<td>浙江人民出版社</td>
+<td>2013</td>
+<td>20131214</td>
+</tr>
+<tr>
+<td>30</td>
+<td>云计算 :深刻改变未来</td>
+<td>张为民 … [等] 编著</td>
+<td>科学出版社</td>
+<td>2009</td>
+<td>20131214</td>
+</tr>
+<tr>
+<td>31</td>
+<td>基于认知与计算的事件语义学研究</td>
+<td>刘茂福, 胡慧君著</td>
+<td>科学出版社</td>
+<td>2013</td>
+<td>20131214</td>
+</tr>
+<tr>
+<td>32</td>
+<td>语义Web原理及应用</td>
+<td>高志强 … [等] 编著</td>
+<td>机械工业出版社</td>
+<td>2009</td>
+<td>20131214</td>
+</tr>
+<tr>
+<td>33</td>
+<td>语义网、社会网络计算与Web资源共享</td>
+<td>王莉著</td>
+<td>电子工业出版社</td>
+<td>2011</td>
+<td>20131214</td>
+</tr>
+<tr>
+<td>34</td>
+<td>语义网原理与技术</td>
+<td>陆建江 … [等] 编著</td>
+<td>科学出版社</td>
+<td>2007</td>
+<td>20131214</td>
+</tr>
+<tr>
+<td>35</td>
+<td>Semantic web for the working ontologist : modeling in RDF, RDFS and OWL = 实用语义网 : RDFS与O</td>
+<td>Allemang, Dean.</td>
+<td>Beijing : Posts &amp; Telecom Press, 2009.</td>
+<td>2009</td>
+<td>20131214</td>
+</tr>
+<tr>
+<td>36</td>
+<td>语义Web技术基础</td>
+<td>Pascal Hitzler … [等] 著</td>
+<td>清华大学出版社</td>
+<td>2012</td>
+<td>20131219</td>
+</tr>
+<tr>
+<td>37</td>
+<td>Head First PHP &amp; MySQL</td>
+<td>Lynn Beighley, Michael Morrison著</td>
+<td>中国电力出版社</td>
+<td>2010</td>
+<td>20131219</td>
+</tr>
+<tr>
+<td>38</td>
+<td>云计算与分布式系统 :从并行处理到物联网 :from parallel processing to the internet o</td>
+<td>(美) Kai Hwang, Geoffrey C. Fox, Jack J. Dongarra著</td>
+<td>机械工业出版社</td>
+<td>2013</td>
+<td>20131229</td>
+</tr>
+<tr>
+<td>39</td>
+<td>新概念英语语法新思维.:第四册</td>
+<td>梅雪主编</td>
+<td>中国石化出版社</td>
+<td>2010</td>
+<td>20131229</td>
+</tr>
+<tr>
+<td>40</td>
+<td>程序员的数学</td>
+<td>(日) 结城浩著</td>
+<td>人民邮电出版社</td>
+<td>2012</td>
+<td>20131229</td>
+</tr>
+<tr>
+<td>41</td>
+<td>新概念英语语法新思维.:第三册</td>
+<td>新概念英语学习中心编</td>
+<td>中国石化出版社</td>
+<td>2010</td>
+<td>20131229</td>
+</tr>
+<tr>
+<td>42</td>
+<td>精通Spring :Java轻量级架构开发实践</td>
+<td>孟劼编著</td>
+<td>人民邮电出版社</td>
+<td>2006</td>
+<td>20131229</td>
+</tr>
+<tr>
+<td>43</td>
+<td>Hadoop技术内幕,:深入解析Hadoop Common和HDFS架构设计与实现原理 :in-depth study of C</td>
+<td>蔡斌, 陈湘萍著</td>
+<td>机械工业出版社</td>
+<td>2013</td>
+<td>20131229</td>
+</tr>
+<tr>
+<td>44</td>
+<td>数据挖掘原理与算法</td>
+<td>邵峰晶 … [等] 编著</td>
+<td>科学出版社</td>
+<td>2009</td>
+<td>20140105</td>
+</tr>
+<tr>
+<td>45</td>
+<td>Lucene in action中文版</td>
+<td>(美) Otis Gospodnetic, Erik Hatcher著</td>
+<td>电子工业出版社</td>
+<td>2007</td>
+<td>20140105</td>
+</tr>
+<tr>
+<td>46</td>
+<td>语义Web技术基础</td>
+<td>Pascal Hitzler … [等] 著</td>
+<td>清华大学出版社</td>
+<td>2012</td>
+<td>20140219</td>
+</tr>
+<tr>
+<td>47</td>
+<td>Hadoop技术内幕,:深入解析Hadoop Common和HDFS架构设计与实现原理 :in-depth study of C</td>
+<td>蔡斌, 陈湘萍著</td>
+<td>机械工业出版社</td>
+<td>2013</td>
+<td>20140219</td>
+</tr>
+<tr>
+<td>48</td>
+<td>精通Spring :Java轻量级架构开发实践</td>
+<td>孟劼编著</td>
+<td>人民邮电出版社</td>
+<td>2006</td>
+<td>20140219</td>
+</tr>
+<tr>
+<td>49</td>
+<td>Lucene in action中文版</td>
+<td>(美) Otis Gospodnetic, Erik Hatcher著</td>
+<td>电子工业出版社</td>
+<td>2007</td>
+<td>20140219</td>
+</tr>
+<tr>
+<td>50</td>
+<td>基于认知与计算的事件语义学研究</td>
+<td>刘茂福, 胡慧君著</td>
+<td>科学出版社</td>
+<td>2013</td>
+<td>20140219</td>
+</tr>
+<tr>
+<td>51</td>
+<td>编译原理 :编译程序构造与实践</td>
+<td>张幸儿编著</td>
+<td>机械工业出版社</td>
+<td>2008</td>
+<td>20140325</td>
+</tr>
+<tr>
+<td>52</td>
+<td>编译原理</td>
+<td>主编王磊, 胡元义</td>
+<td>科学出版社</td>
+<td>2009</td>
+<td>20140325</td>
+</tr>
+<tr>
+<td>53</td>
+<td>基于认知与计算的事件语义学研究</td>
+<td>刘茂福, 胡慧君著</td>
+<td>科学出版社</td>
+<td>2013</td>
+<td>20140325</td>
+</tr>
+<tr>
+<td>54</td>
+<td>编译原理及实现</td>
+<td>孙悦红编著</td>
+<td>清华大学出版社</td>
+<td>2011</td>
+<td>20140325</td>
+</tr>
+<tr>
+<td>55</td>
+<td>编译原理及编译程序构造</td>
+<td>薛联凤, 秦振松编著</td>
+<td>东南大学出版社</td>
+<td>2013</td>
+<td>20140325</td>
+</tr>
+<tr>
+<td>56</td>
+<td>C++程序设计教程</td>
+<td>钱能主编</td>
+<td>清华大学出版社</td>
+<td>1999</td>
+<td>20140325</td>
+</tr>
+<tr>
+<td>57</td>
+<td>新概念英语词汇精典.:4</td>
+<td>主编金利</td>
+<td>北京语言大学出版社</td>
+<td>2010</td>
+<td>20140325</td>
+</tr>
+<tr>
+<td>58</td>
+<td>新概念英语词汇精典.:3</td>
+<td>主编金利</td>
+<td>北京语言大学出版社</td>
+<td>2010</td>
+<td>20140325</td>
+</tr>
+<tr>
+<td>59</td>
+<td>单词记忆大革命 :用耳朵记单词,:CET-6</td>
+<td>金莉</td>
+<td>世界图书出版公司</td>
+<td>2007</td>
+<td>20140325</td>
+</tr>
+<tr>
+<td>60</td>
+<td>精通Spring :Java轻量级架构开发实践</td>
+<td>孟劼编著</td>
+<td>人民邮电出版社</td>
+<td>2006</td>
+<td>20140414</td>
+</tr>
+<tr>
+<td>61</td>
+<td>Lucene in action中文版</td>
+<td>(美) Otis Gospodnetic, Erik Hatcher著</td>
+<td>电子工业出版社</td>
+<td>2007</td>
+<td>20140414</td>
+</tr>
+<tr>
+<td>62</td>
+<td>语义Web技术基础</td>
+<td>Pascal Hitzler … [等] 著</td>
+<td>清华大学出版社</td>
+<td>2012</td>
+<td>20140414</td>
+</tr>
+<tr>
+<td>63</td>
+<td>新概念英语词汇精典.:3</td>
+<td>主编金利</td>
+<td>北京语言大学出版社</td>
+<td>2010</td>
+<td>20140511</td>
+</tr>
+<tr>
+<td>64</td>
+<td>新概念英语词汇精典.:4</td>
+<td>主编金利</td>
+<td>北京语言大学出版社</td>
+<td>2010</td>
+<td>20140511</td>
+</tr>
+<tr>
+<td>65</td>
+<td>基于认知与计算的事件语义学研究</td>
+<td>刘茂福, 胡慧君著</td>
+<td>科学出版社</td>
+<td>2013</td>
+<td>20140511</td>
+</tr>
+<tr>
+<td>66</td>
+<td>Java web典型模块与项目实战大全 :49.5小时多媒体教学视频</td>
+<td>常建功等编著</td>
+<td>清华大学出版社</td>
+<td>2011</td>
+<td>20150316</td>
+</tr>
+<tr>
+<td>67</td>
+<td>英语思维是这样炼成的</td>
+<td>王乐平著</td>
+<td>华南理工大学出版社</td>
+<td>2010</td>
+<td>20150316</td>
+</tr>
+<tr>
+<td>68</td>
+<td>文明之光.:第二册</td>
+<td>吴军著</td>
+<td>人民邮电出版社</td>
+<td>2014</td>
+<td>20151018</td>
+</tr>
+<tr>
+<td>69</td>
+<td>文明之光.:第三册</td>
+<td>吴军著</td>
+<td>人民邮电出版社</td>
+<td>2014</td>
+<td>20151018</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;我的图书馆时光&quot;&gt;&lt;a href=&quot;#我的图书馆时光&quot; class=&quot;headerlink&quot; title=&quot;我的图书馆时光&quot;&gt;&lt;/a&gt;我的图书馆时光&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;姓名&lt;/strong&gt;：codepub&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp
+    
+    </summary>
+    
+      <category term="Life-Talk" scheme="http://www.codepub.cn/categories/Life-Talk/"/>
+    
+    
+      <category term="Thinking" scheme="http://www.codepub.cn/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL 拉取海量数据报 OutOfMemoryError</title>
+    <link href="http://www.codepub.cn/2017/05/12/MySQL-pull-the-massive-data-out-of-memory-error/"/>
+    <id>http://www.codepub.cn/2017/05/12/MySQL-pull-the-massive-data-out-of-memory-error/</id>
+    <published>2017-05-12T14:40:37.000Z</published>
+    <updated>2017-05-17T00:32:19.432Z</updated>
+    
+    <content type="html"><![CDATA[<p>在用最基本的<code>JDBC</code>拉取数据的时候，由于拉取的是海量数据，所以程序跑了一段时间之后报<code>java.lang.OutOfMemoryError: Java heap space</code>，这个错误很简单，也很好解决，网上一搜一大把，只需要设置<code>ResultSet</code>获取数据模式为<code>row-by-row</code>，但是总结多数的解决方案是如下两种：<br>① 以PreparedStatement为例，需要设置四个参数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">preparedStatement = connection.prepareStatement(formatSql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);</div><div class="line">preparedStatement.setFetchSize(Integer.MIN_VALUE);</div><div class="line">preparedStatement.setFetchDirection(ResultSet.FETCH_REVERSE);</div></pre></td></tr></table></figure></p>
+<p>② 同样以PreparedStatement为例，需要设置三个参数<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">preparedStatement = connection.prepareStatement(formatSql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);</div><div class="line">preparedStatement.setFetchSize(Integer.MIN_VALUE);</div></pre></td></tr></table></figure></p>
+<p>这种解决方案是可以的，那么本文还有无存在的必要呢？当然有。这两种方案基本上都是参看MySQL官方说明来解决的，具体链接<a href="https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-implementation-notes.html" target="_blank" rel="external">点我</a>，内容摘录如下</p>
+<blockquote>
+<p>By default, ResultSets are completely retrieved and stored in memory. In most cases this is the most efficient way to operate and, due to the design of the MySQL network protocol, is easier to implement. If you are working with ResultSets that have a large number of rows or large values and cannot allocate heap space in your JVM for the memory required, you can tell the driver to stream the results back one row at a time.</p>
+<p>To enable this functionality, create a Statement instance in the following manner:</p>
+<p>stmt = conn.createStatement(java.sql.ResultSet.TYPE_FORWARD_ONLY, java.sql.ResultSet.CONCUR_READ_ONLY);<br>stmt.setFetchSize(Integer.MIN_VALUE);</p>
+<p>The combination of a forward-only, read-only result set, with a fetch size of Integer.MIN_VALUE serves as a signal to the driver to stream result sets row-by-row. After this, any result sets created with the statement will be retrieved row-by-row.</p>
+<p>There are some caveats with this approach. You must read all of the rows in the result set (or close it) before you can issue any other queries on the connection, or an exception will be thrown.</p>
+<p>The earliest the locks these statements hold can be released (whether they be MyISAM table-level locks or row-level locks in some other storage engine such as InnoDB) is when the statement completes.</p>
+<p>If the statement is within scope of a transaction, then locks are released when the transaction completes (which implies that the statement needs to complete first). As with most other databases, statements are not complete until all the results pending on the statement are read or the active result set for the statement is closed.</p>
+<p>Therefore, if using streaming results, process them as quickly as possible if you want to maintain concurrent access to the tables referenced by the statement producing the result set.</p>
+</blockquote>
+<p>但是我想说，其实一个参数就足矣。只需要设置<code>fetch size</code>为<code>Integer.MIN_VALUE</code>即可。代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">preparedStatement = connection.prepareStatement(formatSql);</div><div class="line">preparedStatement.setFetchSize(Integer.MIN_VALUE);</div></pre></td></tr></table></figure></p>
+<p>这样为什么可以呢？我们来看源码，点开prepareStatement的具体实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.mysql.jdbc;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectionImpl</span> <span class="keyword">extends</span> <span class="title">ConnectionPropertiesImpl</span> <span class="keyword">implements</span> <span class="title">MySQLConnection</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> PreparedStatement <span class="title">prepareStatement</span><span class="params">(String sql)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.prepareStatement(sql, <span class="number">1003</span>, <span class="number">1007</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到即使你调用的是<code>prepareStatement(formatSql)</code>，但是在实现中调用的是<code>prepareStatement(sql, 1003, 1007)</code>，而<code>ResultSet.TYPE_FORWARD_ONLY = 1003</code>，<code>ResultSet.CONCUR_READ_ONLY = 1007</code>，所以不需要在调用的时候传递<code>TYPE_FORWARD_ONLY</code>和<code>CONCUR_READ_ONLY</code>。</p>
+<p>再来看<code>setFetchDirection</code>的具体实现类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.mysql.jdbc;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StatementImpl</span> <span class="keyword">implements</span> <span class="title">Statement</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFetchDirection</span><span class="params">(<span class="keyword">int</span> direction)</span> <span class="keyword">throws</span> SQLException </span>&#123;</div><div class="line">        <span class="keyword">switch</span>(direction) &#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">1000</span>:</div><div class="line">        <span class="keyword">case</span> <span class="number">1001</span>:</div><div class="line">        <span class="keyword">case</span> <span class="number">1002</span>:</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">throw</span> SQLError.createSQLException(Messages.getString(<span class="string">"Statement.5"</span>), <span class="string">"S1009"</span>, <span class="keyword">this</span>.getExceptionInterceptor());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可知，在实现中，当<code>direction</code>值是1000、1001和1002时，其处理逻辑是一样的，那么这些值表示什么意思呢？在<code>ResultSet</code>类中可以查到<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> FETCH_FORWARD = <span class="number">1000</span>;</div><div class="line"><span class="keyword">int</span> FETCH_REVERSE = <span class="number">1001</span>;</div><div class="line"><span class="keyword">int</span> FETCH_UNKNOWN = <span class="number">1002</span>;</div></pre></td></tr></table></figure></p>
+<p>所以再调用<code>preparedStatement.setFetchDirection(ResultSet.FETCH_REVERSE);</code>这一句其实完全没必要，因为不论你传递的是哪个值，其结果都是相同的，所以说，使用流式结果集获取海量数据一个参数足矣，不要迷信网上二手信息，同样不要迷信官网，只有源码最靠谱。</p>
+<p>如果想继续深究，可以查看MySQL判断是否开启流式结果集的方法，实现如下，判断逻辑很简单<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.mysql.jdbc;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StatementImpl</span> <span class="keyword">implements</span> <span class="title">Statement</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">createStreamingResultSet</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.resultSetType == <span class="number">1003</span> &amp;&amp; <span class="keyword">this</span>.resultSetConcurrency == <span class="number">1007</span> &amp;&amp; <span class="keyword">this</span>.fetchSize == -<span class="number">2147483648</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在用最基本的&lt;code&gt;JDBC&lt;/code&gt;拉取数据的时候，由于拉取的是海量数据，所以程序跑了一段时间之后报&lt;code&gt;java.lang.OutOfMemoryError: Java heap space&lt;/code&gt;，这个错误很简单，也很好解决，网上一搜一大把，只需要
+    
+    </summary>
+    
+      <category term="Database" scheme="http://www.codepub.cn/categories/Database/"/>
+    
+    
+      <category term="MySQL" scheme="http://www.codepub.cn/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Gradle使用扩展属性管理依赖版本号</title>
+    <link href="http://www.codepub.cn/2017/05/09/Gradle-uses-extended-attributes-to-manage-dependent-version-numbers/"/>
+    <id>http://www.codepub.cn/2017/05/09/Gradle-uses-extended-attributes-to-manage-dependent-version-numbers/</id>
+    <published>2017-05-09T13:15:19.000Z</published>
+    <updated>2017-05-17T00:32:19.507Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="Maven预设变量"><a href="#Maven预设变量" class="headerlink" title="Maven预设变量"></a>Maven预设变量</h4><p>使用过<code>Maven</code>的人应该都知道，我们在<code>Maven</code>项目中添加依赖的一般性做法。就是打开<code>pom.xml</code>文件，在<code>&lt;dependencies&gt;</code>节点下添加<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>包含坐标和版本号的内容，那么在<code>Java</code>类文件中，就可以引用<code>Lucene</code>包中的各种类了。但是要注意一点，这里面的版本号是以硬编码的形式存在，作为一个合格的软件开发者，要尽量在你的代码中避免硬编码的情况。为什么呢？比如我需要依赖其它的<code>Lucene</code>模块，那么<code>pom.xml</code>中添加内容如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-analyzers-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-queryparser<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-highlighter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-queries<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>假设经年累月，项目需要升级，<code>Lucene</code>的新版本也已发布，那么是不是需要手动修改每一行<code>&lt;version&gt;5.5.0&lt;/version&gt;</code>呢？这还只是依赖几个模块的问题，假设你依赖成百上千个模块，其版本号都需要升级，是不是觉得想抽当初的自己呢？其实在<code>Maven</code>中这种情况很好解决、就是利用预设变量。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version.lucene</span>&gt;</span>6.0.0<span class="tag">&lt;/<span class="name">version.lucene</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-analyzers-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;version.lucene&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-queryparser<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;version.lucene&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-highlighter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;version.lucene&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;version.lucene&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.lucene<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene-queries<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;version.lucene&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>那么以后再遇到项目升级的情况，只需要手动修改<code>&lt;version.lucene&gt;6.0.0&lt;/version.lucene&gt;</code>一行代码即可搞定，所有引用到该版本变量的依赖都自动升级，这样来管理依赖，是不是很哈皮呢？</p>
+<h4 id="Gradle单模块"><a href="#Gradle单模块" class="headerlink" title="Gradle单模块"></a>Gradle单模块</h4><p>同样作为后起之秀的<code>Gradle</code>如何优雅地解决类似问题呢？硬编码的写法如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">    compile "org.apache.lucene:lucene-core:5.5.0"</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>优雅的写法①如下，打开<code>build.gradle</code>文件<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">ext &#123;</div><div class="line">    luceneVersion = '6.5.0'</div><div class="line">&#125;</div><div class="line">dependencies &#123;</div><div class="line">    compile "org.apache.lucene:lucene-core:$luceneVersion"</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>一定要注意包含<code>$</code>符号时，要用双引号，我就因用单引号在这上吃过亏。在<code>Gradle</code>中单引号和双引号都是合法的，但是略有不同。单引号中的内容严格对应<code>Java</code>中的<code>String</code>，不对<code>$</code>符号进行转义。双引号的内容则和脚本语言处理有点像，如果字符中有<code>$</code>号的话，则它会先对<code>$</code>表达式求值。在<code>Gradle</code>中，其实还有三引号的情形，这代表什么呢？三引号中的字符串支持任意换行，比如<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">   def multieLines = ''' begin</div><div class="line">     line  1</div><div class="line">     line  2</div><div class="line">     line  3</div><div class="line">     end '''</div></pre></td></tr></table></figure></p>
+<p>除了①，还有优雅的写法②，使用字典类型，修改<code>build.gradle</code>文件<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">ext &#123;</div><div class="line">    javaSourceCompatibility = '1.8'</div><div class="line">    libVersions = [</div><div class="line">            junit : '4.12',</div><div class="line">            lucene: '6.5.0',</div><div class="line">            guava : '20.0'</div><div class="line">    ]</div><div class="line">&#125;</div><div class="line">dependencies &#123;</div><div class="line">    compile "junit:junit:$libVersions.junit"</div><div class="line">    compile "com.google.guava:guava:$libVersions.guava"</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="Gradle多模块"><a href="#Gradle多模块" class="headerlink" title="Gradle多模块"></a>Gradle多模块</h4><p>当在一个根项目下有多个子模块，那么一种简单的做法是在每个子模块中都定义<code>ext</code>代码块，声明需要使用到的版本号变量，这样做当然可以。但是当遇到需要升级版本号的情况时，需要手动修改所有的子模块，其实还有更优雅的解决方案。就是在根项目中定义<code>ext</code>代码块，打开根项目的<code>build.gradle</code>定义<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ext &#123;</div><div class="line">    luceneVersion = '6.5.0'</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后在每个子模块的<code>build.gradle</code>中都可以直接引用之，方式如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">    compile "junit:junit:$rootProject.libVersions.junit"</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样，当需要升级版本号的时候，只需要升级根项目中的变量即可，所用子模块的版本号会自动升级。</p>
+<h4 id="消除Gradle编译警告"><a href="#消除Gradle编译警告" class="headerlink" title="消除Gradle编译警告"></a>消除Gradle编译警告</h4><p>通过Gradle编译项目过程中，有时会报如下警告信息</p>
+<blockquote>
+<p>注: xxx.java使用或覆盖了已过时的 API。<br>注: 有关详细信息, 请使用 -Xlint:deprecation 重新编译。<br>注: xxx.java使用了未经检查或不安全的操作。<br>注: 有关详细信息, 请使用 -Xlint:unchecked 重新编译。</p>
+</blockquote>
+<p>警告不是Error，虽然不影响编译，但是看着总是不舒服，所以想办法消除警告信息。根据StackOverflow上的<a href="http://stackoverflow.com/questions/18689365/how-to-add-xlintunchecked-to-my-android-gradle-based-project" target="_blank" rel="external">问答</a>，在<code>build.gradle</code>中添加如下配置即可消除警告。<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">allprojects &#123;</div><div class="line">    gradle.projectsEvaluated &#123;</div><div class="line">        tasks.withType(JavaCompile) &#123;</div><div class="line">            options.compilerArgs &lt;&lt; "-Xlint:unchecked" &lt;&lt; "-Xlint:deprecation"</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;Maven预设变量&quot;&gt;&lt;a href=&quot;#Maven预设变量&quot; class=&quot;headerlink&quot; title=&quot;Maven预设变量&quot;&gt;&lt;/a&gt;Maven预设变量&lt;/h4&gt;&lt;p&gt;使用过&lt;code&gt;Maven&lt;/code&gt;的人应该都知道，我们在&lt;code&gt;Mave
+    
+    </summary>
+    
+      <category term="Programming Notes" scheme="http://www.codepub.cn/categories/Programming-Notes/"/>
+    
+    
+      <category term="Gradle" scheme="http://www.codepub.cn/tags/Gradle/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>人民的名义</title>
+    <link href="http://www.codepub.cn/2017/05/06/The-name-of-the-people/"/>
+    <id>http://www.codepub.cn/2017/05/06/The-name-of-the-people/</id>
+    <published>2017-05-06T14:28:03.000Z</published>
+    <updated>2017-06-02T13:31:39.001Z</updated>
+    
+    <content type="html"><![CDATA[<p>一不小心，追了一个剧《人民的名义》，随着剧情一点一点地推进，突然开始很心疼，心疼的不是别人，也不是剧中的人物，因为那毕竟是虚构的，不是真实的人生，而是我们自己，这才是真真实实的生活与生命。看了剧中的情节，真是大开眼界，不论是祁同伟的一人得道，鸡犬升天，还是赵瑞龙的草菅人命亦或是丁义珍在饭局上左右逢源，逢场作戏，近似人生赢家。甚至一个处级干部赵德汉，都能狂贪几个亿，要知道，除了国家级领导人，下面就是部司厅局处科，小小一个处级干部，都能贪污几个亿？你知道天朝有多少处级干部吗？呵呵，我还真查了下，毛爷爷说，没有调查就没有发言权，参考链接在<a href="https://www.zhihu.com/question/23916966?sort=created" target="_blank" rel="external">这里</a>，处级干部约60万，一个人一亿的话，不敢想象，当然了，不能这么悲观，要相信党相信政府，我还是有这觉悟的。现如今大家都说日子难过，现在知道了吧？为什么我们日子难过了，在人民的名义中各种现象也只是社会真实情况的冰山一角吧？假设现实情况比电视剧中所要努力描绘的良好社会略槽糕一点点，那么日子难就很正常了，我想说，不正常才奇怪哩。</p>
+<p>现在好多人都说房价高，那么房价为什么会高呢？只有两种情况，一种是你赚钱的速度赶不上房价的上涨速度，另一种是货币贬值了，房价虚高，只不过刚需接盘侠们是货币贬值的最后承受者，没有享受到任何一点点货币贬值带来的收益，要知道货币贬值对所有人来说并不是公平的，有人说，我手里的钱贬值了，那有钱人手里的钱一样也贬值了呀？只能说你too young，too simple，钱就像是流水，就像一条河，同样的一河水，在水的上游和下游能一样吗？同样货币这个贬值链，就像一条河水一样，也分上游下游，货币流到上游的人的手里的时候，并没有贬值，而是和以前价值一样，那么这些占据上游的都是哪些人呢？发大水的是央行，上游的人是各大国有银行、国企、国家各部委、权力掌控者等，中游是商业银行、民营企业、利益既得者等，经过层层盘剥，当这个贬值链流到下游的时候，又是哪些人呢？就是这个底层劳动人民、刚需接盘侠，之所以房价会高涨，是因为没有任何一个产业能够锁住这么海量的贬值货币，唯有将这些海量的货币存之于楼市，才能尽量减少对其他行业的伤害，试想通胀不是流向楼市，而是流向日常生活必须品，那个个吃不上饭可是天大的问题了，但是一部分人住不上房却不是致命的，即使这些住不上房的人闹腾也不用操心，因为那些有房的会代政府来管教他们，你说此话怎讲，君不见，房价略降，全国各地的售楼处都出现了业主打砸情况吗？这不就是有房产者、既得利益者在代国家管教这些无房产者吗？房价想降很难，一是政府不愿意，房价降了，海量的贬值货币往哪藏呢？二是有产者不愿意，买不起房，大家不会联合起来打砸售楼处，但是房价下降，已买房的人则会联合起来上书政府，要求政府救市，更有甚者，直接联合起来打砸售楼处，还有天理吗？法制社会存在这种流氓行径？没有任何理由，就是因为房价下降，就可以任意耍流氓了？呵呵，这些人没有得到严肃的处理，已经代表了政府的态度，睁一只眼闭一只眼，这些人就都没事了。</p>
+<p>追剧的过程中，一把手在剧中出现了无数遍，我英文不好，不要欺负我，我想请问一把手英文怎么翻译呢？大英帝国、美帝国家人民的词典中，有一把手这个词吗？有海外待过的人，还望不吝赐教。民选政府与任命制有着本质的区别，民选出来的领导人要对人民负责，同理，任命制选出来的领导人只对任命他的人负责。这种本质的区别，注定了人民有着本质的不同地位，该得到什么样的对待都是自己争取而来，你笑着看资本主义国家人民游行、示威、罢工，那就不要忽视人家赢得的地位。有付出才有收获，老祖宗留下来的话，是有道理的。任命制在我看来只能听天由命了，就像古代皇帝一样，如果是个雄才大略、英明神武的皇帝，那么人民生活相对来说更幸福一点，如果碰到昏庸无能、荒淫无度的主，那人民的生活能不水深火热吗？这不就是靠天吃饭吗？和现在的任命制有啥区别？一把手喜欢你，就提拔你，至于你对人民来说是福是祸，又有几个一把手会关心呢？</p>
+<p>这部剧叫《人民的名义》，恕我愚钝，我不知道这里面哪一点代表了人民的名义，我只看到草根出身的处长在第一集就被干掉了，我只看到同样草根出身的祁同伟和高小琴最后同样被干掉了，而那个利用权势不断打压祁同伟的人呢？梁璐包括他的父亲最后毫发无损，这就是人民的名义吗？人民的孩子总是最先和最后被干掉吗？我分明看到的就是有权有势同样能逍遥法外，我不知道现实中有多少丁义珍，但是我敢保证现实中的丁义珍绝对不会在国外的餐馆刷盘子，处处美化、处处讨喜，编剧们都不觉得恶心吗？像沙瑞金和侯亮平在现实中毕竟是少数，再进一步讲，现实中有多少丁义珍、赵立春（副国级，国家领导人啊、领导人啊、领导人啊）、赵瑞龙、刘新建、陈清泉等等这些人呢？恐怕远不止电视中所表现的那些吧？</p>
+<p>在剧情最后部分，侯亮平劝降祁同伟，莫名的心疼起祁同伟来，那个和天下棋，愿用自己的命去胜天半子的人，也许在祁的心中是这么想的，你侯亮平算什么东西，也敢来劝降我？在祁的身边，虽然不乏师长，以及同一师门的师弟师妹，但是又有几个打心眼里瞧得起看得起他的呢？他想过靠自己的努力来出人头地，在大学里学习努力，成绩优异，并且还是校学生会主席，但是有什么用呢？毫无关系背景的他，眼睁睁的看着那些能力平平甚至低于他的的校友们分配到了大城市，而他却被掌控权力的梁璐的父亲下放到了穷山沟沟里，只因他没接受梁璐的追求，即便他没有放弃，主动请缨去做缉毒工作，因为这个工作更危险，更容易立功，凭借着过人的勇气和努力，他成为了缉毒英雄，但是结果呢？梁璐的父亲，凭借手握大权，借着权力以惜才为名义，阻止让他升迁，硬生生的将他继续困于穷山沟之中。最终，这个内心孤傲的人向现实屈服了，这才有了那在汉东大学的著名一跪，祁同伟啊是个被时代抛弃的人、是个被权力毁掉的人、是个草根出身不断向上爬却死在权力脚下的人，直到最后事发败露，他也没有屈服，用他的话说，这个世界上没有人能够审判他，即便可能被判无期徒刑，苟延残喘，但是并没有，他没有投降，没有屈服，而是选择自杀结束生命。</p>
+<p>剧中还有一个现象被大家忽略了，那就是高育良和李达康的女儿都出国了，这就是官二代的命啊。而侯亮平和陈海这种所谓的中产呢？孩子只能挤在国内上些垃圾学校，甚至侯亮平妻子给孩子报的一个补习班，那老师居然是个电工，但是招生工作火热火热的，这和现代的学区房、各种补习班真是不谋而合。幸好这个老师被侯亮平一眼识破，谁又能说现实中存在诸多没有被识破的呢？如果现实中没有侯亮平去戳穿老师的嘴脸呢？岂不是依然可以大摇大摆的顶着补习班的名义继续招摇撞骗。如果现实中的所有官员子女都在国外接受教育，他们对人民又怎么会负责呢？从小接受资本主义国家的理念、文化、习俗、教育等等，怎么比得了土生土长的中国人对人民的了解程度呢？这些人谁又能保证其不在官爸爸富爸爸的扶持下走上统治人民的路子呢？当他们成长为了统治阶级，只要自我舒适，谁管你人民死活，大不了贪了几个亿全家移民罢了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;一不小心，追了一个剧《人民的名义》，随着剧情一点一点地推进，突然开始很心疼，心疼的不是别人，也不是剧中的人物，因为那毕竟是虚构的，不是真实的人生，而是我们自己，这才是真真实实的生活与生命。看了剧中的情节，真是大开眼界，不论是祁同伟的一人得道，鸡犬升天，还是赵瑞龙的草菅人命亦
+    
+    </summary>
+    
+      <category term="Life-Talk" scheme="http://www.codepub.cn/categories/Life-Talk/"/>
+    
+    
+      <category term="Thinking" scheme="http://www.codepub.cn/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>读《蚁族：大学毕业生聚居村实录》</title>
+    <link href="http://www.codepub.cn/2017/04/25/Read-ant-tribe-college-graduates-live-in-the-village-record/"/>
+    <id>http://www.codepub.cn/2017/04/25/Read-ant-tribe-college-graduates-live-in-the-village-record/</id>
+    <published>2017-04-25T14:35:41.000Z</published>
+    <updated>2017-05-17T00:32:19.493Z</updated>
+    
+    <content type="html"><![CDATA[<p>古有科举，今有高考，然今日境却不与古日同。科举自隋唐始，终于晚清，这是古代读书人唯一的上升通道，虽然说比较困难，但是最起码还是一个可行的通道，能让人对未来满怀憧憬。但当今时代，时移世易，在这个权利和人情的社会，越是“苦读”的平民家庭出身的孩子，机会可能越少。许多靠近权力的机关和垄断行业里，越来越没有平民和贫苦人家孩子的缘分。父辈的权力和“人脉”会以某种方式“世袭”。“蚁族”们大多来自农村和县级市，家庭收入低，他们的父母处于社会中下层。十年寒窗苦读得以让他们接受高等教育，但毕业时他们发现，由于自己没有“硬”关系，只能又回到“村”里。他们不是不努力不是不上进的一群人，能够从数千万底层劳动人民中脱颖而出，本身就说明了他们还是有所追求，有所渴望的，但是现实给予了他们重重一击，这一击足以让他们将人生中种种不如意，归因于这个社会，从而使自己喝社会对立起来。</p>
+<p>人们说，现在是“知识经济”的时代。然而，蚁族们，接受了高等教育，却无法实现知识致富，甚至对某些人来说，找到一份糊口的工作都比较困难，这到底是自身不够努力？还是社会无法提供施展的平台？他们在社会上究竟处于怎样的位置？他们比传统的农民工幸福吗？难道他们千里迢迢来到大城市只为了体味生活的磨难？蚁族们有太多的故事值得述说，每个人虽然微若蝼蚁，但是都怀有各自那小小的梦想与希望。鲁迅先生说，希望本无所谓有，也无所谓无，这就像地上的路，其实地上本没有路，走的人多了，也便成了路。虽然现实有各种困难，但是对于蚁族们来说，心有多大，舞台才有多大。</p>
+<p>在这本书中记录了大量采访对象身上的故事，看了他们的故事有时候也能看到自己的影子吧。不是不努力，不努力的人确实有，但是努力了依然看不到希望的恐怕才是主流吧，不能简单的把原因归咎于这些才毕业或者说毕业没有多久，也没啥能力的学生身上，大学的垃圾教育不足以培养他们在社会上谋生的手段，这又能怪的了谁呢？大学一直都是易出难进，至少在中国是这样的，而美国与此恰恰相反，美国的模式是易进难出，任何人都可以去读名校，但是四年本科毕业率极低，至少比中国低20个百分点吧。中国的大学就像是一股洪流，不是能够轻易改变的，任何置身其中的人，哪怕你能看到问题所在，你依然无能为力，你能做的只是尽量提高对自己的要求而已，仅此别无他法，只能被这股洪流裹挟着，浪费掉那谈不上多重的生命。</p>
+<p>其实这些蚁族中也不乏有毅力、雄心、长远规划的人，而这些人多数都是男人，总的来说，在采访的蚁族中，每月一两千、两三千且月月光的女生居多，他们从心里上就认为自己是弱者，自己无需为以后考虑，更无需负担买房的压力，所以他们反而是过得更舒适的一类人，而另一类人呢？工资有的能到五六千，但是依然只蜗居在这每月几百块的破旧房子里，而舍不得租住更好的但价格更贵的房子，他们多数都是在默默地为了以后做这长远的打算。他们年纪都不大，却有更远大的目标，他们有能力使自己过得更好，却甘愿蜗居在这条件极差的城中村里，他们不在乎眼前的生活是否安逸。在这个世界上，他们将事业放在重要的位置。在他们看来，美好的梦想永远值得他们努力奋斗。</p>
+<p>农村孩子在城市中等待翻身，如同等待铁树开花一样艰难。他们以考大学的方式告别农村，却至今仍无法融入城市的主流文化。物竞天择，家庭的负担和过低的起点，使农村的孩子无法轻装上阵。走出了老家的农村，又走进了北京的农村，这仿佛是一种宿命，萦绕着他们本该绽放的人生。然而他们没有退缩，在我看来，这些蜗居在城中村的人，心中依然保留着一份幻想，期待靠自己的努力，不断打拼，最终能够在这个城市立稳脚跟。可惜，现实是残酷的，他们终将成为北京的弃儿，我又何尝不是呢？一个人奋斗在魔都，满以为凭自己的努力可以奋斗出属于自己的一片天，如今想想，痴念罢了。不管是既得利益者，还是有产阶层，抑或统治阶级，都不可能轻易的让你成为这个全国顶尖城市的原住民。</p>
+<p>大家想必都还记得曾经非常火热的《奋斗》吧？这些刚毕业就开上奥迪或奥拓的年轻人是否就是我们想象中的奋斗？如果这就是80后的奋斗，那这些城中村居住着的大学生难道都在混生活混日子？《奋斗》中那些俊男靓女们整天无所事事，打台球、泡吧的都市青年们究竟在为什么奋斗？其实，真正的生活中，这些住在“聚居村”里的“蚁族”正以实际行动诠释着“奋斗”的真正含义。刚毕业的他们面对生活显得捉襟见肘，但是这些能直面现实、接受现实的年轻人具有强大的精神动力，他们有自己的理想，而且正在积蓄力量为实现这些理想而奋斗。现实的分层是残酷的，《奋斗》的导演们以及里面的俊男靓女们其实并不知道什么才是真正源于生活的奋斗，那种从社会的底层不断向上爬，去努力撬动途径的每一个阶层所遇到的阻力与抗拒究竟有多大，他们是完全无法体会的，这部剧虽然很火，但是仅仅是富家公子顽劣青年的自我标榜与吹捧而已，他们并不理解艺术源于生活，更高于生活的真正含义。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;古有科举，今有高考，然今日境却不与古日同。科举自隋唐始，终于晚清，这是古代读书人唯一的上升通道，虽然说比较困难，但是最起码还是一个可行的通道，能让人对未来满怀憧憬。但当今时代，时移世易，在这个权利和人情的社会，越是“苦读”的平民家庭出身的孩子，机会可能越少。许多靠近权力的机
+    
+    </summary>
+    
+      <category term="Life-Talk" scheme="http://www.codepub.cn/categories/Life-Talk/"/>
+    
+    
+      <category term="Thinking" scheme="http://www.codepub.cn/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>水库论坛炒房多军欧神—欧成效</title>
+    <link href="http://www.codepub.cn/2017/04/16/Reservoir-forum-elite-realtor-ouchengxiao/"/>
+    <id>http://www.codepub.cn/2017/04/16/Reservoir-forum-elite-realtor-ouchengxiao/</id>
+    <published>2017-04-16T02:55:50.000Z</published>
+    <updated>2017-05-17T00:32:19.453Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>欧神简介：</strong>姓欧名成效。出生于丁巳年癸丑月癸酉日。上海人，疑似出生于公务员/教育系统的家庭，父母其一据说为正处级。欧神是神童，跳了两级，上海高考前一百，稀里糊涂下进入复旦物理系。那是他的迷惘期，毕业后进入某五百强快消品外企做管培生。然而，他觉得那样的人生毫无希望，毫无前途，他渴望成功。尝试过做外汇，失败告终。在温相（相，古称丞相，今乃总理。我特么很讨厌现在还用相这个字，放眼世界都是民主国家的天下，我天朝人民的思维还仍旧停留在封建时代）上台后的两年内，一次偶然的机遇，他接触到了上海的房地产。一开始只是为了短期获得利差，不料却一头栽了下去。</p>
+<p>之前，我的粉丝里面，有人问我欧神现在房产有多少，我估计他起码有25~30套。但是后来看到他的回忆录，他第一次短期获利后，开始大量建仓。第一次大量建仓后，房价虚高，迫于父母压力，仍然抛售了500平米的上海房产，那可是2004-2005年！欧神在网络上，我们能够找到的，最早的作品，是在天涯论坛，是发表于2004年7月31日23点的：《人民币面临巨大的贬值压力》。</p>
+<p>欧神在这篇文章内断言，人民币将对外升值，对内贬值。也因此，欧神认为，只有房地产，才是人民抵抗通货膨胀、资产增值的选择。然后，他发表了大量大量经济观察的文章。基本没有看走眼的。然而，当年下面，满满的都是愤青骂街留言。此时的欧神，才26岁。同时，欧神指出，炒房，是一条竞争几乎为零、不论资质人人皆可参与、只要下功夫迟早赚出一个亿的康庄大道。看准了大趋势，然后一头扎在炒房领域。反复炒反复炒反复炒。炒房是个非常孤独的事情，炒房客蛮少，躺着赚钱也缺乏社交。欧神即便再有钱，在经济关系中，不过是个中国最牛散户，兴许还剥削Ｎ多人以收租。有钱，有闲，就在网上开论坛，聊天。他系统性地把全部炒房心得，发表出来。他目前认为京沪还有上升空间。而且，非常看好重庆。2016年11月，他在清华第一次公开亮相，为某经济论坛发表演讲。</p>
+<p>这是他的大致经历了。他的女儿，如果我没记错，出生于庚寅年的己土日。2010年。他不止一个孩子了。</p>
+<hr>
+<p>在最新的一期水库论坛中，欧神坦言对于房产而言，普通人已经没有上车机会了，阶级固化基本完成了。这真是一个疯狂的时代。TG（T代表锤子，G代表镰刀，这是标识，只可意会，不可言传），ZF，吃相越来越难看了。他们要把一切不属于自己阶层的人，打成奴隶，永世不得翻身。就像西西弗斯一样，推着无用的巨石，永世处于那样的状态。而另一方面，那些没上车的人们，他们不比那些上车的聪明？不比他们勤奋？不比他们优秀？不比他们道德？阶级流动的渠道，说关闭就关闭。普通的屌丝阶层，甚至扩大到中产阶层，连知情权都没有，怎么回事都不知道。像苍蝇一样无头乱撞，什么都不懂，最后只能归咎自己命不好。此时此刻，我才感受到了欧神的价值。屌丝一生，都遇不到一个真正的富人，告诉他们真正的诀窍。只能自己瞎折腾一生，哪怕比欧神双商高资质好，都会如此。再聪明，八字再好，也不过是韭菜，只有被收割的命运。只不过，十年前，韭菜们还有系统性逃离的机会。人人那时，都有机会。除了90后。80后也有微弱的机会。现在当然也有，只不过阶层固化获得了决定性的胜利，看还有谁能钻过去吧。未来，八字估计都不顶用了。货币会一直超发，没有笼子的权利就是逃出瓶子的恶魔，人民控制不了货币超发，只能默默承受着通胀对你的财富的吞噬，想想七八十年代那些上一代人节衣缩食，辛苦攒下百十来块的养老钱，现在呢？也只够两顿饭钱吧？我有时会莫名地心疼这些人，钱真的攒不住，攒一辈子几年就给你通胀掉了，另一方面我又对大众的愚昧恨之入骨，他们不知道争取权利也不知道支持那些为他们争取权利的人，反而给那些为整个社会民主化进程呕心沥血的人泼以无情的冷水与嘲讽。在心里默默讥笑他们“你们这些傻叉，就知道民主就知道争取权利，看我们多聪明，躲在你们背后，你们争取到了，我们一样可以享受，你们争取不到，我还有嘲笑的对象，好爽啊”，这就是我天朝绝大多数人的心态吧。</p>
+<hr>
+<p>欧神对金融系统有着深刻的认知，比如央行拿外汇去拯救国有银行的坏账，好多人感觉和自己没有关系，于是没有人出声，其实一方面坏账是指钱被贪官贪污或者携款潜逃国外，导致银行无法填补亏空，形成坏账，另一方面，外汇属于全体中国人民，用外汇储备去填补亏空，本质上就是用每一个中国人辛苦攒来的钱去填补亏空，这里面包括你的、我的、他的、所有人的，没人能逃得掉。为什么说是人民的钱，因为这背后一系列的操作最后都会导致物价上涨，由物价上涨来填补，而每一个人只要你在国内生存，就间接的变成由你消费膨胀的物价来填补坏账的亏空。</p>
+<p>在2004年的时候，基于对金融系统深刻的认知，欧成效说“房价是太低，不是太高，远远地太低太低太低。房价上涨，是一个《挤泡沫》的过程，挤掉的是货币系统里面的泡沫”。我补充一句，坏账越多亏空越多贪官越多，最后导致的就是人民币里面的泡沫越多，而如果仅靠物价上涨是无法消化这么多泡沫的，而且老百姓也最不愿意，因为你每天都要吃饭喝水，你无法承受这么多泡沫所带来的物价上涨，所以归根结底，一个可靠的手段是房价上涨，用房价来消化货币系统中的泡沫，进而将房价维持在高位，也将超发的货币绑定在房价之上。</p>
+<p>购房千万不要购买以房型作为卖点的楼盘，否则你很可能进去了就被套牢了，房型并没有统一的标准，如果是自住，只需要选择适合你自己的就好了，无非是朝向、通风、采光。对于上班族来说，一个4~6平米的客卫，才是最优质房型。强烈推荐买房应该买市中心，五六年房龄的低估房，原则上不买一手房。</p>
+<p>如果汇率上涨，则受益者是人民币持有人，也即是十万万老百姓。你可以很轻松地去加勒比海海滩度假，去希腊看奥运会，甚至娶一个年轻漂亮的买来西亚太太。而如果汇率不涨，国内通胀的话。受益的是政府和银行。作为最大的债务人，几万亿的坏账将相应缩水，从而更容易偿还。政府还将获得大量的铸币权，以应付财政开支。</p>
+<p>房地产事业，是一种典型的“剥削内贸补贴外贸”。用国内老百姓的负担，来补贴出口竞争力。甚至可以说，“房价越高，出口竞争力越强”。中国也即将走上日本的老路。低汇率，导致外汇储备急剧增加，引发通胀压力。而政府将通胀压力引向房地产，让国内百姓为此买单。外贸出口也始终不受损伤。这是欧神2005年说的话，以他的话来判断2005~2017这之间中国的经济走势来说的话，基本上都是正确的。</p>
+<p>欧神说房价越高，居民购买力越强，因为他认为房价就像是零和博弈，有人付出钱买房，自然就有人靠卖房获取收入，那么你想过如果卖方都是政府呢？或者说卖方都是开发商呢？这种大量的金钱集中在一个人或者一个组织的身上，其购买力是远远不如将钱分散到千万人身上的，因为一个人消费能力再强，自然也无法消费一千个人或者一万个人所消费的东西，所以我并不赞成欧神的观点。相反我认为高房价大大的透支了刚需族中产阶级的购买力，注意我说的是刚需，那些名下有几套房的中产并不在我的范围之内。</p>
+<p>美元并没有什么购买力。3万亿Dollar的外汇储备，也根本买不回“中国曾出口”的等价购买力。更何况，美国的信用，已经大大受到质疑，三万亿美元最终能拿回多少。金融界目前都是个大大的问号。如果美元收不回来，那么我们过去二三十年的出口，都扔到海里了。如果美元通货膨胀，贬值2/3，那么我们过去十几年的出口都扔到海里了。出口导向型的经济政策，其最终的输家只有一个，那就是农民，因为商人出口挣到外汇，央行把外汇换成人民币，而这人民币就是靠印刷机印出来的，农民手中的钱凭空损失了购买力，而他们并不自知。有人冲到我们的草原，抢夺我们的牛马，抢夺我们的羊羔。我们拼命反抗，因为我们知道他是强盗，抢我小羊的强盗。有人在电脑前拨动了几个数字，宣布几项政策。造成了数以十万亿的财富移动，造成了沿海几亿人的繁荣，造成了内陆几亿人的贫穷，而这幕后黑手、最大的强盗其实就是央行。我们不知道，因为我们不懂经济，不懂金融学。我们只知道日子是很苦很苦的，却从来不明白为什么。</p>
+<p>治大国如烹小鲜。当远方的信使，骑着快马气喘吁吁地奔波了八百里跑过来和你说“宰相大人，不好了，出大事了”。你掏出手枪，砰地一声，把信使打死了。然后洋洋得意地和周围人说：“我什么也没听到，天下太平”。你这不是2B么。我们现在的内阁团，就是这么一群2B。欧神的这段话说的非常贴切，对于房价是十年九控，除了2009年（08年金融危机，余威延后，致09年房价略降），基本上是越控越涨，很简单，现在房价的90%成本是土地成本，土地成本不降，你想降房价？开玩笑，有哪个开发商愿意亏本建房卖给你呢？房价必然是土地成本+建筑成本+利润等的总和，所以说限购限贷只会使需求延后而已，对于减少土地供应，则更是傻逼政策，未来没地建房了，你还指望房价下降？不涨上天才怪呢！</p>
+<p>文章里有一个小段子，我感觉不错，摘录如下“一个中国人刚到USA时，美国人对他说：‘美国是一个法制社会，你明白吗？’。那个人说：‘明白，公民都要守法’。美国官员说：‘No，法制社会的意思是，政府要守法’”。禁不住一声仰天长叹！</p>
+<p>另外一个段子是这样的，话说重庆的中心是解放碑，解放碑就是重庆中央广场的一个石碑，连接放射性的五条大道，其地位类似于上海的人民广场。段子是这么说的，当年江姐被捕，就是因为蒲志高看见她在朝天门码头上船，穿西装而且自己扛皮箱，于是蒲志高推测她必然是想省钱的G党特务兼屌丝无疑。哈哈，笑了半天。</p>
+<p>在任何一个社会，任何一个时代，“觉醒”的人都是少数的，哪怕启蒙时代也不例外。具体来说，就是无论社会怎样变革，哪怕再过100年。社会上看“综艺”节目的人数，仍将大大多于《科学新发现》。阿姨们会为“中国达人秀”上两个镜头感动得热泪盈眶，却丝毫不考虑新出的法规对公平的践踏。用中国一句很有传统智慧的话说：“肉食者鄙”。对于“觉醒”的人群，估计占总人口的0.1%，以中国目前的人口规模，则是100W人。这个数字包含了中国目前所有的“上层”精英。包括所有有权有势的人。这个社会其实就是0.1%的人，在奴役着99.9%的人，从诛心的角度讲，则是0.1%的人在愚弄着99.9%的人。比如现在火遍全国的学区房，其实这些接盘侠们只能算是中产里的富裕者而已，完全算不上精英或者高层，精英和高层是不会让他的后代在国内接受这种洗脑式的垃圾教育的，他们的后代早已驰骋在国外的世界顶级名校中了。</p>
+<p>如果你要买房，那么记住一句话准没错，“政府呼吁买房时，一般都是房价最低的时候，买房的事得听政府的”。听党的话跟党走，政策放松时马上入场买，涨个一年半，政府要调控了马上卖，高抛低吸，虽然不一定能卖在最顶峰，但肯定比你追涨杀跌要强百倍。</p>
+<p>参考资料<br>【1】<a href="https://zhbjob.gitbooks.io/yevon_ou/content/" target="_blank" rel="external">欧神文集</a>（仅有部分，内容不全，全文请自行去下载PDF）</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;欧神简介：&lt;/strong&gt;姓欧名成效。出生于丁巳年癸丑月癸酉日。上海人，疑似出生于公务员/教育系统的家庭，父母其一据说为正处级。欧神是神童，跳了两级，上海高考前一百，稀里糊涂下进入复旦物理系。那是他的迷惘期，毕业后进入某五百强快消品外企做管培生。然而，他觉
+    
+    </summary>
+    
+      <category term="Life-Talk" scheme="http://www.codepub.cn/categories/Life-Talk/"/>
+    
+    
+      <category term="Thinking" scheme="http://www.codepub.cn/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>提高中文输入效率—自然双拼输入法</title>
+    <link href="http://www.codepub.cn/2017/04/06/Improving-chinese-input-efficiency-natural-shuangpin-input-method/"/>
+    <id>http://www.codepub.cn/2017/04/06/Improving-chinese-input-efficiency-natural-shuangpin-input-method/</id>
+    <published>2017-04-06T13:19:41.000Z</published>
+    <updated>2017-05-17T00:32:19.577Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h3><p>每个人的大脑都有其自己的舒适区，比如说从家到公司开车上班，大脑会优先选择走熟悉的路线，而不是每天变个花样走陌生的路线，所以大脑其实是有惰性的，它总是会优先选择自己最熟悉、最不费力、也最简单的策略。长此以往，如果你不主动跳出舒适区的话，大脑自己是无法成长的。这一点小马（马克扎克伯克，不是马云爸爸哦）也已经认识到了，不得不说，牛人就是牛人，尽管衣食无忧，此生不必奋斗了，但是依然在不断进步，让自己变得更加优秀。小马自己说“每年我都要给自己设立一个挑战, 去学习新的东西，让自己在工作之外得到成长”。所以他特别为自己制定了每一年的挑战计划，列表如下：</p>
+<ul>
+<li>2009年挑战每天戴领带上班</li>
+<li>2010年挑战学习汉语</li>
+<li>2011年挑战只吃自己亲手屠宰的动物</li>
+<li>2012年挑战每天写代码</li>
+<li>2013年挑战每天跟除脸书员工之外的不同的人见面</li>
+<li>2014年挑战每天写封感谢信</li>
+<li>2015年挑战每个月读两本书</li>
+<li>2016年挑战开发一款私人专属人工智能助手以及全年跑步587公里（365英里）</li>
+<li>2017年挑战走遍美国每一个州，听取民众的声音</li>
+</ul>
+<p>成功的人不可怕，可怕的是成功以后还不断努力的人，比如小马，所以我们应该无条件的向优秀的人学习。为此，我也开始学习一项可能大多数人一辈子都不会学习的技能，那就是双拼输入法。为什么选择双拼呢？因为大多数人用的都是全拼，切换输入法的成本其实是很高的，而双拼效率要胜过全拼，粗略比较一下双方的击键次数，滕王阁序863字。用全拼的字符数（不计空格）2387个。用双拼的字符数是1580个。双拼的字符数是全拼的66%左右。使用辅助码后，双拼的重码差不多是10%到20%，常用的语境中，可以实现盲打。</p>
+<h3 id="双拼方案"><a href="#双拼方案" class="headerlink" title="双拼方案"></a>双拼方案</h3><p>双拼的详细信息参看<a href="https://zh.wikipedia.org/wiki/%E5%8F%8C%E6%8B%BC" target="_blank" rel="external">双拼-维基百科</a>，流行的双拼方案有</p>
+<ul>
+<li>自然码双拼</li>
+<li>小鹤双拼</li>
+<li>拼音加加双拼</li>
+<li>微软拼音2003双拼</li>
+<li>紫光拼音双拼</li>
+<li>智能ABC双拼</li>
+</ul>
+<p>我选择的是自然双拼方案，主要是因为这是目前最流行最通用的双拼方案，很多输入法软件的默认双拼方案就是自然码。不过据说小鹤双拼的方案用起来最舒服，如果不介意的话，那么选择应用最广泛的自然码双拼方案即可。</p>
+<h3 id="自然双拼"><a href="#自然双拼" class="headerlink" title="自然双拼"></a>自然双拼</h3><p>自然双拼是有官网的，不过比较丑陋而已，<a href="http://www.zrm.com.cn/" target="_blank" rel="external">官网点我</a>。根据官网自然码简介如下</p>
+<ul>
+<li>自然码是一款非常成熟且定位在高端用户群的输入法，具有超强的整句错误定位和修正功能，兼容非常多的操作习惯，可选择各种扩充专业词库，并可挂接黑马整句输入引擎（偏重医学方面）</li>
+<li>自然码利用压缩韵母和偏旁部首发音，以拼音为基础的高效编码方案。在非常简单的情况下，达到了远远超过普通拼音的最佳境界。自然码双拼部分已经是目前事实上的标准方案，广泛用于各种输入法中，其中与自然码非常相似的微软双拼也是自然码授权的修改版</li>
+<li>自然码方案的理念是让用户只要记住20多个压缩韵母就能快速准确输入。免除全拼记忆汉字和词组顺序、记忆大量简码，输入速度上不去的麻烦。让用户在使用中轻松自然，随心所欲</li>
+</ul>
+<p>在全拼中，每个字都需要声母和韵母组成，但声母和韵母所需要输入的字母个数是不一定的，从一个到三个不等，按键时就需要进行多次输入才能组成一个声母或韵母。而双拼对其进行规范化，无论是声母还是韵母，都各自集合在一个按键上，即把声母中<code>zh</code>、<code>ch</code>、<code>sh</code>和非单字母韵母（<code>ong</code>、<code>iong</code>、<code>uang</code>等）进行重新编排，使每个声母或者韵母都对应一个按键。</p>
+<p>这样一来双拼相对于全拼的简便则凸显出来，特别是对于<code>an</code>、<code>ao</code>、<code>un</code>、<code>ang</code>、<code>ong</code>、<code>ing</code>、<code>uang</code>、<code>iang</code>等这些长的拼音组合以及单字输入这种需求来说，比如说<code>「量」</code>全拼用<code>liang</code>，双拼只需要<code>LL</code>，两个键。</p>
+<p>以自然双拼的键位设置为例，如果我想输入「少数派」三个字，其键盘上：</p>
+<ul>
+<li>按键「U」对应的声母「sh」，对应韵母「u」</li>
+<li>按键「K」对应的声母「k」，对应韵母「ao」</li>
+<li>按键「P」对应的声母「p」，对应的韵母「un/ün」</li>
+<li>按键「L」对应的声母「l」，对应的韵母「ai」</li>
+</ul>
+<p>那么，输入「少数派」就变得很简单了：</p>
+<ul>
+<li>敲击「U」「K」，就能输入「sh」「ao」</li>
+<li>敲击「U」「U」，就能输入「sh」「u」</li>
+<li>敲击「P」「L」，就能输入「p」「ai」</li>
+</ul>
+<p>所以只需要打印一份自然双拼键位图放在身旁即可，照着键位图练习一段时间基本上就可以记住全部键位了，实现超快盲打。</p>
+<h3 id="终极总结"><a href="#终极总结" class="headerlink" title="终极总结"></a>终极总结</h3><p>按照笔者自己的经历，学习双拼大概经历<strong>四个阶段：</strong></p>
+<ul>
+<li>用双拼是不是傻</li>
+<li>好想念用全拼时快捷如风的日子。</li>
+<li>敲键盘好有感觉而且速度还不错唉。</li>
+<li>用全拼是不是傻。</li>
+</ul>
+<p>当许多年以后，来到一个陌生的电脑前，看见他们激烈地在键盘前忙碌地来回敲打，不时还冲你莞尔一笑：「我打字快伐？」，这时你只是报之神秘的一笑，视而不语，让笑意消散在风中。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;缘起&quot;&gt;&lt;a href=&quot;#缘起&quot; class=&quot;headerlink&quot; title=&quot;缘起&quot;&gt;&lt;/a&gt;缘起&lt;/h3&gt;&lt;p&gt;每个人的大脑都有其自己的舒适区，比如说从家到公司开车上班，大脑会优先选择走熟悉的路线，而不是每天变个花样走陌生的路线，所以大脑其实是有惰性的
+    
+    </summary>
+    
+      <category term="Skill" scheme="http://www.codepub.cn/categories/Skill/"/>
+    
+    
+      <category term="Input Method" scheme="http://www.codepub.cn/tags/Input-Method/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>多说已死，切换Hexo博客评论插件到Disqus</title>
+    <link href="http://www.codepub.cn/2017/03/23/Transfer-comments-from-duoshuo-to-disqus/"/>
+    <id>http://www.codepub.cn/2017/03/23/Transfer-comments-from-duoshuo-to-disqus/</id>
+    <published>2017-03-23T14:26:35.000Z</published>
+    <updated>2017-05-17T00:32:19.443Z</updated>
+    
+    <content type="html"><![CDATA[<p>本站点之前的评论插件一直用的都是多说，作为一款免费的第三方社会化评论插件，总体来说，多说做的还算可以，唯独其号称智能的防垃圾评论系统，就像空气人一样，完全无用，导致多说垃圾评论泛滥，令人作呕。恰逢最近多说宣称要进行业务转型，自然评论系统也要关闭，国内的目前比较好的评论系统只有畅言不错，但是畅言需要备案，而我不愿意备案，无奈只能选Disqus了，所以将本站点的多说评论转成Disqus了。</p>
+<p>因为Disqus在国内被墙，所以使用Disqus需要自带翻墙功能或者说需要自带科学上网功能，否则无法加载评论框，自然也就无法评论了，这是我天朝一特色，除了这非常蛋疼的一点，Disqus做得非常好。切换评论系统，首要任务是将评论数据转移到新的系统中，这样基本上就大功告成了。转移评论数据参考<a href="http://urouge.github.io/migrate-to-disqus/" target="_blank" rel="external">多说评论迁移至Disqus</a>，亲测有效，已经成功转移，需要注意一点，在从多说导出数据的时候，选择工具，导出数据，一定要勾选如下两个选项</p>
+<ul>
+<li>包含文章数据</li>
+<li>包含评论数据</li>
+</ul>
+<p>这样在使用脚本解析的时候，才不会报错。</p>
+<p>启用Disqus，需要编辑站点和主题的<code>_config.yml</code>文件，添加<code>disqus_shortname</code>字段（先搜索，如果有就不用），设置如下</p>
+<blockquote>
+<p>disqus_shortname: your-disqus-shortname</p>
+</blockquote>
+<p>如需取消某个页面的评论，在<code>md</code>文件的<code>front-matter</code>中增加</p>
+<blockquote>
+<p>comments: false</p>
+</blockquote>
+<p>关于Next.Mist主题启用Disqus评论详情可以参考<a href="https://github.com/iissnan/hexo-theme-next/wiki/%E8%AE%BE%E7%BD%AE%E5%A4%9A%E8%AF%B4-DISQUS" target="_blank" rel="external">这里</a>。</p>
+<p>同样之前使用的多说分享，以及多说热评等都将被停用，分享推荐使用百度分享，但是Next主题并不支持百度分享，证据在<a href="https://github.com/iissnan/hexo-theme-next/issues/425" target="_blank" rel="external">这里</a>，所以只能使用JiaThis分享代替，但是JiaThis的侧栏式分享有BUG，会铺满整个屏幕，不推荐使用，经过亲自实验，最后选择了图标式，分享图标会显示在评论框的上面，除了图标比较丑外，够用。</p>
+<p>点<a href="http://www.jiathis.com/getcode/icon/?style=24x24&amp;btn=qzone,tsina,tqq,weixin,renren,jicon&amp;codestyle=standard&amp;showshares=true&amp;renren-data=width%3D100&amp;tsina-data=width%3D120&amp;showujian=true" target="_blank" rel="external">JiaThis™图标式代码</a>获取JiaThis分享图标代码，添加到<code>D:/hexo/themes/next/layout/_partials/share/jiathis.swig</code>中即可，然后在<code>D:/hexo/themes/next/_config.yml</code>中启用</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># Share</div><div class="line">jiathis: true</div><div class="line">add_this_id: 填你自己的JiaThis id</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本站点之前的评论插件一直用的都是多说，作为一款免费的第三方社会化评论插件，总体来说，多说做的还算可以，唯独其号称智能的防垃圾评论系统，就像空气人一样，完全无用，导致多说垃圾评论泛滥，令人作呕。恰逢最近多说宣称要进行业务转型，自然评论系统也要关闭，国内的目前比较好的评论系统只
+    
+    </summary>
+    
+      <category term="Git/GitHub" scheme="http://www.codepub.cn/categories/Git-GitHub/"/>
+    
+    
+      <category term="Hexo" scheme="http://www.codepub.cn/tags/Hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面向log4j2 API编程而不是slf4j</title>
+    <link href="http://www.codepub.cn/2017/03/08/Programming-to-the-log4j2-API-instead-of-slf4j/"/>
+    <id>http://www.codepub.cn/2017/03/08/Programming-to-the-log4j2-API-instead-of-slf4j/</id>
+    <published>2017-03-08T14:18:55.000Z</published>
+    <updated>2017-05-17T00:32:19.576Z</updated>
+    
+    <content type="html"><![CDATA[<p>很高兴，阿里开源了其内部的<strong>Java</strong>开发手册，简单点说这是一本<strong>Java</strong>开发规范，比方说以前我一直在纠结工具类的命名到底是以<strong>utils</strong>结尾还是以<strong>util</strong>结尾，那同样地，工具类的包名是以<strong>utils</strong>结尾还是以<strong>util</strong>结尾呢？在这本电子书里就给出了很好的说明。再比如定义数组的时候，我们可以这样<code>String strs[] = new String[5];</code>也可以这样<code>String[] strs = new String[5];</code>，到底哪种方式更好呢？显然是后一种，后一种明确的指定了我们所定义的变量是<code>String[]</code>类型。也许你会说，这些都是小问题并不影响我开发，是的，问题不大，但是规范漂亮的代码看起来难道不是更加的赏心悦目吗？把每一次阅读代码的过程看做是品味一杯醇厚的咖啡不是让人觉得更加惬意吗？当然规范的代码带来的好处远不止如此，比如两个竞争性的开源项目，性能特性等差别不大，其中一个是你主导的，那么这时候，如何能让自己的开源项目获得更多的<strong>star</strong>呢？显然代码规范漂亮简洁的项目肯定能获得更加的流行，再比如当你接手离职人员的代码的时候，看着那一坨坨写的像翔一样的代码，你是不是很想骂娘呢？甚至问候一下他们家的女性成员呢？</p>
+<p>在看《阿里巴巴Java开发手册》过程中，其在日志规约部分提到</p>
+<blockquote>
+<p>应用中不可直接使用日志系统（Log4j、Logback）中的API，而应依赖使用日志框架SLF4J中的API，使用门面模式的日志框架，有利于维护和各个类的日志处理方式统一</p>
+</blockquote>
+<p>很遗憾，这里面并没有指明对于<strong>Log4j2</strong>日志系统，是否需要使用门面日志框架呢？而我正在使用的就是<strong>Log4j2</strong>。有关<strong>Log4j2</strong>的介绍请参考<a href="http://www.importnew.com/3046.html" target="_blank" rel="external">这里</a>和<a href="https://logging.apache.org/log4j/2.x/" target="_blank" rel="external">这里</a>，现在的<strong>Log4j2</strong>已经是Java中最优秀的日志框架了，那么我们是否还需要留有余地，以便日后更换日志框架呢？因为使用<strong>slf4j</strong>的主要一个目的就是可以方便的更换底层的具体日志框架，而如果没有更换日志框架的必要的话，那么自然也就没有使用<strong>slf4j</strong>的必要了。</p>
+<p>当然了，更多的情况是为了兼容性考虑，比如旧有的项目一直用的都是<strong>slf4j</strong>，那么这时如果想要结合<strong>log4j2</strong>使用的话，上层需要面向<strong>slf4j</strong> API编程，而底层日志框架指定<strong>log4j2</strong>，需要添加如下依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- log配置：Log4j2的核心依赖 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.logging.log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.8<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.logging.log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.8<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 桥接：告诉Slf4j使用Log4j2 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.logging.log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j-slf4j-impl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.8<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 面向slf4j API编程 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.24<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>可以看出，这样需要依赖4个Jar包，而实际上<strong>log4j2</strong>核心的Jar包只有2个。如果<strong>log4j2</strong>已经足够完美，并且我们也不需要切换底层日志框架的话，是不是直接面向<strong>log4j2</strong>的API编程更好呢？秉着一向追求完美的习惯，于是去<a href="http://stackoverflow.com" target="_blank" rel="external">stackoverflow</a>上逛了一下，发现已有类似问题。<a href="http://stackoverflow.com/questions/41498021/is-it-worth-to-use-slf4j-with-log4j2" target="_blank" rel="external"><strong>Is it worth to use slf4j with log4j2</strong></a>中就说了，推荐直接面向<strong>log4j2</strong> API编程，理由如下：</p>
+<ul>
+<li>Message API</li>
+<li>Lambdas for lazy logging</li>
+<li>Log any Object instead of just Strings</li>
+<li>Garbage-free: avoid creating varargs or creating Strings where possible</li>
+<li>CloseableThreadContext automatically removes items from the MDC when you’re finished with them</li>
+</ul>
+<p>而且就目前来说，对于<strong>log4j2</strong>中的诸多特性，<strong>slf4j</strong>并不支持（See <a href="http://stackoverflow.com/questions/41633278/can-we-use-all-features-of-log4j2-if-we-use-it-along-with-slf4j-api/41635246#41635246" target="_blank" rel="external">10 Log4j2 API features not available in SLF4J</a> for more details），最重要的是<strong>log4j2</strong>包含了一个<code>log4j-to-slf4j</code>模块，该模块可以在任何时候将任何面向<strong>log4j2</strong> API编程的代码转向任何具体的<strong>slf4j</strong>的实现框架，其调用流程简单描述如下：</p>
+<div align="center"><br><img src="http://7xig3q.com1.z0.glb.clouddn.com/log4j2_API_slf4j.png" alt=""><br></div>
+
+
+<p>综上所述，现在，你可以直接面向<strong>log4j2</strong> API编程了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;很高兴，阿里开源了其内部的&lt;strong&gt;Java&lt;/strong&gt;开发手册，简单点说这是一本&lt;strong&gt;Java&lt;/strong&gt;开发规范，比方说以前我一直在纠结工具类的命名到底是以&lt;strong&gt;utils&lt;/strong&gt;结尾还是以&lt;strong&gt;util&lt;/st
+    
+    </summary>
+    
+      <category term="Programming Notes" scheme="http://www.codepub.cn/categories/Programming-Notes/"/>
+    
+    
+      <category term="Log4j2" scheme="http://www.codepub.cn/tags/Log4j2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>读《暗时间》</title>
+    <link href="http://www.codepub.cn/2017/03/04/Read-dark-time/"/>
+    <id>http://www.codepub.cn/2017/03/04/Read-dark-time/</id>
+    <published>2017-03-04T10:18:12.000Z</published>
+    <updated>2017-05-17T00:32:19.481Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>作者简介：</strong>刘未鹏，南京大学计算机系硕士毕业，现就职于微软亚洲研究院创新工程中心，有自己的Blog <a href="http://mindhacks.cn/" target="_blank" rel="external">Mind Hacks</a>。域名 <strong>MindHacks.cn 的含义</strong>：</p>
+<ul>
+<li>Mind Hacks 是<strong><a href="http://www.douban.com/subject/1395497/" target="_blank" rel="external">一本书</a></strong></li>
+<li>Mind Hacks 是<strong><a href="http://mindhacks.cn/topics/mind/" target="_blank" rel="external">一系列思维工具</a></strong></li>
+<li>Mind Hacks 有<strong>一个漫长的前生</strong>——一个有着近6年历史的技术博客，在CSDN上有超过一百二十万的访问量，详见<a href="http://mindhacks.cn/former-life-of-mindhacks/" target="_blank" rel="external">《前世档案|C++的罗浮宫》</a></li>
+<li>Mind Hacks 的博客作者创建了<strong>TopLanguage</strong>：<a href="https://groups.google.com/group/pongba" target="_blank" rel="external">https://groups.google.com/group/pongba</a></li>
+</ul>
+<p>善于利用思维时间的人，可以无形中比别人多出很多时间，从而实际意义上能比别人多活很多年。善于利用思维时间的人则能够在重要的事情上时时主动提醒自己，将临时的的记忆变成硬编码的行为习惯。</p>
+<blockquote>
+<p><strong>我：</strong>以前一直为自己寻找借口，就是事情太多，记不住，有些事情难免忘记，这次看到了牛人的解决办法，不仅为之一振，是的，既然会忘记，就说明还没有成为行为习惯，比如刚开始学会开车，可能处处小心，走过每一个路口都要仔细观望一番，但是当某条路走了成百上千次之后，你几乎可以凭借本能而不是大脑开车了，什么时候加速什么时候刹车什么时候打转向灯等等，不需要大脑参与其中任何一次的决策，这样也不会出现任何问题，这就是行为习惯。顺便多说一句，所谓的硬编码就是在程序编程中将某些功能写死，使得以后很难扩展或是应付变化，这在编程中是极其不推荐的，远离硬编码的首要原则是尽可能地使自己的代码能够迎接各种变化的挑战。</p>
+</blockquote>
+<p>程序员行业是最适合自学的行业，网络是程序员的天堂，需要的资源、工具，比课堂上的多出何止百倍，如果说还有一个学科，并不需要传统的教育就可以成才，估计非程序员莫属了。</p>
+<blockquote>
+<p><strong>我：</strong>从我自身实战的角度来说，我的大多数专业知识都是靠自学得来，不要指望在大学里能够学到多么专业多么精深的知识，或许在国内顶尖高校这是可能的，但是对于国内剩下的几千所一般性大学来说，这几乎是百分之百不可能的。大多数的高校老师都是理论派，念念书读读PPT，这堂课就过去了，几乎没有实操的现场演示，所以对于在一般大学的学生来说，我觉得倒不如去网络上下载大量的培训视频自学技术来得实在。生活中，另外一些常见的现象是，一些人总是会这样说：“可以把某某安装程序发我一份吗？”，“可以给我推荐某某方面的编程书籍吗？”几乎都不用预测，这种类型的人多数都是不适合程序员行业的，他们属于衣来伸手，饭来张口类型，从不会自我督促自我前进，哪怕他们学会太多，但是却无法应付一点点他们没有学过的领域所带来的挑战，他们永远达不到从无知走向无师自通的境界。</p>
+</blockquote>
+<p>对于经验知识的学习来说，光是看着别人做或者听着别人说还不够，往往到了自己就想不起来，结果就是你虽然学到了知识，它却不会在恰当的时候从你的大脑中蹦出来，属于“死知识”。</p>
+<blockquote>
+<p><strong>我：</strong>只这一句话就道出了我为什么没有成为得到的深度订阅用户的原因，这其中的一个原因就在于经验性的知识并不能使你受益多少。比如李笑来靠着比特币实现财务自由，他把经验告诉你了，有用吗？你还有机会吗？你再次从头来过，在比特币还未大行其道的时候，你敢斥巨资投入吗？下一次碰到像比特币这样的机会，可能你还会错过，即使你保证说自己不会错过了，但是当这种机会出现的时候，你也抓不住，因为你看不清前景，你不知道它最后会变得这般美好。</p>
+</blockquote>
+<p>人太容易为各种各样的事情分心，要集中注意力做一件事情使非常难的，而正因为难，少有人做到，那些做到的，都变成了牛人。专注力为什么会对学习效率造成这么大的影响。这来源于两个方面，一是专注于一件事情能让表层意识全功率运作，这个是显式的效率。第二点，也是更重要的，它还能够使你的潜意识进入一种专注于这件事情的状态。</p>
+<blockquote>
+<p><strong>我：</strong>特别是现在的诱惑越来越多，时间的碎片化也越来越严重，而想要集中精力利用大块的时间去学习已经很难获得了，因为在工作中你容易被太多事情打扰，进而分散你的注意力。最近看到冯大辉的无码科技招聘，里面一条说的特别好，尽量保持办公室安静，即便有需要交谈的地方尽量也不要打扰到别人，还有你最好不要有抖腿的习惯，否则一排的桌子都会被你带动的。</p>
+</blockquote>
+<p>利用碎片时间：任何一点时间都可以用于阅读。举个例子，我每天从家里出发到公司的路上一般有10分钟左右，我发现可以读2~5页书（不是小说类，而是知识类的书）。即便往少了算每天两页，两百页的书也就3个月就读完了。点滴的时间汇聚起来就是一个“长尾”，想一想，每天有多少个这样的4~5分钟。</p>
+<blockquote>
+<p><strong>我：</strong>作者达到这个级别，我真想说，不想成功都难啊！生活中大量的点滴时间都被我们忽略了，刷个微博、看个新闻、扫个朋友圈、聊个天、吐个槽等等，可以说，你只要做好了非常基本的几点，其实你很容易就超越了生活中大部分的人。</p>
+</blockquote>
+<p>Satisficing原则：有一次，在豆瓣上看到某人日志里面提到一个讲座，后面写了一些感想，但讲座的链接没有给出，于是我第一反应就是留言问他要链接，但是实际上呢？只要把讲座关键词扔到Google上就行了。留言要链接可以说是人的第一反应，而且这也满足可行原则。如果这个日记是不允许留言的，并且我不认识这个作者，我可能会立即想到去Google了。</p>
+<blockquote>
+<p><strong>我：</strong>我感觉吧，其实大脑像人一样，也是个懒蛋，当大脑不费吹灰之力想到了一个可行解的时候，它就不会再去进一步思考最优解了，生活中的某些事情，其实只要多加思考，是存在最优解的。</p>
+</blockquote>
+<p>人最重要的能力之一就是能否从别人的错误中学习，往往是这类人能够迅速走在别人的前面，在别人跌倒的地方跳过去。而不是将别人趟过的泥潭再趟一遍。</p>
+<blockquote>
+<p><strong>我：</strong>人生有崖，如何能够最快最短的学习到足够的经验知识就能快速的成功，其实不仅知识可以学习，经验同样可以学习，同样的一件案例，有人能够挖掘到很多的经验而有的人两手空空，毫无所获。但是也不要只做一个思想上的巨人行动上的矮子，经验知识要能在恰当的时刻从你的脑海中蹦出，还需要不断的实践，否则大家都坐地谈天而不付出行动，这样是无法成功的。</p>
+</blockquote>
+<p>看书并记住书中的东西只是记忆，并没有涉及推理，只有靠推理才能深入理解一个事物，看到别人看不到的地方，这部分推理的过程就是你的思维时间，也是人一生中占据一个显著比例的“暗时间”，你走路、买菜、洗脸、坐公车、逛街、出游、吃饭、睡觉，所有这些时间都可以成为“暗时间”，你可以充分利用这些时间进行思考，反刍和消化平时看和读的东西，让你的认识能够脱离照本宣科的局面。这段时间看起来微不足道，但日积月累将会产生庞大的效应。</p>
+<blockquote>
+<p>要从一个“记忆”学习者向“思考”学习者转变，现代，经常性的日常信息多得看都看不完，所以能够深入去思索的人就更少的可怜了，这就需要信息筛选与鉴别能力，要建立起个人的层层过滤网，就像鼻孔中的鼻毛一样，把浑浊的空气经过过滤网的层层筛选到最后变成洁净的空气一样，洁净的空气可以供养给肺部，同样有效洁净的信息流供养给大脑，并可以将从垃圾信息中节约出来的时间用于大脑的自我重塑——思考。</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;作者简介：&lt;/strong&gt;刘未鹏，南京大学计算机系硕士毕业，现就职于微软亚洲研究院创新工程中心，有自己的Blog &lt;a href=&quot;http://mindhacks.cn/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Mind Hack
+    
+    </summary>
+    
+      <category term="Life-Talk" scheme="http://www.codepub.cn/categories/Life-Talk/"/>
+    
+    
+      <category term="Thinking" scheme="http://www.codepub.cn/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>读《人类简史》</title>
+    <link href="http://www.codepub.cn/2017/02/12/Read-a-brief-history-of-humankind/"/>
+    <id>http://www.codepub.cn/2017/02/12/Read-a-brief-history-of-humankind/</id>
+    <published>2017-02-12T13:27:40.000Z</published>
+    <updated>2017-05-17T00:32:19.463Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>作者简介：</strong>尤瓦尔·赫拉利，1976年生，牛津大学历史学博士，现为耶路撒冷希伯来大学的历史系教授，青年怪才，全球瞩目的新锐历史学家。他擅长世界历史和宏观历史进程研究。在学术领域和大众出版领域都有很大的兴趣。他的《人类简史》一书让他一举成名，成为以色列超级畅销书，目前这本书已授20多个国家版权，在历史学之外，人类学、生态学、基因学等领域的知识信手拈来，根据图书改变的课程上传YOUTUBE后风靡全球，拥有大批青年粉丝。写书，视频课程之外，他还开设有专栏。</p>
+<p>人类经过数百万年才发展出以四肢行走、头部相对较小的骨架，而要将这种骨架调整成直立，可说是一大挑战，而且还得撑住一个超大的头盖骨，更是难上加难。于是，为了能望远、能有灵活的双手，现在人类只得面对背痛、颈脖僵硬的苦恼代价。这点对妇女来说造成的负担更大。直立的步行方式需要让臀部变窄，于是产道宽度受限，而且别忘了婴儿的头还越来越大。于是，分娩死亡成了女性的一大风险。而如果早点儿生产，婴儿的大脑和头部都还比较小，也比较柔软，这位母亲就更有机会渡过难关，未来也可能再生下更多孩子。</p>
+<blockquote>
+<p>我：逻辑思维的罗振宇讲过这个话题，人类的婴儿其实在母体内只是完成了最基本的器官发育，许多重要的器官以及后续的发育成熟都是在母体外完成的。这其实是一个权衡的过程，想要大的脑容量又想要直立行走，只能将预产期提前，在还未发育完全的情况下，就让孩子出生，在出生之后继续完成发育，这样才能取得一个相对人类历史来说短暂的平衡。</p>
+</blockquote>
+<p>在现代的富裕社会，平均每周的工时是40~45小时，发展中国家则是60~80小时；但如果是狩猎采集者，就算住在最贫瘠的地区，平均每周也只需要工作35~45小时。他们大概只需要每三天打猎一次，每天采集3~6小时。一般时期，这样就足以养活整个部落。而很有可能大多数的远古采集者住的都是比卡拉哈里沙漠更肥沃的地方，所以取得食物和原物料所需的时间还要更少。最重要的是，这些采集者可没什么家事负担。他们不用洗碗，不用吸地毯，不用擦地板，不用还尿布，也没账单得付。</p>
+<blockquote>
+<p>我：现代社会的发展越来越变态，人已经不为自己而活，而是为了其它所有和自身无关的社会机构政府组织而活，总的来说现在其实是一种倒退，因为要养活的人实在太多，再也无法回到采集社会了。记得美国有段年轻人拍的视频，讲的就是少部分的精英奴役了世界上大部分的人，他们控制纸币，让我们为纸币而活，进而又生产出大批量可有可无的商品，诱惑你去花费纸币，纸币花完了再出卖自己的劳力，给别人奴役自己的机会。</p>
+</blockquote>
+<p>现在如果是在血汗工厂工作，每天早上大约七点就得出门，走过饱受污染的街道，进到工厂用同一种方式不停操作同一台机器，时间长达10小时，叫人心灵整个麻木。等到晚上七点回家，还得再洗碗、洗衣服。而在三万年前，如果是个采集者，可能是在大约早上八点离开部落，在附近的森林和草地上晃晃，采采蘑菇、挖挖根茎、抓抓青蛙，偶尔还得躲一下老虎。但等到中午过后，他们就可以回到部落煮午餐。接下来还有大把时间，可以聊聊八卦、讲讲故事，跟孩子玩，或者就是放松放松。</p>
+<blockquote>
+<p>我：想着这种惬意的生活方式其实不就是很多人穷毕生之力去追逐的吗？古人早已过上了好日子，在我们看不上他们的日子的同时，他们更加看不上我们的日子。</p>
+</blockquote>
+<p>农业革命所带来的非但不是轻松生活的新时代，反而让农民过着比采集者更辛苦、更不满足的生活。狩猎采集者的生活其实更为丰富多彩。普遍来说，农民的工作要比采集者更辛苦，而到头来饮食还要更糟。农业革命可以说是史上最大的一桩骗局。谁该负责？这背后的主谋，既不是国王，不是牧师，也不是商人。真正的主要嫌疑人，就是那极少数的植物物种，其中包括小麦、稻米和马铃薯。人类以为自己驯化了植物，但其实是植物驯化了智人。</p>
+<blockquote>
+<p>我：想想确实是这样，人类的生活正变得越来越复杂，所以我们以为掌控在我们手里的东西其实都是我们所依赖的，我们正变得越来越臃肿越来越脆弱，从一个简单的个体变成了一个依赖系统，这些依赖系统中任何一环出了差错，都会对人类产生影响，甚至付出生命的代价。</p>
+</blockquote>
+<p>奢侈品史上常有这样的情况，就是原本的奢侈品往往最后会成为必需品，而且带来新的义务。等到习惯某种奢侈品，就开始认为这是天经地义。接着就是一种依赖最后，生活中就再也不能没有这种奢侈品了。让我们用现代大家都熟悉的例子来解释。在过去的几十年里，我们有许多本该会让生活轻松省时又如意的发明，像是洗衣机、吸尘器、洗碗机、电话、手机、计算机、电子邮件等等。在以前，寄信是件麻烦事，得亲手动笔、写信封、贴邮票，还得在走到邮筒那里去寄。想得到回信，可能得等上几天、几星期，甚至是几个月。至于现在，可以随手就寄一封电子邮件，传送到地球的另一边，而且如果收件人在线，可能只要一分钟就能收到回信了。我确实省下了所有麻烦和时间，但生活真的更轻松了吗？</p>
+<blockquote>
+<p>我：好多你以为的必须其实并不是真正的必须，就像各种结婚条件一样，房子车子票子只是要的人多了，你才把罕见错以为必须了。</p>
+</blockquote>
+<p>释迦牟尼认为，人遇到事情通常会产生欲念，而欲念总是会造成不满。遇到不喜欢的事，就想躲开；遇到喜欢的事，就想维持并增加这份愉悦。但正因为如此，人心就永远不满、永远不安。这点在碰上不悦的时候格外明显，像是感觉疼痛的时候，只要疼痛持续，我们就一直感到不满，用尽办法想要解决。然而，就算是遇上欢乐的事，我们也从不会真正满足，而是一直担心这种欢乐终将结束或是无法再持续或增强。有些人多年来一直在寻找爱情，但等到真的找着了爱情，却还是不满足。有的开始整天担心对方可能会离开；有的又觉得自己太过屈就，应该再找更好的人。</p>
+<blockquote>
+<p>我：释迦牟尼说的很对，这个理论不仅适用于我们普通的日常生活，也适用于感情之间。现在所谓的剩男剩女，其实不就是源于内心的不满吗？欲壑难填，对现有的男人或者女人不满意，想要寻找更好的男人或者女人，然而她自己却不说自己配不配得上的问题。</p>
+</blockquote>
+<p>混沌系统分成两级，一级混沌指的是“不会因为预测而改变”。例如天气，就属于一级混沌系统。虽然天气也是受到无数因素影响，但我们可以建立计算模型，不断加入越来越多因素，让天气预报也越来越准确。至于二级混沌系统，指的是“会受到预测的影响而改变”，因此就永远无法准确预测。例如市场就属于二级混沌系统，假设我们开发出了一个计算机程序，能够完全准确预测明天的油价，情况会如何？可以想见，油价会立刻因应这个预测而波动，最后也就不可能符合预测。例如，假设目前石油价格是每桶90美元，而这个绝对准确的程序预测明天会涨到100美元，商人就会立刻抢进，好在预期的涨价中获利。但结果就是油价会在今天就涨到100美元，而不是明天。那明天究竟会如何？这件事就没人知道了。</p>
+<blockquote>
+<p>我：生活中这种混沌系统太多了，大部分的事情我们都可以套用这个公式。第一类我们称为零反馈事件，比如从众、审美疲劳。你一般不会因为知道自己从了众或别人告诉你在从众而不这样做。第二类是强反馈事件，最典型的是投资策略，如果大伙都知道今年的暴雨会袭击咖啡豆园地，这星巴克就没法炒了，所有的零和博弈都有类似问题，好比某部落举行篝火晚会，一只香嫩的烤全羊就在“口口相传”中消失了。</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;作者简介：&lt;/strong&gt;尤瓦尔·赫拉利，1976年生，牛津大学历史学博士，现为耶路撒冷希伯来大学的历史系教授，青年怪才，全球瞩目的新锐历史学家。他擅长世界历史和宏观历史进程研究。在学术领域和大众出版领域都有很大的兴趣。他的《人类简史》一书让他一举成名，成
+    
+    </summary>
+    
+      <category term="Life-Talk" scheme="http://www.codepub.cn/categories/Life-Talk/"/>
+    
+    
+      <category term="Thinking" scheme="http://www.codepub.cn/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>读《精要主义》</title>
+    <link href="http://www.codepub.cn/2017/01/20/Read-essentialism/"/>
+    <id>http://www.codepub.cn/2017/01/20/Read-essentialism/</id>
+    <published>2017-01-20T15:14:15.000Z</published>
+    <updated>2017-05-17T00:32:19.490Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote class="blockquote-center"><br><strong>生之智慧，在于摒弃不必要之事。</strong><br>——林语堂<br></blockquote>
+
+<p><strong>作者简介：</strong>THIS公司创始人，该公司致力于帮助个人和企业将80%的时间用在正确的事情上，免受琐事的困扰。公司客户包括苹果、谷歌、Facebook、皮克斯、Adobe、Twitter等多家知名公司。备受欢迎的撰稿人，文章经常发表在《快公司》《财富》《赫芬顿邮报》《公司》等杂志上。他还是《哈佛商业评论》受欢迎的专栏作家之一。成功的演讲者，足迹遍布澳大利亚、加拿大、英国、日本等多个国家，曾受邀在西南偏南大会上发表演讲，曾在瑞士达沃斯世界经济论坛上采访过阿尔•戈尔，曾受挪威王储的邀请在创新年会上发表演讲。他的演讲内容聚焦于创新、专注力、领导力、精要主义。</p>
+<p>最直白的一个问题，什么是精要主义？专注精要事务，可以通向成功；但成功会带来太多的选择和机会，其结果就是最初通向成功的那个专注点土崩瓦解。成功变成了失败的催化剂，它会让人陷入吉姆·柯林斯所称的“盲目地追求更多”的境地。要想走出这种困境，出路就是自律地追求“更少，但更好”。百折不挠、坚持不懈地追求精要事务，排除非精要的一切，建立一个让执行毫不费力的行为体系。</p>
+<p>现代这个社会，大家正越来越关注于健康的生活方式，也有越来越多的人加入到了运动的大军中来，但是坚持下来的极少，究其原因，总是抱怨没有时间，然而这是真的吗？当你抱怨没有时间的时候，却抱着手机刷着微博、朋友圈，不知不觉两小时过去了，而这两小时用来锻炼是绰绰有余的。就像精要主义里面说的，锻炼本身不是什么难事，每天决定是否锻炼才是真正让人头疼的。解决办法就是把锻炼发展成一种体系或者常规，使之彻底融入到我们的日常生活之中。</p>
+<p>精要主义者和非精要主义者在思考、做法、收获等诸多方面存在着区别，而这种差别不仅导致了穷忙族的诞生，也导致了越忙反而越没有收获。很多时候，包括我自己都把忙视为通向成功之路，然而并不是，在这本书中就提到了，我们生活的世界中，几乎所有的一切都是毫无价值的，只有极少量事物具有非凡的价值，这是我们无法挣脱的现实。精要主义就是要打破这种用忙碌衡量成功的浅见。</p>
+<p>简单来说，精要主义做的是减法而不是加法，当然它也不提倡为了少做而少做，而是主张只做必做之事，尽可能做出最明智的时间和精力投资，从而达到个人贡献峰值。精要主义就是对自己的生活进行设计规划，而不是事事依循默认设置。若要最大限度成就真正重要之事，切忌贪多求全，事事应允。其实在生活中，你无需完成更多的事情，你只需要尽力做好对的事情即可。</p>
+<p>书里提到了一个日常生活中常见的现象，被作者称之为“成功的悖论”，主要可以概括为以下4个可预见的阶段：</p>
+<ol>
+<li>第一阶段，如果我们真的有清晰的目标，它有助于我们取得成功</li>
+<li>第二阶段，当我们成功时，就会被冠以“可以去找的人”的称号，成为“老好人”，只要你需要，就总能找到这个人。这样，我们就能得到更多的选项和机会</li>
+<li>当我们拥有了更多的选项和机会，实际上也就被要求付出更多的时间和精力，这样便会导致精力的分散。我们被千头万绪的事情牵扯得越来越无法集中精力</li>
+<li>因为精力分散，我们无法实现原本可以实现的个人贡献峰值。成功所带来的后果最终瓦解了最初指引我们走向成功的那个真正清晰的目标</li>
+</ol>
+<p>这个日常生活中常见的现象是不是似曾相识呢？想要做的更好，付出更多，取悦更多的人，必然需要付出更多的精力，而精力的分散，可能会导致本来处理相当好的事情也无法兼顾，从而不仅无法应付新的事情也丢失了已有的优势。</p>
+<blockquote class="blockquote-center"><br><strong>人之所以为人，就在于选择的能力。</strong><br>——马德琳·恩格尔<br></blockquote>
+
+<p>精要主义是一种思维方式，不简单的是一种做事方法，要抓住精要主义的本质，需要接受三条核心真理：“我选择我要做的事”，“只有小部分事情是重要的”以及“我能做任何事但不是所有事”。国外科学家做了一个实验解释了“习得性无助”这一现象，简单点说，患有这种障碍的人就是没有发现自己才是拥有选择权的决定者。精要主义者必须高度重视选择能力，将之视为一种战无不胜的力量，它的存在独立于其他任何事物、任何人及任何力量。忽略了选择的能力，就等于选择了无助，这就是习得性无助现象的本质。</p>
+<blockquote class="blockquote-center"><br><strong>所谓战略，就是如何作出选择及取舍。它意味着通过慎重选择来实现不同。</strong><br>——迈克尔·波特<br></blockquote>
+
+<p>尽管有时取舍会给人带来痛苦，但却代表着一个意义重大的机会。通过强迫自己权衡两者并战略性地选择那个对自己最有利的，就能极大地增加实现自己目标的机会。精要主义者的一大悖论就是相比非精要主义者，精要主义者实际上会探索更多的选择项。精要主义者在专注于某项事情之前，先广泛地探索和评估各种选项，他们最开始时探索更多的选项，就能保证以后作出的选择是正确的。</p>
+<p>生活中总是有这样一些人，和他们维护关系要比跟其他人费劲，这些人总是把他们自己的问题当成我们的问题。这就是界限范围不清的典型例子，一定要果断地和这些人划清界限范围，让他们知道我们没有义务去处理任何属于他们自己的事情，这样无休止的被他们纠缠，只会导致我们精疲力竭，最后还会因为没有很好的达到他们的要求，而破坏本来属于我们还不错的关系。无论从何种方面来说，对于这些人要么拒绝要么远离，也不要因为失去了这些人而懊恼，因为这无形中为你节约了大量的精力。不管是谁想要榨取你的时间和精力，来为他自己的目的服务，唯一的解决办法就是划清界限。</p>
+<blockquote class="blockquote-center"><br><strong>给我6个小时砍倒一棵树，我会先花4个小时来磨快斧子。</strong><br>——亚伯拉罕·林肯<br></blockquote>
+
+<p>在本书的结尾，作者指出了现在我们正在面临的问题，那就是这是一个比以往任何时候都过度互联的时代，智能终端的束缚捆绑和超量信息的入侵干扰已经把人们切分成了越来越细碎的存在，在如何保持自我的完整性以抵御在机械、琐碎和无效的囹圄中一步步滑向无足轻重的危机？这个问题吴军博士在他的智能时代中也提到了，在现在这样一个比以往任何时候都告诉法发展的时代，稍不留神，就会被世界远远地抛在身后，吴军也说在智能时代只有2%的人能够进入到世界的前列，剩下的都会被淘汰，而抱怨并没有任何卵用。人只要还有点儿向前的动力和扑腾的能力，就不会甘于成为庸碌之辈，因此很多人为了最大限度地实现价值而东奔西突。但是任何成功和对成功的追逐都不能脱离具体的、现实的社会条件，因此认清现实无疑是找到出路的首要条件。</p>
+<p>因为无法在万事万物中择其精要而为之，还要对各种外部期待和要求俯首帖耳、唯命是从，因此满世界都是一个个方向不明、轻重不辨、气喘吁吁的累人或累人联合体——企业。盲目地追求更多，让本已经负重过度的生活和事业雪上加霜，进而与价值实现的目标南辕北辙。</p>
+<p>也许出身际遇天注定，祸福兴衰如天之风云般不可测，修成圣贤、臻于翘楚对于万众而言最终可能只是个终不可及的幻影，但在人力所能左右的疆域里，于抉择取舍之间时刻倾听内心志向之声，于千头万绪中明辨轻重缓急，于万事万物中斩断一切有碍进步之事，藏大局于胸，不为一时一事所缚，进退有度，涵养心智，活在当下，尽享途中之乐，这或许是人人皆可为之的。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote class=&quot;blockquote-center&quot;&gt;&lt;br&gt;&lt;strong&gt;生之智慧，在于摒弃不必要之事。&lt;/strong&gt;&lt;br&gt;——林语堂&lt;br&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;作者简介：&lt;/strong&gt;THIS公司创始人，该公司
+    
+    </summary>
+    
+      <category term="Life-Talk" scheme="http://www.codepub.cn/categories/Life-Talk/"/>
+    
+    
+      <category term="Thinking" scheme="http://www.codepub.cn/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>读《创新者的窘境》</title>
+    <link href="http://www.codepub.cn/2017/01/04/Read-the-innovator-s-dilemma/"/>
+    <id>http://www.codepub.cn/2017/01/04/Read-the-innovator-s-dilemma/</id>
+    <published>2017-01-04T14:38:05.000Z</published>
+    <updated>2017-05-17T00:32:19.465Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>作者简介：</strong> 克莱顿•克里斯坦森：哈佛商学院教授，因其在企业创新方面的深入研究和独到见解，被尊称为“创新大师”。1997年，当《创新者的窘境》英文版出版时，克莱顿•克里斯坦森只是哈佛商学院的助理教授。而此书一出，就确立了他在创新技术管理领域的权威地位 。</p>
+<blockquote class="blockquote-center"><br><strong>就算我们把每件事情都做对了仍有可能错失城池，面对新技术和新市场，往往导致失败的恰好是完美无瑕的管理。</strong><br></blockquote>
+
+<p>非常值得推荐的一本书，该书并不研究一些管理落后的企业衰败的原因或者并不占据行业主导地位的企业衰败的原因，而主要谈的是为何成功的企业、管理优秀的企业、占据行业龙头的企业、同时也在不断创新的企业最后衰败的原因。前者其最终衰败看来是必然，如若从此点切入，此书必然难成大器；而从后者这一非常困难的角度切入，注定了该书起点不低。另外书中主要以硬盘驱动器这一行业作为研究案例，因为在现实世界中只有该产业急剧发展，不断涌现出大批优秀企业并不断被新的后来者所替代，其周期之短是绝佳的研究案例。整本书逻辑缜密、结构清晰、层层推进，读来不仅心生赞叹。</p>
+<h3 id="为什么大企业会失败"><a href="#为什么大企业会失败" class="headerlink" title="为什么大企业会失败"></a>为什么大企业会失败</h3><h4 id="大企业为什么会失败？"><a href="#大企业为什么会失败？" class="headerlink" title="大企业为什么会失败？"></a>大企业为什么会失败？</h4><p>实际上，成熟企业在应对各种类型的延续性创新时可以做到锐意进取、积极创新、认真听取客户意见，但它们似乎无法成功解决的问题是为新产品找到新的应用领域和新的市场，这些是企业在刚刚进入市场时所普遍具备，但是在时过境迁后又明显丧失了的一种能力。这些领先企业似乎被它们的客户牵绊住了手脚，从而在破坏性技术出现时给了具有攻击性的新兴企业颠覆主流行业领先企业的可乘之机。</p>
+<h4 id="价值网和创新推动力"><a href="#价值网和创新推动力" class="headerlink" title="价值网和创新推动力"></a>价值网和创新推动力</h4><p>除新技术和创新机构所具有的必备能力外，面临破坏性技术创新的企业必须分析创新对其相关价值网的影响。关键问题是创新活动尚未明确的性能属性在新兴企业已经建立的价值网中是否能得到重视；为了实现创新的价值，是否必须进入其它价值网，或建立新的价值网；市场和技术轨线是否可能最终交汇，从而使无法解决消费者当前需求的技术最终能够解决他们在未来的需求。</p>
+<h4 id="机械挖掘机行业的破坏性技术变革"><a href="#机械挖掘机行业的破坏性技术变革" class="headerlink" title="机械挖掘机行业的破坏性技术变革"></a>机械挖掘机行业的破坏性技术变革</h4><p>更努力地工作、更聪明地管理、更积极地投资、更认真地听取客户的建议，这些都是应对新型延续性技术所带来的问题的解决之道。但这些良好的管理范式在应对破坏性技术时却完全失效，而且在很多情况下甚至还会不利于问题的解决 。</p>
+<h4 id="回不去的低端市场"><a href="#回不去的低端市场" class="headerlink" title="回不去的低端市场"></a>回不去的低端市场</h4><p>一个企业要完成推出新产品这样一个浩大的工程，其后勤、人力和推动力都必须跟上新产品推进的过程。因此，成熟企业并不仅仅受到客户需求的制约，还受到它们参与竞争价值网所固有的财务结构和企业文化的制约——这个制约因素能够湮没任何及时投资下一轮破坏性技术浪潮的理性的声音。</p>
+<h3 id="管理破坏性技术变革"><a href="#管理破坏性技术变革" class="headerlink" title="管理破坏性技术变革"></a>管理破坏性技术变革</h3><p>尽管破坏性技术能够改变基本特征完全不同的各个行业的发展趋势，但在遭遇破坏性技术时，这些行业导致成败的因素都是一致的。成功的企业希望集中资源来开展能够满足消费者需求的活动，因为这些活动能带来更高的利润，在技术上更具可行性，而且能帮助它们保持在重要市场上的竞争力。这些企业也建立了一整套流程来帮助它们实现这些目标，但寄希望于这套流程同样能够成功地培育出破坏性技术无异于古人手缚羽翼、挥动翅膀的飞行痴梦。这些期望违背了成功的企业运作方式和性能评估机制的基本趋势。</p>
+<h4 id="把开发破坏性技术的职责赋予存在客户需求的机构"><a href="#把开发破坏性技术的职责赋予存在客户需求的机构" class="headerlink" title="把开发破坏性技术的职责赋予存在客户需求的机构"></a>把开发破坏性技术的职责赋予存在客户需求的机构</h4><p>在面对消费者明确说“不”的破坏性技术时，管理者应该创建一个独立的机构，使这个机构直接面对确实需要这种技术的新兴消费者群体。有无数实例证明，大多数公司在开发破坏性技术的同时，力图保持它们在主流市场的竞争力，这条道路基本上是一条死胡同；它们在其中一个市场上的市场地位将被削弱，除非企业成立两个彼此独立的机构（从属于相应的价值网）来吸引不同的目标客户。</p>
+<h4 id="如何使机构与市场的规模相匹配"><a href="#如何使机构与市场的规模相匹配" class="headerlink" title="如何使机构与市场的规模相匹配"></a>如何使机构与市场的规模相匹配</h4><p>在延续性变革中，专注于扩展传统技术的性能，并选择在新的延续性技术出现时充当追随者的企业也能继续保持其领先地位和竞争优势。但在破坏性技术变革中，情况则大不相同。在破坏性技术刚刚出现时就率先进入这些新兴市场的企业将赢得巨大的汇报，并建立起明显的先发优势。</p>
+<h4 id="发现新的新兴市场"><a href="#发现新的新兴市场" class="headerlink" title="发现新的新兴市场"></a>发现新的新兴市场</h4><p>没有人——不论是我们，还是我们的消费者——能够在真正使用之前了解破坏性产品是否能够投入使用、怎样使用，或者使用量有多大。一些面临这种不确定性的管理人员更倾向于在其他公司切实找到相关市场之后再行进入。但考虑到破坏性技术的领导者能够建立起巨大的先发优势，面临破坏性技术创新的管理者应走出实验室和跟踪调研小组调研，利用发现驱动型方法进入市场，直接了解有关新消费者和新应用领域的知识。</p>
+<h4 id="如何评估机构的能力与缺陷"><a href="#如何评估机构的能力与缺陷" class="headerlink" title="如何评估机构的能力与缺陷"></a>如何评估机构的能力与缺陷</h4><p>当机构遭遇变革时，管理者首先必须要确定他们是否具备成功所需的资源。然后，他们需要再问一个不同的问题：机构是否具备能成功所需的流程和价值观？对于成熟企业来说，创新之所以总是看起来困难重重，其原因就在于它们聘用了能力很强的人，并将设计初衷与他们肩负的使命不相匹配的流程和价值观强加给他们。在这个日新月异的时代，应对变革的能力已成为事关企业成败的关键一环，确保能者适得其所亦是企业肩负的一项重要责任。</p>
+<h4 id="产品性能、市场需求和生命周期"><a href="#产品性能、市场需求和生命周期" class="headerlink" title="产品性能、市场需求和生命周期"></a>产品性能、市场需求和生命周期</h4><p>在性能过度供给给破坏性技术带来威胁或机遇时，还会导致产品市场的竞争基础发生根本性变化。消费者选择产品或服务时所遵循的各种标准的排序将发生变化，从而标志着产品生命周期从一个阶段过渡到另一个阶段。换句话说，企业提供的性能轨线和市场要求的性能轨线的交汇，是引发产品生命周期从一个阶段过渡到另一个阶段的根本原因。</p>
+<h4 id="管理破坏性技术变革：案例研究"><a href="#管理破坏性技术变革：案例研究" class="headerlink" title="管理破坏性技术变革：案例研究"></a>管理破坏性技术变革：案例研究</h4><p>能力不足、官僚作风、傲慢自大、管理队伍老化、规划不合理和投资短视显然是导致许多企业最终失败的主要原因。但我们已经知道，即使是最优秀的管理者也会受到某些法则的制约，而且这些法则会加大破坏性创新的难度。当优秀的管理者不能理解，或者试图抗拒这些法则的力量时，他们领导下的企业距离失败也就为期不远了。</p>
+<h4 id="创新者的窘境：概要"><a href="#创新者的窘境：概要" class="headerlink" title="创新者的窘境：概要"></a>创新者的窘境：概要</h4><p>《创新者的窘境》一书阐述了破坏性技术取代原有技术的过程，以及管理良好的企业内部所蕴含的强大力量是如何阻碍它们开发破坏性技术的。克里斯坦森教授构建了一个包含四项破坏性技术原则的框架，并以此来解释为什么开发成熟技术上最为有效的管理方法反而会阻碍对破坏性技术的开发。最后，他提出，管理者可利用这些原则，使他们所在的企业能够更加有效地开发代表未来市场发展趋势的新技术。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;作者简介：&lt;/strong&gt; 克莱顿•克里斯坦森：哈佛商学院教授，因其在企业创新方面的深入研究和独到见解，被尊称为“创新大师”。1997年，当《创新者的窘境》英文版出版时，克莱顿•克里斯坦森只是哈佛商学院的助理教授。而此书一出，就确立了他在创新技术管理领域的
+    
+    </summary>
+    
+      <category term="Life-Talk" scheme="http://www.codepub.cn/categories/Life-Talk/"/>
+    
+    
+      <category term="Thinking" scheme="http://www.codepub.cn/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>读《拆掉思维里的墙》</title>
+    <link href="http://www.codepub.cn/2017/01/02/Read-remove-the-wall-of-thinking/"/>
+    <id>http://www.codepub.cn/2017/01/02/Read-remove-the-wall-of-thinking/</id>
+    <published>2017-01-02T13:06:28.000Z</published>
+    <updated>2017-05-17T00:32:19.480Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>作者简介：</strong>古典，新精英生涯总裁、美国生涯教练国际认证CBCC中国首席导师、GCDF全球职业规划师培训师、CCTV《科技博览》、北京台《天天阅读汇》、凤凰台《一虎一席谈》邀请职业发展专家《中国教育报》《新前程》、新浪教育、中华英才网等媒体职业规划专栏作家。</p>
+<p>国内不超过10个同时拥有全球职业规划师（GCDF）、高级职业指导师、注册心理咨询师与企业教练4个认证的生涯发展专家，被业内认为是“中国职业规划界的新一代领军人物”。大学就读土木工程，玩乐队，练散打，骑单车从长沙流浪到北京。想出国却稀里糊涂进入新东方，历任GRE首席词汇讲师、集团培训师，新东方教育与职业发展协会会长。</p>
+<p>“从绝望中寻找希望，人生终将辉煌！这是我当年被新东方吸引的原因。但今天的青年，他们不绝望，更多是迷茫。人生终将辉煌，但哪一种是他们的辉煌？我的回答是：成长，长成为自己的样子！”2007年，创办新精英生涯，希望帮助30%的青年人，成长，长成为自己的样子。</p>
+<blockquote class="blockquote-center"><br><strong>Three passions, simple but overwhelmingly strong, have governed my life: the longing for love, the search for knowledge, and unbearable pity for the suffering of mankind.</strong><br>——罗素<br></blockquote>
+
+<p>关于婚姻的这一段说的非常好，“很多人想通过婚姻找到一种安全感，可现在你会看到很多离婚的例子，都是因为想要找到安全感，而无法得到安全感。安全感绝对不是来自婚姻，如果你是想要安全感而进入婚姻的话，这个婚姻80%会出现问题。因为对方不是一个港口，他不是一个固定的东西，而是一个活着的人，他还会去接触不同的人，他还会在兴趣上改变。所以，你想要在婚姻上得到的东西，你一定要有能力自己给自己，如果不能，这样的婚姻基本上都是失败的。”</p>
+<p>在我们是自己生命的巫师一节中，提到我们的心智模式决定了我们能看到什么世界，更加好玩的是，这个自建的“真实世界”，又反过来印证这个模式给我们看。如果我们认为葡萄是酸的，葡萄果然就是酸的；父母觉得孩子坏得都不像自己生的，孩子果然坏得超乎你想象；你觉得“男人没有一个好东西”，那么你就能遇到一系列流着坏水的男人。其实一方面我们生活在这个世界，一方面我们看到的世界也是我们心里的投射，心里阴暗的人看这个世界，到处都是阴暗的；心里光明的人看这个世界，也充满了光明。</p>
+<p>一个好的心智模式非常重要，它不仅塑造了你的性格，也能决定你用什么心态去拥抱这个世界。就像现在的独生子女从小就被父母、爷爷奶奶环绕着，他就很容易产生这样的推论：不仅这个家庭，而且这个世界都是以我为中心的。带着这种自我为中心的心智模式进入社会，往往需要吃几次大亏才能调整过来。如果你生在独生子女家庭，那么你要学会自我调整自己的心智模式，如果你只生一个孩子，千万不要让家庭成员都围绕着他一个人转，从小就会导致他不能以正确的心智去看待这个世界。</p>
+<p>现代社会的三种毒药：消费主义、性自由和成功学。消费主义以品牌为噱头，以时尚为药效，恋物成瘾。性自由以人性为噱头、以性爱为药效，纵欲成瘾。成功学以速学为噱头，以名利为药效，误导急于走捷径成为人上人的年轻人投身其中，投机成瘾。</p>
+<p>对于爱情这种东西，世人在其面前顿时显得智商为零，尤以现在的女孩子为重，“找一个爱我的、包容我的、疼我的、有房有车的……”欲壑难填啊，对终生伴侣的选择上，这些女孩子总是提到对伴侣的要求，对自己的要求却只字未提。好多真正的对的伴侣可能就在她们的一次次要求之中错过了，而这些错过了的将是终生都无法再次得到的。关于什么是爱情，苏格拉底早就说过，看到那个麦田了吗？从里面摘出一颗最大最好的麦穗。但只能摘一次，而且不能回头，这就是我们大多数人面临的爱情境况。很多人摘了一颗麦穗之后，不断的发现好的在后面，另一些人一直不摘，总想着后面会有更好地麦穗等着自己，结果在快走到麦田尽头的时候，才匆忙摘了一颗普通的麦穗。</p>
+<p>中国的父母很容易有这样的思维方式，把自己缺失的东西放大，强加于他们的儿女身上。尤其是独生子女的家庭，儿女占用了所有的资源，所以也应该承担他们所有的希望。当资源付出到一定程度，这样一场对儿女爱的绑架就开始布局——如果你不按照我的计划发展，我就要伤心，就要在内心压抑偷偷饮泣。我这一辈子把你养大，现在过得这么累，全都是因为你。这样的父母是悲剧的，遇到这样父母的孩子更是悲剧的，如果处理不当，那么你的人上基本上就是由你的父母安排了，如果处理得当，那必然也是要付出极大精力，这时候父母已经从你的事业助推器变为你事业上的阻碍了，他们已经成为了你事业的第一个拦路虎。</p>
+<p>从心理学上来说，一个人缺什么，就会投射到身边人的身上，他会觉得身边的其他人也觉得自己缺。于是他就会不断地表达说自己其实不缺，一不小心就过了。这个结果就是，他不断地表达的东西就是自己最缺乏的——如果你想看一个人缺什么，你就看他不断强调什么就好了。比如有人说，你是一个笨蛋，往往不聪明且心虚的人马上反驳，你才是笨蛋！真正的智者会微笑着回答：是的，所有人都是愚者。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;作者简介：&lt;/strong&gt;古典，新精英生涯总裁、美国生涯教练国际认证CBCC中国首席导师、GCDF全球职业规划师培训师、CCTV《科技博览》、北京台《天天阅读汇》、凤凰台《一虎一席谈》邀请职业发展专家《中国教育报》《新前程》、新浪教育、中华英才网等媒体职业
+    
+    </summary>
+    
+      <category term="Life-Talk" scheme="http://www.codepub.cn/categories/Life-Talk/"/>
+    
+    
+      <category term="Thinking" scheme="http://www.codepub.cn/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2016年终总结</title>
+    <link href="http://www.codepub.cn/2016/12/31/2016-year-end-summary/"/>
+    <id>http://www.codepub.cn/2016/12/31/2016-year-end-summary/</id>
+    <published>2016-12-31T14:27:45.000Z</published>
+    <updated>2017-05-17T00:32:19.447Z</updated>
+    
+    <content type="html"><![CDATA[<p>时间真快，一年又到了收官的时刻了，这一年也是一个多事之秋，从橙黄大战（<strong>摩拜</strong> VS. <strong>ofo</strong>）再次挑起<strong>O2O</strong>领域又一大战；到王石大战宝能系，来来回回，拉锯战打的不亦乐乎，请全国人民看了个宫斗剧；再到王健林定了个小目标，比如“先挣它一个亿”，逗乐了全国人民；都快年底了，乐视又出来秀一把，先是资金链断裂，后是商学院土豪同学注资几个亿，让乐视打了个翻身仗，倒了也能爬起来；整个国家大事太多，说也说不完，不过都是别人的事，和屌丝们关系其实不大。马上新的一年就要开启了，一时不知从何写起，毕竟每一个独立的个体都有一段精彩的人生，那么作为个人总结就仅仅记述我自己罢了。</p>
+<p>这一年逻辑思维可以说是大火特火，用罗振宇的话说，知识服务的时代到来了。从2016年5月28日，“得到”上线3个订阅专栏产品开始，陆续推出了共15个专栏产品，截止12月3日，<strong>189天</strong>的时间，订阅专栏产品营收突破1个亿，订阅数量近<strong>80万份</strong>【包括1元/年《罗辑思维》29万份】，相当于订阅产品平均每天收入<strong>53万</strong>，这个成绩让很多媒体人和知识工作者都羡慕不已。当然我也羡慕不已，罗胖凭此轻松实现财务自由，而这正是我一生的追求。由此我猛然想到，其实每一个<strong>程序员</strong>都是一个<strong>隐形的富豪</strong>，只不过他们被彻底的忽悠了，我越来越同意<strong>比尔·盖茨</strong>的观点，软件不能随意开源。原因何在？任何劳动成果都应该有所收益，这样才能不断地激励人去继续创造成果，而开源软件呢？作为程序员的智力劳动成果，被无偿开放给全世界，无需付费，任何人都能够看到开源软件的源代码，而作为这个智力劳动成果的程序员却没有任何收益，当然了那种虚名除外。试想对于一个读了多年书拿到计算机学位的人来说，付出的时间、精力、金钱必然无数，做出来的产品却要开放源代码供别人使用，这从任何一个角度来说都是一个不合逻辑的事情，偏偏这个世界整天都在鼓吹开源，只有当年的比尔·盖茨与全世界叫板，软件必须付费，这才有了今天的微软帝国，倘若当年盖茨经受不住忽悠，将<strong>Windows</strong>免费分发给全世界使用，恐怕微软撑不过三年就要关门大吉了。所以作为程序员的一份子，每一个写程序的人都不应该盲目去推崇开源，更不要以此作为道德制高点去歧视打压任何不开源的开发者。最后我的观点是不要盲目的鼓吹开源，也不绝对地反对开源，对于大的基础性的项目，开源有时可以促进一个产业的急速发展，这也是应当能看到的开源带来的好处。在这里重申一下开源软件的定义“Free is not Free”（自由而非免费），但是多数国人却都把开源当作免费了。</p>
+<p>把思维拉回来，再来说说<strong>知识服务</strong>这事，好多人以为花钱就能买到知识，比如得到的诸多订阅用户们。你们只是买到了知识的阅读权，但是这个知识却不属于你们，即便你读过订阅的内容，可能过段时间，当你碰到同样的问题，你依然不会解决；碰到同样的困境，你依然不知道该用哪种知识解决。更有甚者，在付费订阅了诸多<strong>得到</strong>产品之后，很大一部分人是没有坚持学习的，多数人图个新鲜度以及心理安慰的作用，觉得自己<strong>付费订阅</strong>，就每天都在进步了。多数人在使用几天后，再也不记得他订阅了付费产品，自然付费订阅的效果是零，这也是知识服务的一大特点，即无需售后，知识卖掉了，钱到手了，这笔买卖就结束了。当然了，这种用户是一种极端，他们仅仅停留在付费买心安的阶段，另外还有一种极端，在我的朋友圈就出现了这种人，在得到上看了谁的文章，阅读了谁的专栏，订阅了谁的栏目，都要长篇大论，指点江山，貌似这都是在他的运筹帷幄之中一样。天天只会坐地意淫，以为自己又涨了多少本事，殊不知，在我看来，你只是涨了吹牛的本事，千万要以此为戒，莫以为说得出和做得到是一回事，你纵然谈天说地，但从不脚踏实地迈出一步，我可以说，你是无法成功的。阅读、吸收知识纵然是一方面，更重要的是迈出你的步子，开始行动，“种一颗树的最好时机是十年前，其次，是现在”。</p>
+<p>这一年，又大了一岁，感情生活却并不顺心，慢慢地觉得古人说的<strong>先成家后立业</strong>，其实是非常有道理的。任何一个人的精力都是有限的，这必然导致你的<strong>注意力</strong>是最为宝贵的资产，谈恋爱消耗了你的大量注意力，但是不一定有成果。所以一旦成家之后，内室已定后方安稳，就可以收心集中你的注意力，专注于事业了。现在<strong>空巢青年</strong>越来越多，这不是一个好现象，在什么阶段就应该做什么事，最佳的生育年龄在20-30之间，倘若大家都在30-40岁生育，其后代的质量并非最佳。这种空巢青年是随着<strong>独生子女</strong>的增多而渐渐增多的，以后<strong>剩女</strong>会越来越多，<strong>剩男</strong>也会被动地变得越来越多，每个人的妥协及包容度不变下降，导致对方很小的缺点都难以忍受，离婚分手变得像吃饭一样简单，毫无仪式感。并且伴随着性观念的开放，传统的好女孩越来越少，你不可能说性观念开放的女孩比性观念保守的女孩更好，我实在不知道理由在哪？根据<strong>劣币驱逐良币</strong>原理，坏的社会风气也会驱逐好的社会风气，因为在坏的社会风气之下，假设你能够获得倾向于分配给自己更多的收益，自然也就没人去追逐良好的社会风气了。都说大学附近是宾馆的天堂，此话不假，每晚不知道多少花季少年花季少女在此<strong>偷吃禁果</strong>。曾经在一本书中，读过一个研究成果，说明了非洲人的智力低下与他们的乱性有关，书中列举了大量的早已灭亡的古国或民族，都有过乱性的历史，这些早期取得辉煌发展成就的民族，在后期却变成了智力低下的民族，乱交及乱性，一定会导致后代的智商降低，这是有科学佐证的。所以男人啊，如果有可能，一定要找个保守的好女孩。一个好女孩如果能把一个完整的自己留给她的老公，我觉得这就是她最贵重的嫁妆。另一个对比的例子就是<strong>犹太人</strong>，性观念非常保守，除了文化水平普遍较高、家庭教养好之外，这也与其宗教信仰有关，犹太人一般极力排斥堕胎，必然导致他们对自己的性行为更负责，也导致他们的后代在智商上占有更大的优势。智商这东西确实是个神奇的东西，比如说你们俩都是面条师傅，智商高低对你们影响不大，但是当上升到造原子弹的高度，没有高智商是肯定玩不转的，这也解释了唯有犹太人仅靠十万人就建立了以色列，仅靠一小撮军队就赢得了几次与整个阿拉伯联军的战争，没有他们的高智商，不知道以色列被灭国多少次了。</p>
+<p>这一年也是微信公众号大爆发的一年，爆发的公众号导致了过度的营销，过度的营销导致了不断的去迎合趣味低俗的用户，从而导致鸡汤文和脑残文章越来越多，这也说明大多数人的智商都是非常低的，这是真的，你不要偷笑，<strong>汉族人</strong>的<strong>智商</strong>在世界上处于一个相对滑落的阶段。不知道哪个大牛说的，一个不会阅读的民族是没有未来的，这让我突然脑补了俄罗斯人忍受饥饿，依然在安静排队领面包的情形，要是在天朝，呵呵，你懂得。我这里说的阅读自然不是那些鸡汤问和脑残文，而是说的书籍，这也是我不断阅读的原因所在。比如一篇很火的鸡汤文说中国男人配不上中国女人，我在想要脑残到何种地步的人才会有这种想法呢？这其实在进化学上早就被解释过了，古代女人一旦生育之后，在养育阶段是没有猎食能力的，必须靠男人，而男人的猎食能力取决于体格而不是容貌，所以几万年的进化方向是，女人变的越来越漂亮，吸引男人将打到的猎物带回家，这样女人才能存活下去，而男人的进化方向是完全无需改进任何容貌上的进化。所以女人比男人好看，这是天生的，不存在配不配的上的问题，这是进化决定了的。但是正是这种噱头多、槽点多、喷点多且不需要动脑子还能引起男女撕逼的文章大行其道，吸引了诸多用户的目光，不得不说，这个时代，恶趣低俗的文化已经得到了越来越多的流行。</p>
+<p>这一年工作还算舒心，主要是活不多，自由时间较多，可以尽可能干我想干的事情。公司技术氛围一般，大牛不多，重业务轻技术。人员素质也不是特高，最最重要的是，不给配大屏显示器，不给配Mac，这肯定不是技术驱动型公司的作风。目前公司的显示器是21寸的。要知道大屏显示器可以极大的提高开发人员的效率，随便一点效率的提升，都值回你的显示器价格，浪费在多窗口间切换，这就是对智力的浪费。如果你开公司，请记住，一定要尽可能给技术人员配上大屏显示器，因为他会用工作效率的百倍提升来回报你所付出的那点成本。从毕业入职到现在，在公司做了一点业务开发，没什么可说的，没有通用性，换了一个公司代码就用不上了。唯一拿得出手的就是做了个<strong>基于Redis的Lucene索引存储系统</strong>，将<strong>Lucene索引文件直接对接Redis数据库</strong>，简单的测试了下性能介于<strong>RAMDirectory</strong>（基于内存的索引存储）和<strong>FSDirectory</strong>（基于文件系统的索引存储）之间，还算可以接受。该项目<strong>RedisDirectory</strong>已经推送到<strong>Github</strong>上了，希望能给有此需求的人带来一些帮助，当然如若你能赞助我一点，那将是极好的。</p>
+<p>这一年<strong>理财能力</strong>也在稳步提升中，越来越觉得多数人在金融知识方面的欠缺。个人理财平台也从最早的余额宝到后来的理财通，又转战到<strong>京东金融</strong>，再到<strong>陆金所</strong>，再到其它<strong>P2P</strong>，现在到了<strong>现货黄金</strong>，当然投资有风险，入市需谨慎。如果有机会的话，我个人是很想读个经济学或金融学硕士，过去十多年其实是一个<strong>资产大泡沫</strong>的年代，说的简单点，就是手里有资产的人收益最大，包括各种实物资产，另外一个就是通胀完全跑赢基准利率，也就是说，过去十年谁欠银行钱最多，谁的收益最大，想想吧，十年前如果你借个十万块，那可是真当钱花啊，在今天你再还掉十万块，是不是轻松地一逼啊。所以货币只要保持这个发行速度，那些贷款上百万买房的人，等十年之后其实房贷是非常轻松的，这部分人也比没有实物资产的人能获得更多通胀所带来的利益。</p>
+<p>这一年我开始<strong>健身</strong>了，办了五年的会员卡，说长不长，说短不短，无论是上至特权阶层，下至平民百姓，只有身体才是最重要的，最近北京又闹雾霾了，只想简单的感谢一下<strong>雾霾</strong>，你是唯一一个让<strong>帝都</strong>和全国人民处于平等地位的东西了。身体是跟随自己一辈子的，所以尽量不要亏欠自己的身体，否则将来年纪大了，躺在床上动弹不得，<strong>后悔药</strong>也买不到的。既然办了卡，就要坚持下去，三天打鱼两天晒网是万万要不得的。同时也发现了诸多本末倒置的人，健身衣买了几千块钱的，运动一下就要吃蛋白、健肌粉、鸡胸肉，关键是你倒是坚持运动啊，我啥也不吃正常饮食，普普通通百来块的篮球运动衫一样可以练出肌肉，其实你只要做对一件事就够了，那就是<strong>准时</strong>出现在<strong>健身房</strong>。</p>
+<p>这一年对<strong>跨界</strong>有了更好的认识，从个人角度来说，一定要多去结识<strong>不同行业的不同的人</strong>，千万不要让自己的朋友圈都是同一行业的人，只有跨界才会产生提升效率的催化剂。为什么<strong>程序员</strong>多<strong>屌丝</strong>，这与他们的出身有很大关系，比如身边有些屌丝，吃个饭也纠结这个贵些那个便宜些，这是对注意力的极大浪费，虽然我算不上土豪，但是在吃这种生活必须品上不要太过计较，只要安全卫生即可。如果你真想节约，可以在<strong>衣着</strong>及<strong>电子产品</strong>上稍微节约一些，因为衣着随潮流而动，风格变换很快，同样电子产品更新换代更快。一个良好的出身和一个富裕的家庭，对一个人的成功真的很重要，这些屌丝可能金钱能力提升了，但是思维没有提升，还停留在那个物质匮乏的年代，记得<strong>李笑来</strong>说过，最划算的买卖是用<strong>金钱换时间</strong>，凡是能用钱解决的问题就不要去花时间。远离屌丝，因为他会拉低你的生活品味，同时会消耗你的注意力，每个不断进取的人都要对自己的<strong>思维</strong>进行<strong>不断迭代</strong>，提升自己，一个人包括思想也是能实现自我净化自我更新的。目前在跨界交友上我做的并不好，这也是以后需要重点改进的一个方向，程序员你们懂的，天天和电脑打交道，没时间没精力也没机会去跨界交友，目前我也没有找到什么好的办法去认识不同行业的不同的人。</p>
+<p>这一年我还没有成家，希望自己能早日成家，好安心立业，对于那些要房要车才结婚的女孩，我就不说了，你们赶紧去找有房有车的吧，就别浪费我时间了。在上海这个中国最大的超级都市，房子的梦离我依然很遥远，户口虽然落在了上海，但是我随时可能迁走，如果这里真的容不下我，何必对此眷恋呢？小沈阳说过，人的一生可短暂了，眼睛一睁一闭，一天过去了，眼睛一闭不睁一辈子过去了，能留在上海固然很好，但是如果实在没那个水平，也就不要硬撑了，让自己过得轻松些舒服些也是一种值得追求赞扬的生活方式。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;时间真快，一年又到了收官的时刻了，这一年也是一个多事之秋，从橙黄大战（&lt;strong&gt;摩拜&lt;/strong&gt; VS. &lt;strong&gt;ofo&lt;/strong&gt;）再次挑起&lt;strong&gt;O2O&lt;/strong&gt;领域又一大战；到王石大战宝能系，来来回回，拉锯战打的不亦乐乎，请全
+    
+    </summary>
+    
+      <category term="Life-Talk" scheme="http://www.codepub.cn/categories/Life-Talk/"/>
+    
+    
+      <category term="Thinking" scheme="http://www.codepub.cn/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>读《技巧：如何用一年时间获得十年的经验》</title>
+    <link href="http://www.codepub.cn/2016/12/30/Read-skills-how-to-get-a-decade-of-experience-in-a-year/"/>
+    <id>http://www.codepub.cn/2016/12/30/Read-skills-how-to-get-a-decade-of-experience-in-a-year/</id>
+    <published>2016-12-30T14:11:02.000Z</published>
+    <updated>2017-05-17T00:32:19.477Z</updated>
+    
+    <content type="html"><![CDATA[<p>花了一天的时间看完了《技巧：如何用一年时间获得十年的经验》，很励志的一本书，里面有很多小故事非常好，特别适合处在人生低谷的人去阅读。这是一个体重曾经达到260斤的大胖子写的，也是一个在互联网行业浸淫了十几年的老人物了，看这些人写的书，其实是非常划算的，他把十几年积累的经验写下来，而你只要花很少的时间就能够体味一段别样的人生，这不是无形中延长了你的生命吗？你并不需要去真实的走过他们所走过的路，但是你依然可以品味到那段人生，就像是为以后你自己的路增添了一些路灯，使你可以更顺畅平坦地走下去。</p>
+<p>从这里学到了一个简单提高英语听力的方法，就是去听英文的Podcast(播客)，比较简单的有English as a second language Podcast(英语作为第二语言播客)，然后是ATP(Accidental Tech Podcast，偶然科技播客)，如果有能力完全听懂，那么继续听EconTalk(经济对话)、PlanetMoney(星球货币)、This American Life(美国生活)等等。语言的习得能力是一个渐进的过程，只要抱着日拱一卒，不期速成的心态就终会有收获。</p>
+<p>发现优秀的人都是喜欢阅读的人，这也更加坚定了我持续不断阅读的信心，总的来说，我很认同郝培强的说法，读书可以改造我们的思维，给我们新的思维模型；另外在现有的思维模型下，读书可以给我们数据，让我们对现有模型更精通，更确信。看书不仅是一个追求数据增长的过程，最重要的是追求模型增长。这个世界没有绝对真理，所有的信息都散落在世界的各个角落。我们慢慢地读书学习成长的过程，就是一个不断汲取这些东西的一个过程，随着你越来越逼近这个世界的真相，你就会越来越有能力，所以核心还是怎么看待这个世界的问题。</p>
+<p>在这个碎片化的时代，为什么越来越多的人沉迷于微博、微信、游戏、直播等等，在这本书中也谈到了这个问题，最根本的原因不是因为沉迷，所有沉迷于一种坏习惯的人都是因为没有真正值得做事情，如果真正有这样一种事情让他全情投入，那么根本不会沉迷于这么多无聊的事情之中而无法自拔。对事情没有兴趣、没有追求、没有激情……，那么自然而然就会陷入无聊之中，而一旦陷入无聊，必然会沉迷在其它的东西里面。</p>
+<p>其实随着自媒体的壮大，任何人都可以发声，并且可以将之向外传播，从而导致现在的信息过剩也可以说是噪音过剩，但是在我看来，真正有价值的信息还没有达到过剩的地步。在这些过剩的信息之中大部分的都是垃圾信息而已，尤以腾讯新闻、百度新闻等为最，充斥着大量虚假不实的报道。如果你不加辨别，过剩的信息必然导致你吸收的垃圾信息过剩，而你真正需要的信息其实并没有吸收多少。很多人一说起段子来，个个都是段子高手，但是碰到长文，没有几个人有耐心看完的，就更别提读书了，这个社会，真正能够静下心来读书的人越来越少，而能够真正完整塑造你的知识体系的方法就是读书。我也很认同郝培强提到的观点就是——现在看书的人很少，你只要看书，就可以脱颖而出。通过读书获取完整的知识体系，而体系化的知识可以倒逼大脑进化，从而实现大脑的不断成长。如果你每天都花大量的时间看几万条的微博和朋友圈，倒不如找一本薄薄的100页的好书带来的成长更大。</p>
+<p>最后附上本书心障一节的收尾，同时也作为本篇读书笔记的收尾。</p>
+<blockquote class="blockquote-center"><br><strong>寻找和突破心障的方法是寻找一种对美好世界和美好人生的渐进解，首先我们承认对这个世界的终极一无所知，但是我们知道近一点儿比远一点儿更好，我们不知道完美世界的图景是什么，但是我们可以一点儿一点儿努力去接近它。我们不知道目标在哪里，但是从渐进解出发，我们永远可以找到一个方向，一个清晰的方向，它可以告诉我们，我们一直在前进，一直没有停息。</strong><br></blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;花了一天的时间看完了《技巧：如何用一年时间获得十年的经验》，很励志的一本书，里面有很多小故事非常好，特别适合处在人生低谷的人去阅读。这是一个体重曾经达到260斤的大胖子写的，也是一个在互联网行业浸淫了十几年的老人物了，看这些人写的书，其实是非常划算的，他把十几年积累的经验写
+    
+    </summary>
+    
+      <category term="Life-Talk" scheme="http://www.codepub.cn/categories/Life-Talk/"/>
+    
+    
+      <category term="Thinking" scheme="http://www.codepub.cn/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>读《自控力》</title>
+    <link href="http://www.codepub.cn/2016/12/24/Read-the-willpower-instinct/"/>
+    <id>http://www.codepub.cn/2016/12/24/Read-the-willpower-instinct/</id>
+    <published>2016-12-24T08:08:10.000Z</published>
+    <updated>2017-05-17T00:32:19.492Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>作者简介：</strong> 凯利•麦格尼格尔教授（Kelly McGonigal, Ph.D.）是斯坦福大学备受赞誉的心理学家，也是医学健康促进项目的健康教育家。她为专业人士和普通大众开设的心理学课程，包括“意志力科学”（The Science of Willpower）和“在压力下好好生活”（Living Well with Stress），都是斯坦福大学继续教育学院历史上最受欢迎的课程。她还为《今日心理学》（Psychology Today）杂志网站开设了“意志力科学”博客。她目前居住在加利福尼亚州的帕洛阿尔托市。</p>
+<p><img src="http://7xig3q.com1.z0.glb.clouddn.com/occupational_disease.jpg" alt=""></p>
+<p>在职业生涯还未开始之时，职业病悄然袭来。遂办了五年的健身卡，虽然自认自控力较强的我，慢慢地也有懈怠的时候，好在一周三次，基本都准时出现在健身房中了。以前在没坚持健身之前，总觉得坚持下来应该不是难事，想想那些绝大多数坚持不下来的人，心中总是不齿与他们为伍。后来随着时间渐久，偶有疲倦之时，便心生退意，心想都坚持那么久了，不去一天也算不了什么，但是有了第一次就会有第二次，所以万万不可对自己放松警惕，我也成为了健身房中为数不多准时出现在健身房中的人，而那些在健身房中只有一面之缘的过客，往往见了几次之后就再也碰不到了，不是我们时间错开了，我想只是他们不再坚持健身罢了。希望读完此书，能够了解有关自控力的未知始末，在看透自控力的基础之上，也能进一步加强我的自控能力。</p>
+<p>自控力主要讲述了什么是自控力？自控力如何发生作用？为何自控力如此重要？这本书用了大量的示例及实验去解释我们生活中可能遇到，但是却不知道其原因的事情，虽然很多实验都及其专业，但是读来略微枯燥，作为非专业人士，我不需要知道这么详细的实验及说明，我只想要知道结果，姑且认为我是一个结果导向主义者吧，因为这样最节约时间，效率也最高。</p>
+<ul>
+<li>为了成功做到自控，你必须知道自己为何失败。</li>
+<li>现代社会，意志力不但区分了人和动物，也区分了每一个人。</li>
+<li>每个人的意志力都是与生俱来的，但有些人的意志力更强。</li>
+<li>神经学家发现，如果你经常让大脑冥想，它不仅会变得擅长冥想，还会提升你的自控力，提升你集中注意力、管理压力、克制冲动和认识自我的能力。一段时间之后，你的大脑就会变成调试良好的意志力机器。</li>
+<li>意志力实际上是“我要做”、“我不要”和“我想要”这三种力量。它们协同努力，让我们变成更好的自己。</li>
+<li>科学家说，提高意志力最有效的方式就是锻炼。如果你觉得锻炼太累了，或是没有时间锻炼，那么不妨将锻炼当作恢复体能和意志力的方法。</li>
+<li>长期睡眠不足会影响意志力。大脑中掌控意志力的主要部分是前额皮质，睡眠不足间接影响到前额皮质，前额皮质受损就会失去对大脑其他区域的控制。好在这些反应是可逆的，如果睡眠不足的人补上一个好觉，他的前额皮质就会恢复如初。</li>
+<li>如果你明知道自己能获得更多的睡眠，却没法早点入睡，那就不要想睡觉这件事，想一想你到底对什么说了“我想要”。这个意志力法则同样适用于你想逃避或拖延的事——当你不知道自己想做什么的时候，你或许需要知道自己不想做什么。</li>
+<li>因为自控需要大量的能量，很多科学家都认为，长时间的自控就像慢性压力一样，会削弱免疫系统的功能，增大患病的概率。</li>
+<li>正如慢性压力会影响健康一样，试图控制所有的思想、情绪和行为也是一剂毒药，会给你带去过重的生理负担。</li>
+<li>意志力是种生理本能，它和压力一样，通过不断进化来保护我们不受自身伤害。</li>
+<li>如果你想彻底改变旧习惯，最好先找一种简单的方法来训练自控力，提高意志力，而不是设定一个过高的目标。</li>
+<li>有足够的证据表明，日常所需的自控力会消耗意志力，而我们需要这些意志力来抵抗日常的诱惑。</li>
+<li>自控力就像肌肉一样有极限。自控力用得太多会疲惫，但坚持训练能增强自控力。</li>
+<li>不要陷入“道德许可”陷阱，比如你去了健身房就会允许自己多吃点，比如你捐了点善款之后，就更容易允许自己去商场进行一次大采购。</li>
+<li>另一种典型的陷阱是“向明天赊账”，比如今天我先抽根烟，但从明天起戒烟；我今天先不去健身了，但我保证明天会去；我先买上一些节日礼物，但之后三个月绝不购物。</li>
+<li>当我们将意志力挑战看成衡量道德水平的标准时，善行就会允许我们做坏事。为了能更好地自控，我们需要忘掉美德，关注目标和价值观。比如，因为乘坐飞机头等舱而对环保感到愧疚的旅客会多付航空公司一些钱，让航空公司到南美洲种几棵树。这使得他们觉得自己有了“绿色许可”，进而可以更加心安理得地选择头等舱。</li>
+<li>我们的大脑错把奖励的承诺当做快乐的保证，所以，我们会从不可能带来满足的事物中寻找满足感。</li>
+<li>情绪低落会使人屈服于诱惑，摆脱罪恶感会让你变得更强大。</li>
+<li>失败的时候，请原谅自己。面对自己的挫折，持同情自我的态度，以免罪恶感让你再次放弃抗争。</li>
+<li>乐观的悲观主义者更有可能成功。预测你什么时候，会怎样受到诱惑和违背承诺，想象一个不让自己放弃抗争的具体方法。</li>
+<li>我们无法明确地预知未来，这为我们带来了诱惑，让我们拖延着不做某事。</li>
+<li>自控力可以传染，如果一个人戒烟了，那么他家人和朋友戒烟的概率也会增加。</li>
+<li>自控受到社会认同的影响，这使得意志力和诱惑都具有传染性。</li>
+<li>“讽刺性反弹”可以解释了现代人的很多失败案例：失眠患者越想入睡，就发现自己越清醒；减肥的人拒绝碳水化合物，却梦到了沃登面包和澳洲坚果曲奇；忧心忡忡的人试图摆脱焦虑，却一次又一次陷入对灾难的幻想。压抑人的本能时，就会产生这种讽刺性反弹效应。</li>
+<li>试图压抑自己的想法、情绪和欲望，只会产生相反的效果，让你更容易去想、去感受、去做你原本最想逃避的事。</li>
+<li>驾驭冲动。当冲动一直存在时，与这些生理上的感觉共处，像驾驭海浪一样驾驭它，不要试图摆脱它，但也不要将冲动付诸行动。</li>
+<li>如果说真的有自控力秘诀，那么从科学的角度来说确实有一个，那就是集中注意力。</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;作者简介：&lt;/strong&gt; 凯利•麦格尼格尔教授（Kelly McGonigal, Ph.D.）是斯坦福大学备受赞誉的心理学家，也是医学健康促进项目的健康教育家。她为专业人士和普通大众开设的心理学课程，包括“意志力科学”（The Science of Wi
+    
+    </summary>
+    
+      <category term="Life-Talk" scheme="http://www.codepub.cn/categories/Life-Talk/"/>
+    
+    
+      <category term="Thinking" scheme="http://www.codepub.cn/tags/Thinking/"/>
+    
+  </entry>
+  
 </feed>
