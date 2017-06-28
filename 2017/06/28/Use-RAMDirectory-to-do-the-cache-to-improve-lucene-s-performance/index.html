@@ -66,7 +66,7 @@
 <meta property="og:url" content="http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/index.html">
 <meta property="og:site_name" content="IT草根">
 <meta property="og:description" content="RAMDirectory和FSDirectory都继承自BaseDirectory，而BaseDirectory继承自Directory，Directory是Lucene中设计的一个顶层抽象类，可以将其看做本地文件系统的一个目录。 RAMDirectory是基于内存实现的，具有较高的存储速度，但是受到内存大小的限制，而FSDirectory是基于文件系统实现的，针对不同的操作系统有不同的具体实现类">
-<meta property="og:updated_time" content="2017-06-28T14:35:39.700Z">
+<meta property="og:updated_time" content="2017-06-28T14:39:25.928Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用RAMDirectory做缓存提高Lucene性能">
 <meta name="twitter:description" content="RAMDirectory和FSDirectory都继承自BaseDirectory，而BaseDirectory继承自Directory，Directory是Lucene中设计的一个顶层抽象类，可以将其看做本地文件系统的一个目录。 RAMDirectory是基于内存实现的，具有较高的存储速度，但是受到内存大小的限制，而FSDirectory是基于文件系统实现的，针对不同的操作系统有不同的具体实现类">
@@ -378,7 +378,7 @@
 <li>删除索引： 对于删除操作比较简单，两个IndexWriter都执行一次即可，如果其中一个IndexWriter中不存在待删除的索引的话，那么对索引文件不会有任何影响；这时候又分两种情况，一是待删除的索引在内存中，那么删除-提交-重新打开索引，耗时很短；二是待删除索引在硬盘上，这时候删除-提交，到底要不要重新打开，需要视业务而定，因为硬盘上的索引通常是很大的，如果频繁删除频繁重新打开的话，是很耗性能的，而如果不重新打开，这时候删除的索引对searcher是不可见的，也就是说用户仍然可以搜索到已删除的索引，比较好的方式是用一个后台线程去定时的重新打开硬盘索引，然后更新searcher即可，但是这样对于删除操作无法做到准实时，会有一定的延时。</li>
 <li>新增索引：所有的新增操作都使用内存中的IndexWriter，然后提交-重新打开索引-更新searcher，一切都是在内存中操作，耗时极短，对于实时搜索是解决了，而且Lucene中已经提供了MultiReader可以组合多个子reader，很适合这种情况；但是当内存中索引尺寸达到一定大小之后，需要将其合并到文件系统中；在合并的时候还需要另外再开一个内存中的Temp Ram IndexWriter用来接受索引合并期间的索引新增操作。不过这种方式实现起来很复杂，需要处理很多问题，例如在内存索引和硬盘索引合并期间如果有更新删除操作怎么处理？在合并之后需要更新MultiReader，但是旧的MultiReader上面还挂有搜索请求怎么办？在新开一个Temp Ram IndexWriter之后，如何让MultiReader覆盖住它？因为在这个Temp Ram IndexWriter中必须先有索引，然后才能开Reader，进而才能更新MultiReader；若新增索引速度实在太快，在合并过程没有完成的时候，内存索引又满了，要怎么办？除此以外还有很多问题需要考虑。</li>
 <li>更新索引：更新其实可以看作是两步操作，先删除后新增，这两步可以借鉴上面的论述。更新操作是无法同时应用于两个IndexWriter的，因为在Lucene中更新的逻辑是这样的，如果存在则更新，如果不存在则新增，那么假设一个IndexWriter中存在，另一个不存在，如果两个都应用更新，那么最后的结果很简单就是存在两份一样的document了。</li>
-<li>越是简单的程序越健壮，这种方式实现起来很复杂，即使这么复杂的程序实现了，其健壮性仍然值的担忧，所以不是特别推荐使用这种方式。</li>
+<li>越是简单的程序越健壮，这种方案实现起来很复杂，即使这么复杂的程序实现了，其健壮性仍然值得担忧，所以不是特别推荐使用这种方案。</li>
 </ul>
 </li>
 </ul>
