@@ -4,8 +4,28 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/</loc>
+    <lastmod>2017-06-28T14:04:01.263Z</lastmod>
+    <data>
+        <display>
+        <title>用RAMDirectory做缓存提高Lucene性能</title>
+        <pubTime>2017-06-28T14:02:21.000Z</pubTime>
+        
+        <tag>Lucene</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
-    <lastmod>2017-06-25T05:40:03.196Z</lastmod>
+    <lastmod>2017-06-25T05:59:32.044Z</lastmod>
     <data>
         <display>
         <title>2015年终总结</title>

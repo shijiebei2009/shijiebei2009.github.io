@@ -1,0 +1,975 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Lucene," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="RAMDirectory和FSDirectory都继承自BaseDirectory，而BaseDirectory继承自Directory，Directory是Lucene中设计的一个顶层抽象类，可以将其看做本地文件系统的一个目录。 RAMDirectory是基于内存实现的，具有较高的存储速度，但是受到内存大小的限制，而FSDirectory是基于文件系统实现的，针对不同的操作系统有不同的具体实现类">
+<meta name="keywords" content="Lucene">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用RAMDirectory做缓存提高Lucene性能">
+<meta property="og:url" content="http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="RAMDirectory和FSDirectory都继承自BaseDirectory，而BaseDirectory继承自Directory，Directory是Lucene中设计的一个顶层抽象类，可以将其看做本地文件系统的一个目录。 RAMDirectory是基于内存实现的，具有较高的存储速度，但是受到内存大小的限制，而FSDirectory是基于文件系统实现的，针对不同的操作系统有不同的具体实现类">
+<meta property="og:updated_time" content="2017-06-28T14:04:01.263Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用RAMDirectory做缓存提高Lucene性能">
+<meta name="twitter:description" content="RAMDirectory和FSDirectory都继承自BaseDirectory，而BaseDirectory继承自Directory，Directory是Lucene中设计的一个顶层抽象类，可以将其看做本地文件系统的一个目录。 RAMDirectory是基于内存实现的，具有较高的存储速度，但是受到内存大小的限制，而FSDirectory是基于文件系统实现的，针对不同的操作系统有不同的具体实现类">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 用RAMDirectory做缓存提高Lucene性能 | IT草根 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1254721753&web_id=1254721753" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">IT草根</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-book fa-fw"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-link fa-fw"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'CEs2u-bRR6iHSt4ynbFA','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                用RAMDirectory做缓存提高Lucene性能
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-06-28T22:02:21+08:00" content="2017-06-28">
+              2017-06-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Programming-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Notes</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+		
+		
+			<!-- 在下面的位置加上如下代码 -->
+			<span id="busuanzi_container_page_pv">&nbsp; | &nbsp; 热度&nbsp; <span id="busuanzi_value_page_pv"></span>°C</span>    
+			<!-- 在上面的位置加上如上代码 -->  
+		
+		  
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+
+      
+        <p>RAMDirectory和FSDirectory都继承自BaseDirectory，而BaseDirectory继承自Directory，Directory是Lucene中设计的一个顶层抽象类，可以将其看做本地文件系统的一个目录。</p>
+<p>RAMDirectory是基于内存实现的，具有较高的存储速度，但是受到内存大小的限制，而FSDirectory是基于文件系统实现的，针对不同的操作系统有不同的具体实现类，这些实现类无需用户操心，只需要调用FSDirectory.open(Path path)方法，它就会帮助我们选择最适合的子类，FSDirectory的瓶颈在于磁盘I/O。</p>
+<p>如果机器内存足够大的话，那么组合使用RAMDirectory和FSDirectory将能够极大地提高Lucene的性能。组合使用两者的应用场景很多，不同的场景可以分别解决不同的需求，仅列举如下</p>
+<ul>
+<li>批量索引，而无需检索的情况下，先把document存到RAMDirectory中，当达到一定数量之后，再把这些索引一次性加入FSDirectory里</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.core.WhitespaceAnalyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Field;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.StringField;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.DirectoryReader;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.IndexSearcher;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.MatchAllDocsQuery;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.FSDirectory;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.nio.file.Paths;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * &lt;p&gt;</div><div class="line"> * Created by wangxu on 2017/06/19 15:31.</div><div class="line"> * &lt;/p&gt;</div><div class="line"> * &lt;p&gt;</div><div class="line"> * Description: 基于Lucene 6.5开发</div><div class="line"> * &lt;/p&gt;</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> Wang Xu</div><div class="line"> * <span class="doctag">@version</span> V1.0.0</div><div class="line"> * <span class="doctag">@since</span> V1.0.0 &lt;br/&gt;</div><div class="line"> * WebSite: http://codepub.cn &lt;br&gt;</div><div class="line"> * Licence: Apache v2 License</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RamFSDirectoryDemo</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">        IndexWriter ramWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> WhitespaceAnalyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE));</div><div class="line"></div><div class="line">        FSDirectory fsDirectory = FSDirectory.open(Paths.get(<span class="string">"F:/index_RAM_FS"</span>));</div><div class="line">        IndexWriter fsWriter = <span class="keyword">new</span> IndexWriter(fsDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> WhitespaceAnalyzer()).setOpenMode(IndexWriterConfig.OpenMode</div><div class="line">                .CREATE_OR_APPEND));</div><div class="line"></div><div class="line">        <span class="comment">//简单起见，这里的数量都比较少，例如索引10000个document，每100个document作为一批</span></div><div class="line">        <span class="keyword">int</span> tempCount = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</div><div class="line">            Document document = <span class="keyword">new</span> Document();</div><div class="line">            document.add(<span class="keyword">new</span> StringField(<span class="string">"key"</span>, String.valueOf(i), Field.Store.YES));</div><div class="line">            ramWriter.addDocument(document);</div><div class="line">            tempCount++;</div><div class="line">            <span class="keyword">if</span> (tempCount % <span class="number">100</span> == <span class="number">0</span>) &#123;</div><div class="line">                ramWriter.commit();</div><div class="line">                ramWriter.close();</div><div class="line">                fsWriter.addIndexes(ramDirectory);</div><div class="line">                ramDirectory.close();</div><div class="line">                fsWriter.commit();</div><div class="line">                ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">                ramWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> WhitespaceAnalyzer()).setOpenMode(IndexWriterConfig.OpenMode.CREATE));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//退出时确保RAMDirectory中内容都被加入本地</span></div><div class="line">        <span class="keyword">if</span> (ramWriter != <span class="keyword">null</span>) &#123;</div><div class="line">            ramWriter.commit();</div><div class="line">            ramWriter.close();</div><div class="line">            fsWriter.addIndexes(ramDirectory);</div><div class="line">            ramDirectory.close();</div><div class="line">        &#125;</div><div class="line">        IndexSearcher indexSearcher = <span class="keyword">new</span> IndexSearcher(DirectoryReader.open(fsWriter.getDirectory()));</div><div class="line">        fsWriter.close();</div><div class="line">        <span class="keyword">int</span> count = indexSearcher.count(<span class="keyword">new</span> MatchAllDocsQuery());</div><div class="line">        System.out.println(count);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>索引的同时需要搜索，前提是内存总量大于索引文件总量，如果要求新加入的索引对搜索可见，即实时搜索，要怎么做呢？显然实时搜索需要writer和searcher共用同一份索引，同时要定时的将内存中索引备份到文件系统，否则机器一旦宕机，内存中所有的索引文件都将丢失。代码实现也很简单，在备份的时候，可以使用调度线程去进行备份操作，同时还不影响主线程继续接受索引请求；备份策略有两种：全量和增量，增量直接比较文件名，将新增文件拷贝到文件系统，同时删除已过时的索引文件即可。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.core.WhitespaceAnalyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Field;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.StringField;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.*;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.IndexSearcher;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.MatchAllDocsQuery;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.Directory;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.FSDirectory;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.IOContext;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.nio.file.Path;</div><div class="line"><span class="keyword">import</span> java.nio.file.Paths;</div><div class="line"><span class="keyword">import</span> java.util.*;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.ScheduledExecutorService;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * &lt;p&gt;</div><div class="line"> * Created by wangxu on 2017/06/19 15:31.</div><div class="line"> * &lt;/p&gt;</div><div class="line"> * &lt;p&gt;</div><div class="line"> * Description: 基于Lucene 6.5开发</div><div class="line"> * &lt;/p&gt;</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> Wang Xu</div><div class="line"> * <span class="doctag">@version</span> V1.0.0</div><div class="line"> * <span class="doctag">@since</span> V1.0.0 &lt;br/&gt;</div><div class="line"> * WebSite: http://codepub.cn &lt;br&gt;</div><div class="line"> * Licence: Apache v2 License</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RamFSDirectoryDemo</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> IndexWriter ramWriter;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> RAMDirectory ramDirectory;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Backup backup = <span class="keyword">new</span> Backup();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="comment">//将文件系统中索引文件加载到内存中</span></div><div class="line">        FSDirectory fsDirectory = FSDirectory.open(Paths.get(<span class="string">"F:/index_RAM_FS"</span>));</div><div class="line">        ramDirectory = <span class="keyword">new</span> RAMDirectory(fsDirectory, IOContext.READONCE);</div><div class="line">        fsDirectory.close();</div><div class="line"></div><div class="line">        IndexWriterConfig indexWriterConfig = <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> WhitespaceAnalyzer());</div><div class="line">        indexWriterConfig.setIndexDeletionPolicy(<span class="keyword">new</span> SnapshotDeletionPolicy(<span class="keyword">new</span> KeepOnlyLastCommitDeletionPolicy()));</div><div class="line">        ramWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, indexWriterConfig);</div><div class="line"></div><div class="line">        <span class="comment">//先添加一条记录</span></div><div class="line">        Document document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> StringField(<span class="string">"first"</span>, <span class="string">"first"</span>, Field.Store.YES));</div><div class="line">        ramWriter.addDocument(document);</div><div class="line">        ramWriter.commit();</div><div class="line"></div><div class="line">        <span class="comment">//定时备份线程</span></div><div class="line">        ScheduledExecutorService backupThread = Executors.newSingleThreadScheduledExecutor();</div><div class="line">        backupThread.scheduleAtFixedRate(backup, <span class="number">0</span>, <span class="number">2</span>, TimeUnit.SECONDS);</div><div class="line"></div><div class="line">        <span class="comment">//可以继续接受索引请求</span></div><div class="line">        document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> StringField(<span class="string">"key"</span>, <span class="string">"key"</span>, Field.Store.YES));</div><div class="line">        ramWriter.addDocument(document);</div><div class="line">        ramWriter.commit();</div><div class="line"></div><div class="line">        <span class="comment">//等待索引拷贝完成</span></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            TimeUnit.SECONDS.sleep(<span class="number">5</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//接受搜索请求，可实现实时搜索</span></div><div class="line">        IndexSearcher indexSearcher = <span class="keyword">new</span> IndexSearcher(DirectoryReader.open(ramWriter.getDirectory()));</div><div class="line">        <span class="keyword">int</span> count = indexSearcher.count(<span class="keyword">new</span> MatchAllDocsQuery());</div><div class="line">        System.out.println(<span class="string">"total hits: "</span> + count);</div><div class="line">        System.out.println(<span class="string">"内存中索引文件："</span> + Arrays.asList(ramDirectory.listAll()));</div><div class="line">        <span class="comment">//查看备份索引是否完整，此处有一个注意点，如果需要在备份索引上打开searcher，那么在备份索引文件的时候需要先备份其它文件，最后再备份segments_N文件</span></div><div class="line">        <span class="comment">//因为开searcher的时候，会先加载segments_N文件，这种方式可以保证加载完segments_N文件之后，再加载其它文件一定成功</span></div><div class="line"></div><div class="line">        fsDirectory = FSDirectory.open(Paths.get(<span class="string">"F:/index_RAM_FS"</span>));</div><div class="line">        System.out.println(<span class="string">"备份中索引文件："</span> + Arrays.asList(fsDirectory.listAll()));</div><div class="line">        backupThread.shutdown();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Backup</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            IndexWriterConfig config;</div><div class="line">            SnapshotDeletionPolicy indexDeletionPolicy = <span class="keyword">null</span>;</div><div class="line">            IndexCommit snapshot = <span class="keyword">null</span>;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                ramWriter.commit();</div><div class="line">                config = (IndexWriterConfig) ramWriter.getConfig();</div><div class="line">                indexDeletionPolicy = (SnapshotDeletionPolicy) config.getIndexDeletionPolicy();</div><div class="line">                snapshot = indexDeletionPolicy.snapshot();</div><div class="line">                config.setIndexCommit(snapshot);</div><div class="line">                Collection&lt;String&gt; fileNames = snapshot.getFileNames();</div><div class="line">                Path path = Paths.get(<span class="string">"F:/index_RAM_FS"</span>);</div><div class="line">                <span class="comment">//全量增量任选一种即可</span></div><div class="line">                <span class="keyword">boolean</span> b = incrementalBackup(fileNames, path);</div><div class="line">                <span class="comment">//boolean b = fullBackup(fileNames, path);</span></div><div class="line">                <span class="keyword">if</span> (!b) &#123;</div><div class="line">                    System.err.println(<span class="string">"Backup occurs error!"</span>);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">                System.err.println(e.getMessage());</div><div class="line">            &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    indexDeletionPolicy.release(snapshot);</div><div class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                    System.err.println(e.getMessage());</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">fullBackup</span><span class="params">(Collection&lt;String&gt; fileNames, Path path)</span> </span>&#123;</div><div class="line">            Objects.requireNonNull(path);</div><div class="line">            Directory to;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                to = FSDirectory.open(path);</div><div class="line">                <span class="comment">// 全量备份，直接清空拷贝</span></div><div class="line">                <span class="keyword">for</span> (File file : path.toFile().listFiles()) &#123;</div><div class="line">                    file.delete();</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">for</span> (String fileName : fileNames) &#123;</div><div class="line">                    to.copyFrom(ramDirectory, fileName, fileName, IOContext.DEFAULT);</div><div class="line">                &#125;</div><div class="line">                to.close();</div><div class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">incrementalBackup</span><span class="params">(Collection&lt;String&gt; fileNames, Path path)</span> </span>&#123;</div><div class="line">            <span class="comment">// 增量备份，稍微复杂一些，比较文件名，将ramDirectory中新增索引拷贝过去，同时将ramDirectory中不存在的索引但是在path中存在的旧索引删除</span></div><div class="line">            Objects.requireNonNull(path);</div><div class="line">            <span class="comment">//fileNames被IndexCommit引用，需要重新构造set集合，进行移除操作</span></div><div class="line">            Set&lt;String&gt; files = <span class="keyword">new</span> HashSet&lt;&gt;(fileNames);</div><div class="line">            <span class="keyword">for</span> (File file : path.toFile().listFiles()) &#123;</div><div class="line">                <span class="keyword">if</span> (files.contains(file.getName())) &#123;</div><div class="line">                    <span class="comment">//该索引已存在，则不拷贝</span></div><div class="line">                    files.remove(file.getName());</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="comment">//删除已经过时的索引</span></div><div class="line">                    file.delete();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//拷贝全部新增索引</span></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                Directory to = FSDirectory.open(path);</div><div class="line">                <span class="keyword">for</span> (String file : files) &#123;</div><div class="line">                    to.copyFrom(ramDirectory, file, file, IOContext.DEFAULT);</div><div class="line">                &#125;</div><div class="line">                to.close();</div><div class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>如果内存不够大，不能够存放全部的本地文件系统索引，那么如何实现呢？这时候，需要两套IndexWriter，一套用来处理本地文件系统中的索引，另一套在内存中可以接受新的索引请求；对于删除更新操作比较简单，两个IndexWriter都执行一次即可，如果其中一个IndexWriter中不存在待删除或者待更新的索引的话，那么对索引文件不会有任何影响；而新增操作稍微复杂一些，首先需要使用MultiReader去合并硬盘中的IndexReader和内存中的IndexReader，当索引新增请求来了之后，只新增到内存索引中，然后重新打开内存中的IndexReader，这个操作是很快的，当内存中索引尺寸达到一定大小之后，需要将其合并到文件系统中；在合并的时候还需要另外再开一个内存中的Temp ramWriter用来接受索引合并期间的索引新增操作。不过这种方式实现起来很复杂，需要处理很多问题，例如在内存索引和硬盘索引合并期间如果有更新删除操作怎么处理？在合并之后需要更新MultiReader，但是旧的MultiReader上面还挂有搜索请求怎么办？在新开一个Temp ramWriter之后，如何让MultiReader覆盖住它？因为在这个Temp ramWriter中必须先有索引，然后才能开Reader，进而才能更新MultiReader；若新增索引速度实在太快，在合并过程没有完成的时候，内存索引又满了，要怎么办？除此以外还有很多问题需要考虑，实现起来其实很复杂，越是简单的程序越健壮，即使这么复杂的程序实现了，其健壮性仍然值的担忧，所以不是特别推荐使用这种方式。</li>
+</ul>
+
+      
+    </div>
+
+	<div align="center">
+	  
+		<div class="copyright">
+		<p><span>
+		<b>本文地址：</b><a href="/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/" title="用RAMDirectory做缓存提高Lucene性能">http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/</a><br/><b>转载请注明出处，谢谢！</b>
+		</span></p>
+		</div>
+	  
+	</div>
+	<!-- 添加广告位 -->
+    <div>
+      
+        
+<div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton", disable="enable", onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}", style="cursor: pointer; border: 0; outline: 0; border-radius: 100%; padding: 0; margin: 0; letter-spacing: normal; text-transform: none; text-indent: 0px; text-shadow: none">
+    <span onmouseover="this.style.color='rgb(236,96,0)';this.style.background='rgb(204,204,204)'" onMouseOut="this.style.color='#fff';this.style.background='rgb(236,96,0)'" style="display: inline-block; width: 70px; height: 70px; border-radius: 100%; line-height: 81px; color: #fff; font: 400 35px/75px 'microsofty'; background: rgb(236,96,0)">赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu WeChat Pay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>微信打赏</p>
+      </div>
+    
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu Alipay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>支付宝打赏</p>
+      </div>
+    
+  </div>
+<div>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Lucene/" rel="tag">#Lucene</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/13/Maven-introduces-local-dependency-jar-to-executable-jar-packages/" rel="next" title="Maven引入本地依赖Jar到可执行Jar包中">
+                <i class="fa fa-chevron-left"></i> Maven引入本地依赖Jar到可执行Jar包中
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share?uid=2067139" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<!-- UJian Button BEGIN -->
+	<div class="ujian-hook"></div>
+	<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js"></script>
+<!-- UJian Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+		  
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/author.jpg"
+               alt="Wang Xu" />
+          <p class="site-author-name" itemprop="name">Wang Xu</p>
+          <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">108</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/shijiebei2009" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/codepub" target="_blank">
+                  
+                    <i class="fa fa-linkedin"></i> Linkedin
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank">
+                  
+                    <i class="fa fa-stackoverflow"></i> Stackoverflow
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/codepub.cn" target="_blank">
+                  
+                    <i class="fa fa-zhihu"></i> ZhiHu
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/shijiebei2009/" target="_blank">
+                  
+                    <i class="fa fa-douban"></i> DouBan
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1779238484" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>&nbsp;&nbsp;&nbsp;
+  <a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_pv">
+  <i class="fa fa-user" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_pv"></span>
+  </span>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_uv">
+  <i class="fa fa-eye" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_uv"></span>
+  </span>
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'codepubcn';
+      var disqus_identifier = '2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/';
+      var disqus_title = '用RAMDirectory做缓存提高Lucene性能';
+      var disqus_url = 'http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+<a href="https://github.com/shijiebei2009"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+</body>
+</html>
