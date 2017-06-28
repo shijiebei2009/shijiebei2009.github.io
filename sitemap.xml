@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.codepub.cn/2017/04/06/Improving-chinese-input-efficiency-natural-shuangpin-input-method/</loc>
+    
+    <lastmod>2017-06-28T14:42:28.637Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/</loc>
     
     <lastmod>2017-06-28T14:39:25.928Z</lastmod>
@@ -82,13 +89,6 @@
     <loc>http://www.codepub.cn/2016/05/06/IntelliJ-IDEA-using-maven-javadoc-plugin-to-generate-the-Java-Doc-console-gibberish/</loc>
     
     <lastmod>2017-05-17T00:32:44.173Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/04/06/Improving-chinese-input-efficiency-natural-shuangpin-input-method/</loc>
-    
-    <lastmod>2017-05-17T00:32:19.577Z</lastmod>
     
   </url>
   

@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2017/04/06/Improving-chinese-input-efficiency-natural-shuangpin-input-method/</loc>
+    <lastmod>2017-06-28T14:42:28.637Z</lastmod>
+    <data>
+        <display>
+        <title>提高中文输入效率—自然双拼输入法</title>
+        <pubTime>2017-04-06T13:19:41.000Z</pubTime>
+        
+        <tag>Input Method</tag>
+         
+         
+           
+             
+              <breadCrumb title="Skill" url="http://www.codepub.cn/categories/Skill/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/</loc>
     <lastmod>2017-06-28T14:39:25.928Z</lastmod>
     <data>
@@ -220,26 +240,6 @@
            
              
               <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2017/04/06/Improving-chinese-input-efficiency-natural-shuangpin-input-method/</loc>
-    <lastmod>2017-05-17T00:32:19.577Z</lastmod>
-    <data>
-        <display>
-        <title>提高中文输入效率—自然双拼输入法</title>
-        <pubTime>2017-04-06T13:19:41.000Z</pubTime>
-        
-        <tag>Input Method</tag>
-         
-         
-           
-             
-              <breadCrumb title="Skill" url="http://www.codepub.cn/categories/Skill/"/>
           
         </display>
     </data>
