@@ -68,4 +68,4 @@ Class-Path: lib/commons-io-2.4.jar lib/commons-lang3-3.4.jar lib/guava-18.0.jar 
 参考资料
 【1】http://stackoverflow.com/questions/219585/setting-multiple-jars-in-java-classpath/219801#219801
 【2】https://www.ibm.com/developerworks/cn/java/j-jar/
-【3】https://stackoverflow.com/questions/4974693/java-eclipse-difference-between-exporting-as-a-jar-and-exporting-as-a-runnable
+【3】[Difference between exporting as a JAR and exporting as a Runnable JAR](https://stackoverflow.com/questions/4974693/java-eclipse-difference-between-exporting-as-a-jar-and-exporting-as-a-runnable)
