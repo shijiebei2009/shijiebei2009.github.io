@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
+    <lastmod>2017-07-07T13:49:21.199Z</lastmod>
+    <data>
+        <display>
+        <title>Linux下使用java -jar运行可执行jar包的正确方式</title>
+        <pubTime>2016-05-11T12:38:26.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2017/04/06/Improving-chinese-input-efficiency-natural-shuangpin-input-method/</loc>
     <lastmod>2017-06-28T14:42:28.637Z</lastmod>
     <data>
@@ -855,26 +875,6 @@
         <pubTime>2016-12-18T12:00:16.000Z</pubTime>
         
         <tag>Log4j2</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
-    <lastmod>2017-05-17T00:32:19.525Z</lastmod>
-    <data>
-        <display>
-        <title>Linux下使用java -jar运行可执行jar包的正确方式</title>
-        <pubTime>2016-05-11T12:38:26.000Z</pubTime>
-        
-        <tag>Java</tag>
          
          
            

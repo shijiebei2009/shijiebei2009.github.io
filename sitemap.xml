@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
+    
+    <lastmod>2017-07-07T13:49:21.199Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.codepub.cn/2017/04/06/Improving-chinese-input-efficiency-natural-shuangpin-input-method/</loc>
     
     <lastmod>2017-06-28T14:42:28.637Z</lastmod>
@@ -306,13 +313,6 @@
     <loc>http://www.codepub.cn/2016/12/18/Log4j2-to-achieve-different-levels-of-different-threads-log-output-to-a-different-file/</loc>
     
     <lastmod>2017-05-17T00:32:19.526Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
-    
-    <lastmod>2017-05-17T00:32:19.525Z</lastmod>
     
   </url>
   
