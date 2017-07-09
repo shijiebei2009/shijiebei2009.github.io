@@ -4,8 +4,28 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2017/07/09/Read-the-minto-pyramid-principle/</loc>
+    <lastmod>2017-07-09T10:21:30.889Z</lastmod>
+    <data>
+        <display>
+        <title>读《金字塔原理》</title>
+        <pubTime>2017-07-09T10:20:40.000Z</pubTime>
+        
+        <tag>Thinking</tag>
+         
+         
+           
+             
+              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
-    <lastmod>2017-07-07T13:57:29.612Z</lastmod>
+    <lastmod>2017-07-07T14:17:47.039Z</lastmod>
     <data>
         <display>
         <title>Linux下使用java -jar运行可执行jar包的正确方式</title>
@@ -24,8 +44,28 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
+    <lastmod>2017-07-07T14:17:47.038Z</lastmod>
+    <data>
+        <display>
+        <title>2015年终总结</title>
+        <pubTime>2015-12-31T12:36:42.000Z</pubTime>
+        
+        <tag>Thinking</tag>
+         
+         
+           
+             
+              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2017/04/06/Improving-chinese-input-efficiency-natural-shuangpin-input-method/</loc>
-    <lastmod>2017-06-28T14:42:28.637Z</lastmod>
+    <lastmod>2017-06-28T14:43:27.129Z</lastmod>
     <data>
         <display>
         <title>提高中文输入效率—自然双拼输入法</title>
@@ -45,7 +85,7 @@
     
   <url>
     <loc>http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/</loc>
-    <lastmod>2017-06-28T14:39:25.928Z</lastmod>
+    <lastmod>2017-06-28T14:40:26.963Z</lastmod>
     <data>
         <display>
         <title>用RAMDirectory做缓存提高Lucene性能</title>
@@ -57,26 +97,6 @@
            
              
               <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
-    <lastmod>2017-06-25T05:59:32.044Z</lastmod>
-    <data>
-        <display>
-        <title>2015年终总结</title>
-        <pubTime>2015-12-31T12:36:42.000Z</pubTime>
-        
-        <tag>Thinking</tag>
-         
-         
-           
-             
-              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
           
         </display>
     </data>

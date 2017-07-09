@@ -2,30 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.codepub.cn/2017/07/09/Read-the-minto-pyramid-principle/</loc>
+    
+    <lastmod>2017-07-09T10:21:30.889Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
     
-    <lastmod>2017-07-07T13:57:29.612Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/04/06/Improving-chinese-input-efficiency-natural-shuangpin-input-method/</loc>
-    
-    <lastmod>2017-06-28T14:42:28.637Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/</loc>
-    
-    <lastmod>2017-06-28T14:39:25.928Z</lastmod>
+    <lastmod>2017-07-07T14:17:47.039Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
     
-    <lastmod>2017-06-25T05:59:32.044Z</lastmod>
+    <lastmod>2017-07-07T14:17:47.038Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2017/04/06/Improving-chinese-input-efficiency-natural-shuangpin-input-method/</loc>
+    
+    <lastmod>2017-06-28T14:43:27.129Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/</loc>
+    
+    <lastmod>2017-06-28T14:40:26.963Z</lastmod>
     
   </url>
   
