@@ -66,7 +66,7 @@
 <meta property="og:url" content="http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/index.html">
 <meta property="og:site_name" content="IT草根">
 <meta property="og:description" content="问题来源一般来说，一个大型的项目都会有一些依赖的JAR包（Java归档，英语：Java ARchive），而在将项目部署到服务器的过程中，如果没有持续集成环境的话，也就是说服务器不支持在线编译及打包，那么需要自己上传依赖的JAR包，然而可能服务器上已经存在了该项目所依赖的JAR包（比如项目修复BUG，重新打包上传，而依赖不变或者版本升级，修改方法等），无需再次上传所依赖的JAR包，此时只需将该项目">
-<meta property="og:updated_time" content="2017-07-07T14:17:47.039Z">
+<meta property="og:updated_time" content="2017-07-10T14:29:40.785Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux下使用java -jar运行可执行jar包的正确方式">
 <meta name="twitter:description" content="问题来源一般来说，一个大型的项目都会有一些依赖的JAR包（Java归档，英语：Java ARchive），而在将项目部署到服务器的过程中，如果没有持续集成环境的话，也就是说服务器不支持在线编译及打包，那么需要自己上传依赖的JAR包，然而可能服务器上已经存在了该项目所依赖的JAR包（比如项目修复BUG，重新打包上传，而依赖不变或者版本升级，修改方法等），无需再次上传所依赖的JAR包，此时只需将该项目">
@@ -378,7 +378,7 @@
 <li>文件的最后一行必须是一个回车换行符，否则也会出错</li>
 </ul>
 <h4 id="多条java-jar命令的执行顺序问题"><a href="#多条java-jar命令的执行顺序问题" class="headerlink" title="多条java jar命令的执行顺序问题"></a>多条java jar命令的执行顺序问题</h4><p>通常地，我们会在服务器上配置<strong>shell</strong>脚本去定时调用自己的<strong>JAR</strong>包，但是当<strong>shell</strong>脚本中存在多条<code>java -jar</code>命令时，其执行情况是怎么样的呢？是同时并行执行，还是按顺序执行呢？经过测试得出，多条<code>java -jar</code>命令是按顺序执行的，并且只有在第一条<code>java -jar</code>命令执行完毕后，才会执行下一条<code>java -jar</code>命令，依次类推。</p>
-<p>参考资料<br>【1】<a href="http://stackoverflow.com/questions/219585/setting-multiple-jars-in-java-classpath/219801#219801" target="_blank" rel="external">http://stackoverflow.com/questions/219585/setting-multiple-jars-in-java-classpath/219801#219801</a><br>【2】<a href="https://www.ibm.com/developerworks/cn/java/j-jar/" target="_blank" rel="external">https://www.ibm.com/developerworks/cn/java/j-jar/</a><br>【3】<a href="https://stackoverflow.com/questions/4974693/java-eclipse-difference-between-exporting-as-a-jar-and-exporting-as-a-runnable" target="_blank" rel="external">https://stackoverflow.com/questions/4974693/java-eclipse-difference-between-exporting-as-a-jar-and-exporting-as-a-runnable</a></p>
+<p>参考资料<br>【1】<a href="http://stackoverflow.com/questions/219585/setting-multiple-jars-in-java-classpath/219801#219801" target="_blank" rel="external">http://stackoverflow.com/questions/219585/setting-multiple-jars-in-java-classpath/219801#219801</a><br>【2】<a href="https://www.ibm.com/developerworks/cn/java/j-jar/" target="_blank" rel="external">https://www.ibm.com/developerworks/cn/java/j-jar/</a><br>【3】<a href="https://stackoverflow.com/questions/4974693/java-eclipse-difference-between-exporting-as-a-jar-and-exporting-as-a-runnable" target="_blank" rel="external">Difference between exporting as a JAR and exporting as a Runnable JAR</a></p>
 
       
     </div>
