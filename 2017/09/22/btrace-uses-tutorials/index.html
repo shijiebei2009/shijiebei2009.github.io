@@ -66,7 +66,7 @@
 <meta property="og:url" content="http://www.codepub.cn/2017/09/22/btrace-uses-tutorials/index.html">
 <meta property="og:site_name" content="IT草根">
 <meta property="og:description" content="背景在日常开发中，有一些常见的环境，比如Dev、UAT、预发、生产等，当然并不是每个公司都是这样。有时候开发环境一切正常，但是到线上的UAT环境或预发等等会出现各种问题，那么你是不是经常需要进行本地修改代码、提交、编译、打包、上传、运行、查看日志等这一系列步骤呢？这种方式不仅低效、繁琐而且容易引入诸多不可控的因素，比如你在任意一个环节出现问题，可能都会影响到程序最终的运行结果。而如果能有一种神器，">
-<meta property="og:updated_time" content="2017-09-22T14:13:10.675Z">
+<meta property="og:updated_time" content="2017-09-22T14:17:37.396Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BTrace 使用教程">
 <meta name="twitter:description" content="背景在日常开发中，有一些常见的环境，比如Dev、UAT、预发、生产等，当然并不是每个公司都是这样。有时候开发环境一切正常，但是到线上的UAT环境或预发等等会出现各种问题，那么你是不是经常需要进行本地修改代码、提交、编译、打包、上传、运行、查看日志等这一系列步骤呢？这种方式不仅低效、繁琐而且容易引入诸多不可控的因素，比如你在任意一个环节出现问题，可能都会影响到程序最终的运行结果。而如果能有一种神器，">
@@ -451,7 +451,7 @@
 <li>can <strong>not</strong> use class literals.</li>
 </ul>
 <h4 id="BTrace命令详解"><a href="#BTrace命令详解" class="headerlink" title="BTrace命令详解"></a>BTrace命令详解</h4><ul>
-<li><p><strong>btrace</strong><br>功能：用于运行BTrace跟踪程序。<br>命令格式：<br><code>btrace [-I &lt;include-path&gt;] [-p &lt;port&gt;] [-cp &lt;classpath&gt;] &lt;pid&gt; &lt;btrace-script&gt; [&lt;args&gt;]</code><br>示例：<br><code>btrace -cp build/  1200 AllCalls1.java</code><br>参数含义：<br>include-path指定头文件的路径，用于脚本预处理功能，可选；<br>port指定BTrace agent的服务端监听端口号，用来监听clients，默认为2020，可选；<br>classpath用来指定类加载路径，默认为当前路径，可选；<br>pid表示进程号，可通过jps命令获取；<br>btrace-script即为BTrace脚本；btrace脚本如果以.java结尾，会先编译再提交执行。可使用btracec命令对脚本进行预编译。<br>args是BTrace脚本可选参数，在脚本中可通过”$”和”$length”获取参数信息。</p>
+<li><p><strong>btrace</strong><br>功能：用于运行BTrace跟踪程序。<br>命令格式：<br><code>btrace [-I &lt;include-path&gt;] [-p &lt;port&gt;] [-cp &lt;classpath&gt;] &lt;pid&gt; &lt;btrace-script&gt; [&lt;args&gt;]</code><br>示例：<br><code>btrace -cp build/  1200 AllCalls1.java</code><br>参数含义：<br>include-path指定头文件的路径，用于脚本预处理功能，可选；<br>port指定BTrace agent的服务端监听端口号，用来监听clients，默认为2020，可选；<br>classpath用来指定类加载路径，默认为当前路径，可选；<br>pid表示进程号，可通过jps命令获取；<br>btrace-script即为BTrace脚本；btrace脚本如果以.java结尾，会先编译再提交执行。可使用btracec命令对脚本进行预编译。<br>args是BTrace脚本可选参数，在脚本中可通过<code>$</code>和<code>$length</code>获取参数信息。</p>
 </li>
 <li><p><strong>btracec</strong><br>功能：用于预编译BTrace脚本，用于在编译时期验证脚本正确性。<br><code>btracec [-I &lt;include-path&gt;] [-cp &lt;classpath&gt;] [-d &lt;directory&gt;] &lt;one-or-more-BTrace-.java-files&gt;</code><br>参数意义同btrace命令一致，directory表示编译结果输出目录。</p>
 </li>
