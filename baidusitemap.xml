@@ -4,8 +4,49 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2017/09/22/btrace-uses-tutorials/</loc>
+    <lastmod>2017-09-22T13:52:25.072Z</lastmod>
+    <data>
+        <display>
+        <title>BTrace 使用教程</title>
+        <pubTime>2017-09-22T13:48:40.000Z</pubTime>
+        
+        <tag>BTrace</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2017/09/22/byteman-uses-tutorials/</loc>
+    <lastmod>2017-09-22T13:52:04.882Z</lastmod>
+    <data>
+        <display>
+        <title>Byteman 使用教程</title>
+        <pubTime>2017-09-22T13:50:38.000Z</pubTime>
+        
+        <tag>Byteman</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
     <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
-    <lastmod>2017-07-18T14:15:50.771Z</lastmod>
+    <lastmod>2017-08-27T03:41:52.207Z</lastmod>
     <data>
         <display>
         <title>2015年终总结</title>
@@ -122,7 +163,6 @@
     </data>
     </url>
 
-    
     
   <url>
     <loc>http://www.codepub.cn/2017/06/13/Maven-introduces-local-dependency-jar-to-executable-jar-packages/</loc>
@@ -272,9 +312,9 @@
         <title>IntelliJ IDEA使用maven-javadoc-plugin生成Java Doc控制台乱码</title>
         <pubTime>2016-05-06T09:26:59.000Z</pubTime>
         
-        <tag>IntelliJ</tag>
-         
         <tag>Maven</tag>
+         
+        <tag>IntelliJ</tag>
          
          
            
