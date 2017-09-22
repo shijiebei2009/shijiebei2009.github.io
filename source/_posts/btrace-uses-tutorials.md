@@ -131,12 +131,12 @@ public class Tracer {
 }
 ```
 
-注意
-- 首先println并不是JDK中的方法，而是BTraceUtils中的静态方法
+注意点
+- Tracer类中的println方法并不是JDK中的方法，而是BTraceUtils中的静态方法
 - 在追踪代码，原则上只能使用BTraceUtils中的静态方法，如果想要使用JDK中的方法，那么在命令行中需要使用`-cp`指定依赖的Jar
-- OnMethod这个注解只会在方法启动的时候被触发，如果该方法已经启动，再运行追踪代码是无法触发的，所以在实例中，先休息了15s钟
+- OnMethod这个注解只会在方法启动的时候被触发，如果该方法已经启动，再运行追踪代码是无法触发的，所以在示例中，先休息了15s钟
 
-运行BTraceOnMethodDemo，打开cmd，到Tracer的目录下，运行
+运行BTraceOnMethodDemo，打开cmd，到Tracer类所在的目录下，运行
 >D:/Demo/src/main/java>jps
 39808 Launcher
 15480 RemoteMavenServer
@@ -169,7 +169,7 @@ DEBUG: received com.sun.btrace.comm.MessageCommand@53f65459
 DEBUG: received com.sun.btrace.comm.MessageCommand@3b088d51
 tracing method start
 
-注意要带上`-v`参数，否则控制台看不到任何输出，另外还可以利用`-o`参数将信息输出到指定的文件，运行BTraceOnMethodDemo，打开cmd，到Tracer的目录下，运行
+注意要带上`-v`参数，否则控制台看不到任何输出，另外还可以利用`-o`参数将信息输出到指定的文件，运行BTraceOnMethodDemo，打开cmd，到Tracer类的目录下，运行
 >D:/Demo/src/main/java>jps
 12064 Jps
 24560 AppMain
@@ -189,12 +189,12 @@ BTrace虽然功能强大，但是并不完美，这是因为它有着诸多的�
 *   can **not** create new arrays.
 *   can **not** throw exceptions.
 *   can **not** catch exceptions.
-*   can **not** make arbitrary instance or static method calls - only the **`public static`** methods of `**[com.sun.btrace.BTraceUtils](javadoc/com/sun/btrace/BTraceUtils.html)**` class may be called from a BTrace program.
+*   can **not** make arbitrary instance or static method calls - only the **public static** methods of **[com.sun.btrace.BTraceUtils](javadoc/com/sun/btrace/BTraceUtils.html)** class may be called from a BTrace program.
 *   can **not** assign to static or instance fields of target program's classes and objects. But, BTrace class can assign to it's own static fields ("trace state" can be mutated).
-*   can **not** have instance fields and methods. Only **`static public void`** returning methods are allowed for a BTrace class. And all fields have to be static.
+*   can **not** have instance fields and methods. Only **static public void** returning methods are allowed for a BTrace class. And all fields have to be static.
 *   can **not** have outer, inner, nested or local classes.
 *   can **not** have synchronized blocks or synchronized methods.
-*   can **not** have loops (**`for, while, do..while`**)
+*   can **not** have loops (**for, while, do..while**)
 *   can **not** extend arbitrary class (super class has to be java.lang.Object)
 *   can **not** implement interfaces.
 *   can **not** contains assert statements.
@@ -202,33 +202,33 @@ BTrace虽然功能强大，但是并不完美，这是因为它有着诸多的�
 
 #### BTrace命令详解
 - **btrace**
-功能: 用于运行BTrace跟踪程序。
-命令格式:
+功能：用于运行BTrace跟踪程序。
+命令格式：
 `btrace [-I <include-path>] [-p <port>] [-cp <classpath>] <pid> <btrace-script> [<args>]`
-示例:
+示例：
 `btrace -cp build/  1200 AllCalls1.java`
-参数含义:
+参数含义：
 include-path指定头文件的路径，用于脚本预处理功能，可选；
 port指定BTrace agent的服务端监听端口号，用来监听clients，默认为2020，可选；
 classpath用来指定类加载路径，默认为当前路径，可选；
 pid表示进程号，可通过jps命令获取；
 btrace-script即为BTrace脚本；btrace脚本如果以.java结尾，会先编译再提交执行。可使用btracec命令对脚本进行预编译。
-args是BTrace脚本可选参数，在脚本中可通过"$"和"$length"获取参数信息。
+args是BTrace脚本可选参数，在脚本中可通过`$`和`$length`获取参数信息。
 
 - **btracec**
-功能: 用于预编译BTrace脚本，用于在编译时期验证脚本正确性。
+功能：用于预编译BTrace脚本，用于在编译时期验证脚本正确性。
 `btracec [-I <include-path>] [-cp <classpath>] [-d <directory>] <one-or-more-BTrace-.java-files>`
 参数意义同btrace命令一致，directory表示编译结果输出目录。
 
 - **btracer**
-功能: btracer命令同时启动应用程序和BTrace脚本，即在应用程序启动过程中使用BTrace脚本。而btrace命令针对已运行程序执行BTrace脚本。
-命令格式:
+功能：btracer命令同时启动应用程序和BTrace脚本，即在应用程序启动过程中使用BTrace脚本。而btrace命令针对已运行程序执行BTrace脚本。
+命令格式：
 `btracer <pre-compiled-btrace.class> <application-main-class> <application-args>`
-参数说明:
+参数说明：
 pre-compiled-btrace.class表示经过btracec编译后的BTrace脚本。
 application-main-class表示应用程序代码；
 application-args表示应用程序参数。
-该命令的等价写法为:
+该命令的等价写法为：
 `java -javaagent:btrace-agent.jar=script=<pre-compiled-btrace-script1>[,<pre-compiled-btrace-script1>]* <MainClass> <AppArguments>`
 
 BTrace基本就介绍完了，但是BTrace并不是完美的，比如当你想要追踪一个局部变量的，查看具体值的时候，却无能为力，不仅扼腕叹息，真是天妒英才啊，这么小的一个需求都无法cover？不用着急，后面就介绍一个更加强大的工具，Byteman。
