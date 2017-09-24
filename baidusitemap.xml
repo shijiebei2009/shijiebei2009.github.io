@@ -4,8 +4,48 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2017/09/24/2017-first-half-random-thoughts/</loc>
+    <lastmod>2017-09-24T13:44:52.060Z</lastmod>
+    <data>
+        <display>
+        <title>2017年中随想</title>
+        <pubTime>2017-09-24T13:43:34.000Z</pubTime>
+        
+        <tag>Thinking</tag>
+         
+         
+           
+             
+              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
+    <lastmod>2017-09-23T14:09:01.157Z</lastmod>
+    <data>
+        <display>
+        <title>2015年终总结</title>
+        <pubTime>2015-12-31T12:36:42.000Z</pubTime>
+        
+        <tag>Thinking</tag>
+         
+         
+           
+             
+              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2017/04/06/Improving-chinese-input-efficiency-natural-shuangpin-input-method/</loc>
-    <lastmod>2017-09-23T12:49:48.444Z</lastmod>
+    <lastmod>2017-09-23T14:08:47.022Z</lastmod>
     <data>
         <display>
         <title>提高中文输入效率—自然双拼输入法</title>
@@ -25,7 +65,7 @@
     
   <url>
     <loc>http://www.codepub.cn/2017/09/22/btrace-uses-tutorials/</loc>
-    <lastmod>2017-09-22T14:17:37.396Z</lastmod>
+    <lastmod>2017-09-22T14:19:24.593Z</lastmod>
     <data>
         <display>
         <title>BTrace 使用教程</title>
@@ -43,9 +83,10 @@
     </url>
 
     
+    
   <url>
     <loc>http://www.codepub.cn/2017/09/22/byteman-uses-tutorials/</loc>
-    <lastmod>2017-09-22T13:52:04.882Z</lastmod>
+    <lastmod>2017-09-22T13:56:41.933Z</lastmod>
     <data>
         <display>
         <title>Byteman 使用教程</title>
@@ -57,27 +98,6 @@
            
              
               <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
-    <lastmod>2017-08-27T03:41:52.207Z</lastmod>
-    <data>
-        <display>
-        <title>2015年终总结</title>
-        <pubTime>2015-12-31T12:36:42.000Z</pubTime>
-        
-        <tag>Thinking</tag>
-         
-         
-           
-             
-              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
           
         </display>
     </data>
