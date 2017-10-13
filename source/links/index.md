@@ -1,3 +1,4 @@
+---
 title: Links
 date: 2015-06-14 18:41:08
 
@@ -53,7 +54,10 @@ date: 2015-06-14 18:41:08
 [MacTalk，池建强](http://macshuo.com/)
 [Trinea，滴滴技术专家](http://www.trinea.cn/)
 [鞠海深，连续创业者](http://juhaishen.me/)
-[刘文浩](http://www.liuwenhao.me/)
+[D哥，Solo博客系统作者](http://blog.csdn.net/DL88250)
+[龙哥盟](http://flygon.net/)
+[迷渡justjavac](http://justjavac.com/)
+[Phodal Huang，11岁开始编程](https://www.phodal.com/blog/)
 
 ### 推荐站点
 [开源自由的汉语言处理包](http://hanlp.linrunsoft.com/)
