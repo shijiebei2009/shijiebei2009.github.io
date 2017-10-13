@@ -1,0 +1,1136 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Lucene," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="背景如果把这个标题拆分成两个来讲，那么每一个都很好解决，下文会进行详述，而如果把这两者看做是与条件并加上其它限制，则实现起来比较困难，本文就是要探讨在需求繁多的情况下，如何优雅地实现。比如需求如下  保留标点符号，否则去掉标点的话，在标点两边的词可能会匹配上，比如“你好，小甜甜”，去掉标点切分是『你|好|小|甜|甜』，那么『好小』有可能会命中，而如果切分成『你|好|，|小|甜|甜』，则『好小』无法">
+<meta name="keywords" content="Lucene">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lucene 实现任意词搜索命中并返回位置信息">
+<meta property="og:url" content="http://www.codepub.cn/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="背景如果把这个标题拆分成两个来讲，那么每一个都很好解决，下文会进行详述，而如果把这两者看做是与条件并加上其它限制，则实现起来比较困难，本文就是要探讨在需求繁多的情况下，如何优雅地实现。比如需求如下  保留标点符号，否则去掉标点的话，在标点两边的词可能会匹配上，比如“你好，小甜甜”，去掉标点切分是『你|好|小|甜|甜』，那么『好小』有可能会命中，而如果切分成『你|好|，|小|甜|甜』，则『好小』无法">
+<meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/spanquery_and_subclasses.jpg">
+<meta property="og:updated_time" content="2017-10-13T14:33:28.188Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lucene 实现任意词搜索命中并返回位置信息">
+<meta name="twitter:description" content="背景如果把这个标题拆分成两个来讲，那么每一个都很好解决，下文会进行详述，而如果把这两者看做是与条件并加上其它限制，则实现起来比较困难，本文就是要探讨在需求繁多的情况下，如何优雅地实现。比如需求如下  保留标点符号，否则去掉标点的话，在标点两边的词可能会匹配上，比如“你好，小甜甜”，去掉标点切分是『你|好|小|甜|甜』，那么『好小』有可能会命中，而如果切分成『你|好|，|小|甜|甜』，则『好小』无法">
+<meta name="twitter:image" content="http://7xig3q.com1.z0.glb.clouddn.com/spanquery_and_subclasses.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Lucene 实现任意词搜索命中并返回位置信息 | IT草根 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1254721753&web_id=1254721753" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">IT草根</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-book fa-fw"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-link fa-fw"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'CEs2u-bRR6iHSt4ynbFA','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Lucene 实现任意词搜索命中并返回位置信息
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-10-13T22:29:56+08:00" content="2017-10-13">
+              2017-10-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Programming-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Notes</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+		
+		
+			<!-- 在下面的位置加上如下代码 -->
+			<span id="busuanzi_container_page_pv">&nbsp; | &nbsp; 热度&nbsp; <span id="busuanzi_value_page_pv"></span>°C</span>    
+			<!-- 在上面的位置加上如上代码 -->  
+		
+		  
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/10/13/lucene-implements-any-word-search-and-returns-location-information/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+
+      
+        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>如果把这个标题拆分成两个来讲，那么每一个都很好解决，下文会进行详述，而如果把这两者看做是与条件并加上其它限制，则实现起来比较困难，本文就是要探讨在需求繁多的情况下，如何优雅地实现。比如需求如下</p>
+<ul>
+<li>保留标点符号，否则去掉标点的话，在标点两边的词可能会匹配上，比如“你好，小甜甜”，去掉标点切分是『你|好|小|甜|甜』，那么『好小』有可能会命中，而如果切分成『你|好|，|小|甜|甜』，则『好小』无法命中</li>
+<li>只要包含搜索词，要求对任意搜索词均可命中<ul>
+<li>比如“我爱你中国”，不同的分词工具会切分出不同的结果</li>
+<li>『我|爱|你|中国』或者『我爱你|中国』或者『我|爱|你|中|国』等，那么要求搜索“我爱”或者“爱你”或者“你中”等都要命中</li>
+</ul>
+</li>
+<li>需要获取命中词的positions信息<ul>
+<li>还是以“我爱你中国”为例，如果搜“你中”，那么需要返回结果命中，并给出positions信息，例如start=2表示“你中”在原文本中是从第2个位置开始</li>
+</ul>
+</li>
+<li>可以设置slop<ul>
+<li>什么是slop，简单来说slop是指两个项的位置之间允许的最大间隔距离</li>
+<li>为什么要设置slop呢？比如小黄文为了防止敏感词被屏蔽，会在敏感词中间加上干扰词，例如<code>性%=$虐待</code>，那么直接搜<code>性虐待</code>无法命中</li>
+<li>只要设置slop为3，即相当于搜<code>性[***]虐待</code>，这里面的<code>[***]</code>就代表slop为3，可以匹配任意三个字</li>
+</ul>
+</li>
+<li>不要存储Field的值<ul>
+<li>如果可以存储的话，可以通过Document获取原文本，再用TokenStream分析该文本，使用QueryScore初始化TokenStream的分析结果，遍历每个token根据TokenScore的得分判断是否命中，若命中则输出位置信息或者起始偏移量即可</li>
+<li>但是存储Field的值是需要占用硬盘空间的，当需要索引海量的文本的时候，会导致索引体积非常大，搜索性能变差</li>
+<li>当然还可以通过将索引拆分成多份存储实现降低索引体积的目的，这也是一个方法，不过治标不治本</li>
+</ul>
+</li>
+<li>不要存储TermVectors<ul>
+<li>同样地如果可以存储的话，可以通过TermVectors获取Terms再遍历TermsEnum，获取PostingsEnum得到positions信息，缺点在于只能实现单个字（Term）的搜索匹配</li>
+<li>但是存储TermVectors同样占用硬盘空间，为了缩小索引体积，不要存储</li>
+</ul>
+</li>
+<li>实现与逻辑，比如搜索“你中 &amp; 我爱”表示两个词都要命中</li>
+<li>实现或逻辑，比如搜索“你中 | 我爱”表示两个词至少要有一个命中</li>
+</ul>
+<p>如果想要实现百分之百的任意词搜索命中，那么只能按字切分，因为没有任何分词工具能够保证切出来的词与搜索词是一致的。</p>
+<h3 id="简单需求的实现"><a href="#简单需求的实现" class="headerlink" title="简单需求的实现"></a>简单需求的实现</h3><p>如果并不要求满足上面所有的需求，而仅仅满足其中任何一个，那么实现起来都是非常简单的，以下代码均基于Lucene 5.5.0实现，示例如下。</p>
+<h4 id="仅要求任意搜索词命中"><a href="#仅要求任意搜索词命中" class="headerlink" title="仅要求任意搜索词命中"></a>仅要求任意搜索词命中</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@org</span>.junit.<span class="function">Test</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testAnyMatch</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</div><div class="line">    RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">    IndexWriter indexWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> StandardAnalyzer()));</div><div class="line">    Document document = <span class="keyword">new</span> Document();</div><div class="line">    document.add(<span class="keyword">new</span> TextField(<span class="string">"content"</span>, <span class="string">"我爱你中国"</span>, Field.Store.NO));</div><div class="line">    indexWriter.addDocument(document);</div><div class="line">    indexWriter.commit();</div><div class="line">    IndexSearcher indexSearcher = <span class="keyword">new</span> IndexSearcher(DirectoryReader.open(indexWriter));</div><div class="line">    PhraseQuery phraseQuery = <span class="keyword">new</span> PhraseQuery.Builder().add(<span class="keyword">new</span> Term(<span class="string">"content"</span>, <span class="string">"你"</span>)).add(<span class="keyword">new</span> Term(<span class="string">"content"</span>, <span class="string">"中"</span>)).setSlop(<span class="number">0</span>).build();</div><div class="line">    TopDocs search = indexSearcher.search(phraseQuery, Integer.MAX_VALUE);</div><div class="line">    System.out.println(search.totalHits);</div><div class="line">    <span class="comment">//OR search like this</span></div><div class="line">    MultiPhraseQuery multiPhraseQuery = <span class="keyword">new</span> MultiPhraseQuery();</div><div class="line">    Term first = <span class="keyword">new</span> Term(<span class="string">"content"</span>, <span class="string">"你"</span>);</div><div class="line">    Term second = <span class="keyword">new</span> Term(<span class="string">"content"</span>, <span class="string">"中"</span>);</div><div class="line">    multiPhraseQuery.add(<span class="keyword">new</span> Term[]&#123;first, second&#125;);</div><div class="line">    search = indexSearcher.search(multiPhraseQuery, Integer.MAX_VALUE);</div><div class="line">    System.out.println(search.totalHits);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="可以存储Field的值"><a href="#可以存储Field的值" class="headerlink" title="可以存储Field的值"></a>可以存储Field的值</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@org</span>.junit.<span class="function">Test</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testStoreFieldMatch</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InvalidTokenOffsetsException &#123;</div><div class="line">    RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">    IndexWriter indexWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> StandardAnalyzer()));</div><div class="line">    Document document = <span class="keyword">new</span> Document();</div><div class="line">    document.add(<span class="keyword">new</span> TextField(<span class="string">"content"</span>, <span class="string">"我爱你中国"</span>, Field.Store.YES));</div><div class="line">    indexWriter.addDocument(document);</div><div class="line">    indexWriter.commit();</div><div class="line">    IndexSearcher indexSearcher = <span class="keyword">new</span> IndexSearcher(DirectoryReader.open(indexWriter));</div><div class="line">    PhraseQuery phraseQuery = <span class="keyword">new</span> PhraseQuery.Builder().add(<span class="keyword">new</span> Term(<span class="string">"content"</span>, <span class="string">"你"</span>)).add(<span class="keyword">new</span> Term(<span class="string">"content"</span>, <span class="string">"中"</span>)).setSlop(<span class="number">0</span>).build();</div><div class="line">    TopDocs search = indexSearcher.search(phraseQuery, Integer.MAX_VALUE);</div><div class="line">    ScoreDoc[] scoreDocs = search.scoreDocs;</div><div class="line">    <span class="keyword">for</span> (ScoreDoc scoreDoc : scoreDocs) &#123;</div><div class="line">        String content = indexSearcher.doc(scoreDoc.doc).get(<span class="string">"content"</span>);</div><div class="line">        TokenStream contentStream = <span class="keyword">new</span> StandardAnalyzer().tokenStream(<span class="string">"content"</span>, content);</div><div class="line">        CharTermAttribute charTermAttribute = contentStream.addAttribute(CharTermAttribute.class);</div><div class="line">        OffsetAttribute offsetAttribute = contentStream.addAttribute(OffsetAttribute.class);</div><div class="line">        QueryScorer queryScorer = <span class="keyword">new</span> QueryScorer(phraseQuery);</div><div class="line">        queryScorer.setMaxDocCharsToAnalyze(Integer.MAX_VALUE);</div><div class="line">        TokenStream init = queryScorer.init(contentStream);</div><div class="line">        <span class="keyword">if</span> (init != <span class="keyword">null</span>) &#123;</div><div class="line">            contentStream = init;</div><div class="line">        &#125;</div><div class="line">        contentStream.reset();</div><div class="line">        queryScorer.startFragment(<span class="keyword">null</span>);</div><div class="line">        <span class="keyword">int</span> startOffset, endOffset;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">boolean</span> next = contentStream.incrementToken(); next &amp;&amp; (offsetAttribute.startOffset() &lt; Integer.MAX_VALUE); next = contentStream.incrementToken()) &#123;</div><div class="line">            startOffset = offsetAttribute.startOffset();</div><div class="line">            endOffset = offsetAttribute.endOffset();</div><div class="line">            <span class="keyword">if</span> (startOffset &gt; content.length() || endOffset &gt; content.length()) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InvalidTokenOffsetsException(<span class="string">"Token "</span> + charTermAttribute.toString() + <span class="string">" exceeds length of provided text sized "</span> + content.length());</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">float</span> res = queryScorer.getTokenScore();</div><div class="line">            <span class="keyword">if</span> (res &gt; Float.valueOf(<span class="number">0</span>) &amp;&amp; startOffset &lt;= endOffset) &#123;</div><div class="line">                System.out.println(<span class="string">"hits: "</span> + content.substring(startOffset, endOffset) + <span class="string">", start: "</span> + startOffset);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        contentStream.close();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="可以存储TermVectors的值"><a href="#可以存储TermVectors的值" class="headerlink" title="可以存储TermVectors的值"></a>可以存储TermVectors的值</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@org</span>.junit.<span class="function">Test</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testTermVectorsMatch</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InvalidTokenOffsetsException &#123;</div><div class="line">    RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">    IndexWriter indexWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> StandardAnalyzer()));</div><div class="line">    Document document = <span class="keyword">new</span> Document();</div><div class="line">    FieldType fieldType = <span class="keyword">new</span> FieldType();</div><div class="line">    fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);</div><div class="line">    fieldType.setStoreTermVectorPositions(<span class="keyword">true</span>);</div><div class="line">    fieldType.setStoreTermVectors(<span class="keyword">true</span>);</div><div class="line">    document.add(<span class="keyword">new</span> Field(<span class="string">"content"</span>, <span class="string">"我爱你中国"</span>, fieldType));</div><div class="line">    indexWriter.addDocument(document);</div><div class="line">    indexWriter.commit();</div><div class="line">    IndexSearcher indexSearcher = <span class="keyword">new</span> IndexSearcher(DirectoryReader.open(indexWriter));</div><div class="line">    Term searchTerm = <span class="keyword">new</span> Term(<span class="string">"content"</span>, <span class="string">"中"</span>);</div><div class="line">    PhraseQuery phraseQuery = <span class="keyword">new</span> PhraseQuery.Builder().add(searchTerm).setSlop(<span class="number">0</span>).build();</div><div class="line">    TopDocs search = indexSearcher.search(phraseQuery, Integer.MAX_VALUE);</div><div class="line">    ScoreDoc[] scoreDocs = search.scoreDocs;</div><div class="line">    <span class="keyword">for</span> (ScoreDoc scoreDoc : scoreDocs) &#123;</div><div class="line">        Terms content = indexSearcher.getIndexReader().getTermVector(scoreDoc.doc, <span class="string">"content"</span>);</div><div class="line">        TermsEnum iterator = content.iterator();</div><div class="line">        BytesRef bytesRef;</div><div class="line">        <span class="keyword">while</span> ((bytesRef = iterator.next()) != <span class="keyword">null</span>) &#123;</div><div class="line">            PostingsEnum postings = iterator.postings(<span class="keyword">null</span>, PostingsEnum.ALL);</div><div class="line">            <span class="keyword">if</span> (postings.nextDoc() != Spans.NO_MORE_DOCS) &#123;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; postings.freq(); i++) &#123;</div><div class="line">                    <span class="keyword">if</span> (searchTerm.text().equals(bytesRef.utf8ToString())) &#123;</div><div class="line">                        System.out.println(<span class="string">"hits: "</span> + bytesRef.utf8ToString() + <span class="string">", start: "</span> + postings.nextPosition());</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="复杂需求的实现"><a href="#复杂需求的实现" class="headerlink" title="复杂需求的实现"></a>复杂需求的实现</h3><p>实现某一个简单的需求就不再举例了，下面要讲解如何实现复杂的需求，也就是说，要同时满足上面的需求列表，而不仅仅是只满足其中的某一条。首先需要解决的就是分词之后保留标点符号的问题，在Lucene中，我并没有找到原生的支持保留标点符号的Analyzer，于是只能自己造轮子了。</p>
+<h4 id="保留标点符号的分词器"><a href="#保留标点符号的分词器" class="headerlink" title="保留标点符号的分词器"></a>保留标点符号的分词器</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> lombok.extern.log4j.Log4j2;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.Analyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.TokenStream;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.Tokenizer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.core.LowerCaseFilter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.pattern.PatternTokenizer;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.regex.Pattern;</div><div class="line"></div><div class="line"><span class="meta">@Log</span>4j2</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReservePunctuationAnalyzer</span> <span class="keyword">extends</span> <span class="title">Analyzer</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ReservePunctuationAnalyzer</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> TokenStreamComponents <span class="title">createComponents</span><span class="params">(String fieldName)</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> Tokenizer source;</div><div class="line">        source = <span class="keyword">new</span> PatternTokenizer(Pattern.compile(<span class="string">""</span>), -<span class="number">1</span>);</div><div class="line">        TokenStream result = <span class="keyword">new</span> LowerCaseFilter(source);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> TokenStreamComponents(source, result);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>分词测试如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    String input = <span class="string">"你好，小甜甜。"</span>;</div><div class="line">    TokenStream test = <span class="keyword">new</span> ReservePunctuationAnalyzer().tokenStream(<span class="string">"test"</span>, input);</div><div class="line">    CharTermAttribute charTermAttribute = test.addAttribute(CharTermAttribute.class);</div><div class="line">    OffsetAttribute offsetAttribute = test.addAttribute(OffsetAttribute.class);</div><div class="line">    test.reset();</div><div class="line">    <span class="keyword">while</span> (test.incrementToken()) &#123;</div><div class="line">        System.out.println(<span class="string">"token:["</span> + charTermAttribute + <span class="string">"], offset:["</span> + offsetAttribute.startOffset() + <span class="string">"]"</span>);</div><div class="line">    &#125;</div><div class="line">    test.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>分词结果输出如下</p>
+<blockquote>
+<p>token:[你], offset:[0]<br>token:[好], offset:[1]<br>token:[，], offset:[2]<br>token:[小], offset:[3]<br>token:[甜], offset:[4]<br>token:[甜], offset:[5]<br>token:[。], offset:[6]</p>
+</blockquote>
+<h4 id="任意词搜索命中并返回positions信息"><a href="#任意词搜索命中并返回positions信息" class="headerlink" title="任意词搜索命中并返回positions信息"></a>任意词搜索命中并返回positions信息</h4><p>下面再来解决在不存储Field、不存储TermVectors的情况下，如何实现任意词搜索命中并返回positions信息，同时还可以设置slop的值。要实现这些功能就需要用到SpanQuery及其一系列的子类，先来看一张继承关系图，这些都是即将要使用到的类。</p>
+<div align="center"><br><a href="http://7xig3q.com1.z0.glb.clouddn.com/spanquery_and_subclasses.jpg" title="SpanQuery And Subclasses" target="_blank" rel="external"><img src="http://7xig3q.com1.z0.glb.clouddn.com/spanquery_and_subclasses.jpg" alt="SpanQuery And Subclasses" title="SpanQuery And Subclasses"></a><br></div>
+
+<p>SpanQuery的doc注释很简单，就一句话“Base class for span-based queries”，基于跨度查询的基类。而真正具有实际作用的是其各个子类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Field;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.FieldType;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.LongField;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.*;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.IndexSearcher;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.spans.SpanNearQuery;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.spans.SpanTermQuery;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.spans.SpanWeight;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.spans.Spans;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.apache.lucene.search.spans.SpanNearQuery.newOrderedNearQuery;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * &lt;p&gt;</div><div class="line"> * Created by wangxu on 2017/10/13 14:29.</div><div class="line"> * &lt;/p&gt;</div><div class="line"> * &lt;p&gt;</div><div class="line"> * Description: TODO</div><div class="line"> * &lt;/p&gt;</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> Wang Xu</div><div class="line"> * <span class="doctag">@version</span> V1.0.0</div><div class="line"> * <span class="doctag">@since</span> V1.0.0 &lt;br/&gt;</div><div class="line"> * WebSite: http://codepub.cn &lt;br&gt;</div><div class="line"> * Licence: Apache v2 License</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpanNearQueryDemo</span> </span>&#123;</div><div class="line">    <span class="meta">@org</span>.junit.<span class="function">Test</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</div><div class="line">        String input = <span class="string">"现有的中文分词算法可分为三大类：基于字符串匹配的类基分词方法、基于理解的分词方法和基于统计的分词方法。"</span>;</div><div class="line">        RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">        IndexWriterConfig indexWriterConfig = <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> ReservePunctuationAnalyzer());</div><div class="line">        <span class="keyword">try</span> (IndexWriter indexWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, indexWriterConfig)) &#123;</div><div class="line">            Document document = <span class="keyword">new</span> Document();</div><div class="line">            FieldType fieldType = <span class="keyword">new</span> FieldType();</div><div class="line">            fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);</div><div class="line">            Field field = <span class="keyword">new</span> Field(<span class="string">"title"</span>, input, fieldType);</div><div class="line">            LongField IDX = <span class="keyword">new</span> LongField(<span class="string">"IDX"</span>, <span class="number">1</span>, Field.Store.YES);</div><div class="line">            document.add(field);</div><div class="line">            document.add(IDX);</div><div class="line">            indexWriter.addDocument(document);</div><div class="line"></div><div class="line">            input = <span class="string">"计算机算法是很难很复杂滴"</span>;</div><div class="line">            document = <span class="keyword">new</span> Document();</div><div class="line">            field = <span class="keyword">new</span> Field(<span class="string">"title"</span>, input, fieldType);</div><div class="line">            IDX = <span class="keyword">new</span> LongField(<span class="string">"IDX"</span>, <span class="number">2</span>, Field.Store.YES);</div><div class="line">            document.add(field);</div><div class="line">            document.add(IDX);</div><div class="line">            indexWriter.addDocument(document);</div><div class="line"></div><div class="line">            input = <span class="string">"计算机算法可以大幅度提升程序性能"</span>;</div><div class="line">            document = <span class="keyword">new</span> Document();</div><div class="line">            field = <span class="keyword">new</span> Field(<span class="string">"title"</span>, input, fieldType);</div><div class="line">            IDX = <span class="keyword">new</span> LongField(<span class="string">"IDX"</span>, <span class="number">3</span>, Field.Store.YES);</div><div class="line">            document.add(field);</div><div class="line">            document.add(IDX);</div><div class="line">            indexWriter.addDocument(document);</div><div class="line">            indexWriter.commit();</div><div class="line"></div><div class="line">            IndexSearcher indexSearcher = <span class="keyword">new</span> IndexSearcher(DirectoryReader.open(ramDirectory));</div><div class="line">            SpanTermQuery first = <span class="keyword">new</span> SpanTermQuery(<span class="keyword">new</span> Term(<span class="string">"title"</span>, <span class="string">"类"</span>));</div><div class="line">            SpanTermQuery second = <span class="keyword">new</span> SpanTermQuery(<span class="keyword">new</span> Term(<span class="string">"title"</span>, <span class="string">"基"</span>));</div><div class="line">            SpanNearQuery spanNearQuery = newOrderedNearQuery(<span class="string">"title"</span>).addClause(first).addClause(second).build();</div><div class="line">            SpanWeight weight = spanNearQuery.createWeight(indexSearcher, <span class="keyword">true</span>);</div><div class="line">            List&lt;LeafReaderContext&gt; leaves = indexSearcher.getIndexReader().getContext().leaves();</div><div class="line">            <span class="keyword">for</span> (LeafReaderContext leaf : leaves) &#123;</div><div class="line">                Spans spans = weight.getSpans(leaf, SpanWeight.Postings.POSITIONS);</div><div class="line">                <span class="keyword">while</span> (spans.nextDoc() != Spans.NO_MORE_DOCS) &#123;</div><div class="line">                    Document doc = leaf.reader().document(spans.docID());</div><div class="line">                    <span class="keyword">while</span> (spans.nextStartPosition() != Spans.NO_MORE_POSITIONS) &#123;</div><div class="line">                        System.out.println(<span class="string">"doc id = "</span> + spans.docID() + <span class="string">", doc IDX= "</span> + doc.get(<span class="string">"IDX"</span>) + <span class="string">", start position = "</span> + spans.startPosition() + <span class="string">", end "</span> +</div><div class="line">                                <span class="string">"position = "</span> + spans.endPosition());</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//================================================================</span></div><div class="line">            <span class="comment">// 输出结果是</span></div><div class="line">            <span class="comment">// doc id = 0, doc IDX= 1, start position = 24, end position = 26</span></div><div class="line">            <span class="comment">//================================================================</span></div><div class="line">            System.out.println();</div><div class="line">            <span class="comment">//修改slop，设置1，默认是0</span></div><div class="line">            spanNearQuery = newOrderedNearQuery(<span class="string">"title"</span>).addClause(first).addClause(second).setSlop(<span class="number">1</span>).build();</div><div class="line">            weight = spanNearQuery.createWeight(indexSearcher, <span class="keyword">true</span>);</div><div class="line">            leaves = indexSearcher.getIndexReader().getContext().leaves();</div><div class="line">            <span class="keyword">for</span> (LeafReaderContext leaf : leaves) &#123;</div><div class="line">                Spans spans = weight.getSpans(leaf, SpanWeight.Postings.POSITIONS);</div><div class="line">                <span class="keyword">while</span> (spans.nextDoc() != spans.NO_MORE_DOCS) &#123;</div><div class="line">                    Document doc = leaf.reader().document(spans.docID());</div><div class="line">                    <span class="keyword">while</span> (spans.nextStartPosition() != spans.NO_MORE_POSITIONS) &#123;</div><div class="line">                        System.out.println(<span class="string">"doc id = "</span> + spans.docID() + <span class="string">", doc IDX= "</span> + doc.get(<span class="string">"IDX"</span>) + <span class="string">", start position = "</span> + spans.startPosition() + <span class="string">", end "</span> +</div><div class="line">                                <span class="string">"position = "</span> + spans.endPosition());</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//================================================================</span></div><div class="line">            <span class="comment">// 输出结果是</span></div><div class="line">            <span class="comment">// doc id = 0, doc IDX= 1, start position = 14, end position = 17</span></div><div class="line">            <span class="comment">// doc id = 0, doc IDX = 1, start position = 24, end position = 26</span></div><div class="line">            <span class="comment">//================================================================</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="实现逻辑与查询"><a href="#实现逻辑与查询" class="headerlink" title="实现逻辑与查询"></a>实现逻辑与查询</h4><p>通过上面的图，想必你也知道，Lucene官方并不对SpanAndQuery提供支持，在Lucene的官方讨论组中，有人发起过<a href="https://issues.apache.org/jira/browse/LUCENE-3371" target="_blank" rel="external">支持SpanAndQuery的issue</a>，但是一直没有获得官方的回应。不过已经有商业公司实现了这种搜索技术，公司名称是<a href="https://www.searchtechnologies.com/" target="_blank" rel="external">SearchTechnologies</a>，API参见<a href="https://wiki.searchtechnologies.com/javadoc/qpl0.3snap/index.html?com/searchtechnologies/qpl/solr/queryoperators/SpanAndQuery.html" target="_blank" rel="external">SpanAndQuery</a>，但是并不开源（So Sad），我没有找到其实现的具体源码，如果你知道的话，烦请告知我一下。</p>
+<p>既然官方不予支持，那就只能自己造轮子了，逻辑上来讲，也不复杂，有两种方式可以实现。</p>
+<p>第一种方式，从词的角度，例如『爱你』和『你中』两个搜索词实现逻辑与，那么只要分别地把每一个搜索词都单独搜一下，最后在命中结果中取交集，就可以实现逻辑与的功能，代码写起来也很简单，在此不予示例。</p>
+<p>第二种方式，从Term的角度，例如『爱你』如果按字切分，那么能够切成两个Term，分别是『爱』和『你』，这时候使用SpanNearQuery构造查询语句，加上一个很大的slop，但是不管slop多大，它总是有上限的，万一两个Term之间的距离超过slop，同样无法命中，所以说这种实现方式是存在漏洞的，除非你确定你的两个Term之间的距离不会超过某个具体的slop值，那么可以使用之。</p>
+<p>注意你不能够同时保证按字切分，又可以在两个搜索词之间设置slop值。如果不按字切分，那么切出来的某个词就是一个Term，即将『爱你』和『你中』看成是两个Term，这时候是可以设置slop值的。如果按字切分，那么切成『爱|你』和『你|中』，实现逻辑与，如果设置slop值，相当于是『爱|slop|你|slop|你|slop|中』，已经与逻辑与不匹配了，逻辑与的本意是『爱|slop值为0|你|slop为任意值|你|slop值为0|中』，请细细体会。</p>
+<h4 id="实现逻辑或查询"><a href="#实现逻辑或查询" class="headerlink" title="实现逻辑或查询"></a>实现逻辑或查询</h4><p>官方已经对或逻辑提供了支持，就是SpanOrQuery，直接操练起来即可。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Field;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.FieldType;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.LongField;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.*;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.IndexSearcher;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.spans.*;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.apache.lucene.search.spans.SpanNearQuery.newOrderedNearQuery;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * &lt;p&gt;</div><div class="line"> * Created by wangxu on 2017/10/13 14:29.</div><div class="line"> * &lt;/p&gt;</div><div class="line"> * &lt;p&gt;</div><div class="line"> * Description: TODO</div><div class="line"> * &lt;/p&gt;</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> Wang Xu</div><div class="line"> * <span class="doctag">@version</span> V1.0.0</div><div class="line"> * <span class="doctag">@since</span> V1.0.0 &lt;br/&gt;</div><div class="line"> * WebSite: http://codepub.cn &lt;br&gt;</div><div class="line"> * Licence: Apache v2 License</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpanOrQueryDemo</span> </span>&#123;</div><div class="line">    <span class="meta">@org</span>.junit.<span class="function">Test</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</div><div class="line">        String input = <span class="string">"现有的中文分词算法可分为三大类：基于字符串匹配的类基分词方法、基于理解的分词方法和基于统计的分词方法。"</span>;</div><div class="line">        RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">        IndexWriterConfig indexWriterConfig = <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> ReservePunctuationAnalyzer());</div><div class="line">        <span class="keyword">try</span> (IndexWriter indexWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, indexWriterConfig)) &#123;</div><div class="line">            Document document = <span class="keyword">new</span> Document();</div><div class="line">            FieldType fieldType = <span class="keyword">new</span> FieldType();</div><div class="line">            fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);</div><div class="line">            Field field = <span class="keyword">new</span> Field(<span class="string">"title"</span>, input, fieldType);</div><div class="line">            LongField IDX = <span class="keyword">new</span> LongField(<span class="string">"IDX"</span>, <span class="number">1</span>, Field.Store.YES);</div><div class="line">            document.add(field);</div><div class="line">            document.add(IDX);</div><div class="line">            indexWriter.addDocument(document);</div><div class="line"></div><div class="line">            input = <span class="string">"计算机算法是很难很复杂滴"</span>;</div><div class="line">            document = <span class="keyword">new</span> Document();</div><div class="line">            field = <span class="keyword">new</span> Field(<span class="string">"title"</span>, input, fieldType);</div><div class="line">            IDX = <span class="keyword">new</span> LongField(<span class="string">"IDX"</span>, <span class="number">2</span>, Field.Store.YES);</div><div class="line">            document.add(field);</div><div class="line">            document.add(IDX);</div><div class="line">            indexWriter.addDocument(document);</div><div class="line"></div><div class="line">            input = <span class="string">"计算机算法可以大幅度提升程序性能"</span>;</div><div class="line">            document = <span class="keyword">new</span> Document();</div><div class="line">            field = <span class="keyword">new</span> Field(<span class="string">"title"</span>, input, fieldType);</div><div class="line">            IDX = <span class="keyword">new</span> LongField(<span class="string">"IDX"</span>, <span class="number">3</span>, Field.Store.YES);</div><div class="line">            document.add(field);</div><div class="line">            document.add(IDX);</div><div class="line">            indexWriter.addDocument(document);</div><div class="line">            indexWriter.commit();</div><div class="line">            IndexSearcher indexSearcher = <span class="keyword">new</span> IndexSearcher(DirectoryReader.open(ramDirectory));</div><div class="line"></div><div class="line">            SpanTermQuery first = <span class="keyword">new</span> SpanTermQuery(<span class="keyword">new</span> Term(<span class="string">"title"</span>, <span class="string">"类"</span>));</div><div class="line">            SpanTermQuery second = <span class="keyword">new</span> SpanTermQuery(<span class="keyword">new</span> Term(<span class="string">"title"</span>, <span class="string">"基"</span>));</div><div class="line">            SpanNearQuery spanNearQueryFirst = newOrderedNearQuery(<span class="string">"title"</span>).addClause(first).addClause(second).build();</div><div class="line"></div><div class="line">            first = <span class="keyword">new</span> SpanTermQuery(<span class="keyword">new</span> Term(<span class="string">"title"</span>, <span class="string">"算"</span>));</div><div class="line">            second = <span class="keyword">new</span> SpanTermQuery(<span class="keyword">new</span> Term(<span class="string">"title"</span>, <span class="string">"法"</span>));</div><div class="line">            SpanNearQuery spanNearQuerySecond = newOrderedNearQuery(<span class="string">"title"</span>).addClause(first).addClause(second).build();</div><div class="line">            SpanOrQuery spanOrQuery = <span class="keyword">new</span> SpanOrQuery(spanNearQueryFirst, spanNearQuerySecond);</div><div class="line"></div><div class="line">            SpanWeight weight = spanOrQuery.createWeight(indexSearcher, <span class="keyword">true</span>);</div><div class="line">            List&lt;LeafReaderContext&gt; leaves = indexSearcher.getIndexReader().getContext().leaves();</div><div class="line">            <span class="keyword">for</span> (LeafReaderContext leaf : leaves) &#123;</div><div class="line">                Spans spans = weight.getSpans(leaf, SpanWeight.Postings.POSITIONS);</div><div class="line">                <span class="keyword">while</span> (spans.nextDoc() != Spans.NO_MORE_DOCS) &#123;</div><div class="line">                    Document doc = leaf.reader().document(spans.docID());</div><div class="line">                    <span class="keyword">while</span> (spans.nextStartPosition() != Spans.NO_MORE_POSITIONS) &#123;</div><div class="line">                        System.out.println(<span class="string">"doc id = "</span> + spans.docID() + <span class="string">", doc IDX= "</span> + doc.get(<span class="string">"IDX"</span>) + <span class="string">", start position = "</span> + spans.startPosition() + <span class="string">", end "</span> +</div><div class="line">                                <span class="string">"position = "</span> + spans.endPosition());</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//================================================================</span></div><div class="line">            <span class="comment">// 输出结果是</span></div><div class="line">            <span class="comment">// doc id = 0, doc IDX= 1, start position = 7, end position = 9</span></div><div class="line">            <span class="comment">// doc id = 0, doc IDX= 1, start position = 24, end position = 26</span></div><div class="line">            <span class="comment">// doc id = 1, doc IDX= 2, start position = 3, end position = 5</span></div><div class="line">            <span class="comment">// doc id = 2, doc IDX= 3, start position = 3, end position = 5</span></div><div class="line">            <span class="comment">//================================================================</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="实现SpanAllNearQuery"><a href="#实现SpanAllNearQuery" class="headerlink" title="实现SpanAllNearQuery"></a>实现SpanAllNearQuery</h4><p>这是一个附加功能，因为目前还没有碰到这样的需求，但是这种查询实现起来非常有意思，所以在此简单讲解一下。这个问题的来源是有人提了个<a href="https://issues.apache.org/jira/browse/LUCENE-3371" target="_blank" rel="external">issue</a>，请求官方支持SpanAllNearQuery，但是同样地，官方不理不睬。果然公益的就是拽啊，完全不倾听用户的需求，不像商业公司，为了赚用户的钱，只要用户有需求，就尽力实现。</p>
+<p>那么这个需求是什么样的呢？简单表示如下<code>a WITHIN 5 WORDS OF (b AND c)</code>，还可以把它换一种方式理解<code>(a WITHIN 5 WORDS OF b) AND (a WITHIN 5 WORDS OF c)</code>，就是说我要查询，在a的前面5个或者后面5个token中出现b和c的所有结果集。要实现这个功能，需要借助于SpanNotQuery和SpanOrQuery，SpanOrQuery在实现或逻辑中已经介绍过了，那么SpanNotQuery又是什么意思呢？举例如下</p>
+<blockquote>
+<p>SpanNotQuery(a, b, 5, 5)表示在a的前5个或者后5个token中不能出现b<br>SpanNotQuery(a, c, 5, 5)表示在a的前5个或者后5个token中不能出现c</p>
+</blockquote>
+<p>下面先从逻辑上先实现这个需求，要获得在a的前面或后面5个token中出现b和c，需要将其反转理解，先查询在a的前面5个或者后面5个token中不能出现b『SpanNotQuery(a, b, 5, 5)』或者在a的前面5个或者后面5个token中不能出现c的结果『SpanNotQuery(a, c, 5, 5)』，再用SpanOrQuery来组合『SpanNotQuery(a, b, 5, 5)』和『SpanNotQuery(a, c, 5, 5)』实现或逻辑，最后用SpanNotQuery排除掉SpanOrQuery的结果集，那么剩下的就是在a的前面5个或者后面5个能出现b也能出现c的结果。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.core.WhitespaceAnalyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Field;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.IntField;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.TextField;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.DirectoryReader;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.Term;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.IndexSearcher;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.ScoreDoc;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.TopDocs;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.spans.SpanNotQuery;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.spans.SpanOrQuery;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.spans.SpanTermQuery;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * &lt;p&gt;</div><div class="line">  * Created by wangxu on 2017/06/16 16:02.</div><div class="line"> * &lt;/p&gt;</div><div class="line">  * &lt;p&gt;</div><div class="line">  * Description: TODO</div><div class="line">  * &lt;/p&gt;</div><div class="line">  *</div><div class="line"> * <span class="doctag">@author</span> Wang Xu</div><div class="line"> * <span class="doctag">@version</span> V1.0.0</div><div class="line"> * <span class="doctag">@since</span> V1.0.0 &lt;br/&gt;</div><div class="line">  * WebSite: http://codepub.cn &lt;br&gt;</div><div class="line">  * Licence: Apache v2 License</div><div class="line"> */<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpanAllNearQueryDemo</span> </span>&#123;</div><div class="line">    <span class="meta">@org</span>.junit.<span class="function">Test</span></div><div class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</div><div class="line">        RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">  IndexWriter indexWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> WhitespaceAnalyzer()));</div><div class="line">  Document document = <span class="keyword">new</span> Document();</div><div class="line">  document.add(<span class="keyword">new</span> TextField(<span class="string">"key"</span>, <span class="string">"X b X X X X a X X X X c X"</span>, Field.Store.YES));<span class="comment">//命中</span></div><div class="line">  document.add(<span class="keyword">new</span> IntField(<span class="string">"IDX"</span>, <span class="number">1</span>, Field.Store.YES));</div><div class="line">  indexWriter.addDocument(document);</div><div class="line"></div><div class="line">  document = <span class="keyword">new</span> Document();</div><div class="line">  document.add(<span class="keyword">new</span> TextField(<span class="string">"key"</span>, <span class="string">"X X X X X b a c X X X X X"</span>, Field.Store.YES));<span class="comment">//命中</span></div><div class="line">  document.add(<span class="keyword">new</span> IntField(<span class="string">"IDX"</span>, <span class="number">2</span>, Field.Store.YES));</div><div class="line">  indexWriter.addDocument(document);</div><div class="line"></div><div class="line">  document = <span class="keyword">new</span> Document();</div><div class="line">  document.add(<span class="keyword">new</span> TextField(<span class="string">"key"</span>, <span class="string">"X b X X X X a a X X X X c"</span>, Field.Store.YES));<span class="comment">//不命中，不能同时以两个a为中心，两个a必选其一</span></div><div class="line">  document.add(<span class="keyword">new</span> IntField(<span class="string">"IDX"</span>, <span class="number">3</span>, Field.Store.YES));</div><div class="line">  indexWriter.addDocument(document);</div><div class="line"></div><div class="line">  document = <span class="keyword">new</span> Document();</div><div class="line">  document.add(<span class="keyword">new</span> TextField(<span class="string">"key"</span>, <span class="string">"X b X X X X X a X X X X c"</span>, Field.Store.YES));<span class="comment">//不命中</span></div><div class="line">  document.add(<span class="keyword">new</span> IntField(<span class="string">"IDX"</span>, <span class="number">4</span>, Field.Store.YES));</div><div class="line">  indexWriter.addDocument(document);</div><div class="line"></div><div class="line">  document = <span class="keyword">new</span> Document();</div><div class="line">  document.add(<span class="keyword">new</span> TextField(<span class="string">"key"</span>, <span class="string">"X b X X X X a X X X X X c"</span>, Field.Store.YES));<span class="comment">//不命中</span></div><div class="line">  document.add(<span class="keyword">new</span> IntField(<span class="string">"IDX"</span>, <span class="number">5</span>, Field.Store.YES));</div><div class="line">  indexWriter.addDocument(document);</div><div class="line"></div><div class="line">  document = <span class="keyword">new</span> Document();</div><div class="line">  document.add(<span class="keyword">new</span> TextField(<span class="string">"key"</span>, <span class="string">"b X X X X X a X X X X X c"</span>, Field.Store.YES));<span class="comment">//不命中</span></div><div class="line">  document.add(<span class="keyword">new</span> IntField(<span class="string">"IDX"</span>, <span class="number">6</span>, Field.Store.YES));</div><div class="line">  indexWriter.addDocument(document);</div><div class="line"></div><div class="line">  document = <span class="keyword">new</span> Document();</div><div class="line">  document.add(<span class="keyword">new</span> TextField(<span class="string">"key"</span>, <span class="string">"b X X X X X a X X X X X X"</span>, Field.Store.YES));<span class="comment">//不命中</span></div><div class="line">  document.add(<span class="keyword">new</span> IntField(<span class="string">"IDX"</span>, <span class="number">7</span>, Field.Store.YES));</div><div class="line">  indexWriter.addDocument(document);</div><div class="line"></div><div class="line">  document = <span class="keyword">new</span> Document();</div><div class="line">  document.add(<span class="keyword">new</span> TextField(<span class="string">"key"</span>, <span class="string">"X X X X X X a X X X X X X"</span>, Field.Store.YES));<span class="comment">//不命中</span></div><div class="line">  document.add(<span class="keyword">new</span> IntField(<span class="string">"IDX"</span>, <span class="number">8</span>, Field.Store.YES));</div><div class="line">  indexWriter.addDocument(document);</div><div class="line">  indexWriter.commit();</div><div class="line"></div><div class="line">  IndexSearcher indexSearcher = <span class="keyword">new</span> IndexSearcher(DirectoryReader.open(indexWriter));</div><div class="line">  SpanTermQuery a = <span class="keyword">new</span> SpanTermQuery(<span class="keyword">new</span> Term(<span class="string">"key"</span>, <span class="string">"a"</span>));</div><div class="line">  SpanTermQuery b = <span class="keyword">new</span> SpanTermQuery(<span class="keyword">new</span> Term(<span class="string">"key"</span>, <span class="string">"b"</span>));</div><div class="line">  SpanTermQuery c = <span class="keyword">new</span> SpanTermQuery(<span class="keyword">new</span> Term(<span class="string">"key"</span>, <span class="string">"c"</span>));</div><div class="line">  SpanOrQuery exclude = <span class="keyword">new</span> SpanOrQuery(<span class="keyword">new</span> SpanNotQuery(a, b, <span class="number">5</span>, <span class="number">5</span>), <span class="keyword">new</span> SpanNotQuery(a, c, <span class="number">5</span>, <span class="number">5</span>));</div><div class="line">  <span class="comment">//排除在a的前5个或者后5个不能出现b也不能出现c的document，那么剩下的就是在a的前5个token或者后5个token能够出现b和c的document</span></div><div class="line">  SpanNotQuery spanNotQuery = <span class="keyword">new</span> SpanNotQuery(a, exclude);</div><div class="line">  TopDocs search = indexSearcher.search(spanNotQuery, Integer.MAX_VALUE);</div><div class="line">  ScoreDoc[] scoreDocs = search.scoreDocs;</div><div class="line"> <span class="keyword">for</span> (ScoreDoc scoreDoc : scoreDocs) &#123;</div><div class="line">            System.out.println(<span class="string">"hist IDX: "</span> + indexSearcher.doc(scoreDoc.doc).get(<span class="string">"IDX"</span>));</div><div class="line">  &#125;</div><div class="line">        indexSearcher.getIndexReader().close();</div><div class="line">  indexWriter.close();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><p>服务器 CPU 以及内存信息</p>
+<blockquote>
+<p>$ cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c`</p>
+</blockquote>
+<p><code>24  Intel(R) Xeon(R) CPU E5-2420 v2 @ 2.20GHz</code></p>
+<blockquote>
+<p>$ free -g</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>total</th>
+<th>used</th>
+<th>free</th>
+<th>shared</th>
+<th>buffers</th>
+<th>cached</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mem</td>
+<td>62</td>
+<td>56</td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>-/+ buffers/cache</td>
+<td>54</td>
+<td>8</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Swap</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>在公司内部，仅仅索引了十分之一的文档（Document数量：20023911），鉴于没有存储Field，也没有存储TermVectors，索引不算太大，简单测试了下，如果存储TermVectors的话，索引会从112GB增长到162GB，如果再存储Field的话，那么索引要超过200GB。此处的实验只是简单的单次搜索，没有测试与逻辑和或逻辑情况下的搜索情况。搜索阶段实验的结果如下所示</p>
+<table>
+<thead>
+<tr>
+<th>线程数目</th>
+<th>搜索总次数</th>
+<th>命中次数</th>
+<th>不命中次数</th>
+<th>搜索总耗时</th>
+<th>平均单次耗时</th>
+<th>搜索加构建Query耗时</th>
+<th>平均单次耗时</th>
+<th>索引大小</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>18820</td>
+<td>18139</td>
+<td>681</td>
+<td>36001,698ms</td>
+<td>1912.95ms</td>
+<td>36011,989ms</td>
+<td>1913.50ms</td>
+<td>112GB</td>
+</tr>
+<tr>
+<td>5</td>
+<td>18820</td>
+<td>18139</td>
+<td>681</td>
+<td>30775,283ms</td>
+<td>1635.24ms</td>
+<td>30785,538ms</td>
+<td>1635.79ms</td>
+<td>112GB</td>
+</tr>
+<tr>
+<td>10</td>
+<td>18820</td>
+<td>18139</td>
+<td>681</td>
+<td>21637,515ms</td>
+<td>1149.71ms</td>
+<td>21647,953ms</td>
+<td>1150.26ms</td>
+<td>112GB</td>
+</tr>
+<tr>
+<td>50</td>
+<td>18820</td>
+<td>18139</td>
+<td>681</td>
+<td>21572,506ms</td>
+<td>1146.25ms</td>
+<td>21583,101ms</td>
+<td>1146.82ms</td>
+<td>112GB</td>
+</tr>
+</tbody>
+</table>
+<p>索引阶段并没有做详细完备的实验，只是简单拉取了一点数据，记录如下，仅供参考。索引2080550个Document，统计从数据库拉取数据加更新数据到索引耗时2133s，平均每次耗时0.001s。只计算更新数据到索引中，不计算从数据库拉取数据耗时464s，平均每次耗时0.0002s，可见索引速度也是很快的，这全部得益于Lucene的优良设计。</p>
+
+      
+    </div>
+
+	<div align="center">
+	  
+		<div class="copyright">
+		<p><span>
+		<b>本文地址：</b><a href="/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/" title="Lucene 实现任意词搜索命中并返回位置信息">http://www.codepub.cn/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/</a><br/><b>转载请注明出处，谢谢！</b>
+		</span></p>
+		</div>
+	  
+	</div>
+	<!-- 添加广告位 -->
+    <div>
+      
+        
+<div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton", disable="enable", onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}", style="cursor: pointer; border: 0; outline: 0; border-radius: 100%; padding: 0; margin: 0; letter-spacing: normal; text-transform: none; text-indent: 0px; text-shadow: none">
+    <span onmouseover="this.style.color='rgb(236,96,0)';this.style.background='rgb(204,204,204)'" onMouseOut="this.style.color='#fff';this.style.background='rgb(236,96,0)'" style="display: inline-block; width: 70px; height: 70px; border-radius: 100%; line-height: 81px; color: #fff; font: 400 35px/75px 'microsofty'; background: rgb(236,96,0)">赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu WeChat Pay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>微信打赏</p>
+      </div>
+    
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu Alipay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>支付宝打赏</p>
+      </div>
+    
+  </div>
+<div>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Lucene/" rel="tag">#Lucene</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/10/several-ways-to-get-the-field-values-that-are-not-stored-in-lucene/" rel="next" title="Lucene 中获取没有存储的字段值的几种方法">
+                <i class="fa fa-chevron-left"></i> Lucene 中获取没有存储的字段值的几种方法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share?uid=2067139" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<!-- UJian Button BEGIN -->
+	<div class="ujian-hook"></div>
+	<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js"></script>
+<!-- UJian Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+		  
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/author.jpg"
+               alt="Wang Xu" />
+          <p class="site-author-name" itemprop="name">Wang Xu</p>
+          <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">115</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/shijiebei2009" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/codepub" target="_blank">
+                  
+                    <i class="fa fa-linkedin-square"></i> Linkedin
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank">
+                  
+                    <i class="fa fa-stack-overflow"></i> Stackoverflow
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/codepub.cn" target="_blank">
+                  
+                    <i class="fa fa-thumbs-up"></i> ZhiHu
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.douban.com/people/shijiebei2009/" target="_blank">
+                  
+                    <i class="fa fa-graduation-cap"></i> DouBan
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1779238484" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单需求的实现"><span class="nav-number">2.</span> <span class="nav-text">简单需求的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#仅要求任意搜索词命中"><span class="nav-number">2.1.</span> <span class="nav-text">仅要求任意搜索词命中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可以存储Field的值"><span class="nav-number">2.2.</span> <span class="nav-text">可以存储Field的值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可以存储TermVectors的值"><span class="nav-number">2.3.</span> <span class="nav-text">可以存储TermVectors的值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复杂需求的实现"><span class="nav-number">3.</span> <span class="nav-text">复杂需求的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#保留标点符号的分词器"><span class="nav-number">3.1.</span> <span class="nav-text">保留标点符号的分词器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#任意词搜索命中并返回positions信息"><span class="nav-number">3.2.</span> <span class="nav-text">任意词搜索命中并返回positions信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现逻辑与查询"><span class="nav-number">3.3.</span> <span class="nav-text">实现逻辑与查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现逻辑或查询"><span class="nav-number">3.4.</span> <span class="nav-text">实现逻辑或查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现SpanAllNearQuery"><span class="nav-number">3.5.</span> <span class="nav-text">实现SpanAllNearQuery</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验"><span class="nav-number">4.</span> <span class="nav-text">实验</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>&nbsp;&nbsp;&nbsp;
+  <a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_pv">
+  <i class="fa fa-user" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_pv"></span>
+  </span>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span id="busuanzi_container_site_uv">
+  <i class="fa fa-eye" aria-hidden="true"></i>
+  <span id="busuanzi_value_site_uv"></span>
+  </span>
+  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <span>
+  Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+  </span>
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'codepubcn';
+      var disqus_identifier = '2017/10/13/lucene-implements-any-word-search-and-returns-location-information/';
+      var disqus_title = 'Lucene 实现任意词搜索命中并返回位置信息';
+      var disqus_url = 'http://www.codepub.cn/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+</body>
+</html>

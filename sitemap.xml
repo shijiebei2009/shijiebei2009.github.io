@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.codepub.cn/2017/10/10/several-ways-to-get-the-field-values-that-are-not-stored-in-lucene/</loc>
+    <loc>http://www.codepub.cn/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/</loc>
     
-    <lastmod>2017-10-10T14:34:36.563Z</lastmod>
+    <lastmod>2017-10-13T14:33:28.188Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
     
-    <lastmod>2017-09-29T14:20:32.242Z</lastmod>
+    <lastmod>2017-10-10T14:39:54.112Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2017/10/10/several-ways-to-get-the-field-values-that-are-not-stored-in-lucene/</loc>
+    
+    <lastmod>2017-10-10T14:38:00.682Z</lastmod>
     
   </url>
   

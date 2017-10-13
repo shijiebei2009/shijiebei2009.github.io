@@ -295,6 +295,131 @@
             
               
                 
+                <a class="post-title-link" href="/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/" itemprop="url">
+                  Lucene 实现任意词搜索命中并返回位置信息
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-10-13T22:29:56+08:00" content="2017-10-13">
+              2017-10-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Programming-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Notes</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+		
+		
+		  
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/10/13/lucene-implements-any-word-search-and-returns-location-information/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+
+      
+        
+          
+          背景如果把这个标题拆分成两个来讲，那么每一个都很好解决，下文会进行详述，而如果把这两者看做是与条件并加上其它限制，则实现起来比较困难，本文就是要探讨在需求繁多的情况下，如何优雅地实现。比如需求如下
+
+保留标点符号，否则去掉标点的话，在标点两边的词可能会匹配上，比如“你好，小甜甜”，去掉标点切分是『你|好|小|甜|甜』，那么『好小』有可能会命中，而如果切分成『你|好|，|小|甜|甜』，则『好小』无法
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+	<div align="center">
+	  
+	</div>
+	<!-- 添加广告位 -->
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/10/10/several-ways-to-get-the-field-values-that-are-not-stored-in-lucene/" itemprop="url">
                   Lucene 中获取没有存储的字段值的几种方法
                 </a>
@@ -2000,129 +2125,6 @@ FieldCache另一种提高检索性能的方案是使用F
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/25/Read-ant-tribe-college-graduates-live-in-the-village-record/" itemprop="url">
-                  读《蚁族：大学毕业生聚居村实录》
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-04-25T22:35:41+08:00" content="2017-04-25">
-              2017-04-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Life-Talk/" itemprop="url" rel="index">
-                    <span itemprop="name">Life-Talk</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-		
-		
-		  
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/04/25/Read-ant-tribe-college-graduates-live-in-the-village-record/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/04/25/Read-ant-tribe-college-graduates-live-in-the-village-record/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-    <div class="post-body" itemprop="articleBody">
-      
-      
-
-      
-        
-          
-          古有科举，今有高考，然今日境却不与古日同。科举自隋唐始，终于晚清，这是古代读书人唯一的上升通道，虽然说比较困难，但是最起码还是一个可行的通道，能让人对未来满怀憧憬。但当今时代，时移世易，在这个权利和人情的社会，越是“苦读”的平民家庭出身的孩子，机会可能越少。许多靠近权力的机关和垄断行业里，越来越没有平民和贫苦人家孩子的缘分。父辈的权力和“人脉”会以某种方式“世袭”。“蚁族”们大多来自农村和县级市，
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/04/25/Read-ant-tribe-college-graduates-live-in-the-village-record/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-	<div align="center">
-	  
-	</div>
-	<!-- 添加广告位 -->
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2168,7 +2170,7 @@ FieldCache另一种提高检索性能的方案是使用F
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">114</span>
+              <span class="site-state-item-count">115</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

@@ -4,12 +4,12 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2017/10/10/several-ways-to-get-the-field-values-that-are-not-stored-in-lucene/</loc>
-    <lastmod>2017-10-10T14:34:36.563Z</lastmod>
+    <loc>http://www.codepub.cn/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/</loc>
+    <lastmod>2017-10-13T14:33:28.188Z</lastmod>
     <data>
         <display>
-        <title>Lucene 中获取没有存储的字段值的几种方法</title>
-        <pubTime>2017-10-10T14:31:02.000Z</pubTime>
+        <title>Lucene 实现任意词搜索命中并返回位置信息</title>
+        <pubTime>2017-10-13T14:29:56.000Z</pubTime>
         
         <tag>Lucene</tag>
          
@@ -25,7 +25,7 @@
     
   <url>
     <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
-    <lastmod>2017-09-29T14:20:32.242Z</lastmod>
+    <lastmod>2017-10-10T14:39:54.112Z</lastmod>
     <data>
         <display>
         <title>2015年终总结</title>
@@ -37,6 +37,26 @@
            
              
               <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2017/10/10/several-ways-to-get-the-field-values-that-are-not-stored-in-lucene/</loc>
+    <lastmod>2017-10-10T14:38:00.682Z</lastmod>
+    <data>
+        <display>
+        <title>Lucene 中获取没有存储的字段值的几种方法</title>
+        <pubTime>2017-10-10T14:31:02.000Z</pubTime>
+        
+        <tag>Lucene</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
           
         </display>
     </data>
