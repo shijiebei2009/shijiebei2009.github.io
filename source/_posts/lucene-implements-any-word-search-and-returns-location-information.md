@@ -27,7 +27,7 @@ categories: Programming Notes
 - 实现与逻辑，比如搜索“你中 & 我爱”表示两个词都要命中
 - 实现或逻辑，比如搜索“你中 | 我爱”表示两个词至少要有一个命中
 
-如果想要实现百分之百的任意词搜索命中，那么只能按字切分，因为没有任何分词工具能够保证切出来的词与搜索词是一致的。
+如果想要实现百分之百的任意词搜索命中，那么只能按字切分，因为没有任何分词工具能够保证切出来的词与搜索词是一致的。在上面说到为了达到匹配干扰词的目的，需要设置slop，但是会有一定的误判率，本来不该匹配的在设置slop之后也匹配上了。除了设置slop这种方式，还有一种方法，就是在索引阶段只保留汉字，其它的标点符号和干扰符号统统去掉，当然这也存在一定的误判率，而且获取的positions信息已经不是原文本中正确的positions信息了。两种方式的权衡与取舍可以根据业务需求而定，这两种方式都不会漏判，但是均会有误判。
 
 ### 简单需求的实现
 如果并不要求满足上面所有的需求，而仅仅满足其中任何一个，那么实现起来都是非常简单的，以下代码均基于Lucene 5.5.0实现，示例如下。
@@ -416,7 +416,7 @@ public class SpanOrQueryDemo {
 }
 ```
 
-#### 实现SpanAllNearQuery
+### 实现SpanAllNearQuery
 这是一个附加功能，因为目前还没有碰到这样的需求，但是这种查询实现起来非常有意思，所以在此简单讲解一下。这个问题的来源是有人提了个[issue](https://issues.apache.org/jira/browse/LUCENE-3371)，请求官方支持SpanAllNearQuery，但是同样地，官方不理不睬。果然公益的就是拽啊，完全不倾听用户的需求，不像商业公司，为了赚用户的钱，只要用户有需求，就尽力实现。
 
 那么这个需求是什么样的呢？简单表示如下`a WITHIN 5 WORDS OF (b AND c)`，还可以把它换一种方式理解`(a WITHIN 5 WORDS OF b) AND (a WITHIN 5 WORDS OF c)`，就是说我要查询，在a的前面5个或者后面5个token中出现b和c的所有结果集。要实现这个功能，需要借助于SpanNotQuery和SpanOrQuery，SpanOrQuery在实现或逻辑中已经介绍过了，那么SpanNotQuery又是什么意思呢？举例如下
@@ -518,6 +518,77 @@ import java.io.IOException;
         indexSearcher.getIndexReader().close();
   indexWriter.close();
   }
+}
+```
+
+### SpanNearQuery实现通配符查询
+```java
+import com.yuewen.nrzx.character.analyzer.ReservePunctuationAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.LongField;
+import org.apache.lucene.index.*;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.WildcardQuery;
+import org.apache.lucene.search.spans.SpanMultiTermQueryWrapper;
+import org.apache.lucene.search.spans.SpanNearQuery;
+import org.apache.lucene.search.spans.SpanQuery;
+import org.apache.lucene.search.spans.SpanTermQuery;
+import org.apache.lucene.store.RAMDirectory;
+
+import java.io.IOException;
+
+public class SpanNearQueryAndWildcardQueryDemo {
+    @org.junit.Test
+    public void test() throws IOException {
+        String input = "现有的中文分词算法可分为三大类：基于字符串匹配的类基分词方法、基于理解的分词方法和基于统计的分词方法。";
+        RAMDirectory ramDirectory = new RAMDirectory();
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(new ReservePunctuationAnalyzer());
+        try (IndexWriter indexWriter = new IndexWriter(ramDirectory, indexWriterConfig)) {
+            Document document = new Document();
+            FieldType fieldType = new FieldType();
+            fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+            Field field = new Field("title", input, fieldType);
+            LongField IDX = new LongField("IDX", 1, Field.Store.YES);
+            document.add(field);
+            document.add(IDX);
+            indexWriter.addDocument(document);
+
+            input = "计算机算法是很难很复杂滴";
+            document = new Document();
+            field = new Field("title", input, fieldType);
+            IDX = new LongField("IDX", 2, Field.Store.YES);
+            document.add(field);
+            document.add(IDX);
+            indexWriter.addDocument(document);
+
+            input = "计算机算法可以大幅度提升程序性能";
+            document = new Document();
+            field = new Field("title", input, fieldType);
+            IDX = new LongField("IDX", 3, Field.Store.YES);
+            document.add(field);
+            document.add(IDX);
+            indexWriter.addDocument(document);
+            indexWriter.commit();
+            IndexSearcher indexSearcher = new IndexSearcher(DirectoryReader.open(ramDirectory));
+            // 用?和*均可以实现SpanNearQuery的通配符查询，但是注意*在通配符查询中表示可以匹配0个或多个字符
+            // 但是在SpanQuery中只能匹配相当于slop=1的情形，不能匹配slop大于1的情形
+            SpanTermQuery first = new SpanTermQuery(new Term("title", "复"));
+            SpanQuery wildcard = new SpanMultiTermQueryWrapper<>(new WildcardQuery(new Term("title", "?")));
+            SpanTermQuery last = new SpanTermQuery(new Term("title", "滴"));
+
+            SpanNearQuery spanNearQuery = new SpanNearQuery.Builder("title", true).addClause(first).addClause(wildcard).addClause(last).build();
+            TopDocs search = indexSearcher.search(spanNearQuery, Integer.MAX_VALUE);
+            System.out.println("IDX: " + indexSearcher.doc(search.scoreDocs[0].doc).get("IDX"));
+
+            wildcard = new SpanMultiTermQueryWrapper<>(new WildcardQuery(new Term("title", "*")));
+            spanNearQuery = new SpanNearQuery.Builder("title", true).addClause(first).addClause(wildcard).addClause(last).build();
+            search = indexSearcher.search(spanNearQuery, Integer.MAX_VALUE);
+            System.out.println("IDX: " + indexSearcher.doc(search.scoreDocs[0].doc).get("IDX"));
+        }
+    }
 }
 ```
 

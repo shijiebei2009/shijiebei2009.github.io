@@ -90,6 +90,7 @@ date: 2015-06-14 18:41:08
 [黄增光，网名 Rei，广西梧州人，现居北京](http://chloerei.com/)
 [尤雨溪，目前在 Google Creative Lab 就职。vue.js 项目作者](http://evanyou.me/)
 [三斗室](http://chenlinux.com/)
+[余锋，资深专家，淘宝褚霸](http://blog.yufeng.info/)
 
 ### 推荐站点
 [开源自由的汉语言处理包](http://hanlp.linrunsoft.com/)
