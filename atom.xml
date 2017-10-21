@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.codepub.cn/"/>
-  <updated>2017-10-19T14:28:19.532Z</updated>
+  <updated>2017-10-19T14:37:05.907Z</updated>
   <id>http://www.codepub.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.codepub.cn/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/"/>
     <id>http://www.codepub.cn/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/</id>
     <published>2017-10-13T14:29:56.000Z</published>
-    <updated>2017-10-19T14:28:19.532Z</updated>
+    <updated>2017-10-19T14:37:05.907Z</updated>
     
     <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>如果把这个标题拆分成两个来讲，那么每一个都很好解决，下文会进行详述，而如果把这两者看做是与条件并加上其它限制，则实现起来比较困难，本文就是要探讨在需求繁多的情况下，如何优雅地实现。比如需求如下</p>
 <ul>
