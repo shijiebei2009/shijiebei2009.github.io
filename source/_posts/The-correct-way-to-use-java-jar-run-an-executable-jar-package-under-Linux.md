@@ -1,3 +1,4 @@
+---
 title: Linux下使用java -jar运行可执行jar包的正确方式
 date: 2016-05-11 20:38:26
 tags: [Java]
@@ -65,7 +66,7 @@ Class-Path: lib/commons-io-2.4.jar lib/commons-lang3-3.4.jar lib/guava-18.0.jar 
 #### 多条java jar命令的执行顺序问题
 通常地，我们会在服务器上配置**shell**脚本去定时调用自己的**JAR**包，但是当**shell**脚本中存在多条`java -jar`命令时，其执行情况是怎么样的呢？是同时并行执行，还是按顺序执行呢？经过测试得出，多条`java -jar`命令是按顺序执行的，并且只有在第一条`java -jar`命令执行完毕后，才会执行下一条`java -jar`命令，依次类推。
 
-参考资料
-【1】http://stackoverflow.com/questions/219585/setting-multiple-jars-in-java-classpath/219801#219801
-【2】https://www.ibm.com/developerworks/cn/java/j-jar/
-【3】[Difference between exporting as a JAR and exporting as a Runnable JAR](https://stackoverflow.com/questions/4974693/java-eclipse-difference-between-exporting-as-a-jar-and-exporting-as-a-runnable)
+**参考文献**
+[1] http://stackoverflow.com/questions/219585/setting-multiple-jars-in-java-classpath/219801#219801
+[2] https://www.ibm.com/developerworks/cn/java/j-jar/
+[3] [Difference between exporting as a JAR and exporting as a Runnable JAR](https://stackoverflow.com/questions/4974693/java-eclipse-difference-between-exporting-as-a-jar-and-exporting-as-a-runnable)

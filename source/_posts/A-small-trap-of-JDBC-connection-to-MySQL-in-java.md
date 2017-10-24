@@ -1,3 +1,4 @@
+---
 title: "Java之JDBC连接MySQL的一点坑"
 date: 2016-04-15 23:51:11
 tags: [MySQL]
@@ -103,5 +104,5 @@ rowCount = resultSet.getInt("totalCount");
 - select column1,column2... from table
 
 
-参考资料
-【1】http://blog.sina.com.cn/s/blog_50267f510100dj1m.html
+**参考文献**
+[1] http://blog.sina.com.cn/s/blog_50267f510100dj1m.html

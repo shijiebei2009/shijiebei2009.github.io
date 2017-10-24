@@ -1,3 +1,4 @@
+---
 title: "Github Pages个人博客，从Octopress转向Hexo"
 date: 2015-04-06 16:03:13
 tags: [Hexo, Github, Octopress]
@@ -352,9 +353,9 @@ A：首先在主目录找到`_config.yml`，找到url添加`about_dir: about`到
 Q：楼主我不喜欢你的配色，怎么换主题的颜色呢？
 A：包括颜色在内的很多变量都在`jacman/source/css/_base/variable.styl`文件中，可以修改成你喜欢的。
 
-参考资料
-【1】http://wuchong.me/blog/2014/11/20/how-to-use-jacman/#
-【2】https://pages.github.com/
-【3】http://www.jianshu.com/p/05289a4bc8b2
-【4】http://www.pchou.info/web-build/2014/07/04/build-github-blog-page-08.html
-【5】http://wuchong.me/blog/2014/11/20/how-to-use-jacman/
+**参考文献**
+[1] http://wuchong.me/blog/2014/11/20/how-to-use-jacman/#
+[2] https://pages.github.com/
+[3] http://www.jianshu.com/p/05289a4bc8b2
+[4] http://www.pchou.info/web-build/2014/07/04/build-github-blog-page-08.html
+[5] http://wuchong.me/blog/2014/11/20/how-to-use-jacman/

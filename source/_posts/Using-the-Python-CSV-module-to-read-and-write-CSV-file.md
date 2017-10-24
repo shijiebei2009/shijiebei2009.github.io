@@ -1,3 +1,4 @@
+---
 title: "使用Python的CSV模块读写CSV文件"
 tags: [Python3]
 categories: Programming Notes
@@ -180,6 +181,6 @@ Process finished with exit code 0
 最后，如果你读取`CSV`数据的目的是做数据分析和统计的话，你可能需要看一看`Pandas`包。`Pandas`包含了一个非常方便的函数叫`pandas.read_csv()`，它可以加载`CSV`数据到一个`DataFrame`对象中去。然后利用这个对象你就可以生成各种形式的统计、过滤数据以及执行其他高级操作了。
 
 
-参考资料
-【1】http://baike.baidu.com/subview/468993/5926031.htm
-【2】http://python3-cookbook.readthedocs.org/zh_CN/latest/c06/p01_read_write_csv_data.html?highlight=csv
+**参考文献**
+[1] http://baike.baidu.com/subview/468993/5926031.htm
+[2] http://python3-cookbook.readthedocs.org/zh_CN/latest/c06/p01_read_write_csv_data.html?highlight=csv

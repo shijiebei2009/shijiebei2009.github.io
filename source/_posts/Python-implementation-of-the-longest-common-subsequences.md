@@ -1,3 +1,4 @@
+---
 title: Python实现最长公共子序列-Longest Common Subsequences
 mathjax: true
 tags: [Python3]
@@ -170,7 +171,7 @@ if __name__ == '__main__':
     print(lcs3.lcs_dp('cabdec','cbdec'))
 ```
 
-参考资料
-【1】http://www.ahathinking.com/archives/115.html
-【2】http://dsqiu.iteye.com/blog/1701541
-【3】http://www.ahathinking.com/archives/122.html
+**参考文献**
+[1] http://www.ahathinking.com/archives/115.html
+[2] http://dsqiu.iteye.com/blog/1701541
+[3] http://www.ahathinking.com/archives/122.html

@@ -1,3 +1,4 @@
+---
 title: Lucene 5.5 开发手册
 date: 2016-08-12 22:52:23
 tags: [Lucene]
@@ -147,7 +148,7 @@ System.out.println(query.toString("field"));
 |TextField|对String类型的字段进行存储，TextField和StringField的不同是TextField既索引又分词|
 |StoredField|存储Field的值，可以用IndexSearcher.doc和IndexReader.document来获取此Field和存储的值|
 
-参考资料
-【1】Lucene In Action (Second Edition)
-【2】http://3dobe.com/archives/172/
-【3】http://blog.mikemccandless.com/2012/03/transactional-lucene.html
+**参考文献**
+[1] Lucene In Action (Second Edition)
+[2] http://3dobe.com/archives/172/
+[3] http://blog.mikemccandless.com/2012/03/transactional-lucene.html

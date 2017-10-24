@@ -1,3 +1,4 @@
+---
 title: "Windows下搭建Solr5.5搜索服务"
 date: 2016-03-21 22:29:04
 tags: [Solr]
@@ -132,5 +133,5 @@ Started Solr server on port 8080. Happy searching!
 或者直接修改**jetty**的配置文件，修改`D:/solr-5.5.0/server/etc`目录下`jetty-http.xml`中的**8983**改为自己希望的端口号即可。
 
 
-参考文献
-【1】http://blog.csdn.net/luenxin/article/details/50838895
+**参考文献**
+[1] http://blog.csdn.net/luenxin/article/details/50838895

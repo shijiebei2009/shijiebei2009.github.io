@@ -1,3 +1,4 @@
+---
 title: "基于同义词词林扩展版的词语相似度计算"
 tags: [Java]
 date: 2015-08-04 22:06:36
@@ -439,5 +440,5 @@ testGetSimilarity的测试结果如下所示：
 
 代码已经推送到GitHub上了，地址[点我](https://github.com/shijiebei2009/Algorithms/blob/master/src%2Fmain%2Fjava%2Fcn%2Fcodepub%2Falgorithms%2Fsimilarity%2Fcilin%2FWordSimilarity.java)。注意在文章末尾所注的参考资料中的链接里面的计算方法在求n的时候存在错误，希望莫要受其误导！
 
-参考资料：
-【1】http://www.cnblogs.com/einyboy/archive/2012/09/09/2677265.html
+**参考文献**
+[1] http://www.cnblogs.com/einyboy/archive/2012/09/09/2677265.html

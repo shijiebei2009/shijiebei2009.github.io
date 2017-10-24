@@ -1,3 +1,4 @@
+---
 title: 基于Java NIO2实现的异步非阻塞消息通信框架
 date: 2016-02-26 22:11:30
 tags: [Java]
@@ -941,10 +942,10 @@ public class ServerOnReaderAndWriterForMultiClients {
 `Netty`中使用`ChannelBuffer`来处理读写，之所以废弃`ByteBuffer`，官方说法是`ChannelBuffer`简单易用并且有性能方面的优势。在`ChannelBuffer`中使用`ByteBuffer`或者`byte[]`来存储数据。同样的，`ChannelBuffer`也提供了几个标记来控制读写并以此取代`ByteBuffer`的`position`和`limit`，分别是：
 `0 <= readerIndex <= writerIndex <= capacity`，同时也有类似于`mark`的`markedReaderIndex`和`markedWriterIndex`。当写入`buffer`时，`writerIndex`增加，从`buffer`中读取数据时`readerIndex`增加，而不能超过`writerIndex`。有了这两个变量后，就不用每次写入`buffer`后调用`flip()`方法，方便了很多。
 
-参考资料
-【1】https://www.ibm.com/developerworks/cn/java/j-lo-nio2/
-【2】https://github.com/redkale/redkale
-【3】http://colobu.com/2014/11/13/java-aio-introduction/
-【4】http://zjumty.iteye.com/blog/1896350
-【5】http://stevex.blog.51cto.com/4300375/1581701
-【6】《Pro Java 7 NIO2》
+**参考文献**
+[1] https://www.ibm.com/developerworks/cn/java/j-lo-nio2/
+[2] https://github.com/redkale/redkale
+[3] http://colobu.com/2014/11/13/java-aio-introduction/
+[4] http://zjumty.iteye.com/blog/1896350
+[5] http://stevex.blog.51cto.com/4300375/1581701
+[6] 《Pro Java 7 NIO2》

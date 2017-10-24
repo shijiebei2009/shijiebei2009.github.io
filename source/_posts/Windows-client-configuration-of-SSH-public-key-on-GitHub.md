@@ -1,3 +1,4 @@
+---
 title: Windows客户端配置GitHub的SSH公钥
 date: 2015-06-02 15:44:10
 tags: [Git]
@@ -94,6 +95,6 @@ sh -T git@git.codepub.cn
 成功的话，会输出welcome欢迎信息！
 日后如需添加，则按照上述配置生成key，并修改config文件即可。
 
-参考资料
-【1】http://beiyuu.com/github-pages/
-【2】http://riny.net/2014/git-ssh-key/
+**参考文献**
+[1] http://beiyuu.com/github-pages/
+[2] http://riny.net/2014/git-ssh-key/

@@ -1,3 +1,4 @@
+---
 title: "编译哈工大语言技术平台云LTP（C++）源码及LTP4J（Java）源码"
 date: 2015-05-07 22:13:15
 tags: [LTP]
@@ -530,19 +531,19 @@ public class TestSrl {
 #### 其他错误
 >Cannot open include file: 'ammintrin.h': No such file or directory
 
-参考文章：
+参考如下文章
 http://wishmesh.com/2011/04/fatal-error-c1083-cannot-open-include-file-ammintrin-h-no-such-file-or-directory/
 
 https://connect.microsoft.com/VisualStudio/feedback/details/660584/
 
-参考资料：
-【1】[哈工大LTP官网](http://www.ltp-cloud.com/)
-【2】[LTP4J的github地址](https://github.com/HIT-SCIR/ltp4j)
-【3】[LTP的github地址](https://github.com/HIT-SCIR/ltp)
-【4】[LTP3.0参考文档](https://github.com/HIT-SCIR/ltp/blob/master/doc/ltp-document-3.0.md)
-【5】[LTP4J1.0参考文档](https://github.com/HIT-SCIR/ltp4j/blob/master/doc/ltp4j-document-1.0.md)
-【6】[VS2010与64位系统](http://blog.csdn.net/yapingxin/article/details/7414084)
-【7】[安装 Microsoft Visual C++ 2010 和 Microsoft Windows SDK 7.1](http://cn.mathworks.com/matlabcentral/answers/116701-microsoft-visual-c-2010-microsoft-windows-sdk-7-1)
+**参考文献**
+[1] [哈工大LTP官网](http://www.ltp-cloud.com/)
+[2] [LTP4J的github地址](https://github.com/HIT-SCIR/ltp4j)
+[3] [LTP的github地址](https://github.com/HIT-SCIR/ltp)
+[4] [LTP3.0参考文档](https://github.com/HIT-SCIR/ltp/blob/master/doc/ltp-document-3.0.md)
+[5] [LTP4J1.0参考文档](https://github.com/HIT-SCIR/ltp4j/blob/master/doc/ltp4j-document-1.0.md)
+[6] [VS2010与64位系统](http://blog.csdn.net/yapingxin/article/details/7414084)
+[7] [安装 Microsoft Visual C++ 2010 和 Microsoft Windows SDK 7.1](http://cn.mathworks.com/matlabcentral/answers/116701-microsoft-visual-c-2010-microsoft-windows-sdk-7-1)
 
   [1]: http://7xig3q.com1.z0.glb.clouddn.com/cmake-configure-ltp4j-x64.png
   [2]: http://7xig3q.com1.z0.glb.clouddn.com/Add-x64-library-directory.png

@@ -1,3 +1,4 @@
+---
 title: "Python3入门手册之一"
 date: 2015-07-02 21:41:03
 tags: [Python3]
@@ -548,7 +549,7 @@ Hello World
 >>>
 ```
 
-参考资料
-【1】[A Byte of Python3][id]
-【2】[python3-cookbook](http://python3-cookbook.readthedocs.org/zh_CN/latest/c01/p08_calculating_with_dict.html)
+**参考文献**
+[1] [A Byte of Python3][id]
+[2] [python3-cookbook](http://python3-cookbook.readthedocs.org/zh_CN/latest/c01/p08_calculating_with_dict.html)
 [id]:http://code.google.com/p/proden/downloads/detail?name=A%20Byte%20of%20Python3(%E4%B8%AD%E6%96%87%E7%89%88).pdf
