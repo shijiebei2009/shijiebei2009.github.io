@@ -9,7 +9,7 @@ categories: Programming Notes
 
 ***力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员***
 
-![logo][1]
+[![logo](http://7xig3q.com1.z0.glb.clouddn.com/hibernate-logo.gif "logo")](http://7xig3q.com1.z0.glb.clouddn.com/hibernate-logo.gif "logo")
 
 ### ORM简介
 ORM（Object/Relation Mapping），对象关系映射，ORM是一种规范，主要完成面向对象的编程语言到关系数据库的映射。
@@ -21,7 +21,7 @@ ORM框架是面向对象程序设计语言与关系数据库发展不同步时�
 ### Hibernate体系结构
 **Hibernate的体系架构如下所示**
 
-![architecture][2]
+[![architecture](http://7xig3q.com1.z0.glb.clouddn.com/hibernate-architecture.png "architecture")](http://7xig3q.com1.z0.glb.clouddn.com/hibernate-architecture.png "architecture")
 
 下面对上图中各对象逐一解释
 * SessionFactory: 这是Hibernate的关键对象，它是单个数据库映射关系经过编译后的内存镜像，也是线程安全的。它是生成Session的工厂，本身需要依赖于ConnectionProvider。该对象可以在进程或集群的级别上，为那些事务之间可以重用的数据提供可选的二级缓存
@@ -42,7 +42,7 @@ ORM框架是面向对象程序设计语言与关系数据库发展不同步时�
 
 #### 持久化类对象的状态
 
-![life-cycle][3]
+[![life-cycle](http://7xig3q.com1.z0.glb.clouddn.com/Hibernate-life-cycle.gif "life-cycle")](http://7xig3q.com1.z0.glb.clouddn.com/Hibernate-life-cycle.gif "life-cycle")
 
 在Hibernate中，PO（Persistent Object）有如下三种状态
 * 瞬态: 如果PO实例从未与Session关联过，该PO实例处于瞬态状态，瞬态对象不会被持久化到数据库中，也不会被赋予持久化标识
@@ -168,8 +168,3 @@ Hibernate的事件系统完全可以替代拦截器，也可以作为拦截器�
 
 **参考文献**
 [1] 轻量级JavaEE企业应用实战-Struts2+Spring4+Hibernate整合开发
-
-
-  [1]: http://7xig3q.com1.z0.glb.clouddn.com/hibernate-logo.gif
-  [2]: http://7xig3q.com1.z0.glb.clouddn.com/hibernate-architecture.png
-  [3]: http://7xig3q.com1.z0.glb.clouddn.com/Hibernate-life-cycle.gif

@@ -7,7 +7,8 @@ categories: Programming Notes
 ---
 
 ***力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员***
-![logo][1]
+
+[![logo](http://7xig3q.com1.z0.glb.clouddn.com/spring-logo.png "logo")](http://7xig3q.com1.z0.glb.clouddn.com/spring-logo.png "logo")
 ### Spring简介
 Spring框架由Rod Johnson开发，[Rod Johnson's twitter](https://twitter.com/springrod)，[Rod Johnson's 百度百科](http://baike.baidu.com/view/2192255.htm)，2004年发布了Spring框架的第一版。Spring是一个从实际开发中抽取出来的框架，因此它完成了大量开发中的通用步骤，留给开发者的仅仅是与特定应用相关的部分，从而大大提高了企业应用的开发效率。
 
@@ -20,7 +21,7 @@ Spring总结起来优点如下
 * Spring的高度开放性，并不强制应用完全依赖于Spring，开发者可自由选用Spring框架的部分或全部
 
 Spring框架的组成结构图如下所示
-![spring-overview][2]
+[![spring-overview](http://7xig3q.com1.z0.glb.clouddn.com/spring-overview-architecture.png "spring-overview")](http://7xig3q.com1.z0.glb.clouddn.com/spring-overview-architecture.png "spring-overview")
 
 ### Spring的核心机制
 #### 管理Bean
@@ -150,7 +151,7 @@ Bean后处理器是一种特殊的Bean，这种特殊的Bean并不对外提供�
 2. `Object postProcessAfterinitialization(Object bean, String name) throws BeansException`: 该方法的第一个参数是系统即将进行后处理的Bean实例，第二个参数是该Bean的配置id
 
 容器中一旦注册了Bean后处理器，Bean后处理器就会自动启动，在容器中每个Bean创建时自动工作，Bean后处理器两个方法的回调时机如下图
-![bean-post-process][3]
+[![bean-post-process](http://7xig3q.com1.z0.glb.clouddn.com/spring-bean-post-process.jpg "bean-post-process")](http://7xig3q.com1.z0.glb.clouddn.com/spring-bean-post-process.jpg "bean-post-process")
 
 注意一点，如果使用`BeanFactory`作为Spring容器，则必须手动注册Bean后处理器，程序必须获取Bean后处理器实例，然后手动注册。
 ```java
@@ -225,6 +226,3 @@ Spring中的AOP代理由Spring的IoC容器负责生成、管理，其依赖关�
 
 **参考文献**
 [1] 轻量级JavaEE企业应用实战-Struts2+Spring4+Hibernate整合开发
-  [1]: http://7xig3q.com1.z0.glb.clouddn.com/spring-logo.png
-  [2]: http://7xig3q.com1.z0.glb.clouddn.com/spring-overview-architecture.png
-  [3]: http://7xig3q.com1.z0.glb.clouddn.com/spring-bean-post-process.jpg
