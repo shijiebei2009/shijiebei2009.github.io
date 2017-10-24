@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/hibernate-logo.gif">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/hibernate-architecture.png">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/Hibernate-life-cycle.gif">
-<meta property="og:updated_time" content="2017-10-24T01:33:27.802Z">
+<meta property="og:updated_time" content="2017-10-24T02:03:05.735Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hibernate基础知识汇总">
 <meta name="twitter:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员  ORM简介ORM（Object/Relation Mapping），对象关系映射，ORM是一种规范，主要完成面向对象的编程语言到关系数据库的映射。ORM框架是面向对象程序设计语言与关系数据库发展不同步时的中间解决方案。ORM工具的唯一作用就是：把对持久化对象的保存、删除、修改等操作，转换成对数据库的操作，从此，就可以以面向对象的方式">
@@ -373,7 +373,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-10-24T09:33:27+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2017-10-24T10:03:05+08:00">
                 2017-10-24
               </time>
             
@@ -477,11 +477,11 @@
 
       
         <p><strong><em>力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员</em></strong></p>
-<p><img src="http://7xig3q.com1.z0.glb.clouddn.com/hibernate-logo.gif" alt="logo"></p>
+<p><a href="http://7xig3q.com1.z0.glb.clouddn.com/hibernate-logo.gif" title="logo" target="_blank" rel="external"><img src="http://7xig3q.com1.z0.glb.clouddn.com/hibernate-logo.gif" alt="logo" title="logo"></a></p>
 <h3 id="ORM简介"><a href="#ORM简介" class="headerlink" title="ORM简介"></a>ORM简介</h3><p>ORM（Object/Relation Mapping），对象关系映射，ORM是一种规范，主要完成面向对象的编程语言到关系数据库的映射。<br>ORM框架是面向对象程序设计语言与关系数据库发展不同步时的中间解决方案。ORM工具的唯一作用就是：把对持久化对象的保存、删除、修改等操作，转换成对数据库的操作，从此，就可以以面向对象的方式操作持久化对象，而ORM框架则负责转换成对应的SQL操作。</p>
 <h3 id="数据源简介"><a href="#数据源简介" class="headerlink" title="数据源简介"></a>数据源简介</h3><p>数据源是一种提高数据库连接性能的常规手段，数据源会负责维持一个数据连接池，当程序创建数据源实例时，系统会一次性地创建多个数据库连接，并把这些数据库连接保存在连接池中。当程序需要进行数据库访问时，无需重新获得数据库连接，而是从连接池中取出一个空闲的数据库连接。当程序使用数据库连接访问数据库结束后，无需关闭数据库连接，而是将数据库连接归还给连接池即可。通过此种方式，可以避免频繁地获取数据库连接、关闭数据库连接所导致的性能下降。</p>
 <h3 id="Hibernate体系结构"><a href="#Hibernate体系结构" class="headerlink" title="Hibernate体系结构"></a>Hibernate体系结构</h3><p><strong>Hibernate的体系架构如下所示</strong></p>
-<p><img src="http://7xig3q.com1.z0.glb.clouddn.com/hibernate-architecture.png" alt="architecture"></p>
+<p><a href="http://7xig3q.com1.z0.glb.clouddn.com/hibernate-architecture.png" title="architecture" target="_blank" rel="external"><img src="http://7xig3q.com1.z0.glb.clouddn.com/hibernate-architecture.png" alt="architecture" title="architecture"></a></p>
 <p>下面对上图中各对象逐一解释</p>
 <ul>
 <li>SessionFactory: 这是Hibernate的关键对象，它是单个数据库映射关系经过编译后的内存镜像，也是线程安全的。它是生成Session的工厂，本身需要依赖于ConnectionProvider。该对象可以在进程或集群的级别上，为那些事务之间可以重用的数据提供可选的二级缓存</li>
@@ -499,7 +499,7 @@
 <li>使用非final的类: 在运行时生成代理是Hibernate的一个重要功能，如果非要使用一个有public final方法的类，则必须通过设置lazy=”false”来明确地禁用代理</li>
 <li>重写equals()和hashCode()方法: 如果需要把持久化类的实例放入Set中，则应该为持久化类重写equals()和hashCode()方法</li>
 </ul>
-<h4 id="持久化类对象的状态"><a href="#持久化类对象的状态" class="headerlink" title="持久化类对象的状态"></a>持久化类对象的状态</h4><p><img src="http://7xig3q.com1.z0.glb.clouddn.com/Hibernate-life-cycle.gif" alt="life-cycle"></p>
+<h4 id="持久化类对象的状态"><a href="#持久化类对象的状态" class="headerlink" title="持久化类对象的状态"></a>持久化类对象的状态</h4><p><a href="http://7xig3q.com1.z0.glb.clouddn.com/Hibernate-life-cycle.gif" title="life-cycle" target="_blank" rel="external"><img src="http://7xig3q.com1.z0.glb.clouddn.com/Hibernate-life-cycle.gif" alt="life-cycle" title="life-cycle"></a></p>
 <p>在Hibernate中，PO（Persistent Object）有如下三种状态</p>
 <ul>
 <li>瞬态: 如果PO实例从未与Session关联过，该PO实例处于瞬态状态，瞬态对象不会被持久化到数据库中，也不会被赋予持久化标识</li>
@@ -586,7 +586,7 @@
 <li>继承系统默认的事件监听器: 扩展特定方法</li>
 </ol>
 <p>通常推荐采用第三种方法实现自己的事件监听器。Hibernate默认的事件监听器都被声明成non-final，以便用户继承他们。</p>
-<p><strong>参考文献</strong><br><a href="http://7xig3q.com1.z0.glb.clouddn.com/hibernate-logo.gif" target="_blank" rel="external">1</a> 轻量级JavaEE企业应用实战-Struts2+Spring4+Hibernate整合开发</p>
+<p><strong>参考文献</strong><br>[1] 轻量级JavaEE企业应用实战-Struts2+Spring4+Hibernate整合开发</p>
 
       
     </div>
