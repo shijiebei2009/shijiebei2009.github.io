@@ -31,6 +31,6 @@ Resource:groupping
 
 
 **参考文献**
-[1] http://javahonk.com/project-facet-java-is-not-supported-by-target-runtime/
-[2] http://stackoverflow.com/questions/2239959/faceted-project-prblem-java-version-mismatch-error-message
+【1】 http://javahonk.com/project-facet-java-is-not-supported-by-target-runtime/
+【2】 http://stackoverflow.com/questions/2239959/faceted-project-prblem-java-version-mismatch-error-message
 
