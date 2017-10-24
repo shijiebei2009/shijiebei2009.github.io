@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2016/05/20/Lucene-6-0-in-action-1-Index-creation/</loc>
+    <lastmod>2017-10-24T15:32:05.641Z</lastmod>
+    <data>
+        <display>
+        <title>Lucene 6.0 实战（1）-创建索引</title>
+        <pubTime>2016-05-20T13:25:37.000Z</pubTime>
+        
+        <tag>Lucene</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2015/06/02/Faceted-Project-Problem-Java-Version-Mismatch-Error-Message/</loc>
     <lastmod>2017-10-24T02:07:49.149Z</lastmod>
     <data>
@@ -379,26 +399,6 @@
            
              
               <breadCrumb title="Algorithms" url="http://www.codepub.cn/categories/Algorithms/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/07/02/Lucene-6-0-in-action-1-Index-creation/</loc>
-    <lastmod>2017-10-24T01:54:46.762Z</lastmod>
-    <data>
-        <display>
-        <title>Python3入门手册之一</title>
-        <pubTime>2015-07-02T13:41:03.000Z</pubTime>
-        
-        <tag>Python3</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
           
         </display>
     </data>
