@@ -1,3 +1,4 @@
+---
 title: "使用Selenium模拟用户登录支付宝账户查询交易详情"
 tags: [Selenium]
 categories: Programming Notes
@@ -221,9 +222,9 @@ public class SeleniumAlipay {
 ![](http://7xig3q.com1.z0.glb.clouddn.com/automatic-query-alipay-treasure-transaction-information.gif)
 
 
-参考资料
-【1】http://baike.baidu.com/subview/478050/6464537.htm
-【2】http://blog.csdn.net/wanglha/article/details/39755613
-【3】http://webdriver.blog.51cto.com/10517592/1673920
-【4】http://blog.csdn.net/pf20050904/article/details/20052485
-【5】http://www.open-open.com/doc/view/9f52277e5d9c4dd3b851ae54011e733a
+**参考文献**
+[1] http://baike.baidu.com/subview/478050/6464537.htm
+[2] http://blog.csdn.net/wanglha/article/details/39755613
+[3] http://webdriver.blog.51cto.com/10517592/1673920
+[4] http://blog.csdn.net/pf20050904/article/details/20052485
+[5] http://www.open-open.com/doc/view/9f52277e5d9c4dd3b851ae54011e733a

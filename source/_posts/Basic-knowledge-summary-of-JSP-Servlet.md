@@ -1,3 +1,4 @@
+---
 title: "JSP/Servlet基础知识汇总"
 date: 2015-06-17 18:25:37
 tags: [JSP]
@@ -139,5 +140,5 @@ Servlet3.0规范在javax.servlet.annotation包下提供了如下注解
 * @HttpMethodConstraint: 用于与@ServletSecurity一起使用，用于指定该Servlet的安全与授权控制
 
 
-参考资料
-【1】轻量级JavaEE企业应用实战-Struts2+Spring4+Hibernate整合开发
+**参考文献**
+[1] 轻量级JavaEE企业应用实战-Struts2+Spring4+Hibernate整合开发

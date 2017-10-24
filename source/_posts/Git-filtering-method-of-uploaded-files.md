@@ -1,3 +1,4 @@
+---
 title: "Git过滤上传文件的方法"
 date: 2015-05-14 13:48:10
 tags: [Git]
@@ -91,7 +92,7 @@ gen/
 
 最后有一点需要注意的，***git rm --cached logs/20150514.log*** 删除的是追踪状态，而不是物理文件；如果你真的是彻底不想要了，你也可以直接 rm＋忽略＋提交。
 
-参考资料：
-【1】http://blog.csdn.net/hustpzb/article/details/8649545
-【2】http://segmentfault.com/q/1010000000430426
+**参考文献**
+[1] http://blog.csdn.net/hustpzb/article/details/8649545
+[2] http://segmentfault.com/q/1010000000430426
 

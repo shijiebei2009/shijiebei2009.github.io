@@ -1,3 +1,4 @@
+---
 title: "Spring基础知识汇总"
 tags: [Spring]
 date: 2015-06-21 11:57:22
@@ -222,8 +223,8 @@ Spring中的AOP代理由Spring的IoC容器负责生成、管理，其依赖关�
 </context:component-scan>
 ```
 
-参考资料
-【1】轻量级JavaEE企业应用实战-Struts2+Spring4+Hibernate整合开发
+**参考文献**
+[1] 轻量级JavaEE企业应用实战-Struts2+Spring4+Hibernate整合开发
   [1]: http://7xig3q.com1.z0.glb.clouddn.com/spring-logo.png
   [2]: http://7xig3q.com1.z0.glb.clouddn.com/spring-overview-architecture.png
   [3]: http://7xig3q.com1.z0.glb.clouddn.com/spring-bean-post-process.jpg

@@ -1,215 +1,555 @@
-title: Lucene 6.0 实战（1）-创建索引
-date: 2016-05-20 21:25:37
-tags: [Lucene]
+---
+title: "Python3入门手册之一"
+date: 2015-07-02 21:41:03
+tags: [Python3]
 categories: Programming Notes
 
 ---
+*Version：Python 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:44:40) [MSC v.1600 64 bit (AMD64)] on win32*
 
-### 引言
-**Lucene6.0**于**2016年4月8日**发布，要求最低Java版本是**Java 8**。
+**There are two ways of constructing a software design: one way is to make it so simple that there are obviously no deficiences; the other is to make it so complicated that there are no obvious deficiences.**
+---- C.A.R.Hoare
 
-相信大多数公司的数据库都需要采用分库分表等一些策略，而对于某些特定的业务需求，分别从不同的库不同的表中去检索特定的数据显得比较繁琐，而Lucene正好可以解决某些特殊需求，对于不同库不同表中的数据先建立全量索引，然后将需要检索的数据写入某个单独的表中，供其它业务需求方查询，以后的每天只需要做增量索引并写入数据表即可。
-
-鉴于最近一直在做Lucene相关方面的工作，而本人一向又比较喜欢使用最新发布的版本，而网络上这类资源极少，故将一些要点及示例整理出来，本文主要从实战角度来介绍Lucene 6.0的使用，不涉及过多原理方面的东西，但是对于一些核心点也会有所提及。
-
-### Lucene为什么这么流行
-Lucene是一个高效的，基于Java的全文检索库，生活中数据主要分为两种：结构化数据和非结构化数据。一般使用的XML、JSON、数据库等都是结构化数据，非结构化数据也叫全文数据，而这种全文数据正是Lucene的用武之地。全文检索主要有两个过程，索引创建（Indexing）和搜索索引（Search）。
-
-Lucene是很多搜索引擎的一个基础实现，被很多大公司所采用，例如Netflix，MySpace，LinkedIn，Twitter，IBM等。可以通过如下几点特性对Lucene有个大概的认识
-- 在现代的硬件上一小时可以索引150GB的数据
-- 索引20GB的文本文件，产生的索引文件大概是4-6GB
-- 只需要1MB的堆内存
-- 可定制的排序模型
-- 支持多种查询类型
-- 通过特定的字段搜索
-- 通过特定的字段排序
-- 近实时的索引和搜索
-- Faceting，Grouping，Highlighting，Suggestions等
-
-鉴于Lucene这么多强大的特性以及流行度，有很多种基于Lucene的搜索技术，其中最流行的两个是**Apache Solr**和**Elastic search**，当然还有许多其它不同语言的Lucene实现：
-- **CLucene**: Lucene implementation in C++ (http://sourceforge.net/projects/clucene/)
-- **Lucene.Net**: Lucene implementation in Microsoft.NET (http://incubator.apache.org/lucene.net/)
-- **Lucene4c**: Lucene implementation in C (http://incubator.apache.org/lucene4c/)
-- **LuceneKit**: Lucene implementation in Objective-C, Cocoa/GNUstep support (https://github.com/tcurdt/lucenekit)
-- **Lupy**: Lucene implementation in Python (RETIRED) (http://www.divmod.org/projects/lupy)
-- **NLucene**: This is another Lucene implementation in .NET (out of date) (http://sourceforge.net/projects/nlucene/)
-- **Zend Search**: Lucene implementation in the Zend Framework for PHP 5 (http://framework.zend.com/manual/en/zend.search.html)
-- **Plucene**: Lucene implementation in Perl (http://search.cpan.org/search?query=plucene&mode=all)
-- **KinoSearch**: This is a new Lucene implementation in Perl (http://www.rectangular.com/kinosearch/)
-- **PyLucene**: This is GCJ-compiled version of Java Lucene integrated with Python (http://pylucene.osafoundation.org/)
-- **MUTIS**: Lucene implementation in Delphi (http://mutis.sourceforge.net/)
-- **Ferret**: Lucene implementation in Ruby (http://ferret.davebalmain.com/trac/)
-- **Montezuma**: Lucene implementation in Common Lisp (http://www.cliki.net/Montezuma)
-
-### 存储索引
-索引由Lucene按照特定的格式创建，而创建出来的索引必然要存储在文件系统之上，Lucene在文件系统中存储索引的最基本的抽象实现类是BaseDirectory，该类继承自Directory，BaseDirectory有两个主要的实现类：
-- FSDirectory：在文件系统上存储索引文件，有六个子类，如下是三个常用的子类
-  - SimpleFSDirectory：使用Files.newByteChannel实现，对并发支持不好，它会在多线程读取同一份文件时进行同步操作
-  - NIOFSDirectory：使用Java NIO中的FileChannel去读取同一份文件，可以避免同步操作，但是由于Windows平台上存在[Sun JRE bug](http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6265734)，所以在Windows平台上不推荐使用
-  - MMapDirectory：在读取的时候使用内存映射IO，如果你的虚拟内存足够容纳索引文件大小的话，这是一个很棒的选择
-- RAMDirectory：在内存中暂存索引文件，只对小索引好，大索引会出现频繁GC
-
-通常情况下，如果索引文件存储在文件系统之上，我们无需自己选择使用FSDirectory的某个实现子类，只要使用FSDirectory中的open(Path path)方法即可，英文doc如下：
->Creates an FSDirectory instance, trying to pick the best implementation given the current environment. The directory returned uses the NativeFSLockFactory. The directory is created at the named location if it does not yet exist.
-
-该方法可以自动根据当前使用的系统环境而选择一个最佳的实现子类，其选择策略是
-- 对于Linux，MacOSX，Solaris，Windows 64-bit JREs返回MMapDirectory
-- 对于其它非Windows上的JREs，返回NIOFSDirectory
-- 对于其它Windows上的JREs，返回SimpleFSDirectory
-
-**MMapDirectory**就目前来说，是比较好的实现。它使用virtual memory和mmap来访问磁盘文件。一般的方法都是依赖系统调用在文件系统cache以及Java heap之间拷贝数据。那么怎么才能直接访问文件系统cache呢？这就是mmap的作用！
-
-简单说MMapDirectory就是把lucene的索引当作swap file来处理。mmap()系统调用让OS把整个索引文件映射到虚拟地址空间，这样Lucene就会觉得索引在内存中。然后Lucene就可以像访问一个超大的byte[]数据（在Java中这个数据被封装在ByteBuffer接口里）一样访问磁盘上的索引文件。Lucene在访问虚拟空间中的索引时，不需要任何的系统调用，CPU里的MMU（memory management unit）和TLB（translation lookaside buffers, 它cache了频繁被访问的page）会处理所有的映射工作。如果数据还在磁盘上，那么MMU会发起一个中断，OS将会把数据加载进文件系统Cache。如果数据已经在cache里了，MMU/TLB会直接把数据映射到内存，这只需要访问内存，速度很快。程序员不需要关心paging in/out，所有的这些都交给OS。而且，这种情况下没有并发的干扰，唯一的问题就是Java的ByteBuffer封装后的byte[]稍微慢一些，但是Java里要想用mmap就只能用这个接口。还有一个很大的优点就是所有的内存issue都由OS来负责，这样没有GC的问题。
-
-### 索引核心类
-执行简单的索引过程需要用到以下几个类：
-- **IndexWriter**：负责创建索引或打开已有索引
-- **IndexWriterConfig**：持有创建IndexWriter的所有配置项
-- **Directory**：描述了Lucene索引的存放位置，它的子类负责具体指定索引的存储路径
-- **Analyzer**：负责文本分析，从被索引文本文件中提取出语汇单元。对于文本分析器Analyzer，需要注意一点，就是使用哪种Analyzer进行索引创建，查询的时候也要使用哪种Analyzer查询，否则查询结果不正确。
-- **Document**：代表一些域（Field）的集合，你可以将Document对象理解为虚拟文档-例如Web页面、E-mail信息或者文本文件
-- **Field**：索引中的每个文档都包含一个或多个不同命名的域，每个域都有一个域名和对应的域值
-- **FieldType**：描述了Field的各种属性，在不使用某种具体的Field类型（例如StringField，TextField）时需要用到此类
+**Success in life is a matter not so much of talent and opportunity as of concentration and perseverance**
+---- C.W.Wendte
 
 
-### 创建索引
-索引的创建方式有三种，通过IndexWriterConfig.OpenMode进行指定，分别是
-- CREATE：创建一个新的索引或者覆写已经存在的索引
-- APPEND：打开一个已经存在的索引
-- CREATE_OR_APPEND：如果不存在则创建新的索引，如果存在则追加索引
+### 选择Python的原因
+* 简单易学，功能强大，具有高效的高层数据结构，支持面向对象编程
+* 解释性语言，可扩展性，可嵌入性，丰富的库
 
-```java
-/**
- * 创建索引写入器
- *
- * @param indexPath
- * @param create
- * @throws IOException
- */
-public IndexWriter getIndexWriter(String indexPath, boolean create) throws IOException {
-    IndexWriterConfig indexWriterConfig = new IndexWriterConfig(new StandardAnalyzer());
-    if (create) {
-        indexWriterConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-    } else {
-        indexWriterConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-    }
-    Directory directory = FSDirectory.open(Paths.get(indexPath));
-    IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-    return indexWriter;
+### 选择一个编辑器
+工欲善其事必先利其器，所以选择编辑器首当其冲。
+* IDLE：Python自带，极简利器，支持语法高亮
+* Vim/Emacs：`Linux/FreeBSD`平台上的开发利器，二者择其一
+* PyCharm：号称最智能的Python编辑器，的确是的，但是略微复杂
+
+### 数据结构和算法
+#### 解压序列赋值给多个变量
+```python
+# 变量的数量需要和序列元素的数量一致
+data = ['a', 'b', 'c', 'd']
+a, b, c, d = data
+print(a, b, c, d)
+
+data = ['ACME', 50, 91.1, (2012, 12, 21)]
+name, shares, price, (year, month, day) = data
+print(year, month, day)
+
+# 解压一部分，其他值丢弃
+data = ['ACME', 50, 91.1, (2012, 12, 21)]
+_, shares, price, _ = data
+print(shares, price)
+
+# 只取第一个和最后一个，中间的所有元素用通配符接收
+record = ('Dave', 'dave@example.com', '773-555-1212', '847-555-1212')
+name, *_, phone = record
+print(name, phone)
+
+'''
+OutPut:
+a b c d
+2012 12 21
+50 91.1
+Dave 847-555-1212
+'''
+```
+#### 查找最大或最小的N个元素
+```python
+import heapq
+
+nums = [1, 8, 2, 23, 7, -4, 18, 23, 42, 37, 2]
+print(heapq.nlargest(3, nums))  # Prints [42, 37, 23]
+print(heapq.nsmallest(3, nums))  # Prints [-4, 1, 2]
+# heapify会先将集合数据进行堆排序后放入一个列表中
+# heappop会先将第一个元素弹出来，然后用下一个最小的元素来取代被弹出元素
+heapq.heapify(nums)
+print(heapq.heappop(nums))  # Prints -4
+print(heapq.heappop(nums))  # Prints 1
+print(heapq.heappop(nums))  # Prints 2
+
+# 下面代码在对每个元素进行对比的时候，会以price的值进行比较。
+portfolio = [
+    {'name': 'IBM', 'shares': 100, 'price': 91.1},
+    {'name': 'AAPL', 'shares': 50, 'price': 543.22},
+    {'name': 'FB', 'shares': 200, 'price': 21.09},
+    {'name': 'HPQ', 'shares': 35, 'price': 31.75},
+    {'name': 'YHOO', 'shares': 45, 'price': 16.35},
+    {'name': 'ACME', 'shares': 75, 'price': 115.65}
+]
+cheap = heapq.nsmallest(3, portfolio, key=lambda s: s['price'])
+expensive = heapq.nlargest(3, portfolio, key=lambda s: s['price'])
+print(cheap)
+print(expensive)
+```
+#### 字典操作相关
+```python
+# 求字典中值的最小值、最大值
+prices = {
+    'ACME': 45.23,
+    'AAPL': 612.78,
+    'IBM': 205.55,
+    'HPQ': 37.20,
+    'FB': 10.75
 }
-```
-如果仅仅做测试用，还可以将索引文件存储在内存之中，此时需要使用RAMDirectory
-```java
-public class LuceneDemo {
-    private Directory directory;
-    private String[] ids = {"1", "2"};
-    private String[] unIndex = {"Netherlands", "Italy"};
-    private String[] unStored = {"Amsterdam has lots of bridges", "Venice has lots of canals"};
-    private String[] text = {"Amsterdam", "Venice"};
-    private IndexWriter indexWriter;
+min_price = min(zip(prices.values(), prices.keys()))
+# min_price is (10.75, 'FB')
+max_price = max(zip(prices.values(), prices.keys()))
+# max_price is (612.78, 'AAPL')
 
-    private IndexWriterConfig indexWriterConfig = new IndexWriterConfig(new StandardAnalyzer());
+# 还可以使用sorted()和zip()函数来排列字典数据
+prices_sorted = sorted(zip(prices.values(), prices.keys()))
+# prices_sorted is [(10.75, 'FB'), (37.2, 'HPQ'),
+#                   (45.23, 'ACME'), (205.55, 'IBM'),
+#                   (612.78, 'AAPL')]
+# 执行这些计算的时候，需要注意的是zip()函数创建的是一个只能访问一次的迭代器。 比如，下面的代码就会产生错误：
+prices_and_names = zip(prices.values(), prices.keys())
+print(min(prices_and_names))  # OK
+print(max(prices_and_names))  # ValueError: max() arg is an empty sequence
 
-    @Test
-    public void createIndex() throws IOException {
-        directory = new RAMDirectory();
-        //指定将索引创建信息打印到控制台
-        indexWriterConfig.setInfoStream(System.out);
-        indexWriter = new IndexWriter(directory, indexWriterConfig);
-        indexWriterConfig = (IndexWriterConfig) indexWriter.getConfig();
-        FieldType fieldType = new FieldType();
-        fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
-        fieldType.setStored(true);//存储
-        fieldType.setTokenized(true);//分词
-        for (int i = 0; i < ids.length; i++) {
-            Document document = new Document();
-            document.add(new Field("id", ids[i], fieldType));
-            document.add(new Field("country", unIndex[i], fieldType));
-            document.add(new Field("contents", unStored[i], fieldType));
-            document.add(new Field("city", text[i], fieldType));
-            indexWriter.addDocument(document);
-        }
-        indexWriter.commit();
-    }
+# 需要注意的是在计算操作中使用到了(值，键)对。当多个实体拥有相同的值的时候，键会决定返回结果。 比如，在执行min()和max()操作的时候，如果恰巧最小或最大值有重复的，那么拥有最小或最大键的实体会返回：
+prices = {'AAA': 45.23, 'ZZZ': 45.23}
+min(zip(prices.values(), prices.keys()))
+# OutPut:(45.23, 'AAA')
+max(zip(prices.values(), prices.keys()))
+# OutPut:(45.23, 'ZZZ')
+
+# 查找两字典的相同点
+a = {
+    'x': 1,
+    'y': 2,
+    'z': 3
 }
-```
-**NOTES**：在调用IndexWriter的close()方法时会自动调用commit()方法，在调用commit()方法时会自动调用flush()方法。所以一般无需这样操作
-```java
-indexWriter.flush();
-indexWriter.commit();
-indexWriter.close();
-```
 
-控制台输出索引创建信息如下：
->IFD 0 [2016-05-19T07:10:21.127Z; main]: init: current segments file is "segments"; deletionPolicy=org.apache.lucene.index.KeepOnlyLastCommitDeletionPolicy@691a7f8f
-IFD 0 [2016-05-19T07:10:21.167Z; main]: delete []
-IFD 0 [2016-05-19T07:10:21.167Z; main]: now checkpoint "" [0 segments ; isCommit = false]
-IFD 0 [2016-05-19T07:10:21.167Z; main]: delete []
-IFD 0 [2016-05-19T07:10:21.167Z; main]: 0 msec to checkpoint
-IW 0 [2016-05-19T07:10:21.167Z; main]: init: create=true
-IW 0 [2016-05-19T07:10:21.168Z; main]: 
-...
-...
-DW 0 [2016-05-19T07:10:21.271Z; main]: main finishFullFlush success=true
-IW 0 [2016-05-19T07:10:21.271Z; main]: startCommit(): start
-IW 0 [2016-05-19T07:10:21.271Z; main]:   skip startCommit(): no changes pending
-IFD 0 [2016-05-19T07:10:21.271Z; main]: delete []
-IW 0 [2016-05-19T07:10:21.271Z; main]: commit: pendingCommit == null; skip
-IW 0 [2016-05-19T07:10:21.271Z; main]: commit: took 0.4 msec
-IW 0 [2016-05-19T07:10:21.271Z; main]: commit: done
-IW 0 [2016-05-19T07:10:21.271Z; main]: rollback
-IW 0 [2016-05-19T07:10:21.271Z; main]: all running merges have aborted
-IW 0 [2016-05-19T07:10:21.271Z; main]: rollback: done finish merges
-DW 0 [2016-05-19T07:10:21.271Z; main]: abort
-DW 0 [2016-05-19T07:10:21.271Z; main]: done abort success=true
-IW 0 [2016-05-19T07:10:21.271Z; main]: rollback: infos=_0(6.0.0):c2
-IFD 0 [2016-05-19T07:10:21.271Z; main]: now checkpoint "_0(6.0.0):c2" [1 segments ; isCommit = false]
-IFD 0 [2016-05-19T07:10:21.272Z; main]: delete []
-IFD 0 [2016-05-19T07:10:21.272Z; main]: 0 msec to checkpoint
-IFD 0 [2016-05-19T07:10:21.272Z; main]: delete []
-IFD 0 [2016-05-19T07:10:21.272Z; main]: delete []
-
-### 删除文档
-在IndexWriter中提供了从索引中删除Document的接口，分别是
-- deleteDocuments(Query... queries)：删除所有匹配到查询语句的Document
-- deleteDocuments(Term... terms)：删除所有包含有terms的Document
-- deleteAll()：删除索引中所有的Document
-
-NOTES: deleteDocuments(Term... terms)方法，只接受Term参数，而Term只提供如下四个构造函数
-- Term(String fld, BytesRef bytes)
-- Term(String fld, BytesRefBuilder bytesBuilder)
-- Term(String fld, String text)
-- Term(String fld)
-
-所以我们无法使用deleteDocuments(Term... terms)去删除一些非String值的Field，例如IntPoint，LongPoint，FloatPoint，DoublePoint等。这时候就需要借助传递Query实例的方法去删除包含某些特定类型Field的Document。
-```java
-@Test
-public void testDelete() throws IOException {
-    RAMDirectory ramDirectory = new RAMDirectory();
-    IndexWriter indexWriter = new IndexWriter(ramDirectory, new IndexWriterConfig(new StandardAnalyzer()));
-    Document document = new Document();
-    document.add(new IntPoint("ID", 1));
-    indexWriter.addDocument(document);
-    indexWriter.commit();
-    //无法删除ID为1的
-    indexWriter.deleteDocuments(new Term("ID", "1"));
-    indexWriter.commit();
-    DirectoryReader open = DirectoryReader.open(ramDirectory);
-    IndexSearcher indexSearcher = new IndexSearcher(open);
-    Query query = IntPoint.newExactQuery("ID", 1);
-    TopDocs search = indexSearcher.search(query, 10);
-    //命中，1，说明并未删除
-    System.out.println(search.totalHits);
-
-    //使用Query删除
-    indexWriter.deleteDocuments(query);
-    indexWriter.commit();
-    indexSearcher = new IndexSearcher(DirectoryReader.openIfChanged(open));
-    search = indexSearcher.search(query, 10);
-    //未命中，0，说明已经删除
-    System.out.println(search.totalHits);
+b = {
+    'w': 10,
+    'x': 11,
+    'y': 2
 }
+# Find keys in common
+a.keys() & b.keys()  # { 'x', 'y' }
+# Find keys in a that are not in b
+a.keys() - b.keys()  # { 'z' }
+# Find (key,value) pairs in common
+a.items() & b.items()  # { ('y', 2) }
 ```
 
-参考资料
-【1】http://www.cnblogs.com/huangfox/p/3616298.html
+#### 序列中出现次数最多的元素
+```python
+words = [
+    'look', 'into', 'my', 'eyes', 'look', 'into', 'my', 'eyes',
+    'the', 'eyes', 'the', 'eyes', 'the', 'eyes', 'not', 'around', 'the',
+    'eyes', "don't", 'look', 'around', 'the', 'eyes', 'look', 'into',
+    'my', 'eyes', "you're", 'under'
+]
+from collections import Counter
+
+word_counts = Counter(words)
+# 出现频率最高的3个单词
+top_three = word_counts.most_common(3)
+print(top_three)
+# Outputs [('eyes', 8), ('the', 5), ('look', 4)]
+
+# Counter 对象可以接受任意的 hashable 序列对象。 在底层实现上，一个 Counter 对象就是一个字典，将元素映射到它出现的次数上
+print(word_counts['not'])  # Prints 1
+print(word_counts['eyes'])  # Prints 8
+
+# 注意，对于Counter对象可以直接进行数学运算操作
+test = Counter(['addone'])
+word_counts = word_counts + test
+print(word_counts)
+word_counts = word_counts - test
+print(word_counts)
+```
+
+#### 通过某个关键字排序一个字典列表
+```python
+# 通过某个关键字排序一个字典列表
+rows = [
+    {'fname': 'Brian', 'lname': 'Jones', 'uid': 1003},
+    {'fname': 'David', 'lname': 'Beazley', 'uid': 1002},
+    {'fname': 'John', 'lname': 'Cleese', 'uid': 1001},
+    {'fname': 'Big', 'lname': 'Jones', 'uid': 1004}
+]
+# 根据任意的字典字段来排序输入结果行是很容易实现的，代码示例：
+
+from operator import itemgetter
+
+rows_by_fname = sorted(rows, key=itemgetter('fname'))
+rows_by_uid = sorted(rows, key=itemgetter('uid'))
+print(rows_by_fname)
+print(rows_by_uid)
+
+# 排序不支持原生比较的对象
+class User:
+    def __init__(self, userId):
+        self.userId = userId
+
+    def __repr__(self):
+        return 'User({})'.format(self.userId)
+
+
+from operator import attrgetter
+
+users = [User(23), User(28), User(26)]
+print(sorted(users, key=attrgetter('userId')))
+```
+#### 通过某个字段将记录分组
+```python
+rows = [
+    {'address': '5412 N CLARK', 'date': '07/01/2012'},
+    {'address': '5148 N CLARK', 'date': '07/04/2012'},
+    {'address': '5800 E 58TH', 'date': '07/02/2012'},
+    {'address': '2122 N CLARK', 'date': '07/03/2012'},
+    {'address': '5645 N RAVENSWOOD', 'date': '07/02/2012'},
+    {'address': '1060 W ADDISON', 'date': '07/02/2012'},
+    {'address': '4801 N BROADWAY', 'date': '07/01/2012'},
+    {'address': '1039 W GRANVILLE', 'date': '07/04/2012'},
+]
+# 现在假设你想在按date分组后的数据块上进行迭代。为了这样做，你首先需要按照指定的字段(这里就是date)排序， 然后调用 itertools.groupby() 函数：
+
+from operator import itemgetter
+from itertools import groupby
+
+# Sort by the desired field first
+rows.sort(key=itemgetter('date'))
+# Iterate in groups
+for date, items in groupby(rows, key=itemgetter('date')):
+    print(date)
+    for i in items:
+        print(' ', i)
+
+'''
+OutPut:
+07/01/2012
+  {'date': '07/01/2012', 'address': '5412 N CLARK'}
+  {'date': '07/01/2012', 'address': '4801 N BROADWAY'}
+07/02/2012
+  {'date': '07/02/2012', 'address': '5800 E 58TH'}
+  {'date': '07/02/2012', 'address': '5645 N RAVENSWOOD'}
+  {'date': '07/02/2012', 'address': '1060 W ADDISON'}
+07/03/2012
+  {'date': '07/03/2012', 'address': '2122 N CLARK'}
+07/04/2012
+  {'date': '07/04/2012', 'address': '5148 N CLARK'}
+  {'date': '07/04/2012', 'address': '1039 W GRANVILLE'}
+'''
+```
+
+#### 过滤序列元素
+```python
+values = ['1', '2', '-3', '-', '4', 'N/A', '5']
+def is_int(val):
+    try:
+        x = int(val)
+        return True
+    except ValueError:
+        return False
+ivals = list(filter(is_int, values))
+print(ivals)
+# Outputs ['1', '2', '-3', '4', '5']
+```
+#### 转换并同时计算数据
+```python
+# Determine if any .py files exist in a directory
+import os
+files = os.listdir('dirname')
+if any(name.endswith('.py') for name in files):
+    print('There be python!')
+else:
+    print('Sorry, no python.')
+# Output a tuple as CSV
+s = ('ACME', 50, 123.45)
+print(','.join(str(x) for x in s)) # Prints ACME,50,123.45
+# Data reduction across fields of a data structure
+portfolio = [
+    {'name':'GOOG', 'shares': 50},
+    {'name':'YHOO', 'shares': 75},
+    {'name':'AOL', 'shares': 20},
+    {'name':'SCOX', 'shares': 65}
+]
+min_shares = min(s['shares'] for s in portfolio)
+
+# Original: Returns 20
+min_shares = min(s['shares'] for s in portfolio)
+# Alternative: Returns {'name': 'AOL', 'shares': 20}
+min_shares = min(portfolio, key=lambda s: s['shares'])
+```
+#### 合并多个字典或映射
+```python
+a = {'x': 1, 'z': 3 }
+b = {'y': 2, 'z': 4 }
+
+from collections import ChainMap
+c = ChainMap(a,b)
+print(c['x']) # Outputs 1 (from a)
+print(c['y']) # Outputs 2 (from b)
+print(c['z']) # Outputs 3 (from a)
+
+# ChianMap使用原来的字典，它自己不创建新的字典。所以它并不会产生上面所说的结果，比如：
+
+a['x'] = 42
+print(c['x']) # Outputs 42 (from a)
+```
+### 字符串和文本
+#### 使用多个界定符分割字符串
+`string`对象的`split()`方法只适应于非常简单的字符串分割情形，它并不允许有多个分隔符或者是分隔符周围不确定的空格。当你需要更加灵活的切割字符串的时候，最好使用`re.split()`方法。
+```python
+import re
+
+line = 'abcd efg; hijk , lmn'
+res = re.split(r'[;,\s]\s*', line)
+print(res) # Prints ['abcd', 'efg', 'hijk', '', 'lmn']
+```
+函数`re.split()`是非常实用的，因为它允许你为分隔符指定多个正则模式。比如，在上面的例子中，分隔符可以是逗号(,)，分号(;)或者是空格，并且后面紧跟着任意个的空格。只要这个模式被找到，那么匹配的分隔符两边的实体都会被当成是结果中的元素返回。 返回结果为一个字段列表，这个跟`str.split()`返回值类型是一样的。
+当你使用`re.split()`函数时候，需要特别注意的是正则表达式中是否包含一个括号捕获分组。如果使用了捕获分组，那么被匹配的文本也将出现在结果列表中。比如，观察一下这段代码运行后的结果。
+```python
+fields = re.split(r'(;|,|\s)\s*', line)
+print(fields) # Prints ['abcd', ' ', 'efg', ';', 'hijk', ' ', '', ',', 'lmn']
+```
+如果你不想保留分割字符串到结果列表中去，但仍然需要使用到括号来分组正则表达式的话，确保你的分组是非捕获分组，形如`(?:...)`。
+```python
+res = re.split(r'(?:,|;|\s)\s*', line)
+print(res) # Prints ['abcd', 'efg', 'hijk', '', 'lmn']
+```
+#### 字符串匹配
+```python
+# 检查多种匹配可能，需要将所有的匹配项放入到一个元组中，然后传给startswith()或者endswith()方法
+strs = list()
+strs.append('a.txt')
+strs.append('b.doc')
+for s in strs:
+    # startswith方法类似
+    if s.endswith(('.txt', '.doc')):
+        print(str(s))
+
+# 请注意，该方法必须接收一个元组作为输入参数，如果你有一个list或者set类型的选择项，需要先调用tuple()将其转换为元组类型
+choices = ['.txt', '.doc']
+for s in strs:
+    if s.endswith(tuple(choices)):
+        print(str(s))
+```
+
+```python
+# fnmatch和fnmatchcase的使用
+from fnmatch import fnmatch, fnmatchcase
+
+print(fnmatch('foo.txt', '*.TXT'))  # On OS X (Mac) Prints False
+print(fnmatch('foo.txt', '*.TXT'))  # On Windows Prints True
+
+# 完全使用你的模式大小写进行匹配
+print(fnmatchcase('foo.txt', '*.TXT'))  # Prints False
+```
+#### 字符串搜索和替换
+一个替换回调函数的参数是一个`match`对象，也就是`match()`或者`find()`返回的对象。使用`group()`方法来提取特定的匹配部分。回调函数最后返回替换字符串。如果除了替换后的结果外，你还想知道有多少替换发生了，可以使用`re.subn()`来代替。
+```python
+# 使用re模块进行匹配和搜索
+text = 'Today is 11/27/2012. PyCon starts 3/13/2013.'
+datepat = re.compile(r'(\d+)/(\d+)/(\d+)')
+list_match = datepat.findall(text)  # findall方法返回的是所有匹配的列表
+print(list_match)
+for m in datepat.finditer(text):  # finditer方法返回的是迭代器
+    print(m.groups())
+
+
+# 注意点，在正则的开头字母‘r’是指定不去解析反斜杠
+# r'(\d+)/(\d+)/(\d+)' 相当于 '(\\d+)/(\\d+)/(\\d+)'
+m = datepat.match('11/27/2012')
+print(m.group(0))  # Prints 11/27/2012
+print(m.group(1))  # Prints 11
+print(m.group(2))  # Prints 27
+print(m.group(3))  # Prints 2012
+
+newtext, n = datepat.subn(r'\3-\1-\2', text)
+print(newtext)  # Prints Today is 2012-11-27. PyCon starts 2013-3-13.
+print(n)  # Prints 2
+```
+
+为了在文本操作时忽略大小写，你需要在使用re模块的时候给这些操作提供`re.IGNORECASE`标志参数。
+```python
+text = 'UPPER PYTHON, lower python, Mixed Python'
+re.findall('python', text, flags=re.IGNORECASE) # ['PYTHON', 'python', 'Python']
+re.sub('python', 'snake', text, flags=re.IGNORECASE) # 'UPPER snake, lower snake, Mixed snake'
+```
+#### 最短匹配模式
+在这个例子中，模式`r'\"(.*)\"'`的意图是匹配被双引号包含的文本。但是在正则表达式中*操作符是贪婪的，因此匹配操作会查找最长的可能匹配。 
+```python
+str_pat = re.compile(r'\"(.*)\"')
+text = 'Computer says "no." Phone says "yes."'
+str_pat.findall(text)  # ['no." Phone says "yes.']
+
+# 如果希望获取最短匹配的结果，需要添加'?'
+str_pat = re.compile(r'\"(.*?)\"')
+str_pat.findall(text)  # ['no.', 'yes.']
+```
+这样就使得匹配变成非贪婪模式，从而得到最短的匹配，也就是我们想要的结果。
+
+#### 多行匹配模式
+这个问题很典型的出现在当你用点(.)去匹配任意字符的时候，忘记了点(.)不能匹配换行符的事实。为了修正这个问题，你可以修改模式字符串，增加对换行的支持。比如：
+```python
+text = '''/* this is a
+multiline comment */
+'''
+comment = re.compile(r'/\*((?:.|\n)*?)\*/')
+com = comment.findall(text)
+print(com)  # Prints [' this is a\nmultiline comment ']
+```
+在这个模式中，`(?:.|\n)` 指定了一个非捕获组(也就是它定义了一个仅仅用来做匹配，而不能通过单独捕获或者编号的组)。
+`re.compile()`函数接受一个标志参数叫 `re.DOTALL`，在这里非常有用。它可以让正则表达式中的.匹配包括换行符在内的任意字符。比如：
+```python
+comment = re.compile(r'/\*(.*?)\*/', re.DOTALL)
+com = comment.findall(text)
+print(com)  # Prints [' this is a\nmultiline comment ']
+```
+#### 删除字符串中不需要的字符
+`strip()`方法能用于删除开始或结尾的字符。`lstrip()`和`rstrip()`分别从左和从右执行删除操作。默认情况下，这些方法会去除空白字符，但是你也可以指定其他字符。
+如果你想处理中间的空格，那么你需要求助其他技术。比如使用`replace()`方法或者是用正则表达式替换。
+```python
+import re
+s = 'Hello        World!'
+m = re.sub('\s+', ' ', s)
+print(m) # Prints Hello World!
+```
+#### 字符串对齐
+对于基本的字符串对齐操作，可以使用字符串的`ljust()`,`rjust()`和`center()`方法。
+```python
+text = 'Hello World!'
+text = text.ljust(20)
+print(text)  # Hello World!
+print(len(text))  # 20
+
+text = 'Hello World!'
+text = text.rjust(20)
+print(text)  #      Hello World!
+print(len(text))  # 20
+```
+所有这些方法都能接受一个可选的填充字符。
+```python
+text = 'Hello World!'
+print(text.rjust(20, '='))
+print(text.center(20, '*'))
+# 当格式化多个值的时候，这些格式代码也可以被用在 format() 方法中
+print('{:+>10s} {:->10s}'.format('Hello', 'World')) # Prints +++++Hello -----World
+```
+#### 字符串中插入变量
+```python
+s = '{name} has {n} messages.'
+print(s.format(name='Guido', n=37))
+
+# 如果要被替换的变量能在变量域中找到，那么你可以结合使用format_map()和vars() 。就像下面这样：
+s = '{name} has {n} messages.'
+name = 'Guido'
+n = 37
+print(s.format_map(vars()))
+```
+#### 以指定列宽格式化字符串
+```python
+>>> import textwrap
+>>> print(textwrap.fill(s, 70))
+Look into my eyes, look into my eyes, the eyes, the eyes, the eyes,
+not around the eyes, don't look around the eyes, look into my eyes,
+you're under.
+
+>>> print(textwrap.fill(s, 40))
+Look into my eyes, look into my eyes,
+the eyes, the eyes, the eyes, not around
+the eyes, don't look around the eyes,
+look into my eyes, you're under.
+
+>>> print(textwrap.fill(s, 40, initial_indent='    '))
+    Look into my eyes, look into my
+eyes, the eyes, the eyes, the eyes, not
+around the eyes, don't look around the
+eyes, look into my eyes, you're under.
+
+>>> print(textwrap.fill(s, 40, subsequent_indent='    '))
+Look into my eyes, look into my eyes,
+    the eyes, the eyes, the eyes, not
+    around the eyes, don't look around
+    the eyes, look into my eyes, you're
+    under.
+```
+#### 在字符串中处理html和xml
+如果你想替换文本字符串中的`‘<’`或者`‘>’`，使用html.escape()函数可以很容易的完成。比如：
+```python
+>>> s = 'Elements are written as "<tag>text</tag>".'
+>>> import html
+>>> print(s)
+Elements are written as "<tag>text</tag>".
+>>> print(html.escape(s))
+Elements are written as "<tag>text</tag>".
+
+>>> # Disable escaping of quotes
+>>> print(html.escape(s, quote=False))
+Elements are written as "<tag>text</tag>".
+>>>
+```
+如果你接收到了一些含有编码值的原始文本，需要手动去做替换，通常你只需要使用`HTML`或者`XML`解析器的一些相关工具函数/方法即可。比如：
+```python
+>>> s = 'Spicy "Jalapeño".'
+>>> from html.parser import HTMLParser
+>>> p = HTMLParser()
+>>> p.unescape(s)
+'Spicy "Jalapeño".'
+>>>
+>>> t = 'The prompt is >>>'
+>>> from xml.sax.saxutils import unescape
+>>> unescape(t)
+'The prompt is >>>'
+>>>
+```
+
+#### 字节字符串上的字符串操作
+```python
+>>> data = b'Hello World'
+>>> data[0:5]
+b'Hello'
+>>> data.startswith(b'Hello')
+True
+>>> data.split()
+[b'Hello', b'World']
+>>> data.replace(b'Hello', b'Hello Cruel')
+b'Hello Cruel World'
+>>>
+```
+这些操作同样也适用于字节数组。
+```python
+>>> data = bytearray(b'Hello World')
+>>> data[0:5]
+bytearray(b'Hello')
+>>> data.startswith(b'Hello')
+True
+>>> data.split()
+[bytearray(b'Hello'), bytearray(b'World')]
+>>> data.replace(b'Hello', b'Hello Cruel')
+bytearray(b'Hello Cruel World')
+>>>
+```
+大多数情况下，在文本字符串上的操作均可用于字节字符串。然而，这里也有一些需要注意的不同点。首先，字节字符串的索引操作返回整数而不是单独字符。
+```python
+>>> a = 'Hello World' # Text string
+>>> a[0]
+'H'
+>>> a[1]
+'e'
+>>> b = b'Hello World' # Byte string
+>>> b[0]
+72
+>>> b[1]
+101
+>>>
+```
+第二点，字节字符串不会提供一个美观的字符串表示，也不能很好的打印出来，除非它们先被解码为一个文本字符串。
+```python
+>>> s = b'Hello World'
+>>> print(s)
+b'Hello World' # Observe b'...'
+>>> print(s.decode('ascii'))
+Hello World
+>>>
+```
+
+**参考文献**
+[1] [A Byte of Python3][id]
+[2] [python3-cookbook](http://python3-cookbook.readthedocs.org/zh_CN/latest/c01/p08_calculating_with_dict.html)
+[id]:http://code.google.com/p/proden/downloads/detail?name=A%20Byte%20of%20Python3(%E4%B8%AD%E6%96%87%E7%89%88).pdf
