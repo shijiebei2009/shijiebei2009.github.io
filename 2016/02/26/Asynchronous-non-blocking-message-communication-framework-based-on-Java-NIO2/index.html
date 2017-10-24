@@ -88,7 +88,7 @@
 <meta property="og:url" content="http://www.codepub.cn/2016/02/26/Asynchronous-non-blocking-message-communication-framework-based-on-Java-NIO2/index.html">
 <meta property="og:site_name" content="IT草根">
 <meta property="og:description" content="前奏因为NIO并不容易掌握，所以这注定会是一篇长文，而且即便篇幅很大，亦难以把很多细节解释清楚，只能侧重于从整体上进行把握，并实现一个简单的客户端服务端消息通信框架作为例子，以便有需要的开发人员参考之。借用淘宝伯岩给出的忠告就是  尽量不要尝试实现自己的NIO框架，除非有经验丰富的工程师 尽量使用经过广泛实践的开源NIO框架Mina/Netty/xSocket 尽量使用最新版稳定版JDK 遇到问题">
-<meta property="og:updated_time" content="2017-05-17T00:32:19.569Z">
+<meta property="og:updated_time" content="2017-10-24T01:42:58.708Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Java NIO2实现的异步非阻塞消息通信框架">
 <meta name="twitter:description" content="前奏因为NIO并不容易掌握，所以这注定会是一篇长文，而且即便篇幅很大，亦难以把很多细节解释清楚，只能侧重于从整体上进行把握，并实现一个简单的客户端服务端消息通信框架作为例子，以便有需要的开发人员参考之。借用淘宝伯岩给出的忠告就是  尽量不要尝试实现自己的NIO框架，除非有经验丰富的工程师 尽量使用经过广泛实践的开源NIO框架Mina/Netty/xSocket 尽量使用最新版稳定版JDK 遇到问题">
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-05-17T08:32:19+08:00">
-                2017-05-17
+              <time title="更新于" itemprop="dateModified" datetime="2017-10-24T09:42:58+08:00">
+                2017-10-24
               </time>
             
           </span>
@@ -530,7 +530,7 @@
 <h4 id="ByteBuffer"><a href="#ByteBuffer" class="headerlink" title="ByteBuffer"></a>ByteBuffer</h4><p><code>AIO</code>鼓励使用<code>DirectByteBuffer</code>。就算应用程序代码中不使用<code>DirectByteBuffer</code>，<code>AIO</code>内核实现也会使用<code>DirectByteBuffer</code>来复制外部传入的<code>HeadByteBuffer</code>内容。</p>
 <p><code>ByteBuffer</code>主要有两个继承的类分别是：<code>HeapByteBuffer</code>和<code>MappedByteBuffer</code>。他们的不同之处在于<code>HeapByteBuffer</code>会在<code>JVM</code>的堆上分配内存资源，而<code>MappedByteBuffer</code>的资源则会由<code>JVM</code>之外的操作系统内核来分配。<code>DirectByteBuffer</code>继承了<code>MappedByteBuffer</code>，采用了直接内存映射的方式，将文件直接映射到虚拟内存，同时减少在内核缓冲区和用户缓冲区之间的调用，尤其在处理大文件方面有很大的性能优势。但是在使用内存映射的时候会造成文件句柄一直被占用而无法删除的情况，网上也有很多介绍。</p>
 <p><code>Netty</code>中使用<code>ChannelBuffer</code>来处理读写，之所以废弃<code>ByteBuffer</code>，官方说法是<code>ChannelBuffer</code>简单易用并且有性能方面的优势。在<code>ChannelBuffer</code>中使用<code>ByteBuffer</code>或者<code>byte[]</code>来存储数据。同样的，<code>ChannelBuffer</code>也提供了几个标记来控制读写并以此取代<code>ByteBuffer</code>的<code>position</code>和<code>limit</code>，分别是：<br><code>0 &lt;= readerIndex &lt;= writerIndex &lt;= capacity</code>，同时也有类似于<code>mark</code>的<code>markedReaderIndex</code>和<code>markedWriterIndex</code>。当写入<code>buffer</code>时，<code>writerIndex</code>增加，从<code>buffer</code>中读取数据时<code>readerIndex</code>增加，而不能超过<code>writerIndex</code>。有了这两个变量后，就不用每次写入<code>buffer</code>后调用<code>flip()</code>方法，方便了很多。</p>
-<p>参考资料<br>【1】<a href="https://www.ibm.com/developerworks/cn/java/j-lo-nio2/" target="_blank" rel="external">https://www.ibm.com/developerworks/cn/java/j-lo-nio2/</a><br>【2】<a href="https://github.com/redkale/redkale" target="_blank" rel="external">https://github.com/redkale/redkale</a><br>【3】<a href="http://colobu.com/2014/11/13/java-aio-introduction/" target="_blank" rel="external">http://colobu.com/2014/11/13/java-aio-introduction/</a><br>【4】<a href="http://zjumty.iteye.com/blog/1896350" target="_blank" rel="external">http://zjumty.iteye.com/blog/1896350</a><br>【5】<a href="http://stevex.blog.51cto.com/4300375/1581701" target="_blank" rel="external">http://stevex.blog.51cto.com/4300375/1581701</a><br>【6】《Pro Java 7 NIO2》</p>
+<p><strong>参考文献</strong><br>[1] <a href="https://www.ibm.com/developerworks/cn/java/j-lo-nio2/" target="_blank" rel="external">https://www.ibm.com/developerworks/cn/java/j-lo-nio2/</a><br>[2] <a href="https://github.com/redkale/redkale" target="_blank" rel="external">https://github.com/redkale/redkale</a><br>[3] <a href="http://colobu.com/2014/11/13/java-aio-introduction/" target="_blank" rel="external">http://colobu.com/2014/11/13/java-aio-introduction/</a><br>[4] <a href="http://zjumty.iteye.com/blog/1896350" target="_blank" rel="external">http://zjumty.iteye.com/blog/1896350</a><br>[5] <a href="http://stevex.blog.51cto.com/4300375/1581701" target="_blank" rel="external">http://stevex.blog.51cto.com/4300375/1581701</a><br>[6] 《Pro Java 7 NIO2》</p>
 
       
     </div>
@@ -879,7 +879,7 @@ var jiathis_config={
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">268.5k</span>
+    <span title="Site words total count">269.5k</span>
   
 </div>
 

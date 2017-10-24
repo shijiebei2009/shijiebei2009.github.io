@@ -88,7 +88,7 @@
 <meta property="og:url" content="http://www.codepub.cn/2015/06/02/Windows-client-configuration-of-SSH-public-key-on-GitHub/index.html">
 <meta property="og:site_name" content="IT草根">
 <meta property="og:description" content="检查SSH keys的设置1$ cd ~/.ssh/ 如果显示”No such file or directory”，跳到第三步，否则继续。 备份和移除原来的SSH key设置如果已经存在key文件，需要备份该数据并删除之12345$ lsid_rsa  id_rsa.pub  known_hosts$ mkdir key_backup$ cp id_rsa* key_backup/$ rm id">
-<meta property="og:updated_time" content="2017-05-17T00:32:19.441Z">
+<meta property="og:updated_time" content="2017-10-24T01:22:50.805Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows客户端配置GitHub的SSH公钥">
 <meta name="twitter:description" content="检查SSH keys的设置1$ cd ~/.ssh/ 如果显示”No such file or directory”，跳到第三步，否则继续。 备份和移除原来的SSH key设置如果已经存在key文件，需要备份该数据并删除之12345$ lsid_rsa  id_rsa.pub  known_hosts$ mkdir key_backup$ cp id_rsa* key_backup/$ rm id">
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-05-17T08:32:19+08:00">
-                2017-05-17
+              <time title="更新于" itemprop="dateModified" datetime="2017-10-24T09:22:50+08:00">
+                2017-10-24
               </time>
             
           </span>
@@ -489,7 +489,7 @@
 <p>在config文件里添加如下内容(User表示你的用户名)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Host *.codepub.cn</div><div class="line">IdentityFile ~/.ssh/id_rsa.codepub</div><div class="line">User admin</div></pre></td></tr></table></figure></p>
 <h4 id="上传key到云平台后台并测试"><a href="#上传key到云平台后台并测试" class="headerlink" title="上传key到云平台后台并测试"></a>上传key到云平台后台并测试</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sh -T git@git.codepub.cn</div></pre></td></tr></table></figure>
 <p>成功的话，会输出welcome欢迎信息！<br>日后如需添加，则按照上述配置生成key，并修改config文件即可。</p>
-<p>参考资料<br>【1】<a href="http://beiyuu.com/github-pages/" target="_blank" rel="external">http://beiyuu.com/github-pages/</a><br>【2】<a href="http://riny.net/2014/git-ssh-key/" target="_blank" rel="external">http://riny.net/2014/git-ssh-key/</a></p>
+<p><strong>参考文献</strong><br>[1] <a href="http://beiyuu.com/github-pages/" target="_blank" rel="external">http://beiyuu.com/github-pages/</a><br>[2] <a href="http://riny.net/2014/git-ssh-key/" target="_blank" rel="external">http://riny.net/2014/git-ssh-key/</a></p>
 
       
     </div>
@@ -838,7 +838,7 @@ var jiathis_config={
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">268.5k</span>
+    <span title="Site words total count">269.5k</span>
   
 </div>
 

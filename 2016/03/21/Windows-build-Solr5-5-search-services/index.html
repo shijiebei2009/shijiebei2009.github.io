@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="IT草根">
 <meta property="og:description" content="机器环境Windows：Win7 64 bitJava：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VMSolr：5.5Lucene：5.5Tomcat：8.0.32 Lucene和Solr下载地址：http://lucene.apache.org/Windows选择下载zip压缩包，Linux选择下载tgz压缩包Tomcat下载地">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/Solr_add_core_config.png">
-<meta property="og:updated_time" content="2017-05-17T00:32:19.562Z">
+<meta property="og:updated_time" content="2017-10-24T01:41:25.290Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows下搭建Solr5.5搜索服务">
 <meta name="twitter:description" content="机器环境Windows：Win7 64 bitJava：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VMSolr：5.5Lucene：5.5Tomcat：8.0.32 Lucene和Solr下载地址：http://lucene.apache.org/Windows选择下载zip压缩包，Linux选择下载tgz压缩包Tomcat下载地">
@@ -371,8 +371,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-05-17T08:32:19+08:00">
-                2017-05-17
+              <time title="更新于" itemprop="dateModified" datetime="2017-10-24T09:41:25+08:00">
+                2017-10-24
               </time>
             
           </span>
@@ -512,7 +512,7 @@
 <p>成功启动之后，打开浏览器，访问<a href="http://localhost:8983/solr" target="_blank" rel="external">http://localhost:8983/solr</a> 即可看到Solr的控制台界面。</p>
 <p>如果不想使用默认的端口<strong>8983</strong>，那么使用如下命令通过<code>-p</code>参数指定端口号同样可以启动<strong>Solr Server</strong>，访问<a href="http://localhost:8080/solr/index.html#/" target="_blank" rel="external">http://localhost:8080/solr/index.html#/</a> 就可以看到主控界面了<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">D:\solr-5.5.0\bin&gt;solr.cmd start -cloud -p 8080 -s "D:\solr-5.5.0\example\cloud\</div><div class="line">node1\solr"</div><div class="line">Backing up D:\solr-5.5.0\example\cloud\node1\solr\..\logs\solr.log</div><div class="line">移动了         1 个文件。</div><div class="line">Backing up D:\solr-5.5.0\example\cloud\node1\solr\..\logs\solr_gc.log</div><div class="line">移动了         1 个文件。</div><div class="line">Waiting up to 30 to see Solr running on port 8080</div><div class="line">Started Solr server on port 8080. Happy searching!</div></pre></td></tr></table></figure></p>
 <p>或者直接修改<strong>jetty</strong>的配置文件，修改<code>D:/solr-5.5.0/server/etc</code>目录下<code>jetty-http.xml</code>中的<strong>8983</strong>改为自己希望的端口号即可。</p>
-<p>参考文献<br>【1】<a href="http://blog.csdn.net/luenxin/article/details/50838895" target="_blank" rel="external">http://blog.csdn.net/luenxin/article/details/50838895</a></p>
+<p><strong>参考文献</strong><br>[1] <a href="http://blog.csdn.net/luenxin/article/details/50838895" target="_blank" rel="external">http://blog.csdn.net/luenxin/article/details/50838895</a></p>
 
       
     </div>
@@ -861,7 +861,7 @@ var jiathis_config={
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">268.5k</span>
+    <span title="Site words total count">269.5k</span>
   
 </div>
 

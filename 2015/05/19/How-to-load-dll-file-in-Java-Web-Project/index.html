@@ -81,17 +81,17 @@
 
 
 
-<meta name="description" content="基本上常用的项目有两种，一种是Java Project，另一种是Web Project，下面就以这两种项目为例，来阐释如何在项目中加载dll文件。 Java中调用dll的方式 System.load()123456/***Loads the native library specified by the filename argument. The filename argument must b">
+<meta name="description" content="基本上常用的项目有两种，一种是Java Project，另一种是Web Project，下面就以这两种项目为例，来阐释如何在项目中加载dll文件。 Java中调用dll的方式 System.load()123456/***Loads the native library specified by the filename argument. The filename argument must b">
 <meta name="keywords" content="DLL,Tomcat">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java中Web Project如何加载dll&#x2F;DLL文件">
 <meta property="og:url" content="http://www.codepub.cn/2015/05/19/How-to-load-dll-file-in-Java-Web-Project/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="基本上常用的项目有两种，一种是Java Project，另一种是Web Project，下面就以这两种项目为例，来阐释如何在项目中加载dll文件。 Java中调用dll的方式 System.load()123456/***Loads the native library specified by the filename argument. The filename argument must b">
-<meta property="og:updated_time" content="2017-05-17T00:32:19.517Z">
+<meta property="og:description" content="基本上常用的项目有两种，一种是Java Project，另一种是Web Project，下面就以这两种项目为例，来阐释如何在项目中加载dll文件。 Java中调用dll的方式 System.load()123456/***Loads the native library specified by the filename argument. The filename argument must b">
+<meta property="og:updated_time" content="2017-10-24T01:49:28.789Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java中Web Project如何加载dll&#x2F;DLL文件">
-<meta name="twitter:description" content="基本上常用的项目有两种，一种是Java Project，另一种是Web Project，下面就以这两种项目为例，来阐释如何在项目中加载dll文件。 Java中调用dll的方式 System.load()123456/***Loads the native library specified by the filename argument. The filename argument must b">
+<meta name="twitter:description" content="基本上常用的项目有两种，一种是Java Project，另一种是Web Project，下面就以这两种项目为例，来阐释如何在项目中加载dll文件。 Java中调用dll的方式 System.load()123456/***Loads the native library specified by the filename argument. The filename argument must b">
 
 
 
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-05-17T08:32:19+08:00">
-                2017-05-17
+              <time title="更新于" itemprop="dateModified" datetime="2017-10-24T09:49:28+08:00">
+                2017-10-24
               </time>
             
           </span>
@@ -474,18 +474,18 @@
       
         <p>基本上常用的项目有两种，一种是Java Project，另一种是Web Project，下面就以这两种项目为例，来阐释如何在项目中加载dll文件。</p>
 <h3 id="Java中调用dll的方式"><a href="#Java中调用dll的方式" class="headerlink" title="Java中调用dll的方式"></a>Java中调用dll的方式</h3><ul>
-<li>System.load()<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">*Loads the native library specified by the filename argument. The filename argument must be an absolute path name.</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">load</span><span class="params">(String filename)</span></span></div><div class="line"><span class="comment">//等价于</span></div><div class="line">Runtime.<span class="title">getRuntime</span><span class="params">()</span>.<span class="title">load</span><span class="params">(name)</span></div></pre></td></tr></table></figure>
+<li>System.load()<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">*Loads the native library specified by the filename argument. The filename argument must be an absolute path name.</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">load</span><span class="params">(String filename)</span></span></div><div class="line"><span class="comment">//等价于</span></div><div class="line">Runtime.<span class="title">getRuntime</span><span class="params">()</span>.<span class="title">load</span><span class="params">(name)</span></div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>由JDK的说明文档可知，load()方法接收的是绝对路径。</p>
 <ul>
-<li>System.loadLibrary() <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">Loads the native library specified by the libname argument. The libname argument must not contain any platform specific prefix, file extension or path.</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loadLibrary</span><span class="params">(String libname)</span></span></div><div class="line"><span class="comment">//等价于</span></div><div class="line">Runtime.<span class="title">getRuntime</span><span class="params">()</span>.<span class="title">loadLibrary</span><span class="params">(name)</span></div></pre></td></tr></table></figure>
+<li>System.loadLibrary() <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">Loads the native library specified by the libname argument. The libname argument must not contain any platform specific prefix, file extension or path.</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loadLibrary</span><span class="params">(String libname)</span></span></div><div class="line"><span class="comment">//等价于</span></div><div class="line">Runtime.<span class="title">getRuntime</span><span class="params">()</span>.<span class="title">loadLibrary</span><span class="params">(name)</span></div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>由JDK的说明文档可知，loadLibrary()方法不接收任何平台相关的特定前缀、文件扩展名或者路径。该方法会自动搜索一些固定路径，我们只需要把dll文件放入<strong>Path</strong>（系统的环境变量）路径下或者<strong>System32</strong>路径下，也可以直接放在Java项目的根目录下。以上几种方法都可以成功加载。</p>
 <h3 id="Java-Project"><a href="#Java-Project" class="headerlink" title="Java Project"></a>Java Project</h3><p>如果是Java Project，只要把dll文件放在Path或者System32或者项目根目录下,基本上都可以正确的加载到dll文件。</p>
 <h3 id="Web-Project"><a href="#Web-Project" class="headerlink" title="Web Project"></a>Web Project</h3><p>根据<a href="http://www.importnew.com/12590.html" target="_blank" rel="external">2014年最流行的应用服务器</a>的统计结果，41%的应用服务器部署的是Tomcat，其中出乎我意料的是Jetty以31%的份额占据了第二把交椅，那就以最常用的Tomcat为例吧。</p>
-<p>如果使用load()方法加载dll文件，那么代码应该这么写<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String path = DBUtils.class.getResource(<span class="string">"/"</span>).getPath();</div><div class="line">path = path.replaceAll(<span class="string">"%20"</span>, <span class="string">" "</span>);<span class="comment">//排除中文空格</span></div><div class="line">System.load(path + <span class="string">"user.dll"</span>);</div></pre></td></tr></table></figure></p>
+<p>如果使用load()方法加载dll文件，那么代码应该这么写<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String path = DBUtils.class.getResource(<span class="string">"/"</span>).getPath();</div><div class="line">path = path.replaceAll(<span class="string">"%20"</span>, <span class="string">" "</span>);<span class="comment">//排除中文空格</span></div><div class="line">System.load(path + <span class="string">"user.dll"</span>);</div></pre></td></tr></table></figure></p>
 <p>如果使用loadLibrary()方法加载dll文件，简单的如上处理已经不能解决问题了，这是因为Web项目中，将 java.library.path 这个系统属性输出了一下，结果出来两个路径：</p>
 <ul>
 <li>%JAVA_HOME%/bin</li>
@@ -505,7 +505,7 @@
 <p>将dll文件放在WEB-INF/lib/下面找不到dll文件<br>将dll文件放在Tomcat/bin/目录下面找不到dll文件<br>将dll文件放在Web Project的src目录下面找不到dll文件</p>
 </blockquote>
 <ul>
-<li>当在类中使用<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String str = NER.class.getResource(<span class="string">"/"</span>).getPath();</div><div class="line">str = str.replaceAll(<span class="string">"%20"</span>, <span class="string">""</span>);</div><div class="line">System.load(str + <span class="string">"ner_jni.dll"</span>);</div></pre></td></tr></table></figure>
+<li>当在类中使用<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String str = NER.class.getResource(<span class="string">"/"</span>).getPath();</div><div class="line">str = str.replaceAll(<span class="string">"%20"</span>, <span class="string">""</span>);</div><div class="line">System.load(str + <span class="string">"ner_jni.dll"</span>);</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>方式时，并将dll文件放在Web Project的src目录下会出现</p>
@@ -519,7 +519,7 @@
 <blockquote>
 <p>Classloader, XXX.dll already loaded in another classloader </p>
 </blockquote>
-<p>参考资料：<br>【1】<a href="http://www.cnblogs.com/zfc2201/archive/2011/09/02/2163268.html" target="_blank" rel="external">http://www.cnblogs.com/zfc2201/archive/2011/09/02/2163268.html</a><br>【2】<a href="http://www.programgo.com/article/4119403163/" target="_blank" rel="external">http://www.programgo.com/article/4119403163/</a><br>【3】<a href="http://blog.csdn.net/zhyh1986/article/details/9199063" target="_blank" rel="external">http://blog.csdn.net/zhyh1986/article/details/9199063</a><br>【4】<a href="http://www.111cn.net/jsp/Java/41523.htm" target="_blank" rel="external">http://www.111cn.net/jsp/Java/41523.htm</a></p>
+<p><strong>参考文献</strong><br>[1] <a href="http://www.cnblogs.com/zfc2201/archive/2011/09/02/2163268.html" target="_blank" rel="external">http://www.cnblogs.com/zfc2201/archive/2011/09/02/2163268.html</a><br>[2] <a href="http://www.programgo.com/article/4119403163/" target="_blank" rel="external">http://www.programgo.com/article/4119403163/</a><br>[3] <a href="http://blog.csdn.net/zhyh1986/article/details/9199063" target="_blank" rel="external">http://blog.csdn.net/zhyh1986/article/details/9199063</a><br>[4] <a href="http://www.111cn.net/jsp/Java/41523.htm" target="_blank" rel="external">http://www.111cn.net/jsp/Java/41523.htm</a></p>
 
       
     </div>
@@ -870,7 +870,7 @@ var jiathis_config={
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">268.5k</span>
+    <span title="Site words total count">269.5k</span>
   
 </div>
 
