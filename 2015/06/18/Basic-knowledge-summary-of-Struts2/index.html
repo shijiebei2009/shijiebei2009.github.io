@@ -90,7 +90,7 @@
 <meta property="og:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 Struts2简介Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。 实现ActionStruts2的">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png">
 <meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/webwork+struts=struts2.png">
-<meta property="og:updated_time" content="2017-10-24T02:00:51.476Z">
+<meta property="og:updated_time" content="2017-11-03T14:41:39.094Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Struts2基础知识汇总">
 <meta name="twitter:description" content="力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 Struts2简介Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。 实现ActionStruts2的">
@@ -372,8 +372,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-10-24T10:00:51+08:00">
-                2017-10-24
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-03T22:41:39+08:00">
+                2017-11-03
               </time>
             
           </span>
@@ -475,7 +475,7 @@
       
 
       
-        <p><strong><em>力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员</em></strong><br><a href="http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png" title="logo" target="_blank" rel="external"><img src="http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png" alt="logo" title="logo"></a></p>
+        <p><strong>力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员</strong><br><a href="http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png" title="logo" target="_blank" rel="external"><img src="http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png" alt="logo" title="logo"></a></p>
 <h3 id="Struts2简介"><a href="#Struts2简介" class="headerlink" title="Struts2简介"></a>Struts2简介</h3><p>Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。<br><a href="http://7xig3q.com1.z0.glb.clouddn.com/webwork+struts=struts2.png" title="Struts2" target="_blank" rel="external"><img src="http://7xig3q.com1.z0.glb.clouddn.com/webwork+struts=struts2.png" alt="Struts2" title="Struts2"></a></p>
 <h3 id="实现Action"><a href="#实现Action" class="headerlink" title="实现Action"></a>实现Action</h3><p>Struts2的Action类是一个普通的POJO（通常应该包含一个无参数的execute方法），Struts2直接使用Action来封装HTTP请求参数，因此，Action类里还应该包含与请求参数对应的实例变量，并且为这些实例变量提供对应的setter和getter方法。注意其实实例变量是可以省略的，因为Struts2是通过对应的setter和getter方法来处理请求参数的，而不是通过实例变量名来处理请求参数的。</p>
 <h4 id="Action访问Servlet-API"><a href="#Action访问Servlet-API" class="headerlink" title="Action访问Servlet API"></a>Action访问Servlet API</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ActionContext ctx = ActionContext.getContext();<span class="comment">//相当于JSP中内置的request</span></div><div class="line">ctx.getApplication();<span class="comment">//返回Map对象，该对象模拟了ServletContext实例，相当于JSP中内置的application</span></div><div class="line">ctx.getSession();<span class="comment">//返回Map对象，该对象模拟了HttpSession实例，相当于JSP中内置的session</span></div></pre></td></tr></table></figure>
@@ -693,8 +693,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/17/Basic-knowledge-summary-of-JSP-Servlet/" rel="next" title="JSP/Servlet基础知识汇总">
-                <i class="fa fa-chevron-left"></i> JSP/Servlet基础知识汇总
+              <a href="/2015/05/07/Compile-the-Language-Technology-Platform(C++)-and-LTP4J(Java)source-code/" rel="next" title="编译哈工大语言技术平台云LTP（C++）源码及LTP4J（Java）源码">
+                <i class="fa fa-chevron-left"></i> 编译哈工大语言技术平台云LTP（C++）源码及LTP4J（Java）源码
               </a>
             
           </div>
@@ -833,7 +833,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -844,7 +844,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -964,7 +964,7 @@ var jiathis_config={
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">268.5k</span>
+    <span title="Site words total count">272.6k</span>
   
 </div>
 

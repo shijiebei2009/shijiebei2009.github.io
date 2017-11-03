@@ -88,7 +88,7 @@
 <meta property="og:url" content="http://www.codepub.cn/2015/07/13/Python3-beginner-s-handbook-four/index.html">
 <meta property="og:site_name" content="IT草根">
 <meta property="og:description" content="Version：Python 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:44:40) [MSC v.1600 64 bit (AMD64)] on win32 函数可接受任意数量参数的函数为了能让一个函数接受任意数量的位置参数，可以使用一个*参数123456def avg(first, *rest):    return (first + sum(re">
-<meta property="og:updated_time" content="2017-10-24T01:54:46.764Z">
+<meta property="og:updated_time" content="2017-11-03T14:41:39.218Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python3入门手册之四">
 <meta name="twitter:description" content="Version：Python 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:44:40) [MSC v.1600 64 bit (AMD64)] on win32 函数可接受任意数量参数的函数为了能让一个函数接受任意数量的位置参数，可以使用一个*参数123456def avg(first, *rest):    return (first + sum(re">
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-10-24T09:54:46+08:00">
-                2017-10-24
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-03T22:41:39+08:00">
+                2017-11-03
               </time>
             
           </span>
@@ -565,7 +565,7 @@
 <h4 id="创建缓存实例"><a href="#创建缓存实例" class="headerlink" title="创建缓存实例"></a>创建缓存实例</h4><p>在创建一个类的对象时，如果之前使用同样参数创建过这个对象，你想返回它的缓存引用。为了达到这样的效果，你需要使用一个和类本身分开的工厂函数，例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># The class in question</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Spam</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></div><div class="line">        self.name = name</div><div class="line"></div><div class="line"><span class="comment"># Caching support</span></div><div class="line"><span class="keyword">import</span> weakref</div><div class="line">_spam_cache = weakref.WeakValueDictionary()</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_spam</span><span class="params">(name)</span>:</span></div><div class="line">    <span class="keyword">if</span> name <span class="keyword">not</span> <span class="keyword">in</span> _spam_cache:</div><div class="line">        s = Spam(name)</div><div class="line">        _spam_cache[name] = s</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        s = _spam_cache[name]</div><div class="line">    <span class="keyword">return</span> s</div></pre></td></tr></table></figure></p>
 <p>对于大部分程序而已，这里代码已经够用了。不过还是有一些更高级的实现值得了解下。首先是这里使用到了一个全局变量，并且工厂函数跟类放在一块。我们可以通过将缓存代码放到一个单独的缓存管理器中：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> weakref</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CachedSpamManager</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self._cache = weakref.WeakValueDictionary()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_spam</span><span class="params">(self, name)</span>:</span></div><div class="line">        <span class="keyword">if</span> name <span class="keyword">not</span> <span class="keyword">in</span> self._cache:</div><div class="line">            s = Spam(name)</div><div class="line">            self._cache[name] = s</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            s = self._cache[name]</div><div class="line">        <span class="keyword">return</span> s</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clear</span><span class="params">(self)</span>:</span></div><div class="line">            self._cache.clear()</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Spam</span>:</span></div><div class="line">    manager = CachedSpamManager()</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></div><div class="line">        self.name = name</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_spam</span><span class="params">(name)</span>:</span></div><div class="line">        <span class="keyword">return</span> Spam.manager.get_spam(name)</div></pre></td></tr></table></figure></p>
 <p>但是这样暴露了类的实例化给用户，如果想阻止用户实例化该类的话，可以通过如下方法解决<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># ------------------------最后的修正方案------------------------</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CachedSpamManager2</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self._cache = weakref.WeakValueDictionary()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_spam</span><span class="params">(self, name)</span>:</span></div><div class="line">        <span class="keyword">if</span> name <span class="keyword">not</span> <span class="keyword">in</span> self._cache:</div><div class="line">            temp = Spam3._new(name)  <span class="comment"># Modified creation</span></div><div class="line">            self._cache[name] = temp</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            temp = self._cache[name]</div><div class="line">        <span class="keyword">return</span> temp</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clear</span><span class="params">(self)</span>:</span></div><div class="line">            self._cache.clear()</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Spam3</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, *args, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">raise</span> RuntimeError(<span class="string">"Can't instantiate directly"</span>)</div><div class="line"></div><div class="line">    <span class="comment"># Alternate constructor</span></div><div class="line"><span class="meta">    @classmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_new</span><span class="params">(cls, name)</span>:</span></div><div class="line">        self = cls.__new__(cls)</div><div class="line">        self.name = name</div><div class="line">        <span class="keyword">return</span> self</div></pre></td></tr></table></figure></p>
-<p><strong>参考文献</strong><br>[1] <a href="http://code.google.com/p/proden/downloads/detail?name=A%20Byte%20of%20Python3(%E4%B8%AD%E6%96%87%E7%89%88).pdf" target="_blank" rel="external">A Byte of Python3</a><br>[2] <a href="http://python3-cookbook.readthedocs.org/zh_CN/latest/c01/p08_calculating_with_dict.html" target="_blank" rel="external">python3-cookbook</a></p>
+<p><strong>参考文献</strong><br>[1] <a href="https://www.gitbook.com/book/lenkimo/byte-of-python-chinese-edition/details" target="_blank" rel="external">A Byte of Python3</a><br>[2] <a href="http://python3-cookbook.readthedocs.org/zh_CN/latest/c01/p08_calculating_with_dict.html" target="_blank" rel="external">python3-cookbook</a></p>
 
       
     </div>
@@ -643,8 +643,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/07/07/Python-implementation-string-similarity-edit-distance/" rel="next" title="Python实现字符串相似度-编辑距离">
-                <i class="fa fa-chevron-left"></i> Python实现字符串相似度-编辑距离
+              <a href="/2015/07/06/Python3-beginner-s-handbook-three/" rel="next" title="Python3入门手册之三">
+                <i class="fa fa-chevron-left"></i> Python3入门手册之三
               </a>
             
           </div>
@@ -653,8 +653,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/30/Lombok-development-guidelines/" rel="prev" title="Lombok开发指南">
-                Lombok开发指南 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/" rel="prev" title="Linux下使用java -jar运行可执行jar包的正确方式">
+                Linux下使用java -jar运行可执行jar包的正确方式 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -783,7 +783,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -794,7 +794,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -914,7 +914,7 @@ var jiathis_config={
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">268.5k</span>
+    <span title="Site words total count">272.6k</span>
   
 </div>
 

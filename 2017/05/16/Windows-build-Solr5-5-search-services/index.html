@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/favicon-16x16.ico?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="IT草根, 代码馆, http://codepub.cn/, http://www.codepub.cn/" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="title: “Windows下搭建Solr5.5搜索服务”date: 2016-03-21 22:29:04tags: [Solr]categories: Programming Notes  机器环境Windows：Win7 64 bitJava：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VMSolr：5.5Lucene：5">
+<meta name="keywords" content="IT草根, 代码馆, http:&#x2F;&#x2F;codepub.cn&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IT草根">
+<meta property="og:url" content="http://www.codepub.cn/2017/05/16/Windows-build-Solr5-5-search-services/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="title: “Windows下搭建Solr5.5搜索服务”date: 2016-03-21 22:29:04tags: [Solr]categories: Programming Notes  机器环境Windows：Win7 64 bitJava：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VMSolr：5.5Lucene：5">
+<meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/Solr_add_core_config.png">
+<meta property="og:updated_time" content="2017-11-03T14:41:39.325Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IT草根">
+<meta name="twitter:description" content="title: “Windows下搭建Solr5.5搜索服务”date: 2016-03-21 22:29:04tags: [Solr]categories: Programming Notes  机器环境Windows：Win7 64 bitJava：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VMSolr：5.5Lucene：5">
+<meta name="twitter:image" content="http://7xig3q.com1.z0.glb.clouddn.com/Solr_add_core_config.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.codepub.cn/2017/05/16/Windows-build-Solr5-5-search-services/"/>
+
+
+
+
+
+  <title> | IT草根</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IT草根</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-简历">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-友链">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-link"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'CEs2u-bRR6iHSt4ynbFA','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.codepub.cn/2017/05/16/Windows-build-Solr5-5-search-services/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Xu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IT草根">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-16T22:55:28+08:00">
+                2017-05-16
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-03T22:41:39+08:00">
+                2017-11-03
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/16/Windows-build-Solr5-5-search-services/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/05/16/Windows-build-Solr5-5-search-services/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,576
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  8
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>title: “Windows下搭建Solr5.5搜索服务”<br>date: 2016-03-21 22:29:04<br>tags: [Solr]<br>categories: Programming Notes</p>
+<hr>
+<h4 id="机器环境"><a href="#机器环境" class="headerlink" title="机器环境"></a>机器环境</h4><p><strong>Windows</strong>：Win7 64 bit<br><strong>Java</strong>：java version “1.8.0_45”；Java HotSpot(TM) 64-Bit Server VM<br><strong>Solr</strong>：5.5<br><strong>Lucene</strong>：5.5<br><strong>Tomcat</strong>：8.0.32</p>
+<p>Lucene和Solr下载地址：<a href="http://lucene.apache.org/" target="_blank" rel="external">http://lucene.apache.org/</a><br>Windows选择下载zip压缩包，Linux选择下载tgz压缩包<br>Tomcat下载地址：<a href="http://tomcat.apache.org/" target="_blank" rel="external">http://tomcat.apache.org/</a> ，选择Binary Distributions下的Core中的64-bit Windows zip (pgp, md5, sha1)下载之后文件名称是：apache-tomcat-8.0.32-windows-x64</p>
+<h4 id="Windows下启动Tomcat并添加服务"><a href="#Windows下启动Tomcat并添加服务" class="headerlink" title="Windows下启动Tomcat并添加服务"></a>Windows下启动Tomcat并添加服务</h4><h5 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h5><p>注意<strong>JDK</strong>和<strong>Tomcat</strong>的目录中最好别有中文，首先在系统环境变量中配置<strong>JAVA_HOME</strong>，值是<code>C:/Program Files/Java/jdk1.8.0_45</code>，然后在<strong>Path</strong>中添加<code>;%JAVA_HOME%/bin</code>。</p>
+<p>添加环境变量<strong>CATALINA_HOME</strong>值是<code>D:/apache-tomcat-8.0.32</code>，然后点击 <strong>tomcat</strong>的<strong>bin</strong>下的<strong>startup.bat</strong>就应该可以启动<strong>tomcat</strong>了。</p>
+<h5 id="添加Tomcat到Windows服务"><a href="#添加Tomcat到Windows服务" class="headerlink" title="添加Tomcat到Windows服务"></a>添加Tomcat到Windows服务</h5><p>如果想把<strong>tomcat</strong>添加到<strong>Windows</strong>服务中，需要打开<strong>cmd</strong>运行<strong>Tomcat</strong>的<strong>bin</strong>目录下的<code>service.bat</code>脚本，安装命令如下，其中<strong>tomcat8</strong>是自己起的服务名称，当然也可以使用其它名称</p>
+<blockquote>
+<p>D:\apache-tomcat-8.0.32&gt;cd bin<br>D:\apache-tomcat-8.0.32\bin&gt;service.bat install tomcat8<br>Installing the service ‘tomcat8’ …<br>Using CATALINA_HOME:    “D:\apache-tomcat-8.0.32”<br>Using CATALINA_BASE:    “D:\apache-tomcat-8.0.32”<br>Using JAVA_HOME:        “C:\Program Files\Java\jdk1.8.0_45”<br>Using JRE_HOME:         “C:\Program Files\Java\jdk1.8.0_45\jre”<br>Using JVM:              “C:\Program Files\Java\jdk1.8.0_45\jre\bin\server\jvm.dl<br>l”<br>The service ‘tomcat8’ has been installed.</p>
+</blockquote>
+<p>卸载服务命令如下</p>
+<blockquote>
+<p>D:\apache-tomcat-8.0.32\bin&gt;service.bat remove tomcat8<br>Removing the service ‘tomcat8’ …<br>Using CATALINA_BASE:    “D:\apache-tomcat-8.0.32”<br>The service ‘tomcat8’ has been removed</p>
+</blockquote>
+<h5 id="配置Tomcat管理员"><a href="#配置Tomcat管理员" class="headerlink" title="配置Tomcat管理员"></a>配置Tomcat管理员</h5><p>在<strong>Tomcat</strong>启动之后，可以在浏览器中输入<a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a> 查看是否配置成功，如果出现<strong>Tomcat</strong>主界面，点击<strong>Manager App</strong>，提示权限不足，此时需要在<code>D:/apache-tomcat-8.0.32/conf/tomcat-users.xml</code>文件中添加如下内容<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-gui"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"admin"</span> <span class="attr">password</span>=<span class="string">"admin"</span> <span class="attr">roles</span>=<span class="string">"manager-gui"</span>/&gt;</span></div></pre></td></tr></table></figure></p>
+<p>重启<strong>Tomcat</strong>，打开浏览器点击<strong>Manager App</strong>会弹出登录框，使用配置的用户名和密码登录即可。</p>
+<h4 id="Tomcat启动Solr"><a href="#Tomcat启动Solr" class="headerlink" title="Tomcat启动Solr"></a>Tomcat启动Solr</h4><ol>
+<li>解压从官网下载的<strong>solr-5.5.0.zip</strong>压缩包，解压到<strong>D:/solr-5.5.0</strong></li>
+<li>复制<strong>solr-5.5.0/server/solr-webapp/webapp</strong>到<strong>tomcat</strong>下的<strong>webapps</strong>目录下，改名为<strong>solr</strong></li>
+<li>将<strong>solr-5.5.0/server/lib/ext/</strong>目录下的所有<strong>jar</strong>包复制到<strong>tomcat/webapps/solr/WEB-INF/lib/</strong>下</li>
+<li>将<strong>solr-5.5.0/server/solr</strong>目录复制到<strong>D:/apache-tomcat-8.0.32/bin</strong>目录下，这个就是传说中的<strong>solr/home</strong>(存放检索数据)</li>
+<li><p>设置<strong>solr/home</strong>：编辑<strong>D:/apache-tomcat-8.0.32/webapps/solr/WEB-INF/web.xml</strong>文件，以下部分是注释的，打开该注释，并修改<strong>env-entry-value</strong>。<strong>solr</strong>在启动的时候会去这个根目录下加载配置信息。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">env-entry</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">env-entry-name</span>&gt;</span>solr/home<span class="tag">&lt;/<span class="name">env-entry-name</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">env-entry-value</span>&gt;</span>D:/apache-tomcat-8.0.32/bin/solr<span class="tag">&lt;/<span class="name">env-entry-value</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">env-entry-type</span>&gt;</span>java.lang.String<span class="tag">&lt;/<span class="name">env-entry-type</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">env-entry</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>将<strong>solr-5.5.0/server/resources</strong>下的<strong>log4j.properties</strong>文件复制到<strong>tomcat/webapps/solr/WEB-INF/classes</strong>目录下，如果该目录不存在则新建。</p>
+</li>
+<li>将<strong>solr-5.5.0/dist</strong>目录下的<code>solr-dataimporthandler-5.5.0.jar</code>和<code>solr-dataimporthandler-extras-5.5.0.jar</code>复制到<strong>tomcat/webapps/solr/WEB-INF/lib/</strong>下，这个是为了以后导入数据库表数据。<br>配置完成之后，<strong>Solr</strong>环境搭建完毕，重启<strong>Tomcat</strong>，在浏览器中输入<a href="http://localhost:8080/solr/index.html#/" target="_blank" rel="external">http://localhost:8080/solr/index.html#/</a> 就可以看到<strong>Solr</strong>的控制台了</li>
+<li>在<strong>tomcat/solrhome/</strong>目录下创建<strong>core</strong>(自定义)，在其目录下创建<strong>data</strong>文件夹，并将<strong>D:/apache-tomcat-8.0.32/bin/solr/configsets/basic_configs/</strong>目录下的<strong>conf</strong>文件夹复制到<strong>core</strong>下。然后在<strong>solr</strong>控制台点击<strong>Add Core</strong>即可完成创建。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/Solr_add_core_config.png" alt=""></li>
+</ol>
+<h4 id="Jetty启动Solr"><a href="#Jetty启动Solr" class="headerlink" title="Jetty启动Solr"></a>Jetty启动Solr</h4><p><strong>Solr</strong>自带<strong>Jetty</strong>服务器，并且提供了可运行的<strong>jar</strong>包，该<strong>jar</strong>包存在于<code>D:/solr-5.5.0/server</code>目录中，但是不能直接双击该<strong>jar</strong>包运行，需要在命令行中进行启动。打开<strong>cmd</strong>命令行，按照网上提示，输入启动命令</p>
+<blockquote>
+<p>d:\solr-5.5.0\server&gt;java -jar start.jar<br>WARNING: Nothing to start, exiting …<br>Usage: java -jar start.jar [options] [properties] [configs]<br>       java -jar start.jar –help  # for more information</p>
+</blockquote>
+<p>根据提示信息，该命令并不能启动<strong>jar</strong>包，原因是在新版的<strong>Solr</strong>中并不能以这种方式启动，具体细节可以参见<a href="http://lucene.apache.org/solr/quickstart.html" target="_blank" rel="external">Solr Quick Start</a>以及StackOverflow上面的问答<a href="http://stackoverflow.com/questions/30983349/nothing-to-start-when-trying-to-start-apache-solr" target="_blank" rel="external">“Nothing to start” when trying to start Apache Solr</a>，根据以上信息，我们采用如下方式启动</p>
+<blockquote>
+<p>d:\solr-5.5.0\bin&gt;solr start -e cloud -noprompt<br>Welcome to the SolrCloud example!<br>Starting up 2 Solr nodes for your example SolrCloud cluster.<br>Creating Solr home directory d:\solr-5.5.0\example\cloud\node1\solr<br>Cloning d:\solr-5.5.0\example\cloud\node1 into<br>   d:\solr-5.5.0\example\cloud\node2<br>Starting up Solr on port 8983 using command:<br>d:\solr-5.5.0\bin\solr.cmd start -cloud -p 8983 -s “d:\solr-5.5.0\example\cloud\<br>node1\solr”<br>Waiting up to 30 to see Solr running on port 8983<br>Starting up Solr on port 7574 using command:<br>d:\solr-5.5.0\bin\solr.cmd start -cloud -p 7574 -s “d:\solr-5.5.0\example\cloud\<br>node2\solr” -z localhost:9983<br>Started Solr server on port 8983. Happy searching!<br>Waiting up to 30 to see Solr running on port 7574<br>Started Solr server on port 7574. Happy searching!<br>Connecting to ZooKeeper at localhost:9983 …<br>Uploading d:\solr-5.5.0\server\solr\configsets\data_driven_schema_configs\conf f<br>or config gettingstarted to ZooKeeper at localhost:9983<br>Creating new collection ‘gettingstarted’ using command:<br><a href="http://localhost:8983/solr/admin/collections?action=CREATE&amp;name=gettingstarted&amp;n" target="_blank" rel="external">http://localhost:8983/solr/admin/collections?action=CREATE&amp;name=gettingstarted&amp;n</a><br>umShards=2&amp;replicationFactor=2&amp;maxShardsPerNode=2&amp;collection.configName=gettings<br>tarted<br>{<br>  “responseHeader”:{<br>    “status”:0,<br>    “QTime”:6080},<br>  “success”:{“”:{<br>      “responseHeader”:{<br>        “status”:0,<br>        “QTime”:5576},<br>      “core”:”gettingstarted_shard2_replica2”}}}<br>Enabling auto soft-commits with maxTime 3 secs using the Config API<br>POSTing request to Config API: <a href="http://localhost:8983/solr/gettingstarted/config" target="_blank" rel="external">http://localhost:8983/solr/gettingstarted/config</a><br>{“set-property”:{“updateHandler.autoSoftCommit.maxTime”:”3000”}}<br>Successfully set-property updateHandler.autoSoftCommit.maxTime to 3000<br>SolrCloud example running, please visit: <a href="http://localhost:8983/solr" target="_blank" rel="external">http://localhost:8983/solr</a></p>
+</blockquote>
+<p>成功启动之后，打开浏览器，访问<a href="http://localhost:8983/solr" target="_blank" rel="external">http://localhost:8983/solr</a> 即可看到Solr的控制台界面。</p>
+<p>如果不想使用默认的端口<strong>8983</strong>，那么使用如下命令通过<code>-p</code>参数指定端口号同样可以启动<strong>Solr Server</strong>，访问<a href="http://localhost:8080/solr/index.html#/" target="_blank" rel="external">http://localhost:8080/solr/index.html#/</a> 就可以看到主控界面了<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">D:\solr-5.5.0\bin&gt;solr.cmd start -cloud -p 8080 -s "D:\solr-5.5.0\example\cloud\</div><div class="line">node1\solr"</div><div class="line">Backing up D:\solr-5.5.0\example\cloud\node1\solr\..\logs\solr.log</div><div class="line">移动了         1 个文件。</div><div class="line">Backing up D:\solr-5.5.0\example\cloud\node1\solr\..\logs\solr_gc.log</div><div class="line">移动了         1 个文件。</div><div class="line">Waiting up to 30 to see Solr running on port 8080</div><div class="line">Started Solr server on port 8080. Happy searching!</div></pre></td></tr></table></figure></p>
+<p>或者直接修改<strong>jetty</strong>的配置文件，修改<code>D:/solr-5.5.0/server/etc</code>目录下<code>jetty-http.xml</code>中的<strong>8983</strong>改为自己希望的端口号即可。</p>
+<p><strong>参考文献</strong><br>[1] <a href="http://blog.csdn.net/luenxin/article/details/50838895" target="_blank" rel="external">http://blog.csdn.net/luenxin/article/details/50838895</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Wang Xu
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.codepub.cn/2017/05/16/Windows-build-Solr5-5-search-services/" title="">http://www.codepub.cn/2017/05/16/Windows-build-Solr5-5-search-services/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow" target="_blank">CC BY-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/16/Python3-beginner-s-handbook-one/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/16/Windows-installs-the-redis-service/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Wang Xu" />
+            
+              <p class="site-author-name" itemprop="name">Wang Xu</p>
+              <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">115</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shijiebei2009" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.linkedin.com/in/codepub" target="_blank" title="Linkedin">
+                    
+                      <i class="fa fa-fw fa-linkedin-square"></i>Linkedin</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank" title="Stackoverflow">
+                    
+                      <i class="fa fa-fw fa-stack-overflow"></i>Stackoverflow</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/codepub.cn" target="_blank" title="ZhiHu">
+                    
+                      <i class="fa fa-fw fa-thumbs-up"></i>ZhiHu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.douban.com/people/shijiebei2009/" target="_blank" title="DouBan">
+                    
+                      <i class="fa fa-fw fa-graduation-cap"></i>DouBan</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1779238484" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#机器环境"><span class="nav-number">1.</span> <span class="nav-text">机器环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Windows下启动Tomcat并添加服务"><span class="nav-number">2.</span> <span class="nav-text">Windows下启动Tomcat并添加服务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#配置环境变量"><span class="nav-number">2.1.</span> <span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加Tomcat到Windows服务"><span class="nav-number">2.2.</span> <span class="nav-text">添加Tomcat到Windows服务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置Tomcat管理员"><span class="nav-number">2.3.</span> <span class="nav-text">配置Tomcat管理员</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tomcat启动Solr"><span class="nav-number">3.</span> <span class="nav-text">Tomcat启动Solr</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Jetty启动Solr"><span class="nav-number">4.</span> <span class="nav-text">Jetty启动Solr</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">272.6k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+  <div class="footer-custom">Hosted by <a target="_blank" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>&nbsp;&nbsp;&nbsp;<a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a></div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1254721753&web_id=1254721753" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://codepubcn.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.codepub.cn/2017/05/16/Windows-build-Solr5-5-search-services/';
+          this.page.identifier = '2017/05/16/Windows-build-Solr5-5-search-services/';
+          this.page.title = '';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codepubcn.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/favicon-16x16.ico?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="IT草根, 代码馆, http://codepub.cn/, http://www.codepub.cn/" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="title: “JSP/Servlet基础知识汇总”date: 2015-06-17 18:25:37tags: [JSP]categories: Programming Notes  力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 JSP与Servlet所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是  init(): 初始化JS">
+<meta name="keywords" content="IT草根, 代码馆, http:&#x2F;&#x2F;codepub.cn&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IT草根">
+<meta property="og:url" content="http://www.codepub.cn/2017/05/16/Basic-knowledge-summary-of-JSP-Servlet/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="title: “JSP/Servlet基础知识汇总”date: 2015-06-17 18:25:37tags: [JSP]categories: Programming Notes  力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 JSP与Servlet所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是  init(): 初始化JS">
+<meta property="og:updated_time" content="2017-11-03T14:41:39.157Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IT草根">
+<meta name="twitter:description" content="title: “JSP/Servlet基础知识汇总”date: 2015-06-17 18:25:37tags: [JSP]categories: Programming Notes  力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员 JSP与Servlet所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是  init(): 初始化JS">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.codepub.cn/2017/05/16/Basic-knowledge-summary-of-JSP-Servlet/"/>
+
+
+
+
+
+  <title> | IT草根</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IT草根</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-简历">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-友链">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-link"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'CEs2u-bRR6iHSt4ynbFA','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.codepub.cn/2017/05/16/Basic-knowledge-summary-of-JSP-Servlet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Xu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IT草根">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-16T22:55:28+08:00">
+                2017-05-16
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-03T22:41:39+08:00">
+                2017-11-03
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/16/Basic-knowledge-summary-of-JSP-Servlet/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/05/16/Basic-knowledge-summary-of-JSP-Servlet/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,371
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>title: “JSP/Servlet基础知识汇总”<br>date: 2015-06-17 18:25:37<br>tags: [JSP]<br>categories: Programming Notes</p>
+<hr>
+<p><strong>力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员</strong></p>
+<h3 id="JSP与Servlet"><a href="#JSP与Servlet" class="headerlink" title="JSP与Servlet"></a>JSP与Servlet</h3><p>所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是</p>
+<ul>
+<li>init(): 初始化JSP/Servlet的方法</li>
+<li>destroy(): 销毁JSP/Servlet的方法</li>
+<li>service(): 对用户请求生成响应的方法</li>
+</ul>
+<p>JSP页面必须放到应用服务器中运行，当第一次访问JSP页面时，该JSP页面会被编译成Servlet，如果JSP没有改动的话，以后访问的都是第一次编译成功的Servlet。</p>
+<a id="more"></a>
+<h3 id="JSP的4种基本语法"><a href="#JSP的4种基本语法" class="headerlink" title="JSP的4种基本语法"></a>JSP的4种基本语法</h3><h4 id="JSP注释"><a href="#JSP注释" class="headerlink" title="JSP注释"></a>JSP注释</h4><p><code>&lt;%--JSP注释--%&gt;</code> 这种注释在客户端浏览器中使用查看源代码是无法查看的<br><code>&lt;!--HTML注释--&gt;</code> 这种注释在客户端浏览器中使用查看源代码可以进行查看</p>
+<h4 id="JSP声明、输出、脚本"><a href="#JSP声明、输出、脚本" class="headerlink" title="JSP声明、输出、脚本"></a>JSP声明、输出、脚本</h4><p><code>&lt;%! 声明部分 %&gt;</code> 相当于全局变量或方法，可使用private、public、static等<br><code>&lt;%=count++%&gt;</code> 输出表达式语法后不能有分号<br><code>&lt;% scriptlet %&gt;</code> JSP脚本会转换成_jspService方法里的可执行代码，而Java语法不允许在方法里定义方法，所以JSP脚本里不能定义方法；不能使用private、public、static等</p>
+<h3 id="JSP的3个编译指令"><a href="#JSP的3个编译指令" class="headerlink" title="JSP的3个编译指令"></a>JSP的3个编译指令</h3><ul>
+<li>page: 该指令是针对当前页面的指令</li>
+<li>include: 用于指定包含另一个页面</li>
+<li>taglib: 用于定义和访问自定义标签</li>
+</ul>
+<p>其中<code>&lt;%@ include file=&quot;scriptlet.jsp&quot; %&gt;</code>是静态包含指令，该指令包含进来的页面不需要是一个完整的页面，同时会将被包含页面的编译指令包含进来，如果两个页面的编译指令冲突，那么页面就会报错</p>
+<p>动态包含如下所示<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:include page="&#123;scriptlet.jsp|&lt;%=expressi%&gt;&#125;"&gt;</div><div class="line">    &#123;&lt;jsp:param name="parameterName" value="parameterValue"&gt;&#125;</div><div class="line">&lt;/jsp:include&gt;</div></pre></td></tr></table></figure></p>
+<p>该动态指令仅仅会将被包含页面的body内容插入本页面，这时候被包含页面的编译指令不会被插入本页面</p>
+<h3 id="JSP的7个动作指令"><a href="#JSP的7个动作指令" class="headerlink" title="JSP的7个动作指令"></a>JSP的7个动作指令</h3><ul>
+<li>jsp:forward: 执行页面转向，将请求的处理转发到下一个页面，属于服务器端跳转，地址栏不变，执行forward时不会丢失请求参数</li>
+<li>jsp:param: 用于传递参数，必须与其他支持参数的标签一起使用，主要是结合include、forward、plugin指令使用</li>
+<li>jsp:include: 用于动态引入一个JSP页面</li>
+<li>jsp:plugin: 用于下载JavaBean或Applet到客户端执行</li>
+<li>jsp:useBean: 创建一个JavaBean的实例</li>
+<li>jsp:setProperty: 设置JavaBean实例的属性值</li>
+<li>jsp:getProperty: 输出JavaBean实例的属性值</li>
+</ul>
+<p>useBean的用法<br><code>&lt;jsp:useBean id=&quot;name&quot; class=&quot;classname&quot; scope=&quot;page|request|session|application&quot;/&gt;</code></p>
+<ul>
+<li>page: 该JavaBean实例仅在该页面有效</li>
+<li>request: 该JavaBean实例在本次请求有效</li>
+<li>session: 该JavaBean实例在本次session内有效</li>
+<li>application: 该JavaBean实例在本次应用内一直有效</li>
+</ul>
+<p>setProperty语法<br><code>&lt;jsp:setProperty name=&quot;BeanName&quot; property=&quot;propertyName&quot; value=&quot;value&quot;&gt;</code></p>
+<p>getProperty语法<br><code>&lt;jsp:getProperty name=&quot;BeanName&quot; property=&quot;propertyName&quot;&gt;</code></p>
+<p>其实，当使用setProperty和getProperty时，底层是调用setBeanName()和getBeanName()方法来操作实例的属性的</p>
+<h3 id="JSP的9大内置对象"><a href="#JSP的9大内置对象" class="headerlink" title="JSP的9大内置对象"></a>JSP的9大内置对象</h3><ul>
+<li>application: javax.servlet.ServletContext的实例，该实例代表JSP所属的Web应用本身，可用于JSP页面，或者在Servlet之间交换信息</li>
+<li>config: javax.servlet.ServletConfig的实例，该实例代表JSP的配置信息，该对象使用较少</li>
+<li>exception: java.lang.Throwable的实例，该实例代表其他页面中的异常和错误。只有当页面编译指令page的isErrorPage属性为true时，该对象才可以使用</li>
+<li>out: javax.servlet.jsp.JspWriter的实例，该实例代表JSP页面的输出流，用于输出内容，形成HTML页面</li>
+<li>page: 代表该页面本身，通常没有太大用处。也就是Servlet中的this，其类型就是生成的Servlet类，能用page的地方就能用this</li>
+<li>pageContext: javax.servlet.jsp.PageContext的实例，该对象代表该JSP页面上下文，使用该对象可以访问页面中的共享数据</li>
+<li>request: javax.servlet.http.HttpServletRequest的实例，该对象封装了一次请求，客户端的请求参数都被封装在该对象里</li>
+<li>response: javax.servlet.http.HttpServletResponse的实例，代表服务器对客户端的响应，通常很少使用该对象直接响应，而是使用out对象，除非需要生成非字符响应</li>
+<li>session: javax.servlet.http.HttpSession的实例，该对象代表一次会话。当客户端浏览器与站点建立连接时，会话开始；当客户端关闭浏览器时，会话结束</li>
+</ul>
+<p><strong><em>Note</em></strong></p>
+<ol>
+<li>由于JSP内置对象都是在_jspService()方法中完成初始化的，因此只能在JSP脚本、JSP输出表达式中使用这些内置对象。千万不要在JSP声明中使用它们！否则，会提示找不到变量。</li>
+<li>所有使用out的地方，都可使用输出表达式来代替，而且使用输出表达式更加简洁，<code>&lt;%=...%&gt;</code>表达式的本质就是<code>out.write();</code>。</li>
+<li><p>pageContext可以访问page/request/session/application范围的变量，方法是取得指定范围的name属性，并指定其scope，如下所示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pageContext.getAttribute(String name,[PageContext.PAGE_SCOPE|PageContext.REQUEST_SCOPE|PageContext.SESSION_SCOPE|PageContext.APPLICATION_SCOPE])</div></pre></td></tr></table></figure>
+</li>
+<li><p>request有两个方法分别是forward和include</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">request.getRequestDispatcher(<span class="string">"/a.jsp"</span>).include(request,response)代替&lt;jsp:include&gt;指令</div><div class="line"></div><div class="line">request.getRequestDispatcher(<span class="string">"/a.jsp"</span>).forward(request,response)代替&lt;jsp:forward&gt;指令</div></pre></td></tr></table></figure>
+</li>
+<li><p>不要滥用session，通常只应该把与用户会话状态相关的信息放入session范围内，不要仅仅为了两个页面之间交换信息，就将该信息放入session范围内。如果仅仅为了两个页面交换信息，建议使用request，然后forward请求即可。session机制通常用于保存客户端的状态信息，这些状态信息需要保存到Web服务器的硬盘上，所以要求session里的属性值必须是可序列化的，否则将引发不可序列化的异常。</p>
+</li>
+</ol>
+<h3 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h3><p>创建Filter必须实现javax.servlet.Filter接口，在该接口中定义了如下三个方法</p>
+<ul>
+<li>void init(FilterConfig config): 用于完成Filter的初始化</li>
+<li>void destroy(): 用于Filter销毁前，完成某些资源的回收</li>
+<li>void doFilter(ServletRequest request, ServletResponse response, FilterChain chain): 实现过滤功能，该方法就是对每个请求及响应增加的额外处理</li>
+</ul>
+<p>Filter其实就是增强的Servlet，假设系统包含多个Servlet，这些Servlet都需要进行一些通用处理：比如权限控制、记录日志等，这将导致在这些Servlet的service方法中有部分代码是相同的——为了解决这种代码重复的问题，可以考虑把这些通用处理提取到Filter中完成，这样各Servlet中剩下的只是特定请求相关的处理代码，而通用处理则交给Filter完成。</p>
+<h3 id="使用URL-Rewrite实现网站伪静态"><a href="#使用URL-Rewrite实现网站伪静态" class="headerlink" title="使用URL Rewrite实现网站伪静态"></a>使用URL Rewrite实现网站伪静态</h3><p>下载<a href="http://www.tuckey.org/urlrewrite/" target="_blank" rel="external">地址</a>，目前最新版是urlrewritefilter-4.0.3.jar，在下载页面提供了使用方法，不再赘述。</p>
+<h3 id="Listener"><a href="#Listener" class="headerlink" title="Listener"></a>Listener</h3><p>常用的Web事件监听器接口有如下几个</p>
+<ul>
+<li>ServletContextListener: 用于监听Web应用的启动和关闭</li>
+<li>ServletContextAttributeListener: 用于监听ServletContext范围（application）内属性的改变</li>
+<li>ServletRequestListener: 用于监听用户请求</li>
+<li>ServletRequestAttributeListener: 用于监听ServletRequest范围（request）内属性的改变</li>
+<li>HttpSessionListener: 用于监听用户session的开始和结束</li>
+<li>HttpSessionAttributeListener: 用于监听HttpSession范围（session）内属性的改变</li>
+</ul>
+<h3 id="JSP2特性"><a href="#JSP2特性" class="headerlink" title="JSP2特性"></a>JSP2特性</h3><p>目前Servlet3.1对应于JSP2.3规范，JSP2.3也被统称为JSP2。表达式语言是JSP2的一个重要特性，它并不是一种通用的程序语言，而仅仅是一种数据访问语言，可以方便地访问应用程序数据，避免使用JSP脚本。表达式语言的格式是<code>${expression}</code>，如果需要在支持表达式语言的页面中正常输出“\$”符号，则在“\$”符号前加转义字符“\”。</p>
+<h4 id="表达式语言的内置对象"><a href="#表达式语言的内置对象" class="headerlink" title="表达式语言的内置对象"></a>表达式语言的内置对象</h4><p>表达式语言包含如下11个内置对象</p>
+<ul>
+<li>pageContext: 代表该页面的pageContext对象，与JSP的pageContext内置对象相同</li>
+<li>pageScope: 用于获取page范围的属性值</li>
+<li>requestScope: 用于获取request范围的属性值</li>
+<li>sessionScope: 用于获取session范围的属性值</li>
+<li>applicationScope: 用于获取application范围的属性值</li>
+<li>param: 用于获取请求的参数值</li>
+<li>paramValues: 用于获取请求的参数值，与param的区别在于，该对象用于获取属性值为数组的属性值</li>
+<li>header: 用于获取请求头的属性值</li>
+<li>headerValues: 用于获取请求头的属性值，与header的区别在于，该对象用于获取属性值为数组的属性值</li>
+<li>initParam: 用于获取请求Web应用的初始化参数</li>
+<li>cookie: 用于获取指定的Cookie值</li>
+</ul>
+<h3 id="Servlet3-0新特性"><a href="#Servlet3-0新特性" class="headerlink" title="Servlet3.0新特性"></a>Servlet3.0新特性</h3><p>Servlet3.0规范在javax.servlet.annotation包下提供了如下注解</p>
+<ul>
+<li>@WebServlet: 用于修饰一个Servlet类，用于部署Servlet类</li>
+<li>@WebInitParam: 用于与@WebServlet或@WebFilter一起使用，为Servlet、Filter配置参数</li>
+<li>@WebListener: 用于修饰Listener类，用于部署Listener类</li>
+<li>@WebFilter: 用于修饰Filter类，用于部署Filter类</li>
+<li>@MultipartConfig: 用于修饰Servlet，指定该Servlet将会负责处理multipart/form-data类型的请求</li>
+<li>@ServiceSecurity: 这是一个与JAAS有关的注解，修饰Servlet指定该Servlet的安全与授权控制</li>
+<li>@HttpConstraint: 用于与@ServletSecurity一起使用，用于指定该Servlet的安全与授权控制</li>
+<li>@HttpMethodConstraint: 用于与@ServletSecurity一起使用，用于指定该Servlet的安全与授权控制</li>
+</ul>
+<p><strong>参考文献</strong><br>[1] 轻量级JavaEE企业应用实战-Struts2+Spring4+Hibernate整合开发</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Wang Xu
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.codepub.cn/2017/05/16/Basic-knowledge-summary-of-JSP-Servlet/" title="">http://www.codepub.cn/2017/05/16/Basic-knowledge-summary-of-JSP-Servlet/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow" target="_blank">CC BY-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/16/Java-multi-thread-Callable-interface-and-thread-pool/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/16/Log4j2-to-achieve-different-levels-of-different-threads-log-output-to-a-different-file/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Wang Xu" />
+            
+              <p class="site-author-name" itemprop="name">Wang Xu</p>
+              <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">115</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shijiebei2009" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.linkedin.com/in/codepub" target="_blank" title="Linkedin">
+                    
+                      <i class="fa fa-fw fa-linkedin-square"></i>Linkedin</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank" title="Stackoverflow">
+                    
+                      <i class="fa fa-fw fa-stack-overflow"></i>Stackoverflow</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/codepub.cn" target="_blank" title="ZhiHu">
+                    
+                      <i class="fa fa-fw fa-thumbs-up"></i>ZhiHu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.douban.com/people/shijiebei2009/" target="_blank" title="DouBan">
+                    
+                      <i class="fa fa-fw fa-graduation-cap"></i>DouBan</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1779238484" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP与Servlet"><span class="nav-number">1.</span> <span class="nav-text">JSP与Servlet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP的4种基本语法"><span class="nav-number">2.</span> <span class="nav-text">JSP的4种基本语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JSP注释"><span class="nav-number">2.1.</span> <span class="nav-text">JSP注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSP声明、输出、脚本"><span class="nav-number">2.2.</span> <span class="nav-text">JSP声明、输出、脚本</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP的3个编译指令"><span class="nav-number">3.</span> <span class="nav-text">JSP的3个编译指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP的7个动作指令"><span class="nav-number">4.</span> <span class="nav-text">JSP的7个动作指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP的9大内置对象"><span class="nav-number">5.</span> <span class="nav-text">JSP的9大内置对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filter"><span class="nav-number">6.</span> <span class="nav-text">Filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用URL-Rewrite实现网站伪静态"><span class="nav-number">7.</span> <span class="nav-text">使用URL Rewrite实现网站伪静态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Listener"><span class="nav-number">8.</span> <span class="nav-text">Listener</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP2特性"><span class="nav-number">9.</span> <span class="nav-text">JSP2特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#表达式语言的内置对象"><span class="nav-number">9.1.</span> <span class="nav-text">表达式语言的内置对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet3-0新特性"><span class="nav-number">10.</span> <span class="nav-text">Servlet3.0新特性</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">272.6k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+  <div class="footer-custom">Hosted by <a target="_blank" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>&nbsp;&nbsp;&nbsp;<a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a></div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1254721753&web_id=1254721753" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://codepubcn.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.codepub.cn/2017/05/16/Basic-knowledge-summary-of-JSP-Servlet/';
+          this.page.identifier = '2017/05/16/Basic-knowledge-summary-of-JSP-Servlet/';
+          this.page.title = '';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codepubcn.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

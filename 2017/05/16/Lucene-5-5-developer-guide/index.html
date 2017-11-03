@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/favicon-16x16.ico?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="IT草根, 代码馆, http://codepub.cn/, http://www.codepub.cn/" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="title: Lucene 5.5 开发手册date: 2016-08-12 22:52:23tags: [Lucene]categories: Programming Notes  Lucene和Solr的历史版本Lucene历史版本，不妨点进去看看，会发现Lucene的版本更新很频繁，所以Lucene的Doc注释比JDK的Doc注释差太多，在研读Lucene In Action的过程中，发现">
+<meta name="keywords" content="IT草根, 代码馆, http:&#x2F;&#x2F;codepub.cn&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IT草根">
+<meta property="og:url" content="http://www.codepub.cn/2017/05/16/Lucene-5-5-developer-guide/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="title: Lucene 5.5 开发手册date: 2016-08-12 22:52:23tags: [Lucene]categories: Programming Notes  Lucene和Solr的历史版本Lucene历史版本，不妨点进去看看，会发现Lucene的版本更新很频繁，所以Lucene的Doc注释比JDK的Doc注释差太多，在研读Lucene In Action的过程中，发现">
+<meta property="og:updated_time" content="2017-11-03T14:41:39.239Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IT草根">
+<meta name="twitter:description" content="title: Lucene 5.5 开发手册date: 2016-08-12 22:52:23tags: [Lucene]categories: Programming Notes  Lucene和Solr的历史版本Lucene历史版本，不妨点进去看看，会发现Lucene的版本更新很频繁，所以Lucene的Doc注释比JDK的Doc注释差太多，在研读Lucene In Action的过程中，发现">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.codepub.cn/2017/05/16/Lucene-5-5-developer-guide/"/>
+
+
+
+
+
+  <title> | IT草根</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IT草根</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-简历">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-友链">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-link"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'CEs2u-bRR6iHSt4ynbFA','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.codepub.cn/2017/05/16/Lucene-5-5-developer-guide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Xu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IT草根">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-16T22:55:28+08:00">
+                2017-05-16
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-03T22:41:39+08:00">
+                2017-11-03
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/16/Lucene-5-5-developer-guide/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/05/16/Lucene-5-5-developer-guide/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4,659
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  17
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>title: Lucene 5.5 开发手册<br>date: 2016-08-12 22:52:23<br>tags: [Lucene]<br>categories: Programming Notes</p>
+<hr>
+<h4 id="Lucene和Solr的历史版本"><a href="#Lucene和Solr的历史版本" class="headerlink" title="Lucene和Solr的历史版本"></a>Lucene和Solr的历史版本</h4><p><a href="http://archive.apache.org/dist/lucene/java/" target="_blank" rel="external">Lucene历史版本</a>，不妨点进去看看，会发现<strong>Lucene</strong>的版本更新很频繁，所以<strong>Lucene</strong>的<strong>Doc</strong>注释比<strong>JDK</strong>的<strong>Doc</strong>注释差太多，在研读<code>Lucene In Action</code>的过程中，发现此书的<strong>Lucene</strong>版本为<strong>3.0</strong>，而自己使用的<strong>Lucene</strong>版本是<strong>5.5</strong>，所以会有诸多冲突之处，现聊记之，以备查用。另外附上<a href="http://archive.apache.org/dist/lucene/solr/" target="_blank" rel="external">Solr历史版本</a>。</p>
+<p>在学习<strong>Lucene</strong>过程中，官方推荐的<strong>Lucene</strong>索引查看工具是<code>Luke</code>，下载地址<a href="https://github.com/DmitryKey/luke/releases" target="_blank" rel="external">点我</a>。</p>
+<h4 id="Lucene-API变动相关"><a href="#Lucene-API变动相关" class="headerlink" title="Lucene API变动相关"></a>Lucene API变动相关</h4><ul>
+<li><strong>Field</strong>类中的枚举<strong>Index</strong>已被废弃，转而采用<strong>FieldType</strong>，并通过<strong>setIndexOptions</strong>方法设置索引选项</li>
+<li><strong>IndexWriter</strong>的<strong>optimize</strong>方法已被删除，推荐用<strong>forceMerge</strong>方法代替</li>
+<li>对<strong>Document</strong>加权在<strong>4.x</strong>版本之后已经删除，如果想要对文档加权，需要对该文档中的每个<strong>Field</strong>都进行加权</li>
+<li><strong>NumericField</strong>被删除，由<strong>FieldType</strong>类中的枚举<strong>NumericType</strong>进行设置，<strong>NumericType</strong>提供了四种类型的数值，分别是<strong>INT</strong>，<strong>LONG</strong>，<strong>FLOAT</strong>，<strong>DOUBLE</strong></li>
+<li><strong>IndexWriter.MaxFieldLength</strong>等类似的一系列常量全被删除</li>
+<li><strong>IndexWriter</strong>中的<strong>isLocked</strong>方法和<strong>unlock</strong>方法全被删除，使用<strong>Directory</strong>类中的<strong>obtainLock</strong>方法替代，调用方式如下<code>Directory.obtainLock(IndexWriter.WRITE_LOCK_NAME)</code>，如果已经获得锁的话，再次获取会抛异常<code>LockObtainFailedException:lock instance already obtained</code></li>
+<li><strong>IndexWriter</strong>中的<strong>setInfoStream(System.out)</strong>方法被转移到<strong>IndexWriterConfig</strong>类中，该方法用来打印<strong>Lucene</strong>操作索引的相关输出信息</li>
+<li><strong>BooleanQuery</strong>的构造函数被废弃，使用<strong>BooleanQuery.Builder</strong>替代之</li>
+<li><p><strong>BooleanQuery</strong>中的<strong>add()</strong>被废弃，推荐使用<strong>BooleanQuery.Builder().add()</strong>代替之，示例如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">TermQuery termQuery = <span class="keyword">new</span> TermQuery(<span class="keyword">new</span> Term(<span class="string">"country"</span>, <span class="string">"Italy"</span>));</div><div class="line">TermQuery termQuery1 = <span class="keyword">new</span> TermQuery(<span class="keyword">new</span> Term(<span class="string">"city"</span>, <span class="string">"Venice"</span>));</div><div class="line">BooleanQuery build = <span class="keyword">new</span> BooleanQuery.Builder().add(termQuery,</div><div class="line">BooleanClause.Occur.MUST).add(termQuery1, BooleanClause.Occur.MUST).build();</div></pre></td></tr></table></figure>
+<p>其中<strong>Occur</strong>有三种选项，分别是<strong>MUST</strong>表只有匹配该查询子句的文档才在考虑之列，<strong>SHOULD</strong>意味着该项只是可选项，<strong>MUST_NOT</strong>意味着搜索结果不会包含任何匹配该查询子句的文档。使用<strong>SHOULD</strong>可以实现逻辑或（<strong>OR</strong>）查询。</p>
+</li>
+<li><strong>PhraseQuery</strong>中的构造函数和<strong>setSlop</strong>方法被废弃，推荐使用<code>PhraseQuery build = new PhraseQuery.Builder().setSlop(2).build();</code>代替</li>
+<li>同样<strong>PhraseQuery</strong>中<strong>add()</strong>方法废弃，推荐使用<code>new PhraseQuery.Builder().setSlop(2).add(term).add(term1).build()</code>代替，同时<strong>slop</strong>中的数值代表的是<strong>term</strong>和<strong>term1</strong>中间的字符个数，不包含<strong>term</strong>和<strong>term1</strong>在内。注意<strong>slop</strong>的默认值时0</li>
+<li><strong>MatchAllDocsQuery(String normsField)</strong>构造函数被删除，仅保留一个无参构造</li>
+<li>内建的<strong>TermAttribute</strong>被删除，推荐使用<strong>CharTermAttribute</strong>代替之，<strong>TermAttributeImpl</strong>被删除，推荐使用<strong>CharTermAttributeImpl</strong>代替之</li>
+<li><p><strong>PerFieldAnalyzerWrapper.addAnalyzer()</strong>方法被删除，使用构造函数初始化指定域所对应的分析器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Map&lt;String, Analyzer&gt; fields = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">fields.put(<span class="string">"partnum"</span>, <span class="keyword">new</span> KeywordAnalyzer());</div><div class="line"><span class="comment">//对于其他的域，默认使用SimpleAnalyzer分析器，对于指定的域partnum使用KeywordAnalyzer</span></div><div class="line">PerFieldAnalyzerWrapper perFieldAnalyzerWrapper = <span class="keyword">new</span> PerFieldAnalyzerWrapper(<span class="keyword">new</span> SimpleAnalyzer(), fields);</div></pre></td></tr></table></figure>
+</li>
+<li><p>域缓存加载所有文档中某个特定域的值到内存，便于随机存取该域值。域缓存只能用于包含单个项的域，也就是说使用域缓存的文档都必须拥有一个与指定域对应的单一域值，即域值不能被拆分。<strong>FieldCache</strong>在<strong>Lucene 5.5.0</strong>中被<strong>lucene-core</strong>模块移除，转移到了<strong>lucene-misc</strong>模块并且访问权限为包级私有，<strong>FieldCache</strong>类已经不鼓励使用，当要在某个<strong>Field</strong>上进行排序时，用户应该使用<strong>Doc</strong>值来索引相应的<strong>Field</strong>，相对于使用<strong>FieldCache</strong>更加快且耗费较少的堆大小</p>
+</li>
+<li><strong>IndexSearcher</strong>中<strong>setDefaultFieldSortScoring()</strong>方法被移除</li>
+<li><strong>SpanQuery.getSpans()</strong>方法转移到<strong>SpanWeight</strong>中，在调用该方法前，需要先调用<strong>createWeight</strong>方法创建<strong>SpanWeight</strong>实例</li>
+<li><p><strong>SpanWeight</strong>中的<strong>getSpans()</strong>方法调用示例如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Spans spans = weight.getSpans(indexReader.getContext().leaves().get(<span class="number">0</span>), SpanWeight.Postings.POSITIONS);</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果想在域的起点查询指定的跨度，需要使用<strong>SpanFirstQuery(SpanQuery match, int end)</strong>，<strong>end</strong>指定了跨度的结束位置</p>
+</li>
+<li>搜索过滤中的一系列过滤器都被废弃或删除，例如<strong>TermRangeFilter</strong>、<strong>NumericRangeFilter</strong>、<strong>QueryWrapperFilter</strong>、<strong>PrefixFilter</strong>、<strong>CachingWrapperFilter</strong>等，推荐使用相应的<strong>*Query</strong>类和<strong>BooleanClause.Occur.FILTER</strong>替代之，<strong>SpanQueryFilter</strong>、<strong>CachingSpanFilter</strong>、<strong>FieldCacheRangeFilter</strong>等被移除</li>
+<li><strong>FilteredDocIdSet</strong>和<strong>FilteredQuery</strong>将在<strong>Lucene 6.0</strong>中移除</li>
+<li><strong>MultiSearcher</strong>被删除，用<strong>MultiReader</strong>代替</li>
+<li><strong>getTermFreqVector</strong>被删除，用<strong>getTermVector</strong>代替</li>
+<li><strong>FieldSelector</strong>被删除，用<strong>StoredFieldVisitor</strong>代替，<strong>FieldSelector</strong>的子类<strong>LoadFirstFieldSelector</strong>、<strong>MapFieldSelector</strong>、<strong>SetBasedFieldSelector</strong>亦被删除</li>
+<li><strong>TermVectorMapper</strong>被删除，相应地其子类<strong>PositionBasedTermVectorMapper</strong>、<strong>SortedTermVectorMapper</strong>、<strong>FieldSortedTermVectorMapper</strong>亦被删除</li>
+<li><strong>FieldSelectorResult</strong>被删除，<strong>TermVector</strong>被废弃</li>
+</ul>
+<h4 id="Lucene-开发相关"><a href="#Lucene-开发相关" class="headerlink" title="Lucene 开发相关"></a>Lucene 开发相关</h4><ul>
+<li>索引数字时，需要选择一个不丢弃数字的分析器，<strong>WhitespaceAnalyzer</strong>和<strong>StandardAnalyzer</strong>可以作为候选，而<strong>SimpleAnalyzer</strong>和<strong>StopAnalyzer</strong>两个类会将语汇单元流中的数字剔除</li>
+<li>优化索引只能提高搜索速度，而不是索引速度。注意索引优化会消耗大量的<strong>CPU</strong>和<strong>I/O</strong>资源，在优化期间，索引会占用较大的磁盘空间，大约为优化初期的3倍</li>
+<li>对于一个索引来说，一次只能打开一个<strong>Writer</strong>，<strong>Lucene</strong>采用文件锁来提供保障，该锁只有当<strong>IndexWriter</strong>对象被关闭时才会释放</li>
+<li>任意多个线程都可以共享同一个<strong>IndexReader</strong>类或者<strong>IndexWriter</strong>类，这些类不仅是线程安全的，而且是线程友好的，能够很好的扩展到新增线程，针对并发访问唯一的限制是不能同时打开多于一个<strong>Writer</strong></li>
+<li>如果选择自己实现锁机制，要确认该机制能够正确运行，可以使用简单的调试工具，<strong>LockStressTest</strong>类，该类可以与<strong>LockVerifyServer</strong>类和<strong>VerifyingLockFactory</strong>类联合使用，以确认你自己实现的锁机制能正常运行</li>
+<li>刷新操作是用来释放被缓存的更改的，而提交操作是用来让所有的更改（包括被缓存的更改或者已经刷新的更改）在索引中保持可见</li>
+<li>打开<strong>IndexReader</strong>需要较大的系统开销，因此必须尽可能重复使用一个<strong>IndexReader</strong>实例以用于搜索，并限制打开新<strong>IndexReader</strong>的频率</li>
+<li><strong>IndexSearcher</strong>实例只能对其初始化时刻所对应的索引进行搜索。如果索引操作是由多线程完成的，新编入索引的文档则不能被该<strong>searcher</strong>看到</li>
+<li>Query的一些子类说明：<ul>
+<li>通过项进行搜索：<strong>TermQuery</strong></li>
+<li>在指定的项范围内搜索：<strong>TermRangeQuery</strong></li>
+<li>通过短语搜索：<strong>PhraseQuery</strong></li>
+<li>通配符查询：<strong>WildcardQuery</strong></li>
+<li>搜索类似项：<strong>FuzzyQuery</strong></li>
+<li>匹配所有文档：<strong>MatchAllDocsQuery</strong></li>
+</ul>
+</li>
+<li><strong>BooleanQuery</strong>对其中包含的查询子句（调用一次<strong>add()</strong>方法可以看作一个子句）是有数量限制的，默认情况下允许包含1024个查询子句，该限制主要是基于性能方面的考虑。当子句数量超过最大值时，程序会抛出<strong>TooManyClauses</strong>异常。如果你在一些特殊情况下，需要增大查询子句的数量限制，可以调用<code>setMaxClauseCount(int maxClauseCount)</code>方法进行设置，但是该操作明显会对性能产生影响</li>
+<li>举例说明<strong>PhraseQuery</strong>匹配中<strong>slop</strong>的计算方式，这里的<strong>slop</strong>是指若要按顺序组成给定的短语所需要移动位置的次数。如<strong>Amsterdam has lots of bridges</strong>这句话，假如我需要查询<strong>has</strong>和<strong>bridges</strong>，那么它们之间的<strong>slop</strong>为2，假如我需要查询<strong>bridges</strong>和<strong>has</strong>（注意两次查询添加短语的顺序不同），那么它们之间的<strong>slop</strong>为4，这个4代表的是将<strong>has</strong>移动到<strong>bridges</strong>之后需要的步数</li>
+<li><p><strong>PhraseQuery</strong>支持复合项短语。无论短语中有多少个项，<strong>slop</strong>因子都规定了按顺序移动项位置的总次数的最大值。例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//待检索文本：Venice has lots of canals</span></div><div class="line">PhraseQuery build = <span class="keyword">new</span> PhraseQuery.Builder().setSlop(<span class="number">1</span>).add(<span class="keyword">new</span> Term(<span class="string">"contents"</span>, <span class="string">"Venice"</span>)).add(<span class="keyword">new</span> Term(<span class="string">"contents"</span>, <span class="string">"lots"</span>)).add(<span class="keyword">new</span> Term(<span class="string">"contents"</span>, <span class="string">"canals"</span>)).build();</div><div class="line">search = indexSearcher.search(build, <span class="number">10</span>);</div><div class="line">Assert.assertNotEquals(<span class="number">1</span>, search.totalHits);<span class="comment">//移动总次数为1+1=2，所以NotEquals</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>在使用通配符<strong>WildcardQuery</strong>进行查询时，可能会降低系统的性能，较长的前缀可以减少用于查找匹配搜索枚举的项的个数，如以通配符为首的查询模式会强制枚举所有索引中的项以用于搜索匹配</p>
+</li>
+<li>类似查询<strong>FuzzyQuery</strong>会尽可能地枚举出一个索引中所有项，因此，最好尽量少地使用这类查询，即便要使用这类查询，起码也应当知晓其工作原理以及它对程序性能的影响</li>
+<li><strong>QueryParser</strong>中针对某个项的否定操作必须与至少一个非否定项的操作联合起来进行，否则程序不会返回结果文档，换句话说不能使用<strong>“NOT term”</strong>而必须使用<strong>“a AND NOT b”</strong></li>
+<li><p>查询语句中用双引号括起来的项可以用来创建一个<strong>PhraseQuery</strong>，例如查询语句”This is some phrase*“被<strong>StandardAnalyzer</strong>分析时，将被解析成用短语”some phrase”构成的<strong>PhraseQuery</strong>对象。星号不能被解释成模糊查询，请记住：双引号内的文本会促使分析器将之转换为PhraseQuery。那么说了这么多废话是什么意思呢？举例说明</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Query query = <span class="keyword">new</span> QueryParser(<span class="string">"field"</span>, <span class="keyword">new</span> StandardAnalyzer()).parse(<span class="string">"\"This is some phrase*\""</span>);</div><div class="line">Assert.assertEquals(<span class="string">"analyzed"</span>, <span class="string">"\"? ? some phrase\""</span>, query.toString(<span class="string">"field"</span>));</div><div class="line">System.out.println(query.toString(<span class="string">"field"</span>));</div><div class="line"><span class="comment">//输出"? ? some phrase"，停用词This is被?代替了，而引号中的*被忽略了</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>分析器介绍</p>
+<ul>
+<li><strong>WhitespaceAnalyzer</strong>：顾名思义，就是通过空格来分割文本信息，而并不对生成的语汇单元进行其他的规范化处理</li>
+<li><strong>SimpleAnalyzer</strong>：该分析器会首先通过非字母字符来分割文本信息，然后将语汇单元统一为小写形式，需要注意的是，该分析器会去掉数字类型的字符，但会保留其他字符</li>
+<li><strong>StopAnalyzer</strong>：该分析器功能与<strong>SimpleAnalyzer</strong>类似，区别在于，前者会去除停用词，例如英文中的<strong>the</strong>、<strong>a</strong>等</li>
+<li><strong>StandardAnalyzer</strong>：这是Lucene最复杂的核心分析器。包含大量的逻辑操作来识别某些种类的语汇单元，比如公司名称、E-Mail地址以及主机名称等。它还会将语汇单元转换成小写形式，并去除停用词和标点符号，经试验，Lucene5.5中，该分析器无法切分出完整的邮箱地址</li>
+<li><strong>KeywordAnalyzer</strong>：将整个文本作为一个单一语汇单元处理</li>
+</ul>
+</li>
+<li><strong>MultiPhraseQuery</strong>类与<strong>PhraseQuery</strong>类似，区别在于前者允许在同一位置上针对多个项的查询，当然要实现这种查询也可以使用<strong>BooleanQuery</strong>类或者逻辑”或“连接符将所有可能的短语进行联合查询，但是这样会以更高昂的系统消耗为代价</li>
+<li>在进行多域值分析时，文档可能包含同名的多个<strong>Field</strong>实例，而<strong>Lucene</strong>在索引过程中在逻辑上将这些域的语汇单元按照顺序附加在一起，举例来说，如果一个域值是”<strong><em>It’s time to pay incom tax</em></strong>“而下一个域值是”<strong><em>return library books on time</em></strong>“，那么对于短语”<strong><em>tax return</em></strong>“的搜索将会匹配到这个域。为了解决这个问题，必须通过继承<strong>Analyzer</strong>类来创建自己的分析器，然后重载<strong>getPositionIncrementGap</strong>方法（以及<strong>tokenStream</strong>或<strong>resuableTokenStream</strong>方法）。默认情况下，<strong>getPositionIncrementGap</strong>方法会返回0（无间隙），意思是它在运行时会认为各个域值是连接在一起的，如果将这个域值增加到足够大，那么位置查询就不会错误地在各个域值边界进行匹配了。注意一点，如果程序要高亮显示这些域，那么错误的偏移量会导致程序将错误的文本部分进行高亮显示，语汇单元<strong>OffsetAttribute</strong>对象提供了几个方法来检索偏移量的起始和结束，还提供了一个特殊的<strong>endOffset</strong>方法，该方法主要用于返回域的最后偏移</li>
+<li>另一种针对多域值的查询是使用<strong>MultiFieldQueryParser</strong>，它是<strong>QueryParser</strong>的子类，它会在后台程序中实例化一个<strong>BooleanQuery</strong>对象，并将每个域的查询结合起来。当程序向<strong>BooleanQuery</strong>添加查询子句时，默认操作符<strong>OR</strong>被用于最简单的解析方法中，也可以通过使用<strong>parse</strong>方法指定<strong>BooleanClause.Occur</strong>的值。<strong>MultiFieldQueryParser</strong>有一些使用限制，这主要是由它使用<strong>QueryParser</strong>的方法导致的，你只能使用<strong>QueryParser</strong>的一些默认设置，而不能更改之。<strong>MultiFieldQueryParser</strong>的一个重要缺陷就是它会生成更多的复杂查询，而<strong>Lucene</strong>必须对每条查询分别进行测试，这样会比使用全包含域速度更慢</li>
+<li>多域值查询的第三种方式是使用<strong>DisjunctionMaxQuery</strong>，它会封装一个或多个任意的查询，将匹配的文档进行<strong>OR</strong>操作，一个有趣的地方是当某个文档匹配到多于一条查询时，该类会将这个文档的评分记为最高分，而与<strong>BooleanQuery</strong>相比，后者会将所有匹配的评分相加。<strong>DisjunctionMaxQuery</strong>还包含一个可选的仲裁器，因此所有处理都是平等的，一个匹配更多查询的文档能够获得更高的评分</li>
+<li>如果希望停止较慢的搜索，那么可以使用<strong>TimeLimitingCollector</strong>，它能在耗时较长的情况下停止搜索，显然你必须针对超时搜索情况选择具体的处理内容</li>
+<li><strong>TimeLimitingCollector</strong>在收集搜索结果时添加一些自己的操作（比如每当获取一个搜索结果文档时都检查此时是否已超时），这会使得搜索速度变得稍慢，其次，它只在收集搜索结果时判断是否超时，然后一些查询有可能在<strong>Query.rewrite()</strong>操作期间消耗较长时间。对于这类查询来说，程序可能只有在搜索超时时才能捕获<strong>TimeExceededException</strong>异常</li>
+<li><strong>Lucene</strong>通过创建抽象基类<strong>FieldComparatorSource</strong>的子类来实现自定义排序</li>
+<li><strong>Lucene</strong>所有的核心搜索方法都在后台使用<strong>Collector</strong>子类来完成搜索结果收集。例如，当通过相关性进行排序时，后台会使用<strong>TopScoreDocCollector</strong>类，当通过域进行排序时，则使用<strong>TopFieldCollector</strong></li>
+<li>Lucene索引前缀后缀规则：所谓前缀后缀规则，即当某个词和前一个词有共同的前缀的时候，后面的词仅仅保存前缀在词中的偏移（offset），以及除前缀以外的字符串（称为后缀）。例如：<strong>Term Terminal</strong>存储为<code>Term4inal</code></li>
+<li>索引差值规则：先后保存两个整数的时候，后面的整数仅仅保存和前面整数的差值即可，例如：<strong>5,9,11</strong>存储为<code>|5|4(9-5)|3(11-9)|</code></li>
+<li>关于Directory子类的选择问题，最简单的方式是使用<code>public static FSDirectory open(Path path)</code>，让Lucene来替你尽力选择最适合当前硬件环境的实现</li>
+</ul>
+<h4 id="Lucene事务相关"><a href="#Lucene事务相关" class="headerlink" title="Lucene事务相关"></a>Lucene事务相关</h4><ul>
+<li>通过IndexWriter.getReader()获得的Reader是能看到上次commit之后，IndexWriter执行至当前的所有变化，该方法提供一种”near real-time”近实时的搜索</li>
+<li>当IndexWriter正在做更改的时候，所有更改都不会对当前搜索该索引的IndexReader可见，直到你commit或者打开了一个新的NRT(near real-time)Reader。一次只能有一个IndexWriter实例对索引进行更改</li>
+<li>仅在一个新的目录上打开一个IndexWriter并不会产生一个空的commit操作，即你无法在这个目录上打开一个IndexReader，直到你完成一次commit</li>
+<li>单个Lucene索引可以保存多个commit，每次commit都持有该commit被创建的时间点的索引视图</li>
+<li>KeepOnlyLastCommitDeletionPolicy是默认的删除机制实现，它会删除掉除了最近一次commit以外的所有commit。如果采用NoDeletionPolicy，那么每一次commit都会保存</li>
+<li>你可以在commit的时候传送userData<code>(Map&lt;String,String&gt;)</code>，用于记录关于本次commit的一些用户自定义信息（对Lucene不透明），然后使用IndexReader.listCommits方法获得索引的所有commit信息。一旦你找到了一次commit，你可以在其上找开一个IndexReader对commit点上的索引数据进行搜索</li>
+<li>你也可以基于之前的commit打开一个IndexWriter，回滚之后的所有变动。这有点类似于rollback方法，不同之处在于它允许你在多个commit间rollback，而不仅是回滚当前IndexWriter会话中所做的变动</li>
+</ul>
+<h4 id="Lucene的QueryParse表达式说明"><a href="#Lucene的QueryParse表达式说明" class="headerlink" title="Lucene的QueryParse表达式说明"></a>Lucene的QueryParse表达式说明</h4><table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>匹配文档</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>java</td>
+<td>在字段中包含java</td>
+</tr>
+<tr>
+<td>java junit<br>java OR junit</td>
+<td>在字段中包含java或者junit</td>
+</tr>
+<tr>
+<td>+java +junit<br>java AND junit</td>
+<td>在字段中包含java以及junit</td>
+</tr>
+<tr>
+<td>title:ant</td>
+<td>在title字段中包含ant</td>
+</tr>
+<tr>
+<td>title:extreme<br>-subject:sports<br>title:extreme<br>AND NOT subject:sports</td>
+<td>在title字段中包含extreme并且在subject字段中不能包含sports</td>
+</tr>
+<tr>
+<td>(agile OR extreme) AND methodology</td>
+<td>在字段中包含methodology并且同时包括agile或者extreme</td>
+</tr>
+<tr>
+<td>title:”junit in action”</td>
+<td>在title字段中包含junit in action</td>
+</tr>
+<tr>
+<td>title:”junit action”~5</td>
+<td>junit和action之间距离小于5的文档</td>
+</tr>
+<tr>
+<td>java*</td>
+<td>包含以java开头的，例如：javaspaces,javaserver</td>
+</tr>
+<tr>
+<td>java~</td>
+<td>包含和java相似的，如lava</td>
+</tr>
+<tr>
+<td>lastmodified:[1/1/04 TO 12/31/04]</td>
+<td>在lastmodified字段中值为2004-01-01到2004-12-31中间的</td>
+</tr>
+<tr>
+<td>+pubdate:[10100101 TO 20101231] Java AND (Lucene OR Apache)</td>
+<td>检索2010年出版的关于Java、且内容中包含Lucene或Apache关键字的所有书籍</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意：</strong>如果查询表达式使用了以下特殊字符，你就应该对其进行转义操作，使这些字符在一般的表达式中能够发挥作用。<strong>QueryParser</strong>在各个项中使用反斜杠<code>(\)</code>来表示转义字符。需要进行转义的字符有：<code>\ + - ! ( ) : ^ ] { } ~ * ?</code></p>
+<h4 id="Lucene常见Field"><a href="#Lucene常见Field" class="headerlink" title="Lucene常见Field"></a>Lucene常见Field</h4><table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>匹配文档</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IntField</td>
+<td>主要对int类型的字段进行存储，需要注意的是如果需要对IntField进行排序使用SortField.Type.INT来比较，如果进范围查询或过滤，需要采用NumericRangeQuery.newIntRange()</td>
+</tr>
+<tr>
+<td>LongField</td>
+<td>主要处理Long类型的字段的存储，排序使用SortField.Type.Long,如果进行范围查询或过滤利用NumericRangeQuery.newLongRange()，LongField常用来进行时间戳的排序，保存System.currentTimeMillions()</td>
+</tr>
+<tr>
+<td>FloatField</td>
+<td>对Float类型的字段进行存储，排序采用SortField.Type.Float,范围查询采用NumericRangeQuery.newFloatRange()</td>
+</tr>
+<tr>
+<td>BinaryDocVluesField</td>
+<td>只存储不共享值，如果需要共享值可以用SortedDocValuesField</td>
+</tr>
+<tr>
+<td>NumericDocValuesField</td>
+<td>用于数值类型的Field的排序(预排序)，需要在要排序的field后添加一个同名的NumericDocValuesField</td>
+</tr>
+<tr>
+<td>SortedDocValuesField</td>
+<td>用于String类型的Field的排序，需要在StringField后添加同名的SortedDocValuesField</td>
+</tr>
+<tr>
+<td>StringField</td>
+<td>用于String类型的字段的存储，StringField是只索引不分词</td>
+</tr>
+<tr>
+<td>TextField</td>
+<td>对String类型的字段进行存储，TextField和StringField的不同是TextField既索引又分词</td>
+</tr>
+<tr>
+<td>StoredField</td>
+<td>存储Field的值，可以用IndexSearcher.doc和IndexReader.document来获取此Field和存储的值</td>
+</tr>
+</tbody>
+</table>
+<p><strong>参考文献</strong><br>[1] Lucene In Action (Second Edition)<br>[2] <a href="http://3dobe.com/archives/172/" target="_blank" rel="external">http://3dobe.com/archives/172/</a><br>[3] <a href="http://blog.mikemccandless.com/2012/03/transactional-lucene.html" target="_blank" rel="external">http://blog.mikemccandless.com/2012/03/transactional-lucene.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Wang Xu
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.codepub.cn/2017/05/16/Lucene-5-5-developer-guide/" title="">http://www.codepub.cn/2017/05/16/Lucene-5-5-developer-guide/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow" target="_blank">CC BY-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/16/Lombok-development-guidelines/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/16/Lucene-6-0-in-action-index-backup-No-index-commit-to-snapshot/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Wang Xu" />
+            
+              <p class="site-author-name" itemprop="name">Wang Xu</p>
+              <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">115</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shijiebei2009" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.linkedin.com/in/codepub" target="_blank" title="Linkedin">
+                    
+                      <i class="fa fa-fw fa-linkedin-square"></i>Linkedin</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank" title="Stackoverflow">
+                    
+                      <i class="fa fa-fw fa-stack-overflow"></i>Stackoverflow</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/codepub.cn" target="_blank" title="ZhiHu">
+                    
+                      <i class="fa fa-fw fa-thumbs-up"></i>ZhiHu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.douban.com/people/shijiebei2009/" target="_blank" title="DouBan">
+                    
+                      <i class="fa fa-fw fa-graduation-cap"></i>DouBan</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1779238484" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Lucene和Solr的历史版本"><span class="nav-number">1.</span> <span class="nav-text">Lucene和Solr的历史版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lucene-API变动相关"><span class="nav-number">2.</span> <span class="nav-text">Lucene API变动相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lucene-开发相关"><span class="nav-number">3.</span> <span class="nav-text">Lucene 开发相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lucene事务相关"><span class="nav-number">4.</span> <span class="nav-text">Lucene事务相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lucene的QueryParse表达式说明"><span class="nav-number">5.</span> <span class="nav-text">Lucene的QueryParse表达式说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lucene常见Field"><span class="nav-number">6.</span> <span class="nav-text">Lucene常见Field</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">272.6k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+  <div class="footer-custom">Hosted by <a target="_blank" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>&nbsp;&nbsp;&nbsp;<a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a></div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1254721753&web_id=1254721753" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://codepubcn.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.codepub.cn/2017/05/16/Lucene-5-5-developer-guide/';
+          this.page.identifier = '2017/05/16/Lucene-5-5-developer-guide/';
+          this.page.title = '';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codepubcn.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
