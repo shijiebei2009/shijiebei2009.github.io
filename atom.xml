@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.codepub.cn/"/>
-  <updated>2017-11-03T15:22:43.434Z</updated>
+  <updated>2017-11-03T16:03:11.122Z</updated>
   <id>http://www.codepub.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.codepub.cn/2017/11/03/programmer-essential-toolbox/"/>
     <id>http://www.codepub.cn/2017/11/03/programmer-essential-toolbox/</id>
     <published>2017-11-03T14:28:53.735Z</published>
-    <updated>2017-11-03T15:22:43.434Z</updated>
+    <updated>2017-11-03T16:03:11.122Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: 程序员必备工具箱<br>date: 2015-10-07 14:40:32<br>tags: [Tools]<br>categories: Skill</p>
@@ -142,7 +142,7 @@
     <link href="http://www.codepub.cn/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/"/>
     <id>http://www.codepub.cn/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/</id>
     <published>2017-10-13T14:29:56.000Z</published>
-    <updated>2017-11-03T15:22:43.488Z</updated>
+    <updated>2017-11-03T16:03:11.176Z</updated>
     
     <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>如果把这个标题拆分成两个来讲，那么每一个都很好解决，下文会进行详述，而如果把这两者看做是与条件并加上其它限制，则实现起来比较困难，本文就是要探讨在需求繁多的情况下，如何优雅地实现。比如需求如下</p>
 <ul>
@@ -334,7 +334,7 @@
     <link href="http://www.codepub.cn/2017/10/10/several-ways-to-get-the-field-values-that-are-not-stored-in-lucene/"/>
     <id>http://www.codepub.cn/2017/10/10/several-ways-to-get-the-field-values-that-are-not-stored-in-lucene/</id>
     <published>2017-10-10T14:31:02.000Z</published>
-    <updated>2017-11-03T15:22:43.577Z</updated>
+    <updated>2017-11-03T16:03:11.260Z</updated>
     
     <content type="html"><![CDATA[<p>一般来说，如果想要从Lucene索引中获取Field的值，那么需要在索引阶段设置Field.Store.YES才可以，然后在搜索阶段得到TopDocs对象之后，用它去获取ScoreDoc再取出Document，使用Document获取存储在索引中的值。但是我们都知道，存储字段是需要硬盘空间的，如果想要追求极致的存储空间并且获取Field的值，那么在不存储的情况下，如何获取呢？其实仔细思索一下，在我们只索引不存储的情况下，Lucene依然可以判断搜索是否命中，这说明在Lucene索引中依然存有一份Field的值，这样在搜索阶段才能判断是否匹配。本文就是探讨在这种情形下，使用Lucene的核心包获取没有存储的Field的值的几种方法，如果你还有其它不同的方法请留言。</p>
 <ul>
@@ -365,7 +365,7 @@
     <link href="http://www.codepub.cn/2017/09/29/logstash-offline-install-plugin/"/>
     <id>http://www.codepub.cn/2017/09/29/logstash-offline-install-plugin/</id>
     <published>2017-09-29T14:03:22.000Z</published>
-    <updated>2017-11-03T15:22:43.556Z</updated>
+    <updated>2017-11-03T16:03:11.237Z</updated>
     
     <content type="html"><![CDATA[<p>如果线上服务器可以连外网的话，当然是用官方提供的命令来安装插件最简单了，但是可惜的是，好多公司线上服务器是没有外网访问权限的，这就需要在使用某些插件的时候，进行离线安装。而离线安装有两种方式，一种是在可以联网的机器上安装插件，之后使用<code>prepare-offline-pack</code>命令打包，然后将打包文件上传到不能联网的服务器，再使用<code>prepare-offline-pack</code>解包，安装。但是这种方式太麻烦，要求你必须要有一个可以联网的机器，最好还是和不能联网的服务器相同的配置环境，这里推荐一种更好的方案，来解决离线安装插件的问题。</p>
 <p>先演示一下，正常的联网环境是如何操作的，如下所示<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[elastic@escluster logstash-5.5.0]$ pwd</div><div class="line">/home/elastic/elasticsearch/logstash-5.5.0</div><div class="line">[elastic@escluster logstash-5.5.0]$ ./bin/logstash-plugin install logstash-filter-fingerprint</div><div class="line">Validating logstash-filter-fingerprint</div><div class="line">Installing logstash-filter-fingerprint</div><div class="line">Installation successful</div></pre></td></tr></table></figure></p>
@@ -395,7 +395,7 @@
     <link href="http://www.codepub.cn/2017/09/24/2017-first-half-random-thoughts/"/>
     <id>http://www.codepub.cn/2017/09/24/2017-first-half-random-thoughts/</id>
     <published>2017-09-24T13:43:34.756Z</published>
-    <updated>2017-11-03T15:22:43.563Z</updated>
+    <updated>2017-11-03T16:03:11.245Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: 2017年中随想<br>date: 2017-09-24 21:43:34<br>categories: Life-Talk<br>toc: false<br>tags: [Thinking]</p>
@@ -452,7 +452,7 @@
     <link href="http://www.codepub.cn/2017/09/22/byteman-uses-tutorials/"/>
     <id>http://www.codepub.cn/2017/09/22/byteman-uses-tutorials/</id>
     <published>2017-09-22T13:50:38.108Z</published>
-    <updated>2017-11-03T15:22:43.452Z</updated>
+    <updated>2017-11-03T16:03:11.141Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: Byteman 使用教程<br>date: 2017-09-22 21:50:38<br>tags: [Byteman]<br>categories: Programming Notes</p>
@@ -586,7 +586,7 @@
     <link href="http://www.codepub.cn/2017/09/22/btrace-uses-tutorials/"/>
     <id>http://www.codepub.cn/2017/09/22/btrace-uses-tutorials/</id>
     <published>2017-09-22T13:48:41.034Z</published>
-    <updated>2017-11-03T15:22:43.606Z</updated>
+    <updated>2017-11-03T16:03:11.285Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: BTrace 使用教程<br>date: 2017-09-22 21:48:40<br>tags: [BTrace]<br>categories: Programming Notes</p>
@@ -708,7 +708,7 @@
     <link href="http://www.codepub.cn/2017/07/09/Read-the-minto-pyramid-principle/"/>
     <id>http://www.codepub.cn/2017/07/09/Read-the-minto-pyramid-principle/</id>
     <published>2017-07-09T10:20:40.512Z</published>
-    <updated>2017-11-03T15:22:43.511Z</updated>
+    <updated>2017-11-03T16:03:11.197Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: 读《金字塔原理》<br>date: 2017-07-09 18:20:40<br>tags: [Thinking]<br>categories: Life-Talk</p>
@@ -846,7 +846,7 @@
     <link href="http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/"/>
     <id>http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/</id>
     <published>2017-06-28T14:02:21.000Z</published>
-    <updated>2017-11-03T15:22:43.457Z</updated>
+    <updated>2017-11-03T16:03:11.145Z</updated>
     
     <content type="html"><![CDATA[<p>RAMDirectory和FSDirectory都继承自BaseDirectory，而BaseDirectory继承自Directory，Directory是Lucene中设计的一个顶层抽象类，可以将其看做本地文件系统的一个目录。</p>
 <p>RAMDirectory是基于内存实现的，具有较高的存储速度，但是受到内存大小的限制，而FSDirectory是基于文件系统实现的，针对不同的操作系统有不同的具体实现类，这些实现类无需用户操心，只需要调用FSDirectory.open(Path path)方法，它就会帮助我们选择最适合的子类，FSDirectory的瓶颈在于磁盘I/O。</p>
@@ -890,7 +890,7 @@
     <link href="http://www.codepub.cn/2017/06/13/Maven-introduces-local-dependency-jar-to-executable-jar-packages/"/>
     <id>http://www.codepub.cn/2017/06/13/Maven-introduces-local-dependency-jar-to-executable-jar-packages/</id>
     <published>2017-06-13T14:17:24.000Z</published>
-    <updated>2017-11-03T15:22:43.591Z</updated>
+    <updated>2017-11-03T16:03:11.274Z</updated>
     
     <content type="html"><![CDATA[<p>在Maven中，默认地，是不会将依赖的Jar包打入可执行Jar包的，如果需要将依赖打入可执行Jar包，需要在<code>pom</code>中添加<code>maven-assembly-plugin</code>插件，这个很容易实现，但是在正规开发中不推荐这样使用，为什么？因为稍微大型一些的项目都至少有几十个依赖项，而每次打包都将这些Jar包打入可执行Jar，使得最后生成的可执行Jar体积非常大。标准的做法是，将所有的依赖Jar包都打入lib目录中，而在可执行Jar的<code>MANIFEST.MF</code>中指定lib路径即可。这也很容易实现，并不是本文的重点，本文的重点是如何将不在Maven中央仓库中的Jar包，或者说依赖本地的Jar包打入可执行Jar，并更新<code>MANIFEST.MF</code>文件。</p>
 <p>例如在我的Maven项目中，需要依赖本地Jar，首先将依赖的Jar复制到<code>src/main/resources/lib</code>目录下，引用如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.yuewen<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lucene<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.0-SNAPSHORT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;project.basedir&#125;/src/main/resources/lib/lucene-1.0.0-SNAPSHORT.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
@@ -899,8 +899,7 @@
 <p>至此，你在Maven项目中，依赖的所有Jar都被打入到<code>target/lib</code>目录下了，剩下的关键一步就是如何添加<code>MANIFEST.MF</code>文件了。在pom中添加如下插件</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--打包插件，在Jar包中添加Class-Path和Main-Class--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-jar-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">archive</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--使用自己的Manifest文件，运行正常--&gt;</span></div><div class="line">            <span class="comment">&lt;!--&lt;manifestFile&gt;src/main/resources/META-INF/MANIFEST.MF&lt;/manifestFile&gt;--&gt;</span></div><div class="line">            <span class="comment">&lt;!--使用插件添加的Manifest文件，运行正常，一定要注意Manifest中jar包名称和lib文件夹下jar包名称版本号后缀等一定要一致，否则找不到依赖jar，此处有坑--&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">manifest</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">addClasspath</span>&gt;</span>true<span class="tag">&lt;/<span class="name">addClasspath</span>&gt;</span></div><div class="line">                <span class="comment">&lt;!--指定依赖资源路径前缀--&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">classpathPrefix</span>&gt;</span>lib/<span class="tag">&lt;/<span class="name">classpathPrefix</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">mainClass</span>&gt;</span>cn.codepub.maven.test.Main<span class="tag">&lt;/<span class="name">mainClass</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!--可以把依赖本地系统的Jar包加入Manifest文件中--&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">manifestEntries</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">Class-Path</span>&gt;</span>lib/lucene-1.0.0-SNAPSHORT.jar<span class="tag">&lt;/<span class="name">Class-Path</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">manifestEntries</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">archive</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>运行<code>mvn clean package</code>执行打包，完成之后，将包含依赖资源的lib目录和可执行Jar放在同一级目录下即可，这样在运行<code>java -jar xxx.jar</code>的时候，可执行Jar包可以准确地找到依赖Jar包。并且以这种方式打出来的可执行Jar体积非常小，一般都是几百KB而已。完整的<code>MANIFEST.MF</code>文件如下所示</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Manifest-Version: 1.0</div><div class="line">Built-By: wangxu</div><div class="line">Class-Path: lib/lombok-1.16.12.jar lib/guava-20.0.jar lib/log4j-api-2.</div><div class="line"> 7.jar lib/log4j-core-2.7.jar lib/lucene-1.0.0-SNAPSHORT.jar</div><div class="line">Created-By: Apache Maven 3.3.3</div><div class="line">Build-Jdk: 1.8.0_45</div><div class="line">Main-Class: cn.codepub.maven.test.Main</div></pre></td></tr></table></figure>
-]]></content>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Manifest-Version: 1.0</div><div class="line">Built-By: wangxu</div><div class="line">Class-Path: lib/lombok-1.16.12.jar lib/guava-20.0.jar lib/log4j-api-2.</div><div class="line"> 7.jar lib/log4j-core-2.7.jar lib/lucene-1.0.0-SNAPSHORT.jar</div><div class="line">Created-By: Apache Maven 3.3.3</div><div class="line">Build-Jdk: 1.8.0_45</div><div class="line">Main-Class: cn.codepub.maven.test.Main</div></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
@@ -920,7 +919,7 @@
     <link href="http://www.codepub.cn/2017/06/11/Read-a-brief-history-of-tomorrow/"/>
     <id>http://www.codepub.cn/2017/06/11/Read-a-brief-history-of-tomorrow/</id>
     <published>2017-06-11T14:35:34.430Z</published>
-    <updated>2017-11-03T15:22:43.472Z</updated>
+    <updated>2017-11-03T16:03:11.159Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: 读《未来简史》<br>date: 2017-06-11 22:35:34<br>tags: [Thinking]<br>categories: Life-Talk</p>
@@ -964,7 +963,7 @@
     <link href="http://www.codepub.cn/2017/05/31/My-library-time-in-SHU/"/>
     <id>http://www.codepub.cn/2017/05/31/My-library-time-in-SHU/</id>
     <published>2017-05-31T13:43:39.917Z</published>
-    <updated>2017-11-03T15:22:43.573Z</updated>
+    <updated>2017-11-03T16:03:11.257Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: 我的图书馆时光<br>date: 2017-05-23 08:30:19<br>categories: Life-Talk<br>tags: [Thinking]</p>
@@ -1559,7 +1558,7 @@
     <link href="http://www.codepub.cn/2017/05/31/Improve-the-retrieval-speed-of-lucene-by-DocumentStoredFieldVisitor/"/>
     <id>http://www.codepub.cn/2017/05/31/Improve-the-retrieval-speed-of-lucene-by-DocumentStoredFieldVisitor/</id>
     <published>2017-05-31T13:42:38.000Z</published>
-    <updated>2017-11-03T15:22:43.412Z</updated>
+    <updated>2017-11-03T16:03:11.098Z</updated>
     
     <content type="html"><![CDATA[<h4 id="FieldSelector"><a href="#FieldSelector" class="headerlink" title="FieldSelector"></a>FieldSelector</h4><p>提高Lucene检索性能的方法有很多种，这里简单介绍一种常用且便捷可行的方法快速提高Lucene检索性能。在早期的Lucene版本中，使用<strong>FieldSelector</strong>来决定哪些Fields应该被加载，并以何种方式加载，但是在<a href="https://issues.apache.org/jira/browse/LUCENE-3309" target="_blank" rel="external">LUCENE-3309</a>中该接口被废弃，并且提出了新的替代接口<strong>StoredFieldVisitor</strong>。</p>
 <h4 id="FieldCache"><a href="#FieldCache" class="headerlink" title="FieldCache"></a>FieldCache</h4><p>另一种提高检索性能的方案是使用FieldCache来缓存Lucene的term values信息，不过该接口目前已被移至<code>org.apache.lucene.uninverting</code>包下，并且访问权限变成包级私有，也就是说，用户再也无法直接使用FieldCache了，该接口以后仅限于Lucene内部使用。FieldCache的主要作用是缓存用来排序field的值，Lucene会将需要排序的字段都读到内存中进行排序，所占内存大小和文档数量相关。其替代方案是使用DocValues类。其实深入一步，当你的Document只有一个Token的时候，FieldCache还可以被用来快速获取每个Document的field值，因为Lucene只做了反向索引，这种Document-&gt;field正向索引是极其耗时的，而FieldCache正好能解决这个问题。</p>
@@ -1590,7 +1589,7 @@
     <link href="http://www.codepub.cn/2017/05/16/Read-ant-tribe-college-graduates-live-in-the-village-record/"/>
     <id>http://www.codepub.cn/2017/05/16/Read-ant-tribe-college-graduates-live-in-the-village-record/</id>
     <published>2017-05-16T15:35:09.856Z</published>
-    <updated>2017-11-03T15:22:43.568Z</updated>
+    <updated>2017-11-03T16:03:11.251Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: 读《蚁族：大学毕业生聚居村实录》<br>date: 2017-04-25 22:35:41<br>tags: [Thinking]<br>categories: Life-Talk<br>toc: false</p>
@@ -1620,7 +1619,7 @@
     <link href="http://www.codepub.cn/2017/05/16/Improving-chinese-input-efficiency-natural-shuangpin-input-method/"/>
     <id>http://www.codepub.cn/2017/05/16/Improving-chinese-input-efficiency-natural-shuangpin-input-method/</id>
     <published>2017-05-16T14:55:28.513Z</published>
-    <updated>2017-11-03T15:22:43.548Z</updated>
+    <updated>2017-11-03T16:03:11.229Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: 提高中文输入效率—自然双拼输入法<br>date: 2017-04-06 21:19:41<br>tags: [Input Method]<br>categories: Skill</p>
@@ -1697,7 +1696,7 @@
     <link href="http://www.codepub.cn/2017/05/16/Programming-to-the-log4j2-API-instead-of-slf4j/"/>
     <id>http://www.codepub.cn/2017/05/16/Programming-to-the-log4j2-API-instead-of-slf4j/</id>
     <published>2017-05-16T14:55:28.512Z</published>
-    <updated>2017-11-03T15:22:43.438Z</updated>
+    <updated>2017-11-03T16:03:11.126Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: 面向log4j2 API编程而不是slf4j<br>date: 2017-03-08 22:18:55<br>tags: [Log4j2]<br>categories: Programming Notes</p>
@@ -1742,7 +1741,7 @@
     <link href="http://www.codepub.cn/2017/05/16/Build-system-gradle-memos/"/>
     <id>http://www.codepub.cn/2017/05/16/Build-system-gradle-memos/</id>
     <published>2017-05-16T14:55:28.509Z</published>
-    <updated>2017-11-03T15:22:43.614Z</updated>
+    <updated>2017-11-03T16:03:11.292Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: 构建系统Gradle备忘录<br>date: 2016-11-03 20:52:36<br>tags: [Gradle]<br>categories: Programming Notes</p>
@@ -1962,8 +1961,7 @@
 </li>
 <li><p>IDEA中如何设置gradle的本地仓库地址<br>在IDEA中打开Settings || Build, Execution, Deployment || Build Tools || Gradle，修改Service directory path，该值为Gradle的默认缓存目录中，比如填<code>D:/apache-maven-3.3.3/repo</code>，这样gradle就会将jar下载到该路径下，例如我的IDEA中的gradle下载的jar地址为：<code>D:/apache-maven-3.3.3/repo/caches/modules-2/files-2.1</code>，这样就可以将maven的本地仓库和gradle的本地仓库合二为一了。顺便在Gradle VM options中填<code>-Dfile.encoding=UTF-8</code>可以解决一些中文乱码问题。</p>
 <p>前提是IDEA中的maven已经配置好了，同样在Settings || Build, Execution, Deployment || Build Tools || Maven中配置</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"> Maven home <span class="string">directory:</span> <span class="string">D:</span>/apache-maven<span class="number">-3.3</span><span class="number">.3</span></div><div class="line"> User settings <span class="string">file:</span> <span class="string">D:</span><span class="regexp">/apache-maven-3.3.3/</span>conf/settings.xml</div><div class="line"> Local <span class="string">repository:</span> <span class="string">D:</span><span class="regexp">/apache-maven-3.3.3/</span>repo</div></pre></td></tr></table></figure>
-</li>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"> Maven home <span class="string">directory:</span> <span class="string">D:</span>/apache-maven<span class="number">-3.3</span><span class="number">.3</span></div><div class="line"> User settings <span class="string">file:</span> <span class="string">D:</span><span class="regexp">/apache-maven-3.3.3/</span>conf/settings.xml</div><div class="line"> Local <span class="string">repository:</span> <span class="string">D:</span><span class="regexp">/apache-maven-3.3.3/</span>repo</div></pre></td></tr></table></figure></li>
 </ul>
 ]]></content>
     
@@ -1985,7 +1983,7 @@
     <link href="http://www.codepub.cn/2017/05/16/Local-call-interface-of-LTP4J-project-for-LTML-encapsulation/"/>
     <id>http://www.codepub.cn/2017/05/16/Local-call-interface-of-LTP4J-project-for-LTML-encapsulation/</id>
     <published>2017-05-16T14:55:28.508Z</published>
-    <updated>2017-11-03T15:22:43.595Z</updated>
+    <updated>2017-11-03T16:03:11.276Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: “封装LTP4J的本地LTML调用接口”<br>date: 2015-05-13 16:53:00<br>tags: [LTP]<br>categories: Programming Notes</p>
@@ -2036,7 +2034,7 @@
     <link href="http://www.codepub.cn/2017/05/16/Asynchronous-non-blocking-message-communication-framework-based-on-Java-NIO2/"/>
     <id>http://www.codepub.cn/2017/05/16/Asynchronous-non-blocking-message-communication-framework-based-on-Java-NIO2/</id>
     <published>2017-05-16T14:55:28.506Z</published>
-    <updated>2017-11-03T15:22:43.587Z</updated>
+    <updated>2017-11-03T16:03:11.270Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: 基于Java NIO2实现的异步非阻塞消息通信框架<br>date: 2016-02-26 22:11:30<br>tags: [Java]<br>categories: Programming Notes</p>
@@ -2119,7 +2117,7 @@
     <link href="http://www.codepub.cn/2017/05/16/Use-nuts-cloud-sync-IntelliJ-IDEA-configuration-files/"/>
     <id>http://www.codepub.cn/2017/05/16/Use-nuts-cloud-sync-IntelliJ-IDEA-configuration-files/</id>
     <published>2017-05-16T14:55:28.505Z</published>
-    <updated>2017-11-03T15:22:43.579Z</updated>
+    <updated>2017-11-03T16:03:11.262Z</updated>
     
     <content type="html"><![CDATA[<hr>
 <p>title: “使用坚果云同步IntelliJ IDEA的配置文件”<br>date: 2016-08-09 21:50:39<br>tags: [IntelliJ]<br>categories: Programming Notes</p>
