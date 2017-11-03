@@ -6,8 +6,7 @@ categories: Programming Notes
 
 ---
 
-
-***力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员***
+**力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员**
 
 [![logo](http://7xig3q.com1.z0.glb.clouddn.com/hibernate-logo.gif "logo")](http://7xig3q.com1.z0.glb.clouddn.com/hibernate-logo.gif "logo")
 
@@ -164,7 +163,6 @@ Hibernate的事件系统完全可以替代拦截器，也可以作为拦截器�
 3. 继承系统默认的事件监听器: 扩展特定方法
 
 通常推荐采用第三种方法实现自己的事件监听器。Hibernate默认的事件监听器都被声明成non-final，以便用户继承他们。
-
 
 **参考文献**
 [1] 轻量级JavaEE企业应用实战-Struts2+Spring4+Hibernate整合开发

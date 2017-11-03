@@ -1,7 +1,8 @@
-title: 读《成为技术领导者》
-date: 2016-11-29 22:44:13
-tags: [Thinking]
-categories: Life-Talk
+---
+title: 读《成为技术领导者》
+date: 2016-11-29 22:44:13
+tags: [Thinking]
+categories: Life-Talk
 
 ---
 

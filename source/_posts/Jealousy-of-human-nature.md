@@ -1,8 +1,9 @@
-title: 人性的嫉妒
-date: 2016-10-21 20:59:36
-tags: [Thinking]
-categories: Life-Talk
-toc: false
+---
+title: 人性的嫉妒
+date: 2016-10-21 20:59:36
+tags: [Thinking]
+categories: Life-Talk
+toc: false
 
 ---
 

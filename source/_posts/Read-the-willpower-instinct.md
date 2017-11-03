@@ -1,7 +1,8 @@
-title: 读《自控力》
-date: 2016-12-24 16:08:10
-tags: [Thinking]
-categories: Life-Talk
+---
+title: 读《自控力》
+date: 2016-12-24 16:08:10
+tags: [Thinking]
+categories: Life-Talk
 
 ---
 

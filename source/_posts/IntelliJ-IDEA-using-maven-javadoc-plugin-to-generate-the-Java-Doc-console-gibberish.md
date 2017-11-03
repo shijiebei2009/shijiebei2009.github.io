@@ -1,7 +1,8 @@
-title: "IntelliJ IDEA使用maven-javadoc-plugin生成Java Doc控制台乱码"
-date: 2016-05-06 17:26:59
-tags: [Maven, IntelliJ]
-categories: Programming Notes
+---
+title: "IntelliJ IDEA使用maven-javadoc-plugin生成Java Doc控制台乱码"
+date: 2016-05-06 17:26:59
+tags: [Maven, IntelliJ]
+categories: Programming Notes
 
 ---
 

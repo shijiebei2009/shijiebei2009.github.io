@@ -1,8 +1,9 @@
-title: 读《人类简史》
-date: 2017-02-12 21:27:40
-tags: [Thinking]
-categories: Life-Talk
-toc: false
+---
+title: 读《人类简史》
+date: 2017-02-12 21:27:40
+tags: [Thinking]
+categories: Life-Talk
+toc: false
 
 ---
 

@@ -1,7 +1,8 @@
-title: "读《程序员的呐喊》"
-date: 2016-12-10 22:41:53
-tags: [Thinking]
-categories: Life-Talk
+---
+title: "读《程序员的呐喊》"
+date: 2016-12-10 22:41:53
+tags: [Thinking]
+categories: Life-Talk
 
 ---
 

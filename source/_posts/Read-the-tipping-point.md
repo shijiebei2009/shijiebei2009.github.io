@@ -1,8 +1,9 @@
-title: 读《引爆点》
-date: 2016-11-07 22:49:24
-tags: [Thinking]
-categories: Life-Talk
-toc: false
+---
+title: 读《引爆点》
+date: 2016-11-07 22:49:24
+tags: [Thinking]
+categories: Life-Talk
+toc: false
 
 ---
 

@@ -1,8 +1,9 @@
-title: "Java 8 配置Maven-javadoc-plugin"
-date: 2016-10-18 22:41:30
-tags: [Maven]
-categories: Programming Notes
-toc: false
+---
+title: "Java 8 配置Maven-javadoc-plugin"
+date: 2016-10-18 22:41:30
+tags: [Maven]
+categories: Programming Notes
+toc: false
 
 ---
 

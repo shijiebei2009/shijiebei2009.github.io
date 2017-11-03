@@ -1,8 +1,9 @@
-title: 读《财务自由之路》
-date: 2016-10-29 16:56:32
-tags: [Thinking]
-categories: Life-Talk
-toc: false
+---
+title: 读《财务自由之路》
+date: 2016-10-29 16:56:32
+tags: [Thinking]
+categories: Life-Talk
+toc: false
 
 ---
 

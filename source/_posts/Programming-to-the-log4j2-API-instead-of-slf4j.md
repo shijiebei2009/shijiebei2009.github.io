@@ -1,7 +1,8 @@
-title: 面向log4j2 API编程而不是slf4j
-date: 2017-03-08 22:18:55
-tags: [Log4j2]
-categories: Programming Notes
+---
+title: 面向log4j2 API编程而不是slf4j
+date: 2017-03-08 22:18:55
+tags: [Log4j2]
+categories: Programming Notes
 
 ---
 

@@ -1,8 +1,9 @@
-title: '读《万能钥匙》'
-date: 2016-10-07 20:15:59
-tags: [Thinking]
-categories: Life-Talk
-toc: false
+---
+title: '读《万能钥匙》'
+date: 2016-10-07 20:15:59
+tags: [Thinking]
+categories: Life-Talk
+toc: false
 
 ---
 

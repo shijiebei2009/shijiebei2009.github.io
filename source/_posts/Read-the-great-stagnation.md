@@ -1,8 +1,9 @@
-title: 读《大停滞？科技高原下的经济困境：美国的难题与中国的机遇》
-date: 2016-11-04 22:17:25
-tags: [Thinking]
-categories: Life-Talk
-toc: false
+---
+title: 读《大停滞？科技高原下的经济困境：美国的难题与中国的机遇》
+date: 2016-11-04 22:17:25
+tags: [Thinking]
+categories: Life-Talk
+toc: false
 
 ---
 

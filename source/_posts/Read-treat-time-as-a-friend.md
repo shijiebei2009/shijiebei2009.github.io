@@ -1,8 +1,9 @@
-title: 读《把时间当作朋友》
-date: 2016-06-10 15:22:38
-tags: [Thinking]
-categories: Life-Talk
-toc: false
+---
+title: 读《把时间当作朋友》
+date: 2016-06-10 15:22:38
+tags: [Thinking]
+categories: Life-Talk
+toc: false
 
 ---
 

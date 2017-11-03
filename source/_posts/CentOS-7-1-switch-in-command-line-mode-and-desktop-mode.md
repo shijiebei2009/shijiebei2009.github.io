@@ -1,8 +1,9 @@
-title: "CentOS 7.1 切换命令行模式与桌面模式"
-tags: [CentOS]
-categories: Operating System
-date: 2015-06-22 19:37:06
-toc: false
+---
+title: "CentOS 7.1 切换命令行模式与桌面模式"
+tags: [CentOS]
+categories: Operating System
+date: 2015-06-22 19:37:06
+toc: false
 
 ---
 

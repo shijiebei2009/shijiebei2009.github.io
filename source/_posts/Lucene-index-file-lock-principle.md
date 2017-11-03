@@ -1,7 +1,8 @@
-title: Lucene的索引文件锁原理
-date: 2016-11-23 22:24:33
-tags: [Lucene]
-categories: Programming Notes
+---
+title: Lucene的索引文件锁原理
+date: 2016-11-23 22:24:33
+tags: [Lucene]
+categories: Programming Notes
 
 ---
 

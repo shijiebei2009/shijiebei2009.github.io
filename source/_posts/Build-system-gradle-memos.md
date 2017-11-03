@@ -1,7 +1,8 @@
-title: 构建系统Gradle备忘录
-date: 2016-11-03 20:52:36
-tags: [Gradle]
-categories: Programming Notes
+---
+title: 构建系统Gradle备忘录
+date: 2016-11-03 20:52:36
+tags: [Gradle]
+categories: Programming Notes
 
 ---
 

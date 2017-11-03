@@ -6,7 +6,7 @@ categories: Programming Notes
 
 ---
 
-***力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员***
+**力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员**
 
 [![logo](http://7xig3q.com1.z0.glb.clouddn.com/spring-logo.png "logo")](http://7xig3q.com1.z0.glb.clouddn.com/spring-logo.png "logo")
 ### Spring简介

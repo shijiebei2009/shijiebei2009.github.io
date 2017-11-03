@@ -1,8 +1,9 @@
-title: 读《精要主义》
-date: 2017-01-20 23:14:15
-tags: [Thinking]
-categories: Life-Talk
-toc: false
+---
+title: 读《精要主义》
+date: 2017-01-20 23:14:15
+tags: [Thinking]
+categories: Life-Talk
+toc: false
 
 ---
 
