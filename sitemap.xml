@@ -2,807 +2,807 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.codepub.cn/2017/11/03/programmer-essential-toolbox/</loc>
+    <loc>http://www.codepub.cn/2015/05/12/Recommended-processing-method-of-text-with-bom-in-Java/</loc>
     
-    <lastmod>2017-11-04T00:49:08.877Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Recommended-processing-method-of-text-with-bom-in-Java/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.321Z</lastmod>
+    <lastmod>2017-11-04T03:55:12.012Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-treat-time-as-a-friend/</loc>
+    <loc>http://www.codepub.cn/2016/06/10/Read-treat-time-as-a-friend/</loc>
     
-    <lastmod>2017-11-03T16:11:23.318Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Build-system-gradle-memos/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.317Z</lastmod>
+    <lastmod>2017-11-04T03:55:12.009Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-essentialism/</loc>
+    <loc>http://www.codepub.cn/2016/11/03/Build-system-gradle-memos/</loc>
     
-    <lastmod>2017-11-03T16:11:23.315Z</lastmod>
+    <lastmod>2017-11-04T03:55:12.007Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Windows-build-Solr5-5-search-services/</loc>
+    <loc>http://www.codepub.cn/2017/01/20/Read-essentialism/</loc>
     
-    <lastmod>2017-11-03T16:11:23.313Z</lastmod>
+    <lastmod>2017-11-04T03:55:12.005Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/03/21/Windows-build-Solr5-5-search-services/</loc>
+    
+    <lastmod>2017-11-04T03:55:12.001Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2017/09/22/btrace-uses-tutorials/</loc>
     
-    <lastmod>2017-11-03T16:11:23.311Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.998Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2015/07/04/Python3-beginner-s-handbook-two/</loc>
     
-    <lastmod>2017-11-03T16:11:23.310Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.996Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Python-implementation-of-the-longest-common-subsequences/</loc>
+    <loc>http://www.codepub.cn/2015/07/03/Python-implementation-of-the-longest-common-subsequences/</loc>
     
-    <lastmod>2017-11-03T16:11:23.308Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Java-multi-thread-Callable-interface-and-thread-pool/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.306Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.993Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Local-call-interface-of-LTP4J-project-for-LTML-encapsulation/</loc>
+    <loc>http://www.codepub.cn/2016/02/01/Java-multi-thread-Callable-interface-and-thread-pool/</loc>
     
-    <lastmod>2017-11-03T16:11:23.305Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.990Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2015/05/13/Local-call-interface-of-LTP4J-project-for-LTML-encapsulation/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.987Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2017/06/13/Maven-introduces-local-dependency-jar-to-executable-jar-packages/</loc>
     
-    <lastmod>2017-11-03T16:11:23.303Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.983Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/See-also-IT-elite-death-from-overwork/</loc>
+    <loc>http://www.codepub.cn/2015/04/09/See-also-IT-elite-death-from-overwork/</loc>
     
-    <lastmod>2017-11-03T16:11:23.301Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Asynchronous-non-blocking-message-communication-framework-based-on-Java-NIO2/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.300Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.980Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Log4j2-to-achieve-different-levels-of-different-threads-log-output-to-a-different-file/</loc>
+    <loc>http://www.codepub.cn/2016/02/26/Asynchronous-non-blocking-message-communication-framework-based-on-Java-NIO2/</loc>
     
-    <lastmod>2017-11-03T16:11:23.298Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.977Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/12/18/Log4j2-to-achieve-different-levels-of-different-threads-log-output-to-a-different-file/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.973Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2015/04/06/Github-Pages-personal-blog-from-Octopress-to-Hexo/</loc>
     
-    <lastmod>2017-11-03T16:11:23.296Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.967Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Use-nuts-cloud-sync-IntelliJ-IDEA-configuration-files/</loc>
+    <loc>http://www.codepub.cn/2016/08/09/Use-nuts-cloud-sync-IntelliJ-IDEA-configuration-files/</loc>
     
-    <lastmod>2017-11-03T16:11:23.294Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.965Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2017/10/10/several-ways-to-get-the-field-values-that-are-not-stored-in-lucene/</loc>
     
-    <lastmod>2017-11-03T16:11:23.292Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.962Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-Big-Data-The-data-revolution-is-coming/</loc>
+    <loc>http://www.codepub.cn/2016/08/18/Read-Big-Data-The-data-revolution-is-coming/</loc>
     
-    <lastmod>2017-11-03T16:11:23.291Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/31/My-library-time-in-SHU/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.289Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.959Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Introduction-to-Apache-Commons/</loc>
+    <loc>http://www.codepub.cn/2017/05/23/my-library-time-in-SHU/</loc>
     
-    <lastmod>2017-11-03T16:11:23.288Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-skills-how-to-get-a-decade-of-experience-in-a-year/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.286Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.956Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-ant-tribe-college-graduates-live-in-the-village-record/</loc>
+    <loc>http://www.codepub.cn/2015/04/19/Introduction-to-Apache-Commons/</loc>
     
-    <lastmod>2017-11-03T16:11:23.285Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/How-to-load-dll-file-in-Java-Web-Project/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.283Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.951Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Lucene-6-0-in-action-1-Index-creation/</loc>
+    <loc>http://www.codepub.cn/2016/12/30/Read-skills-how-to-get-a-decade-of-experience-in-a-year/</loc>
     
-    <lastmod>2017-11-03T16:11:23.282Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.948Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2017/04/25/Read-ant-tribe-college-graduates-live-in-the-village-record/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.946Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2015/05/19/How-to-load-dll-file-in-Java-Web-Project/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.942Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/05/20/Lucene-6-0-in-action-1-Index-creation/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.937Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2017/09/24/2017-first-half-random-thoughts/</loc>
     
-    <lastmod>2017-11-03T16:11:23.280Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.934Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-the-road-to-financial-freedom/</loc>
+    <loc>http://www.codepub.cn/2016/10/29/Read-the-road-to-financial-freedom/</loc>
     
-    <lastmod>2017-11-03T16:11:23.278Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Lucene-6-0-in-action-2-All-kinds-of-Field-and-sort-operations/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.277Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.931Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-the-programmer-you-can-not-afford-injuries/</loc>
+    <loc>http://www.codepub.cn/2016/05/20/Lucene-6-0-in-action-2-All-kinds-of-Field-and-sort-operations/</loc>
     
-    <lastmod>2017-11-03T16:11:23.275Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.928Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/03/27/Read-the-programmer-you-can-not-afford-injuries/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.924Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2017/09/29/logstash-offline-install-plugin/</loc>
     
-    <lastmod>2017-11-03T16:11:23.273Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.920Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Reservoir-forum-elite-realtor-ouchengxiao/</loc>
+    <loc>http://www.codepub.cn/2017/04/16/Reservoir-forum-elite-realtor-ouchengxiao/</loc>
     
-    <lastmod>2017-11-03T16:11:23.272Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Java's-volatile-boolean-AutomaticBoolean-analysis/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.270Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.916Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/2016-campus-recruitment-of-sougou-programming-problem-resolution-big-data-development/</loc>
+    <loc>http://www.codepub.cn/2015/04/10/Java's-volatile-boolean-AutomaticBoolean-analysis/</loc>
     
-    <lastmod>2017-11-03T16:11:23.269Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Lucene-6-0-directory-structure-and-functional-module/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.267Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.912Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Improving-chinese-input-efficiency-natural-shuangpin-input-method/</loc>
+    <loc>http://www.codepub.cn/2015/10/24/2016-campus-recruitment-of-sougou-programming-problem-resolution-big-data-development/</loc>
     
-    <lastmod>2017-11-03T16:11:23.265Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-the-innovator-s-dilemma/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.262Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.909Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/2016-year-end-summary/</loc>
+    <loc>http://www.codepub.cn/2016/09/27/Lucene-6-0-directory-structure-and-functional-module/</loc>
     
-    <lastmod>2017-11-03T16:11:23.261Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-the-black-swan/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.259Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.904Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/MySQL-dump-import-export-database-command-summary/</loc>
+    <loc>http://www.codepub.cn/2017/04/06/Improving-chinese-input-efficiency-natural-shuangpin-input-method/</loc>
     
-    <lastmod>2017-11-03T16:11:23.258Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.900Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2017/01/04/Read-the-innovator-s-dilemma/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.897Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/12/31/2016-year-end-summary/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.894Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2015/11/30/Read-the-black-swan/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.891Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2015/06/03/MySQL-dump-import-export-database-command-summary/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.886Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2015/05/07/Compile-the-Language-Technology-Platform(C++)-and-LTP4J(Java)source-code/</loc>
     
-    <lastmod>2017-11-03T16:11:23.256Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.883Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Windows-client-configuration-of-SSH-public-key-on-GitHub/</loc>
+    <loc>http://www.codepub.cn/2015/06/02/Windows-client-configuration-of-SSH-public-key-on-GitHub/</loc>
     
-    <lastmod>2017-11-03T16:11:23.254Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Python-implementation-string-similarity-edit-distance/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.253Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.880Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Lucene-6-0-in-action-5-The-index-search-an-IndexSearcher/</loc>
+    <loc>http://www.codepub.cn/2015/07/07/Python-implementation-string-similarity-edit-distance/</loc>
     
-    <lastmod>2017-11-03T16:11:23.251Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Lucene-5-5-developer-guide/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.249Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.878Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-shoe-dog/</loc>
+    <loc>http://www.codepub.cn/2016/05/24/Lucene-6-0-in-action-5-The-index-search-an-IndexSearcher/</loc>
     
-    <lastmod>2017-11-03T16:11:23.247Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-animal-farm/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.245Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.876Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-the-lean-startup/</loc>
+    <loc>http://www.codepub.cn/2016/08/12/Lucene-5-5-developer-guide/</loc>
     
-    <lastmod>2017-11-03T16:11:23.243Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Java-NIO-development-Precautions/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.242Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.870Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/2016-campus-recruitment-of-mushroom-street-programming-problem-resolution-technology/</loc>
+    <loc>http://www.codepub.cn/2016/12/19/Read-shoe-dog/</loc>
     
-    <lastmod>2017-11-03T16:11:23.240Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Windows-installs-the-redis-service/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.238Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.866Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Faceted-Project-Problem-Java-Version-Mismatch-Error-Message/</loc>
+    <loc>http://www.codepub.cn/2016/11/20/Read-animal-farm/</loc>
     
-    <lastmod>2017-11-03T16:11:23.236Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.863Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-a-big-country-in-an-empty-nest/</loc>
+    <loc>http://www.codepub.cn/2016/11/20/Read-the-lean-startup/</loc>
     
-    <lastmod>2017-11-03T16:11:23.235Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.861Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/02/01/Java-NIO-development-Precautions/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.856Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2015/09/23/2016-campus-recruitment-of-mushroom-street-programming-problem-resolution-technology/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.852Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/11/19/Windows-installs-the-redis-service/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.849Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2015/06/02/Faceted-Project-Problem-Java-Version-Mismatch-Error-Message/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.846Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/07/09/Read-a-big-country-in-an-empty-nest/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.843Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2017/07/09/Read-the-minto-pyramid-principle/</loc>
     
-    <lastmod>2017-11-03T16:11:23.232Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.840Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Maven-project-integrating-Lucene-Chinese-Segmentation-tools-Jcseg-and-Ansj/</loc>
+    <loc>http://www.codepub.cn/2016/03/23/Maven-project-integrating-Lucene-Chinese-Segmentation-tools-Jcseg-and-Ansj/</loc>
     
-    <lastmod>2017-11-03T16:11:23.231Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.835Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2015/07/13/Python3-beginner-s-handbook-four/</loc>
     
-    <lastmod>2017-11-03T16:11:23.229Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.832Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Lucene-read-write-NFS-file-system-error/</loc>
+    <loc>http://www.codepub.cn/2016/08/12/Lucene-read-write-NFS-file-system-error/</loc>
     
-    <lastmod>2017-11-03T16:11:23.227Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Using-the-Python-CSV-module-to-read-and-write-CSV-file/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.225Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.829Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Segmentation-of-natural-paragraph-in-Java-code/</loc>
+    <loc>http://www.codepub.cn/2015/10/08/Using-the-Python-CSV-module-to-read-and-write-CSV-file/</loc>
     
-    <lastmod>2017-11-03T16:11:23.223Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Ubuntu14-10-install-and-uninstall-sogou-input-method/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.221Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.827Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-outliers-the-story-of-success/</loc>
+    <loc>http://www.codepub.cn/2015/04/25/Segmentation-of-natural-paragraph-in-Java-code/</loc>
     
-    <lastmod>2017-11-03T16:11:23.220Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Python3-beginner-s-handbook-one/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.218Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.822Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Lucene-6-0-in-action-index-backup-No-index-commit-to-snapshot/</loc>
+    <loc>http://www.codepub.cn/2015/11/27/Ubuntu14-10-install-and-uninstall-sogou-input-method/</loc>
     
-    <lastmod>2017-11-03T16:11:23.216Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.818Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-Hackers-and-Painters-Big-Ideas-from-the-Computer-Age/</loc>
+    <loc>http://www.codepub.cn/2016/10/10/Read-outliers-the-story-of-success/</loc>
     
-    <lastmod>2017-11-03T16:11:23.214Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.815Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2015/07/02/Python3-beginner-s-handbook-one/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.813Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/06/24/Lucene-6-0-in-action-index-backup-No-index-commit-to-snapshot/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.810Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/06/29/Read-Hackers-and-Painters-Big-Ideas-from-the-Computer-Age/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.807Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/</loc>
     
-    <lastmod>2017-11-03T16:11:23.213Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.802Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/How-to-load-resource-file-in-a-Jar-package-correctly/</loc>
+    <loc>http://www.codepub.cn/2015/04/22/How-to-load-resource-file-in-a-Jar-package-correctly/</loc>
     
-    <lastmod>2017-11-03T16:11:23.210Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.799Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2015/07/06/Python3-beginner-s-handbook-three/</loc>
     
-    <lastmod>2017-11-03T16:11:23.208Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.796Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Log4j-print-exception-stack-information-to-the-log/</loc>
+    <loc>http://www.codepub.cn/2016/04/15/Log4j-print-exception-stack-information-to-the-log/</loc>
     
-    <lastmod>2017-11-03T16:11:23.205Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-the-tipping-point/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.203Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.794Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/A-small-trap-of-JDBC-connection-to-MySQL-in-java/</loc>
+    <loc>http://www.codepub.cn/2016/11/07/Read-the-tipping-point/</loc>
     
-    <lastmod>2017-11-03T16:11:23.201Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/CCF-sixth-CSP-certification-exams-Solutions/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.199Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.791Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-tencent-biography/</loc>
+    <loc>http://www.codepub.cn/2016/04/15/A-small-trap-of-JDBC-connection-to-MySQL-in-java/</loc>
     
-    <lastmod>2017-11-03T16:11:23.198Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.787Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/MySQL-pull-the-massive-data-out-of-memory-error/</loc>
+    <loc>http://www.codepub.cn/2015/12/21/CCF-sixth-CSP-certification-exams-Solutions/</loc>
     
-    <lastmod>2017-11-03T16:11:23.196Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.784Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/12/21/Read-tencent-biography/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.780Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2017/05/12/MySQL-pull-the-massive-data-out-of-memory-error/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.776Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2017/06/11/Read-a-brief-history-of-tomorrow/</loc>
     
-    <lastmod>2017-11-03T16:11:23.194Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.773Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-remove-the-wall-of-thinking/</loc>
+    <loc>http://www.codepub.cn/2017/01/02/Read-remove-the-wall-of-thinking/</loc>
     
-    <lastmod>2017-11-03T16:11:23.191Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Lombok-development-guidelines/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.189Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.769Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Lucene-index-file-lock-principle/</loc>
+    <loc>http://www.codepub.cn/2015/07/30/Lombok-development-guidelines/</loc>
     
-    <lastmod>2017-11-03T16:11:23.187Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/IntelliJ-IDEA-using-maven-javadoc-plugin-to-generate-the-Java-Doc-console-gibberish/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.185Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.766Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-a-programmer-s-rantings/</loc>
+    <loc>http://www.codepub.cn/2016/11/23/Lucene-index-file-lock-principle/</loc>
     
-    <lastmod>2017-11-03T16:11:23.183Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.763Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Lucene-6-0-in-action-4-The-text-analyzer/</loc>
+    <loc>http://www.codepub.cn/2016/05/06/IntelliJ-IDEA-using-maven-javadoc-plugin-to-generate-the-Java-Doc-console-gibberish/</loc>
     
-    <lastmod>2017-11-03T16:11:23.181Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.757Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/12/10/Read-a-programmer-s-rantings/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.753Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/05/23/Lucene-6-0-in-action-4-The-text-analyzer/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.748Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/</loc>
     
-    <lastmod>2017-11-03T16:11:23.179Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.742Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-a-brief-history-of-humankind/</loc>
+    <loc>http://www.codepub.cn/2017/02/12/Read-a-brief-history-of-humankind/</loc>
     
-    <lastmod>2017-11-03T16:11:23.177Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.737Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2017/09/22/byteman-uses-tutorials/</loc>
     
-    <lastmod>2017-11-03T16:11:23.175Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.733Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Jealousy-of-human-nature/</loc>
+    <loc>http://www.codepub.cn/2016/10/21/Jealousy-of-human-nature/</loc>
     
-    <lastmod>2017-11-03T16:11:23.174Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Java-8-configure-maven-java-doc-plugin/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.172Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.728Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Google-Guava-use-guide/</loc>
+    <loc>http://www.codepub.cn/2016/10/18/Java-8-configure-maven-java-doc-plugin/</loc>
     
-    <lastmod>2017-11-03T16:11:23.170Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Basic-knowledge-summary-of-JSP-Servlet/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.169Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.724Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Lucene-6-0-in-action-3-A-variety-of-Field-query-operation/</loc>
+    <loc>http://www.codepub.cn/2015/11/29/Google-Guava-use-guide/</loc>
     
-    <lastmod>2017-11-03T16:11:23.167Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Gradle-uses-extended-attributes-to-manage-dependent-version-numbers/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.165Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.717Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Programming-to-the-log4j2-API-instead-of-slf4j/</loc>
+    <loc>http://www.codepub.cn/2015/06/17/Basic-knowledge-summary-of-JSP-Servlet/</loc>
     
-    <lastmod>2017-11-03T16:11:23.164Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-scarcity-why-having-too-little-means-so-much/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.162Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.712Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/IntelliJ-IDEA-in-Maven-plugin-could-not-update-the-index-of-the-solution/</loc>
+    <loc>http://www.codepub.cn/2016/05/20/Lucene-6-0-in-action-3-A-variety-of-Field-query-operation/</loc>
     
-    <lastmod>2017-11-03T16:11:23.159Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.706Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2017/05/09/Gradle-uses-extended-attributes-to-manage-dependent-version-numbers/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.701Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2017/03/08/Programming-to-the-log4j2-API-instead-of-slf4j/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.698Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/11/19/Read-scarcity-why-having-too-little-means-so-much/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.694Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2015/10/07/programmer-essential-toolbox/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.690Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2015/12/09/IntelliJ-IDEA-in-Maven-plugin-could-not-update-the-index-of-the-solution/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.684Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2015/06/19/Basic-knowledge-summary-of-Hibernate/</loc>
     
-    <lastmod>2017-11-03T16:11:23.157Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.680Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-the-master-key-system/</loc>
+    <loc>http://www.codepub.cn/2016/10/07/Read-the-master-key-system/</loc>
     
-    <lastmod>2017-11-03T16:11:23.156Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2016/05/17/2015-year-end-summary/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.154Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.678Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Lucene-sets-a-single-index-file-size-of-the-performance-test/</loc>
+    <loc>http://www.codepub.cn/2015/12/31/2015-year-end-summary/</loc>
     
-    <lastmod>2017-11-03T16:11:23.152Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/2016-campus-recruitment-of-baidu-programming-problem-resolution-software-development/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.151Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.674Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Git-filtering-method-of-uploaded-files/</loc>
+    <loc>http://www.codepub.cn/2016/10/09/Lucene-sets-a-single-index-file-size-of-the-performance-test/</loc>
     
-    <lastmod>2017-11-03T16:11:23.149Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.669Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2015/09/29/2016-campus-recruitment-of-baidu-programming-problem-resolution-software-development/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.666Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2015/05/14/Git-filtering-method-of-uploaded-files/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.663Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2015/06/21/Basic-knowledge-summary-of-Spring/</loc>
     
-    <lastmod>2017-11-03T16:11:23.147Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.661Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/The-name-of-the-people/</loc>
+    <loc>http://www.codepub.cn/2017/05/06/The-name-of-the-people/</loc>
     
-    <lastmod>2017-11-03T16:11:23.146Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.659Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2017/03/23/Transfer-comments-from-duoshuo-to-disqus/</loc>
     
-    <lastmod>2017-11-03T16:11:23.144Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.655Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2017/05/31/Improve-the-retrieval-speed-of-lucene-by-DocumentStoredFieldVisitor/</loc>
     
-    <lastmod>2017-11-03T16:11:23.143Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.651Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-becoming-a-technical-leader/</loc>
+    <loc>http://www.codepub.cn/2016/11/29/Read-becoming-a-technical-leader/</loc>
     
-    <lastmod>2017-11-03T16:11:23.141Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Programmers-financial-management/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.139Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.647Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Hexo-blog-theme-switching-from-Jacman-to-NexT-Mist/</loc>
+    <loc>http://www.codepub.cn/2016/09/14/Programmers-financial-management/</loc>
     
-    <lastmod>2017-11-03T16:11:23.137Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/An-Automatic-Annotation-Method-for-Emergency-Text-Corpus/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.135Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.642Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-the-great-stagnation/</loc>
+    <loc>http://www.codepub.cn/2016/03/20/Hexo-blog-theme-switching-from-Jacman-to-NexT-Mist/</loc>
     
-    <lastmod>2017-11-03T16:11:23.134Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/Lucene-6-0-index-file-format/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.132Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.637Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-dark-time/</loc>
+    <loc>http://www.codepub.cn/2015/09/26/An-Automatic-Annotation-Method-for-Emergency-Text-Corpus/</loc>
     
-    <lastmod>2017-11-03T16:11:23.130Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/05/16/CentOS-7-1-switch-in-command-line-mode-and-desktop-mode/</loc>
-    
-    <lastmod>2017-11-03T16:11:23.127Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.632Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Read-the-willpower-instinct/</loc>
+    <loc>http://www.codepub.cn/2016/11/04/Read-the-great-stagnation/</loc>
     
-    <lastmod>2017-11-03T16:11:23.125Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.625Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/12/05/Lucene-6-0-index-file-format/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.622Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2017/03/04/Read-dark-time/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.618Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2015/06/22/CentOS-7-1-switch-in-command-line-mode-and-desktop-mode/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.611Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/12/24/Read-the-willpower-instinct/</loc>
+    
+    <lastmod>2017-11-04T03:55:11.610Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2015/06/18/Basic-knowledge-summary-of-Struts2/</loc>
     
-    <lastmod>2017-11-03T16:11:23.124Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.603Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Based-on-the-extended-version-of-synonyms-Cilin-word-similarity-computing/</loc>
+    <loc>http://www.codepub.cn/2015/08/04/Based-on-the-extended-version-of-synonyms-Cilin-word-similarity-computing/</loc>
     
-    <lastmod>2017-11-03T16:11:23.122Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.599Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2017/05/16/Selenium-simulated-user-login-alipay-account-query-transaction-details/</loc>
+    <loc>http://www.codepub.cn/2015/08/29/Selenium-simulated-user-login-alipay-account-query-transaction-details/</loc>
     
-    <lastmod>2017-11-03T16:11:23.120Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.595Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
     
-    <lastmod>2017-11-03T16:11:23.118Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.589Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2016/06/24/Lucene-6-0-in-action-the-index-of-hot-backup-and-recovery/</loc>
     
-    <lastmod>2017-11-03T16:11:23.116Z</lastmod>
+    <lastmod>2017-11-04T03:55:11.586Z</lastmod>
     
   </url>
   

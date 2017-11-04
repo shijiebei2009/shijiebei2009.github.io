@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/favicon-16x16.ico?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Gradle," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Gradle是什么？Gradle是一个集合了Maven和Ant优点的构建工具，据说要取代Maven，不置可否。  什么是projects和tasks？每一个构建都是由一个或多个projects构成的。一个project到底代表什么取决于你想用Gradle做什么。每一个project是由一个或多个tasks构成的，一个task代表一些更加细化的构建。可能是编译一些classes，创建一个JAR，生">
+<meta name="keywords" content="Gradle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="构建系统Gradle备忘录">
+<meta property="og:url" content="http://www.codepub.cn/2016/11/03/Build-system-gradle-memos/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="Gradle是什么？Gradle是一个集合了Maven和Ant优点的构建工具，据说要取代Maven，不置可否。  什么是projects和tasks？每一个构建都是由一个或多个projects构成的。一个project到底代表什么取决于你想用Gradle做什么。每一个project是由一个或多个tasks构成的，一个task代表一些更加细化的构建。可能是编译一些classes，创建一个JAR，生">
+<meta property="og:updated_time" content="2017-11-04T03:55:12.007Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="构建系统Gradle备忘录">
+<meta name="twitter:description" content="Gradle是什么？Gradle是一个集合了Maven和Ant优点的构建工具，据说要取代Maven，不置可否。  什么是projects和tasks？每一个构建都是由一个或多个projects构成的。一个project到底代表什么取决于你想用Gradle做什么。每一个project是由一个或多个tasks构成的，一个task代表一些更加细化的构建。可能是编译一些classes，创建一个JAR，生">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.codepub.cn/2016/11/03/Build-system-gradle-memos/"/>
+
+
+
+
+
+  <title>构建系统Gradle备忘录 | IT草根</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IT草根</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-简历">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-友链">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-link"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'CEs2u-bRR6iHSt4ynbFA','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.codepub.cn/2016/11/03/Build-system-gradle-memos/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Xu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IT草根">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">构建系统Gradle备忘录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-03T20:52:36+08:00">
+                2016-11-03
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:12+08:00">
+                2017-11-04
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/11/03/Build-system-gradle-memos/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/11/03/Build-system-gradle-memos/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,537
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  10
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li><p>Gradle是什么？<br>Gradle是一个集合了Maven和Ant优点的构建工具，据说要取代Maven，不置可否。</p>
+</li>
+<li><p>什么是projects和tasks？<br>每一个构建都是由一个或多个projects构成的。一个project到底代表什么取决于你想用Gradle做什么。每一个project是由一个或多个tasks构成的，一个task代表一些更加细化的构建。可能是编译一些classes，创建一个JAR，生成javadoc或者生成某个目录的压缩文件。</p>
+</li>
+<li><p>经常用的<code>gradle -q</code>，其中<code>-q</code>是干什么的？<br><code>-q</code>代表quiet模式，它不会生成Gradle的日志信息(log messages)，所以用户只能看到tasks的输出，它使得输出更加清晰。</p>
+</li>
+<li><p>如何定义一个task？<br>在build.gradle中</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">task hello &#123;</div><div class="line">    doLast &#123;</div><div class="line">        println(<span class="string">"hello world!"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中task名称叫hello，hello的action叫doLast。</p>
+</li>
+<li><p>如何快捷的定义一个task？</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">task hello &lt;&lt; &#123;</div><div class="line">    println(<span class="string">"hello world!"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中doLast被替换成了<code>&lt;&lt;</code></p>
+</li>
+<li><p>任务之间如何相互依赖？</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">task first &lt;&lt; &#123;</div><div class="line">    println(<span class="string">"first!"</span>)</div><div class="line">&#125;</div><div class="line">task after(<span class="string">dependsOn:</span> first) &lt;&lt; &#123;</div><div class="line">    println(<span class="string">"after!"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>gradle -q after</strong>输出：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">first!</div><div class="line">after!</div></pre></td></tr></table></figure>
+</li>
+<li><p>动态的创建任务</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="number">4.</span>times &#123;</div><div class="line">    counter -&gt;</div><div class="line">        task <span class="string">"task$counter"</span> &lt;&lt; &#123;</div><div class="line">            println(<span class="string">"I'm task number $counter!"</span>)</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里动态的创建了task0，task1，task2，task3<br><strong>gradle -q task3</strong>输出：<code>I&#39;m task number 3!</code><br>如果使用<code>task0.dependsOn task2, task3</code>指定任务依赖关系，那么<strong>gradle -q task0</strong>输出：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">I'm task number 2!</div><div class="line">I'm task number 3!</div><div class="line">I'm task number 0!</div></pre></td></tr></table></figure>
+</li>
+<li><p>短标记法<br>有一个短标记<code>$</code>可以访问一个存在的任务，也就是说每个任务都可以作为构建脚本的属性。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">task first &lt;&lt; &#123;</div><div class="line">    println(<span class="string">"first!"</span>)</div><div class="line">&#125;</div><div class="line">task after &lt;&lt; &#123;</div><div class="line">    println(<span class="string">"$first.name"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>gradle -q after</strong>输出：<code>first</code><br>其中name是任务的默认属性，代表当前任务的名称。</p>
+</li>
+<li><p>自定义任务属性</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">task first &#123;</div><div class="line">    ext.myProperty = <span class="string">"value"</span></div><div class="line">&#125;</div><div class="line">task after &lt;&lt; &#123;</div><div class="line">    println(first.myProperty)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>gradle -q after</strong>输出：<code>value</code></p>
+</li>
+<li><p>默认任务</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">defaultTasks <span class="string">'validate'</span>, <span class="string">'run'</span></div><div class="line">task validate &lt;&lt; &#123;</div><div class="line">    println(<span class="string">"Default Validating"</span>)</div><div class="line">&#125;</div><div class="line">task run &lt;&lt; &#123;</div><div class="line">    println(<span class="string">"Default Running"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>gradle -q</strong>输出：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Default Validating</div><div class="line">Default Running</div></pre></td></tr></table></figure>
+</li>
+<li><p>列出可以执行的任务<br>使用<code>gradle tasks</code>来列出项目的所有任务</p>
+</li>
+<li><p>Java插件下常用任务<br>使用<code>apply plugin: &#39;java&#39;</code>之后，Java插件会向你的项目里加入许多任务，常用的如下<br><strong>build</strong>任务，它会建立你的项目；<br><strong>clean</strong>任务，删除build生成的目录和所有生成的文件；<br><strong>assemble</strong>任务，编译并打包你的代码，但是并不运行单元测试。其他插件会在这个任务里加入更多的东西。举个例子，如果你使用War插件，这个任务将根据你的项目生成一个 WAR文件；<br><strong>check</strong>任务，编译并测试你的代码。其他的插件会加入更多的检查步骤。举个例子，如果你使用checkstyle插件，这个任务将会运行Checkstyle来检查你的代码。</p>
+</li>
+<li><p>查看哪些属性是可用的<br>使用<code>gradle properties</code>命令来列出项目的所有属性。</p>
+</li>
+<li><p>发布Jar文件</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">uploadArchives &#123;</div><div class="line">    repositories &#123;</div><div class="line">        flatDir &#123;</div><div class="line">            dirs <span class="string">'repos'</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行<code>gradle uploadArchives</code>命令来发布Jar文件。</p>
+</li>
+<li><p>多项目构建<br>目录结构为</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">multiproject/</div><div class="line">  api/</div><div class="line">  services<span class="regexp">/webservice/</span></div><div class="line">  services<span class="regexp">/shared/</span></div><div class="line">  shared/</div></pre></td></tr></table></figure>
+<p>则在项目根目录下的settings.gradle中添加<code>include &quot;shared&quot;, &quot;api&quot;, &quot;services:webservice&quot;, &quot;services:shared&quot;</code></p>
+</li>
+<li><p>多项目构建-项目之间的依赖<br>假设api项目的构建需要用到shared项目的Jar文件，那么在api/build.gradle中加入</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">    compile project(<span class="string">':shared'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>依赖配置<br><strong>compile</strong>：用来编译项目源代码的依赖。<br><strong>runtime</strong>：在运行时被生成的类使用的依赖。默认的，也包含了编译时的依赖。<br><strong>testCompile</strong>：编译测试代码的依赖。默认的，包含生成的类运行所需的依赖和编译源代码的依赖。<br><strong>testRuntime</strong>：运行测试所需要的依赖。默认的，包含上面三个依赖。</p>
+</li>
+<li><p>构建一个WAR文件<br>在build.gradle中加入<code>apply plugin: &#39;war&#39;</code>。这个插件也会在你的项目里加入Java插件，运行gradle build将会编译，测试和创建项目的WAR文件。</p>
+</li>
+<li><p>运行Web应用<br>在build.gradle中加入<code>apply plugin: &#39;jetty&#39;</code>。由于Jetty plugin继承自War plugin。使用gradle jettyRun命令将会把你的工程启动部署到jetty容器中。调用gradle jettyRunWar命令会打包并启动部署到jetty容器中。</p>
+</li>
+<li><p>多任务调用<br>你可以以列表的形式在命令行中一次调用多个任务，它们所依赖的任务也会被调用。这些任务只会被调用一次。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">task last &lt;&lt; &#123;</div><div class="line">    println(<span class="string">"LAST"</span>)</div><div class="line">&#125;</div><div class="line">task first(<span class="string">dependsOn:</span> last) &lt;&lt; &#123;</div><div class="line">    println(<span class="string">"FIRST"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>gradle -q first last first</strong>和<strong>gradle -q first</strong>命令的输出结果是一样的：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">LAST</div><div class="line">FIRST</div></pre></td></tr></table></figure>
+</li>
+<li><p>排除任务<br>你可以用命令行选项<code>-x</code>来排除某些任务，例如<code>gradle dist -x test</code>命令会排除test任务。即使test任务是dist任务的依赖，test也会被排除，同时test任务的依赖任务也都会被排除，而被test和其他任务同时依赖的任务则不会被排除。</p>
+</li>
+<li><p>失败后继续执行构建<br>默认情况下，只要有任务调用失败，Gradle就会中断执行。这可能会使调用过程更快，但那些后面隐藏的错误就没有办法发现了。所以你可以使用<code>--continue</code>选项在一次调用中尽可能多的发现所有问题。采用<code>--continue</code>选项，Gralde会调用每一个任务以及它们依赖的任务。而不是一旦出现错误就会中断执行，所有错误信息都会在最后被列出来。但是一旦某个任务执行失败，那么所有依赖于该任务的子任务都不会被调用。</p>
+</li>
+<li><p>选择执行构建<br>调用gradle命令时，默认情况下总是会构建当前目录下的文件，可以使用<code>-b</code>参数选择其他目录的构建文件，并且当你使用此参数时<code>settings.gradle</code>将不会生效。<code>-b</code>参数用以指定脚本具体所在位置，格式为<code>dirpwd/build.gradle</code>，<code>-p</code>参数用以指定脚本目录即可。</p>
+</li>
+<li><p>项目列表<br>执行<code>gradle projects</code>命令会为你列出子项目名称列表。</p>
+</li>
+<li><p>任务列表<br>执行<code>gradle tasks</code>命令会列出项目中所有任务。当然你也可以用<code>--all</code>参数来收集更多任务信息。这会列出项目中所有任务以及任务之间的依赖关系。</p>
+</li>
+<li><p>获取任务具体信息<br>执行<code>gradle help --task someTask</code>可以显示指定任务的详细信息，或者多项目构建中相同任务名称的所有任务的信息。</p>
+</li>
+<li><p>获取依赖列表<br>执行<code>gradle dependencies</code>命令会列出项目的依赖列表，所有依赖会根据任务区分，以树型结构展示出来。还可以通过<code>--configuration</code>参数来查看指定构建任务的依赖情况。例如<code>gradle -q api:dependencies --configuration testCompile</code>。</p>
+</li>
+<li><p>查看特定依赖<br>执行<code>gradle dependencyInsight</code>命令可以查看指定的依赖。例如<code>gradle -q webapp:dependencyInsight --dependency groovy --configuration compile</code>。</p>
+</li>
+<li><p>获取项目属性列表<br>执行<code>gradle properties</code>可以获取项目所有属性列表。</p>
+</li>
+<li><p>构建日志<br><code>--profile</code>参数可以收集一些构建期间的信息并保存到<code>build/reports/profile</code>目录下。并且会以构建时间命名这些文件。</p>
+</li>
+<li><p>Gradle图形界面<br>为了辅助传统的命令行交互，Gradle还提供了一个图形界面。我们可以使用Gradle命令中<code>--gui</code>选项来启动它。注意：这个命令执行后会使得命令行一直处于封锁状态，直到我们关闭图形界面。如果是在<code>*nix</code>系统下，则可以通过加上“&amp;”让它在后台执行：<code>gradle --gui&amp;</code>，此命令对Windows系统无效。</p>
+</li>
+<li><p>标准项目属性<br>Project对象提供了一些常用的标准属性如下</p>
+</li>
+</ul>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project</td>
+<td>Project</td>
+<td>Project 实例对象</td>
+</tr>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>项目目录的名称</td>
+</tr>
+<tr>
+<td>path</td>
+<td>String</td>
+<td>项目的绝对路径</td>
+</tr>
+<tr>
+<td>description</td>
+<td>String</td>
+<td>项目描述</td>
+</tr>
+<tr>
+<td>projectDir</td>
+<td>File</td>
+<td>包含构建脚本的目录</td>
+</tr>
+<tr>
+<td>build</td>
+<td>File</td>
+<td>projectDir/build</td>
+</tr>
+<tr>
+<td>group</td>
+<td>Object</td>
+<td>未具体说明</td>
+</tr>
+<tr>
+<td>version</td>
+<td>Object</td>
+<td>未具体说明</td>
+</tr>
+<tr>
+<td>ant</td>
+<td>AntBuilder</td>
+<td>Ant实例对象</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<ul>
+<li><p>声明变量<br>在Gradle构建脚本中有两种类型的变量可以声明：局部变量(local)和扩展属性(extra)。局部变量使用关键字def来声明，其只在声明它的地方可见，扩展属性使用ext声明，例如<code>ext.purpose = null</code>，另外，使用ext扩展块可以以此添加多个属性。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ext &#123;</div><div class="line">    springVersion = <span class="string">"5.0.0"</span></div><div class="line">    emailNotification = <span class="string">"build@master.org"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>Java插件-依赖配置</p>
+</li>
+</ul>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>扩展</th>
+<th>被使用时运行的任务</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>compile</td>
+<td>-</td>
+<td>compileJava</td>
+<td>编译时的依赖</td>
+</tr>
+<tr>
+<td>runtime</td>
+<td>compile</td>
+<td>-</td>
+<td>运行时的依赖</td>
+</tr>
+<tr>
+<td>testCompile</td>
+<td>compile</td>
+<td>compileTestJava</td>
+<td>编译测试所需的额外依赖</td>
+</tr>
+<tr>
+<td>testRuntime</td>
+<td>runtime</td>
+<td>test</td>
+<td>仅供运行测试的额外依赖</td>
+</tr>
+<tr>
+<td>archives</td>
+<td>-</td>
+<td>uploadArchives</td>
+<td>项目产生的信息单元（如:jar包）</td>
+</tr>
+<tr>
+<td>default</td>
+<td>runtime</td>
+<td>-</td>
+<td>使用其他项目的默认依赖项，包括该项目产生的信息单元以及依赖</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<ul>
+<li><p>gradle利用maven的本地仓库<br>有的人是从maven转向gradle，那么这时maven已经在本地仓库中缓存了大量的jar文件，如何让gradle利用maven的本地仓库呢？首先在<code>build.gradle</code>配置</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">repositories &#123;</div><div class="line">    mavenLocal()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这时，gradle会查找maven的本地仓库地址，查找顺序如下，可以参考<a href="https://docs.gradle.org/current/dsl/org.gradle.api.artifacts.dsl.RepositoryHandler.html" target="_blank" rel="external">在线文档</a></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="number">1.</span> The value of system property <span class="string">'maven.repo.local'</span> <span class="keyword">if</span> set;</div><div class="line"><span class="number">2.</span> The value of element &lt;localRepository&gt; of <span class="regexp">~/.m2/</span>settings.xml <span class="keyword">if</span> <span class="keyword">this</span> file exists and element is set;</div><div class="line"><span class="number">3.</span> The value of element &lt;localRepository&gt; of $M2_HOME<span class="regexp">/conf/</span>settings.xml (where $M2_HOME is the value of the environment variable with that name) <span class="keyword">if</span> <span class="keyword">this</span> file exists and element is set;</div><div class="line"><span class="number">4.</span> The path <span class="regexp">~/.m2/</span>repository.</div></pre></td></tr></table></figure>
+<p>例如我的maven配置文件位置在<code>D:/apache-maven-3.3.3/conf/settings.xml</code>，并且指定了<code>&lt;localRepository&gt;D:/apache-maven-3.3.3/repo&lt;/localRepository&gt;</code>那么gradle就会找到该位置</p>
+</li>
+<li><p>IDEA中如何设置gradle的本地仓库地址<br>在IDEA中打开Settings || Build, Execution, Deployment || Build Tools || Gradle，修改Service directory path，该值为Gradle的默认缓存目录中，比如填<code>D:/apache-maven-3.3.3/repo</code>，这样gradle就会将jar下载到该路径下，例如我的IDEA中的gradle下载的jar地址为：<code>D:/apache-maven-3.3.3/repo/caches/modules-2/files-2.1</code>，这样就可以将maven的本地仓库和gradle的本地仓库合二为一了。顺便在Gradle VM options中填<code>-Dfile.encoding=UTF-8</code>可以解决一些中文乱码问题。</p>
+<p>前提是IDEA中的maven已经配置好了，同样在Settings || Build, Execution, Deployment || Build Tools || Maven中配置</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Maven home <span class="string">directory:</span> <span class="string">D:</span>/apache-maven<span class="number">-3.3</span><span class="number">.3</span></div><div class="line">User settings <span class="string">file:</span> <span class="string">D:</span><span class="regexp">/apache-maven-3.3.3/</span>conf/settings.xml</div><div class="line">Local <span class="string">repository:</span> <span class="string">D:</span><span class="regexp">/apache-maven-3.3.3/</span>repo</div></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Wang Xu
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.codepub.cn/2016/11/03/Build-system-gradle-memos/" title="构建系统Gradle备忘录">http://www.codepub.cn/2016/11/03/Build-system-gradle-memos/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow" target="_blank">CC BY-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Gradle/" rel="tag"># Gradle</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/29/Read-the-road-to-financial-freedom/" rel="next" title="读《财务自由之路》">
+                <i class="fa fa-chevron-left"></i> 读《财务自由之路》
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/04/Read-the-great-stagnation/" rel="prev" title="读《大停滞？科技高原下的经济困境：美国的难题与中国的机遇》">
+                读《大停滞？科技高原下的经济困境：美国的难题与中国的机遇》 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Wang Xu" />
+            
+              <p class="site-author-name" itemprop="name">Wang Xu</p>
+              <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">115</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shijiebei2009" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.linkedin.com/in/codepub" target="_blank" title="Linkedin">
+                    
+                      <i class="fa fa-fw fa-linkedin-square"></i>Linkedin</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank" title="Stackoverflow">
+                    
+                      <i class="fa fa-fw fa-stack-overflow"></i>Stackoverflow</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/codepub.cn" target="_blank" title="ZhiHu">
+                    
+                      <i class="fa fa-fw fa-thumbs-up"></i>ZhiHu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.douban.com/people/shijiebei2009/" target="_blank" title="DouBan">
+                    
+                      <i class="fa fa-fw fa-graduation-cap"></i>DouBan</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1779238484" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">270.3k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+  <div class="footer-custom">Hosted by <a target="_blank" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>&nbsp;&nbsp;&nbsp;<a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a></div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1254721753&web_id=1254721753" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://codepubcn.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.codepub.cn/2016/11/03/Build-system-gradle-memos/';
+          this.page.identifier = '2016/11/03/Build-system-gradle-memos/';
+          this.page.title = '构建系统Gradle备忘录';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codepubcn.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/favicon-16x16.ico?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="最近邻居 解题思路：  使用JDK中的Point2D类，该类定义了坐标系空间中的一个点 Point2D是一个抽象类，但是在该类内部定义了静态的Double类，并且Double继承自Point2D 可以通过Double的构造方法来实例化空间中的某个点 将所有的输入数据全部实例化并存放在一个Point2D.Double的数组中 对该数组进行暴力破解，计算其中任意两个点之间的距离，时间复杂度为$O(n^">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搜狗2016校园招聘之编程题解析-大数据开发">
+<meta property="og:url" content="http://www.codepub.cn/2015/10/24/2016-campus-recruitment-of-sougou-programming-problem-resolution-big-data-development/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="最近邻居 解题思路：  使用JDK中的Point2D类，该类定义了坐标系空间中的一个点 Point2D是一个抽象类，但是在该类内部定义了静态的Double类，并且Double继承自Point2D 可以通过Double的构造方法来实例化空间中的某个点 将所有的输入数据全部实例化并存放在一个Point2D.Double的数组中 对该数组进行暴力破解，计算其中任意两个点之间的距离，时间复杂度为$O(n^">
+<meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/nearest_neighbor_sougou_examination_1.png">
+<meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/chaos_reduction_sougou_examination_2.png">
+<meta property="og:updated_time" content="2017-11-04T03:55:11.909Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搜狗2016校园招聘之编程题解析-大数据开发">
+<meta name="twitter:description" content="最近邻居 解题思路：  使用JDK中的Point2D类，该类定义了坐标系空间中的一个点 Point2D是一个抽象类，但是在该类内部定义了静态的Double类，并且Double继承自Point2D 可以通过Double的构造方法来实例化空间中的某个点 将所有的输入数据全部实例化并存放在一个Point2D.Double的数组中 对该数组进行暴力破解，计算其中任意两个点之间的距离，时间复杂度为$O(n^">
+<meta name="twitter:image" content="http://7xig3q.com1.z0.glb.clouddn.com/nearest_neighbor_sougou_examination_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.codepub.cn/2015/10/24/2016-campus-recruitment-of-sougou-programming-problem-resolution-big-data-development/"/>
+
+
+
+
+
+  <title>搜狗2016校园招聘之编程题解析-大数据开发 | IT草根</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IT草根</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-简历">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-友链">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-link"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'CEs2u-bRR6iHSt4ynbFA','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.codepub.cn/2015/10/24/2016-campus-recruitment-of-sougou-programming-problem-resolution-big-data-development/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Xu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IT草根">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">搜狗2016校园招聘之编程题解析-大数据开发</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-24T23:26:47+08:00">
+                2015-10-24
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
+                2017-11-04
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithms/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithms</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/10/24/2016-campus-recruitment-of-sougou-programming-problem-resolution-big-data-development/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2015/10/24/2016-campus-recruitment-of-sougou-programming-problem-resolution-big-data-development/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  789
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="最近邻居"><a href="#最近邻居" class="headerlink" title="最近邻居"></a>最近邻居</h3><p><img src="http://7xig3q.com1.z0.glb.clouddn.com/nearest_neighbor_sougou_examination_1.png" alt=""></p>
+<p><strong>解题思路</strong>：</p>
+<ol>
+<li>使用JDK中的Point2D类，该类定义了坐标系空间中的一个点</li>
+<li>Point2D是一个抽象类，但是在该类内部定义了静态的Double类，并且Double继承自Point2D</li>
+<li>可以通过Double的构造方法来实例化空间中的某个点</li>
+<li>将所有的输入数据全部实例化并存放在一个Point2D.Double的数组中</li>
+<li>对该数组进行暴力破解，计算其中任意两个点之间的距离，时间复杂度为$O(n^2)$，并保留下最小的两个点的编号，且编号小的在前</li>
+</ol>
+<p><strong>Java算法实现</strong>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.awt.geom.Point2D;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * &lt;p&gt;</div><div class="line"> * Created with IntelliJ IDEA. 2015/9/26 15:26</div><div class="line"> * &lt;/p&gt;</div><div class="line"> * &lt;p&gt;</div><div class="line"> * ClassName:Main</div><div class="line"> * &lt;/p&gt;</div><div class="line"> * &lt;p&gt;</div><div class="line"> * Description:</div><div class="line"> * 测试数据</div><div class="line"> * 3</div><div class="line"> * 1.0 1.0002</div><div class="line"> * 3.03 3.023</div><div class="line"> * 0.0 -0.001</div><div class="line"> * Closest points: 0, 2</div><div class="line"> * Process finished with exit code 0</div><div class="line"> * &lt;/P&gt;</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> Wang Xu</div><div class="line"> * <span class="doctag">@version</span> V1.0.0</div><div class="line"> * <span class="doctag">@since</span> V1.0.0</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keyword">int</span>[] getClosest(Point2D.Double[] points) &#123;</div><div class="line">        <span class="keyword">int</span>[] result = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</div><div class="line">        <span class="keyword">double</span> distance = Double.MAX_VALUE;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; points.length; i++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; points.length; j++) &#123;</div><div class="line">                <span class="keyword">if</span> (i != j) &#123;</div><div class="line">                    <span class="keyword">double</span> distance1 = points[i].distance(points[j]);</div><div class="line">                    <span class="keyword">if</span> (distance1 &lt; distance) &#123;</div><div class="line">                        distance = distance1;</div><div class="line">                        <span class="keyword">if</span> (i &lt; j) &#123;</div><div class="line">                            result[<span class="number">0</span>] = i;</div><div class="line">                            result[<span class="number">1</span>] = j;</div><div class="line">                        &#125; <span class="keyword">else</span> &#123;</div><div class="line">                            result[<span class="number">0</span>] = j;</div><div class="line">                            result[i] = i;</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Point2D.Double[] points;</div><div class="line">        Scanner input = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">int</span> n = input.nextInt();</div><div class="line">            input.nextLine();</div><div class="line">            points = <span class="keyword">new</span> Point2D.Double[n];</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</div><div class="line">                <span class="keyword">double</span> x = input.nextDouble();</div><div class="line">                <span class="keyword">double</span> y = input.nextDouble();</div><div class="line">                input.nextLine();</div><div class="line">                points[i] = <span class="keyword">new</span> Point2D.Double(x, y);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span>[] result = getClosest(points);</div><div class="line">        System.out.printf(<span class="string">"Closest points: %d, %d\n"</span>, result[<span class="number">0</span>], result[<span class="number">1</span>]);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="混乱还原"><a href="#混乱还原" class="headerlink" title="混乱还原"></a>混乱还原</h3><p><img src="http://7xig3q.com1.z0.glb.clouddn.com/chaos_reduction_sougou_examination_2.png" alt=""></p>
+<p><strong>解题思路</strong>：</p>
+<ol>
+<li>利用伪随机特性，只要时间种子一样且上限一样，其实随机数每次都会产生相同的数</li>
+<li>既然要求还原，那么我们从后往前执行对应的操作即可</li>
+<li>使用一个额外的栈来存储所产生的随机数</li>
+<li>在乱序操作中，是将随机数对应的元素与最后一个元素进行交换，那么还原的时候，就要从第一个元素开始与最后产生的那个随机数对应的元素进行交换，依次类推，直到栈空即可</li>
+</ol>
+<p><strong>Java算法实现</strong>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.Arrays;</div><div class="line"><span class="keyword">import</span> java.util.Random;</div><div class="line"><span class="keyword">import</span> java.util.Scanner;</div><div class="line"><span class="keyword">import</span> java.util.Stack;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * &lt;p&gt;</div><div class="line"> * Created with IntelliJ IDEA. 2015/9/26 15:26</div><div class="line"> * &lt;/p&gt;</div><div class="line"> * &lt;p&gt;</div><div class="line"> * ClassName:Main</div><div class="line"> * &lt;/p&gt;</div><div class="line"> * &lt;p&gt;</div><div class="line"> * Description:输入数据</div><div class="line"> * 12312 3 1 2 3</div><div class="line"> * Success!</div><div class="line"> * &lt;/P&gt;</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> Wang Xu</div><div class="line"> * <span class="doctag">@version</span> V1.0.0</div><div class="line"> * <span class="doctag">@since</span> V1.0.0</div><div class="line"> */</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> Stack&lt;Integer&gt; s = <span class="keyword">new</span> Stack&lt;Integer&gt;();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">shuffle</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> seed)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> n = a.length;</div><div class="line">        Random random = <span class="keyword">new</span> Random(seed);</div><div class="line">        <span class="keyword">for</span> (; n &gt; <span class="number">1</span>; n--) &#123;</div><div class="line">            <span class="keyword">int</span> r = random.nextInt(n);</div><div class="line">            <span class="keyword">int</span> tmp = a[n - <span class="number">1</span>];</div><div class="line">            a[n - <span class="number">1</span>] = a[r];</div><div class="line">            a[r] = tmp;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">restore</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> seed)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> n = a.length;</div><div class="line">        Random random = <span class="keyword">new</span> Random(seed);</div><div class="line">        <span class="keyword">int</span> temp = n;</div><div class="line">        <span class="keyword">for</span> (; temp &gt; <span class="number">1</span>; temp--) &#123;</div><div class="line">            <span class="keyword">int</span> r = random.nextInt(temp);</div><div class="line">            s.add(r);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</div><div class="line">            <span class="keyword">if</span> (!s.isEmpty()) &#123;</div><div class="line">                <span class="keyword">int</span> r = s.pop();</div><div class="line">                <span class="keyword">int</span> tmp = a[i + <span class="number">1</span>];</div><div class="line">                a[i + <span class="number">1</span>] = a[r];</div><div class="line">                a[r] = tmp;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> seed, n, i;</div><div class="line">        <span class="keyword">int</span>[] a, b;</div><div class="line">        Scanner input = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">        &#123;</div><div class="line">            seed = input.nextInt();</div><div class="line">            n = input.nextInt();</div><div class="line">            a = <span class="keyword">new</span> <span class="keyword">int</span>[n];</div><div class="line">            <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; ++i)</div><div class="line">                a[i] = input.nextInt();</div><div class="line">        &#125;</div><div class="line">        b = Arrays.copyOf(a, a.length);</div><div class="line">        shuffle(a, seed);</div><div class="line">        restore(a, seed);</div><div class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;</div><div class="line">            <span class="keyword">if</span> (a[i] != b[i])</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (i == n)</div><div class="line">            System.out.printf(<span class="string">"Success!\n"</span>);</div><div class="line">        <span class="keyword">else</span></div><div class="line">            System.out.printf(<span class="string">"Failed!\n"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>算法如有疏漏或不妥之处，还望不吝赐教！</strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Wang Xu
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.codepub.cn/2015/10/24/2016-campus-recruitment-of-sougou-programming-problem-resolution-big-data-development/" title="搜狗2016校园招聘之编程题解析-大数据开发">http://www.codepub.cn/2015/10/24/2016-campus-recruitment-of-sougou-programming-problem-resolution-big-data-development/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow" target="_blank">CC BY-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/08/Using-the-Python-CSV-module-to-read-and-write-CSV-file/" rel="next" title="使用Python的CSV模块读写CSV文件">
+                <i class="fa fa-chevron-left"></i> 使用Python的CSV模块读写CSV文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/27/Ubuntu14-10-install-and-uninstall-sogou-input-method/" rel="prev" title="Ubuntu 14.10安装和卸载搜狗拼音输入法">
+                Ubuntu 14.10安装和卸载搜狗拼音输入法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Wang Xu" />
+            
+              <p class="site-author-name" itemprop="name">Wang Xu</p>
+              <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">115</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shijiebei2009" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.linkedin.com/in/codepub" target="_blank" title="Linkedin">
+                    
+                      <i class="fa fa-fw fa-linkedin-square"></i>Linkedin</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank" title="Stackoverflow">
+                    
+                      <i class="fa fa-fw fa-stack-overflow"></i>Stackoverflow</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/codepub.cn" target="_blank" title="ZhiHu">
+                    
+                      <i class="fa fa-fw fa-thumbs-up"></i>ZhiHu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.douban.com/people/shijiebei2009/" target="_blank" title="DouBan">
+                    
+                      <i class="fa fa-fw fa-graduation-cap"></i>DouBan</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1779238484" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#最近邻居"><span class="nav-number">1.</span> <span class="nav-text">最近邻居</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#混乱还原"><span class="nav-number">2.</span> <span class="nav-text">混乱还原</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">270.3k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+  <div class="footer-custom">Hosted by <a target="_blank" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>&nbsp;&nbsp;&nbsp;<a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a></div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1254721753&web_id=1254721753" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://codepubcn.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.codepub.cn/2015/10/24/2016-campus-recruitment-of-sougou-programming-problem-resolution-big-data-development/';
+          this.page.identifier = '2015/10/24/2016-campus-recruitment-of-sougou-programming-problem-resolution-big-data-development/';
+          this.page.title = '搜狗2016校园招聘之编程题解析-大数据开发';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codepubcn.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

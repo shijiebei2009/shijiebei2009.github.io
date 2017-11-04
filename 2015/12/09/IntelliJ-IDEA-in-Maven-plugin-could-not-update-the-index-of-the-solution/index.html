@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/favicon-16x16.ico?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="IntelliJ," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Maven的仓库、索引中央仓库：目前来说，http://repo1.maven.org/maven2/ 是真正的Maven中央仓库的地址，该地址内置在Maven的源码中，其它地址包括著名的ibiblio.org，都是镜像。 索引：中央仓库带有索引文件以方便用户对其进行搜索，完整的索引文件至2015年12月8日大小约为1.11G，索引每周更新一次。 本地仓库：是建立在本地机器上的Maven仓库，本地">
+<meta name="keywords" content="IntelliJ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IntelliJ IDEA中Maven插件无法更新索引之解决办法">
+<meta property="og:url" content="http://www.codepub.cn/2015/12/09/IntelliJ-IDEA-in-Maven-plugin-could-not-update-the-index-of-the-solution/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="Maven的仓库、索引中央仓库：目前来说，http://repo1.maven.org/maven2/ 是真正的Maven中央仓库的地址，该地址内置在Maven的源码中，其它地址包括著名的ibiblio.org，都是镜像。 索引：中央仓库带有索引文件以方便用户对其进行搜索，完整的索引文件至2015年12月8日大小约为1.11G，索引每周更新一次。 本地仓库：是建立在本地机器上的Maven仓库，本地">
+<meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/maven_after_update_maven_index_add_dependence%20.gif">
+<meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ_plugin_maven_config.png">
+<meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ_maven_download_local_index.png">
+<meta property="og:image" content="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ_maven_index_location_detailed.png">
+<meta property="og:updated_time" content="2017-11-04T03:55:11.684Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IntelliJ IDEA中Maven插件无法更新索引之解决办法">
+<meta name="twitter:description" content="Maven的仓库、索引中央仓库：目前来说，http://repo1.maven.org/maven2/ 是真正的Maven中央仓库的地址，该地址内置在Maven的源码中，其它地址包括著名的ibiblio.org，都是镜像。 索引：中央仓库带有索引文件以方便用户对其进行搜索，完整的索引文件至2015年12月8日大小约为1.11G，索引每周更新一次。 本地仓库：是建立在本地机器上的Maven仓库，本地">
+<meta name="twitter:image" content="http://7xig3q.com1.z0.glb.clouddn.com/maven_after_update_maven_index_add_dependence%20.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.codepub.cn/2015/12/09/IntelliJ-IDEA-in-Maven-plugin-could-not-update-the-index-of-the-solution/"/>
+
+
+
+
+
+  <title>IntelliJ IDEA中Maven插件无法更新索引之解决办法 | IT草根</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IT草根</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-简历">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-友链">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-link"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'CEs2u-bRR6iHSt4ynbFA','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.codepub.cn/2015/12/09/IntelliJ-IDEA-in-Maven-plugin-could-not-update-the-index-of-the-solution/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Xu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IT草根">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">IntelliJ IDEA中Maven插件无法更新索引之解决办法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-09T22:21:33+08:00">
+                2015-12-09
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
+                2017-11-04
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/12/09/IntelliJ-IDEA-in-Maven-plugin-could-not-update-the-index-of-the-solution/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2015/12/09/IntelliJ-IDEA-in-Maven-plugin-could-not-update-the-index-of-the-solution/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,956
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  8
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="Maven的仓库、索引"><a href="#Maven的仓库、索引" class="headerlink" title="Maven的仓库、索引"></a>Maven的仓库、索引</h4><p><strong>中央仓库</strong>：目前来说，<a href="http://repo1.maven.org/maven2/" target="_blank" rel="external">http://repo1.maven.org/maven2/</a> 是真正的<code>Maven</code>中央仓库的地址，该地址内置在<code>Maven</code>的源码中，其它地址包括著名的<a href="http://mirrors.ibiblio.org/pub/mirrors/maven2/" target="_blank" rel="external">ibiblio.org</a>，都是镜像。</p>
+<p><strong>索引</strong>：中央仓库带有索引文件以方便用户对其进行搜索，完整的索引文件至2015年12月8日大小约为1.11G，索引每周更新一次。</p>
+<p><strong>本地仓库</strong>：是建立在本地机器上的<code>Maven</code>仓库，本地仓库是中央仓库（或者说远程仓库）的一个缓冲和子集，当你构建<code>Maven</code>项目的时候，首先会从本地仓库查找资源，如果没有，那么<code>Maven</code>会从远程仓库下载到你本地仓库。这样在你下次使用的时候就不需要从远程下载了。如果你所需要的<code>Jar</code>包版本在本地仓库没有，而且也不存在于远程仓库，<code>Maven</code>在构建的时候会报错，这种情况可能发生在有些<code>Jar</code>包的新版本没有在<code>Maven</code>仓库中及时更新。Maven缺省的本地仓库地址为<code>${user.home}/.m2/repository</code>。也就是说，一个用户会对应的拥有一个本地仓库。当然你可以通过修改<code>${user.home}/.m2/settings.xml</code>配置这个地址：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">settings</span>&gt;</span></div><div class="line">  ···</div><div class="line">  <span class="tag">&lt;<span class="name">localRepository</span>&gt;</span> D:/java/repository<span class="tag">&lt;/<span class="name">localRepository</span>&gt;</span></div><div class="line">  ...</div><div class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>提交内容</strong>：只要你的项目是开源的，而且你能提供完备的<code>POM</code>等信息，你就可以提交项目文件至中央仓库，这可以通过<code>Sonatype</code>提供的<a href="https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide" target="_blank" rel="external">开源Maven仓库托管服务</a>实现。</p>
+<h4 id="IntelliJ-IDEA利用索引实现自动补全"><a href="#IntelliJ-IDEA利用索引实现自动补全" class="headerlink" title="IntelliJ IDEA利用索引实现自动补全"></a>IntelliJ IDEA利用索引实现自动补全</h4><p>众所周知，由于伟大的中国防火墙，所以在使用IDEA下载Maven仓库索引的时候，要么无法访问，要么就是速度极慢，这对开发人员带来了极大的不便，所以一般公司都用Nexus搭建一个公司内部的私服。同时利用私服更有利于对公司内部开发人员依赖的Jar包版本进行控制。</p>
+<p>也许你会问，中央仓库带有索引，为什么本地的IDEA也需要下载索引呢？那么直接看下图你就明白了，如果本地没有下载索引的话，在<code>pom.xml</code>文件中添加依赖是得不到任何提示的。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/maven_after_update_maven_index_add_dependence%20.gif" alt=""></p>
+<h4 id="IntelliJ-IDEA中Maven插件配置"><a href="#IntelliJ-IDEA中Maven插件配置" class="headerlink" title="IntelliJ IDEA中Maven插件配置"></a>IntelliJ IDEA中Maven插件配置</h4><p>IntelliJ已经内置了对Maven插件的支持，当然你也可以配置自己的Maven，只需要进入<code>Settings-&gt;Maven-&gt;Maven home directory|User settings file|Local repository</code>配置即可。注意如果使用自己配置的Maven，那么一定要勾选<code>Override</code>，否则配置不生效。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ_plugin_maven_config.png" alt=""></p>
+<h4 id="IntelliJ14-1更新索引失败原因"><a href="#IntelliJ14-1更新索引失败原因" class="headerlink" title="IntelliJ14.1更新索引失败原因"></a>IntelliJ14.1更新索引失败原因</h4><p>在使用14.1.X版本的IntelliJ时，更新Maven索引出现如下错误<a href="https://devnet.jetbrains.com/message/5560886;jsessionid=565FE35134A3F90A560B993435EAC7EF#5560886" target="_blank" rel="external">Indexed Maven Repositories - type remore - Error - Idea 14.1.5</a>，根据该链接内所述原因为：这是IntelliJ14.1.X版本中的一个BUG，并且会在下一个发布版本中进行修复，推荐将IntelliJ升级到版本15。</p>
+<h4 id="使用国内Maven仓库的镜像"><a href="#使用国内Maven仓库的镜像" class="headerlink" title="使用国内Maven仓库的镜像"></a>使用国内Maven仓库的镜像</h4><p>鉴于伟大的防火墙，所以推荐使用国内的镜像资源作为Maven中央仓库。推荐使用<a href="http://maven.oschina.net/help.html" target="_blank" rel="external">开源中国Maven库使用帮助</a>，配置很简单就不详述了，有两种方式，其一打开<strong>settings.xml</strong>文件，加入<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus-osc<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>*<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span><span class="comment">&lt;!--用一个简单的*号会把所有的仓库地址屏蔽掉--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>Nexus osc<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.oschina.net/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>当然还有第二种方式，就是屏蔽指定的中央仓库，并且还可以加入<strong>OSChina</strong>的第三方镜像仓库或者多个仓库，配置如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus-osc<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span><span class="comment">&lt;!--这里指定只屏蔽central仓库--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>Nexus osc<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.oschina.net/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus-osc-thirdparty<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>thirdparty<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>Nexus osc thirdparty<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.oschina.net/content/repositories/thirdparty/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>最后，在执行<strong>Maven</strong>命令的时候，<strong>Maven</strong>还需要安装一些插件包，这些插件包的下载地址也让其指向<strong>OSChina</strong>的<strong>Maven</strong>地址。修改如下所示<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">profile</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">id</span>&gt;</span>jdk-1.8<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">activation</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">jdk</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">jdk</span>&gt;</span><span class="comment">&lt;!--指定JDK版本是1.8时自动激活--&gt;</span></div><div class="line">     <span class="tag">&lt;/<span class="name">activation</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">repositories</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">repository</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>local private nexus<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.oschina.net/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">releases</span>&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>true<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">releases</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">snapshots</span>&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>false<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">snapshots</span>&gt;</span></div><div class="line">         <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></div><div class="line">     <span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">pluginRepositories</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">pluginRepository</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>local private nexus<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.oschina.net/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">releases</span>&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>true<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">releases</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">snapshots</span>&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>false<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">snapshots</span>&gt;</span></div><div class="line">         <span class="tag">&lt;/<span class="name">pluginRepository</span>&gt;</span></div><div class="line">     <span class="tag">&lt;/<span class="name">pluginRepositories</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">profile</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>另外你也可以下载开源中国提供的官方纯净版<a href="http://maven.oschina.net/static/xml/settings.xml" target="_blank" rel="external">settings.xml</a>文件。</p>
+<h4 id="下载Maven仓库的索引"><a href="#下载Maven仓库的索引" class="headerlink" title="下载Maven仓库的索引"></a>下载Maven仓库的索引</h4><p>在配置完成之后就可以下载仓库索引了，注意这是一个非常耗时的过程，建议利用晚上或者出去午饭时间下载。下载过程及下载完成之后状态如下图所示。本次下载整体耗时在一个小时左右。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ_maven_download_local_index.png" alt=""><br>另外我在思考既然下载一次这么麻烦，那么下载下来的索引存放在哪里呢？我能否将其拷贝到其他机器重复利用呢？于是经过一番搜索我发现了索引的存放位置，并且将其打包拷贝到其他机器的同样位置，但未做测试，不知能否重复利用，如有网友测试完毕，可以告诉我，感谢之。<br><img src="http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ_maven_index_location_detailed.png" alt=""></p>
+<h4 id="利用本地Tomcat作为索引下载服务器"><a href="#利用本地Tomcat作为索引下载服务器" class="headerlink" title="利用本地Tomcat作为索引下载服务器"></a>利用本地Tomcat作为索引下载服务器</h4><ul>
+<li>首先下载如下两个文件：<br><a href="http://repo1.maven.org/maven2/.index/nexus-maven-repository-index.properties" target="_blank" rel="external">http://repo1.maven.org/maven2/.index/nexus-maven-repository-index.properties</a><br><a href="http://repo1.maven.org/maven2/.index/nexus-maven-repository-index.gz" target="_blank" rel="external">http://repo1.maven.org/maven2/.index/nexus-maven-repository-index.gz</a></li>
+<li>启动一个Apache Tomcat服务器，在其根目录下建立一个<code>/maven2/.index</code>的虚拟目录（注意：如果你使用的是Windows系统，可能无法建立<code>.index</code>件夹，必须使用DOS命令：<code>mkdir .index</code>），把上述两个文件拷贝至该虚拟目录下</li>
+<li>编辑<code>C:/WINDOWS/system32/drivers/etc/hosts</code>文件，在文件中加入:<br><code>127.0.0.1    repo1.maven.org</code><br>注意：<code>127.0.0.1</code>为步骤2的<code>Apache Tomcat</code>服务器IP地址。</li>
+<li>在IDEA的maven插件中更新索引</li>
+<li>移除步骤3中在hosts文件中添加的内容</li>
+</ul>
+<p><strong>备注</strong>：其实该解决办法的总体思路就是先将索引文件整体下载，然后利用本地的Tomcat作为服务器，再从Tomcat上更新索引。</p>
+<p>最后如果你想自己配置一个私服，可以参考<a href="http://my.oschina.net/aiguozhe/blog/101537?fromerr=kOXkYkdf" target="_blank" rel="external">Maven仓库管理之Nexus</a>。</p>
+<h4 id="开源中国镜像存在的问题"><a href="#开源中国镜像存在的问题" class="headerlink" title="开源中国镜像存在的问题"></a>开源中国镜像存在的问题</h4><ul>
+<li>开源中国镜像不是很稳定，有时候很快下载完成有时候一直处于<code>Resolving dependencies of ...</code>状态而无法下载</li>
+<li>在配置了开源中国第三方库镜像之后，发现一个问题，该库内容更新不及时，很多第三方库中的Jar包版本都非常陈旧。</li>
+<li>开源中国的中央仓库与第三方库中存在很多交叉的情况，也就是说中央仓库包括了第三方库中的内容，而且在下载jar文件的时候，默认就是直接从开源中国的中央仓库镜像下载，而不是开源中国的第三方仓库镜像下载。</li>
+<li><p>我给出的建议是，如无必要，移除开源中国的第三方库镜像地址，移除的内容如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus-osc-thirdparty<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>thirdparty<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">name</span>&gt;</span>Nexus osc thirdparty<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.oschina.net/content/repositories/thirdparty/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>针对以上问题，有时候还是需要从国外Maven官方的仓库下载，方法是只需要修改<code>settings.xml</code>文件为官方默认版本即可。现将Maven默认<code>settings.xml</code>贴出</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">settings</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/SETTINGS/1.0.0"</span></span></div><div class="line">          <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">          <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"</span>&gt;</div><div class="line">  <span class="tag">&lt;<span class="name">localRepository</span>&gt;</span>D:/apache-maven-3.3.1/repository<span class="tag">&lt;/<span class="name">localRepository</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">pluginGroups</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">proxies</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">proxies</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">servers</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">servers</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">profiles</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">profiles</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Wang Xu
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.codepub.cn/2015/12/09/IntelliJ-IDEA-in-Maven-plugin-could-not-update-the-index-of-the-solution/" title="IntelliJ IDEA中Maven插件无法更新索引之解决办法">http://www.codepub.cn/2015/12/09/IntelliJ-IDEA-in-Maven-plugin-could-not-update-the-index-of-the-solution/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow" target="_blank">CC BY-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/IntelliJ/" rel="tag"># IntelliJ</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/30/Read-the-black-swan/" rel="next" title="读《黑天鹅》">
+                <i class="fa fa-chevron-left"></i> 读《黑天鹅》
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/21/CCF-sixth-CSP-certification-exams-Solutions/" rel="prev" title="CCF第六次CSP认证考试题解">
+                CCF第六次CSP认证考试题解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Wang Xu" />
+            
+              <p class="site-author-name" itemprop="name">Wang Xu</p>
+              <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">115</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shijiebei2009" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.linkedin.com/in/codepub" target="_blank" title="Linkedin">
+                    
+                      <i class="fa fa-fw fa-linkedin-square"></i>Linkedin</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank" title="Stackoverflow">
+                    
+                      <i class="fa fa-fw fa-stack-overflow"></i>Stackoverflow</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/codepub.cn" target="_blank" title="ZhiHu">
+                    
+                      <i class="fa fa-fw fa-thumbs-up"></i>ZhiHu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.douban.com/people/shijiebei2009/" target="_blank" title="DouBan">
+                    
+                      <i class="fa fa-fw fa-graduation-cap"></i>DouBan</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1779238484" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Maven的仓库、索引"><span class="nav-number">1.</span> <span class="nav-text">Maven的仓库、索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IntelliJ-IDEA利用索引实现自动补全"><span class="nav-number">2.</span> <span class="nav-text">IntelliJ IDEA利用索引实现自动补全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IntelliJ-IDEA中Maven插件配置"><span class="nav-number">3.</span> <span class="nav-text">IntelliJ IDEA中Maven插件配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IntelliJ14-1更新索引失败原因"><span class="nav-number">4.</span> <span class="nav-text">IntelliJ14.1更新索引失败原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用国内Maven仓库的镜像"><span class="nav-number">5.</span> <span class="nav-text">使用国内Maven仓库的镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下载Maven仓库的索引"><span class="nav-number">6.</span> <span class="nav-text">下载Maven仓库的索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#利用本地Tomcat作为索引下载服务器"><span class="nav-number">7.</span> <span class="nav-text">利用本地Tomcat作为索引下载服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开源中国镜像存在的问题"><span class="nav-number">8.</span> <span class="nav-text">开源中国镜像存在的问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">270.3k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+  <div class="footer-custom">Hosted by <a target="_blank" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>&nbsp;&nbsp;&nbsp;<a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a></div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1254721753&web_id=1254721753" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://codepubcn.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.codepub.cn/2015/12/09/IntelliJ-IDEA-in-Maven-plugin-could-not-update-the-index-of-the-solution/';
+          this.page.identifier = '2015/12/09/IntelliJ-IDEA-in-Maven-plugin-could-not-update-the-index-of-the-solution/';
+          this.page.title = 'IntelliJ IDEA中Maven插件无法更新索引之解决办法';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codepubcn.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
