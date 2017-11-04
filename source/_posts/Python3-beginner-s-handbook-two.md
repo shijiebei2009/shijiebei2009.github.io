@@ -652,6 +652,5 @@ with open('sorted_file_1', 'rt') as file1, \
 有一点要强调的是`heapq.merge()`需要所有输入序列必须是排过序的。特别的，它并不会预先读取所有数据到堆栈中或者预先排序，也不会对输入做任何的排序检测。它仅仅是检查所有序列的开始部分并返回最小的那个，这个过程一直会持续直到所有输入序列中的元素都被遍历完。
 
 **参考文献**
-[1] [A Byte of Python3][id]
+[1] [A Byte of Python3](https://www.gitbook.com/book/lenkimo/byte-of-python-chinese-edition/details)
 [2] [python3-cookbook](http://python3-cookbook.readthedocs.org/zh_CN/latest/c01/p08_calculating_with_dict.html)
-[id]:http://code.google.com/p/proden/downloads/detail?name=A%20Byte%20of%20Python3(%E4%B8%AD%E6%96%87%E7%89%88).pdf

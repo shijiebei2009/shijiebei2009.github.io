@@ -1,3 +1,4 @@
+---
 title: Lucene 6.0 实战（2）-各种Field及排序操作
 date: 2016-05-20 21:31:45
 tags: [Lucene]

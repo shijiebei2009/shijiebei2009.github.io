@@ -1,3 +1,4 @@
+---
 title: Lucene 6.0 实战（3）-各种Field查询操作
 date: 2016-05-20 21:33:32
 tags: [Lucene]

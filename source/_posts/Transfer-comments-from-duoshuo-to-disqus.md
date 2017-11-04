@@ -29,5 +29,5 @@ categories: Git/GitHub
 ```json
 # Share
 jiathis: true
-add_this_id: 填你自己的add_this_id，需注册
+add_this_id: 国外的分享插件，填你自己的add_this_id，需注册
 ```

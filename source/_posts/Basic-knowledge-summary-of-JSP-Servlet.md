@@ -6,7 +6,7 @@ categories: Programming Notes
 
 ---
 
-***力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员***
+**力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员**
 
 ### JSP与Servlet
 所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是

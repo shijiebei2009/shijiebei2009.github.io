@@ -1,3 +1,4 @@
+---
 title: 读《动物农场》
 tags: [Thinking]
 categories: Life-Talk

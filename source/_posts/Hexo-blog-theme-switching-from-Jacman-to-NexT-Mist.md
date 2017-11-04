@@ -1,3 +1,4 @@
+---
 title: "Hexo博客主题从Jacman切换到NexT.Mist"
 date: 2016-03-20 23:53:34
 tags: [Hexo]

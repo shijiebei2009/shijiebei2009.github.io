@@ -1,3 +1,4 @@
+---
 title: Lucene 6.0 实战-索引备份No index commit to snapshot
 date: 2016-06-24 23:16:03
 tags: [Lucene]

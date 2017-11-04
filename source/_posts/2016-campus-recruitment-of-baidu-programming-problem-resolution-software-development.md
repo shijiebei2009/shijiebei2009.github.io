@@ -363,4 +363,4 @@ public class Main3 {
 [1] http://www.jeepshoe.org/416642954.htm
 [2] http://www.cnblogs.com/sunus/p/4536082.html
 
-***算法如有疏漏或不妥之处，还望不吝赐教！***
+**算法如有疏漏或不妥之处，还望不吝赐教！**

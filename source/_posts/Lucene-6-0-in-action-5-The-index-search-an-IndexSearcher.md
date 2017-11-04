@@ -1,3 +1,4 @@
+---
 title: Lucene 6.0 实战（5）-索引搜索器IndexSearcher
 date: 2016-05-24 21:51:49
 tags: [Lucene]

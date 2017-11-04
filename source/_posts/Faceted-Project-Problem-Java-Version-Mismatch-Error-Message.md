@@ -15,22 +15,16 @@ Resource:groupping
 ```
 由StackOverflow上的回答可知，Java facet的版本总是需要和Java编译器的版本一致，所以最好的方式是通过Project Facets Properties面板进行修改。
 1. 查看Problems面板信息
-![][1]
+[![](http://7xig3q.com1.z0.glb.clouddn.com/eclipse-problems-panel.png)](http://7xig3q.com1.z0.glb.clouddn.com/eclipse-problems-panel.png)
 2. 打开Project Facets Properties面板
-![][2]
+[![](http://7xig3q.com1.z0.glb.clouddn.com/eclipse-project-facets-configuration.png)](http://7xig3q.com1.z0.glb.clouddn.com/eclipse-project-facets-configuration.png)
 3. 修改configuration信息
-![][3]
+[![](http://7xig3q.com1.z0.glb.clouddn.com/project-facets-properties.png)](http://7xig3q.com1.z0.glb.clouddn.com/project-facets-properties.png)
 4. 调整到和Java编译器版本相匹配
-![][4]
-
-
-  [1]: http://7xig3q.com1.z0.glb.clouddn.com/eclipse-problems-panel.png
-  [2]: http://7xig3q.com1.z0.glb.clouddn.com/eclipse-project-facets-configuration.png
-  [3]: http://7xig3q.com1.z0.glb.clouddn.com/project-facets-properties.png
-  [4]: http://7xig3q.com1.z0.glb.clouddn.com/matching-java-compiler-compliance-level.png
-
+[![](http://7xig3q.com1.z0.glb.clouddn.com/matching-java-compiler-compliance-level.png)](http://7xig3q.com1.z0.glb.clouddn.com/matching-java-compiler-compliance-level.png)
 
 **参考文献**
-【1】 http://javahonk.com/project-facet-java-is-not-supported-by-target-runtime/
-【2】 http://stackoverflow.com/questions/2239959/faceted-project-prblem-java-version-mismatch-error-message
+[1] http://javahonk.com/project-facet-java-is-not-supported-by-target-runtime/
+[2] http://stackoverflow.com/questions/2239959/faceted-project-prblem-java-version-mismatch-error-message
+
 

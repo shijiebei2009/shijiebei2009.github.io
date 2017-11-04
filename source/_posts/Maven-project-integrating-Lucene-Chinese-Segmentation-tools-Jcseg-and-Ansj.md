@@ -1,3 +1,4 @@
+---
 title: "Maven项目中Lucene集成中文分词工具Jcseg和Ansj"
 date: 2016-03-23 22:11:04
 tags: [Lucene]

@@ -1,3 +1,4 @@
+---
 title: "Java处理带BOM文本的推荐方法"
 date: 2015-05-12 20:49:39
 tags: [Java]

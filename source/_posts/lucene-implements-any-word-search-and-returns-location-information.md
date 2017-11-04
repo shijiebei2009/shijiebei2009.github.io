@@ -594,7 +594,7 @@ public class SpanNearQueryAndWildcardQueryDemo {
 
 ### 实验
 服务器 CPU 以及内存信息
-> $ cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c`
+> $ cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
 
 `24  Intel(R) Xeon(R) CPU E5-2420 v2 @ 2.20GHz`
 

@@ -1,3 +1,4 @@
+---
 title: "IntelliJ IDEA中Maven插件无法更新索引之解决办法"
 date: 2015-12-09 22:21:33
 tags: [IntelliJ]

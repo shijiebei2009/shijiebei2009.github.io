@@ -1,3 +1,4 @@
+---
 title: CCF第六次CSP认证考试题解
 tags: [CCF]
 date: 2015-12-21 23:27:52

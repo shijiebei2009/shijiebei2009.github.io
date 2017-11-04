@@ -1,3 +1,4 @@
+---
 title: Ubuntu 14.10安装和卸载搜狗拼音输入法
 date: 2015-11-27 22:58:34
 tags: [Ubuntu]

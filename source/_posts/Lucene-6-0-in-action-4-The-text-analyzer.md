@@ -1,3 +1,4 @@
+---
 title: Lucene 6.0 实战（4）-文本分析器
 date: 2016-05-23 23:30:05
 tags: [Lucene]
