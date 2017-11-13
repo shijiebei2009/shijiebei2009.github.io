@@ -88,7 +88,7 @@
 <meta property="og:url" content="http://www.codepub.cn/2016/05/24/Lucene-6-0-in-action-5-The-index-search-an-IndexSearcher/index.html">
 <meta property="og:site_name" content="IT草根">
 <meta property="og:description" content="Lucene的主要搜索API一个简单的搜索应用主要包括索引和搜索两部分，在Lucene中，IndexSearcher类是用于对索引中文档进行搜索的核心类，它有几个重载的搜索方法，可以使用最常用的方法对特定的项进行搜索，一个项由一个字符串类型的域值和对应的域名构成。现将搜索相关API汇总如下    类 目的     IndexSearcher 搜索索引的核心类。所有搜索都通过IndexSearche">
-<meta property="og:updated_time" content="2017-11-04T03:55:11.876Z">
+<meta property="og:updated_time" content="2017-11-13T23:55:02.019Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lucene 6.0 实战（5）-索引搜索器IndexSearcher">
 <meta name="twitter:description" content="Lucene的主要搜索API一个简单的搜索应用主要包括索引和搜索两部分，在Lucene中，IndexSearcher类是用于对索引中文档进行搜索的核心类，它有几个重载的搜索方法，可以使用最常用的方法对特定的项进行搜索，一个项由一个字符串类型的域值和对应的域名构成。现将搜索相关API汇总如下    类 目的     IndexSearcher 搜索索引的核心类。所有搜索都通过IndexSearche">
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:02+08:00">
+                2017-11-14
               </time>
             
           </span>
@@ -435,7 +435,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  4,399
+                  4,890
                 </span>
               
 
@@ -451,7 +451,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  23
+                  25
                 </span>
               
             </div>
@@ -541,28 +541,36 @@
 </thead>
 <tbody>
 <tr>
-<td>SpanTermQuery</td>
-<td>和其它跨度查询类型结合使用，单独使用时相当于TermQuery</td>
+<td>FieldMaskingSpanQuery</td>
+<td>用于在多个域之间查询，即把另一个域看作某个域，从而看起来就像在同一个域里查询，因为 Lucene 默认某个条件只能作用在单个域上，不支持跨域查询，只能在同一个域里查询，所以有了 FieldMaskingSpanQuery</td>
 </tr>
 <tr>
-<td>SpanFirstQuery</td>
-<td>用来匹配域中首部分的各个跨度</td>
+<td>SpanTermQuery</td>
+<td>和其它跨度查询类型结合使用，单独使用时相当于 TermQuery，唯一的区别就是使用 SpanTermQuery 可以得到 Term 的 Span 跨度信息</td>
 </tr>
 <tr>
 <td>SpanNearQuery</td>
-<td>用来匹配临近的跨度</td>
+<td>用来匹配两个 Term 之间的跨度的，即一个 Term 经过几个跨度可以到达另一个 Term，slop 为跨度因子，用来限制两个 Term 之间的最大跨度。还有一个 inOrder 参数，它用来设置是否允许进行倒序跨度，什么意思？即 TermA 到 TermB 不一定是从左到右去匹配也可以从右到左，而从右到左就是倒序，inOrder 为 true 即表示 order（顺序）很重要不能倒序去匹配必须正向去匹配，false 则反之。注意停用词不在 slop 统计范围内</td>
+</tr>
+<tr>
+<td>SpanFirstQuery</td>
+<td>表示对出现在一个域中的[0, n]范围内的 term 项进行的匹配查询，关键是n指定了查询的 term 出现范围的上限</td>
+</tr>
+<tr>
+<td>SpanContainingQuery</td>
+<td>返回在另一个范围内的查询匹配结果，big 和 little 的子句可以是任何 span 类型查询。在包含 little 匹配中从 big 匹配跨度返回。例如“a beautiful and boring world”，big 查询是 SpanNearQuery(SpanTermQuery(“beautiful”), SpanTermQuery(“world”)).setSlop(2)，而 little 查询是 SpanTermQuery(“boring”)，则该 Doc 命中，并从 big 匹配跨度返回，即 big 优先级高</td>
+</tr>
+<tr>
+<td>SpanWithinQuery</td>
+<td>与 SpanContainingQuery 类似，只不过是从 little 匹配跨度返回，换句话说，SpanContainingQuery 是 big 查询优先级更高，而 SpanWithinQuery 是 little 查询优先级更高。也许英文说的更清晰，In clear, the SpanContainingQuery will keep matches that contain another Spans, while the SpanWithinQuery will keep matches that are contained within another Spans.</td>
 </tr>
 <tr>
 <td>SpanNotQuery</td>
-<td>用来匹配不重叠的跨度</td>
+<td>使用场景是当使用 SpanNearQuery 时，如果两个 Term 从 TermA 到 TermB 有多种情况，即可能出现 TermA 或者 TermB 在索引中重复出现，则可能有多种情况，SpanNotQuery 就是用来限制 TermA 和 TermB 之间不存在 TermC，从而排除一些情况，实现更精确的控制</td>
 </tr>
 <tr>
 <td>SpanOrQuery</td>
-<td>跨度查询的聚合匹配</td>
-</tr>
-<tr>
-<td>FieldMaskingSpanQuery</td>
-<td>封装其它SpanQuery类，但程序会认为已匹配到另外的域，该功能可用于针对多个域的跨度查询</td>
+<td>这个查询会嵌套一些子查询，子查询之间的逻辑关系为或</td>
 </tr>
 </tbody>
 </table>
@@ -919,7 +927,7 @@ var jiathis_config={
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">270.3k</span>
+    <span title="Site words total count">270.8k</span>
   
 </div>
 

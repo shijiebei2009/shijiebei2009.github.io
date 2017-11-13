@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.codepub.cn/2016/05/24/Lucene-6-0-in-action-5-The-index-search-an-IndexSearcher/</loc>
+    
+    <lastmod>2017-11-13T23:55:02.019Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2016/05/23/Lucene-6-0-in-action-4-The-text-analyzer/</loc>
+    
+    <lastmod>2017-11-13T23:55:01.955Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/</loc>
+    
+    <lastmod>2017-11-13T23:55:01.953Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.codepub.cn/2015/05/12/Recommended-processing-method-of-text-with-bom-in-Java/</loc>
     
     <lastmod>2017-11-04T03:55:12.012Z</lastmod>
@@ -289,13 +310,6 @@
   </url>
   
   <url>
-    <loc>http://www.codepub.cn/2016/05/24/Lucene-6-0-in-action-5-The-index-search-an-IndexSearcher/</loc>
-    
-    <lastmod>2017-11-04T03:55:11.876Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.codepub.cn/2016/08/12/Lucene-5-5-developer-guide/</loc>
     
     <lastmod>2017-11-04T03:55:11.870Z</lastmod>
@@ -537,20 +551,6 @@
     <loc>http://www.codepub.cn/2016/12/10/Read-a-programmer-s-rantings/</loc>
     
     <lastmod>2017-11-04T03:55:11.753Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2016/05/23/Lucene-6-0-in-action-4-The-text-analyzer/</loc>
-    
-    <lastmod>2017-11-04T03:55:11.748Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/</loc>
-    
-    <lastmod>2017-11-04T03:55:11.742Z</lastmod>
     
   </url>
   
