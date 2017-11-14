@@ -22,8 +22,8 @@ Lucene常用分析器整理如下
 | StopAnalyzer  | 根据非字母拆分文本，然后小写化，再移除停用词  |
 | KeywordAnalyzer  | 将整个文本作为一个单一语汇单元处理  |
 | StandardAnalyzer  | 根据Unicode文本分割算法，具体算法参考[Unicode Standard Annex #29](http://unicode.org/reports/tr29/)，然后将文本转化为小写，并移除英文停用词 |
-| SmartChineseAnalyzer  | SmartChineseAnalyzer是一个智能中文分词模块，能够利用概率对汉语句子进行最优切分，并内嵌英文tokenizer，能有效处理中英文混合的文本内容。它的原理基于自然语言处理领域的隐马尔科夫模型（HMM），利用大量语料库的训练来统计汉语词汇的词频和跳转概率，从而根据这些统计结果对整个汉语句子计算最似然（likelihood）的切分。因为智能分词需要词典来保存词汇的统计值，SmartChineseAnalyzer的运行需要指定词典位置，如何指定词典位置请参考org.apache.lucene.analysis.cn.smart.AnalyzerProfile。SmartChineseAnalyzer的算法和语料库词典来自于[ICTCLAS](http://ictclas.nlpir.org/downloads)|
-| CJKAnalyzer  | CJK表示中日韩，目的是要把分别来自中文、日文、韩文、越文中，本质、意义相同、形状一样或稍异的表意文字（主要为汉字，但也有仿汉字如日本国字、韩国独有汉字、越南的喃字）在ISO 10646及Unicode标准内赋予相同编码。对于中文是交叉双字分割，二元分词法  |
+| SmartChineseAnalyzer  | SmartChineseAnalyzer 是一个智能中文分词模块，能够利用概率对汉语句子进行最优切分，并内嵌英文 tokenizer，能有效处理中英文混合的文本内容。它的原理基于自然语言处理领域的隐马尔科夫模型（HMM），利用大量语料库的训练来统计汉语词汇的词频和跳转概率，从而根据这些统计结果对整个汉语句子计算最似然（likelihood）的切分。因为智能分词需要词典来保存词汇的统计值，SmartChineseAnalyzer 的运行需要指定词典位置，如何指定词典位置请参考org.apache.lucene.analysis.cn.smart.AnalyzerProfile。SmartChineseAnalyzer 的算法和语料库词典来自于[ICTCLAS](http://ictclas.nlpir.org/downloads)|
+| CJKAnalyzer  | CJK表示中日韩，目的是要把分别来自中文、日文、韩文、越文中，本质、意义相同、形状一样或稍异的表意文字（主要为汉字，但也有仿汉字如日本国字、韩国独有汉字、越南的喃字）在ISO 10646 及 Unicode 标准内赋予相同编码。对于中文是交叉双字分割，二元分词法  |
 
 ### Analyzer部分子类分词示例
 选取了六个实现类，并分别输出它们对英文、中文、特殊符号及邮箱等的切分效果。
