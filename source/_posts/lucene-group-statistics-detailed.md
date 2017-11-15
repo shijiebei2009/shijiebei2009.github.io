@@ -1,0 +1,308 @@
+---
+title: Lucene 分组统计详解
+date: 2017-11-15 22:43:43
+tags: [Lucene]
+categories: Programming Notes
+
+---
+### 抛出问题
+在 RDBMS 中，我们可以使用 GROUP BY 来对检索的数据进行分组，同样地，想要在 Lucene 中实现分组要如何做呢？首先思考如下几个问题
+- Lucene 是如何实现分组的？
+- 用来分组的字段（域）或者说 Field 如何添加？
+- 组的大小如何设置？
+- 组内大小如何设置？
+- 如何实现组的分页？
+- 如果结果集超过了组内大小，可以通过分页解决，那么如果结果集超过了组大小的上限，如何解决？
+- 如何实现单类别分组，即类似SQL中的 GROUP BY A
+- 如何实现多类别分组，即类似SQL中的 GROUP BY A, B
+
+### 从 SQL 的 GROUP BY 说起
+如果分组后面只有一个字段，如 GROUP BY A 意思是将所有具有相同A字段值的记录放到一个分组里。那么如果是GROUP BY A, B呢？其意思是将所有具有相同A字段值和B字段值的记录放到一个分组里，在这里A和B之间是逻辑与的关系。
+
+通常的，如果在SQL中，我们仅用 GROUP BY 语句而不加 WHERE 条件的话，那么相当于在全部数据中进行分组，对应于 Lucene 中相当于使用 GROUP 加 new MatchAllDocsQuery() 的功能。
+
+而如果在SQL中，我们不仅用 GROUP BY 还有 WHERE 条件语句，那么相当于在满足 WHERE 条件的记录中进行分组，这种 WHERE 条件在 Lucene 中可以通过构造各种不同的 Query 进行过滤，然后在符合条件的结果中分组。
+
+### Lucene 分组
+有关Lucene分组问题，需要有一系列输入参数，[官方Doc在此](https://lucene.apache.org/core/7_1_0/grouping/index.html)，核心点如下
+- groupField：用来分组的域，在 Lucene 中，这个域只能设置一个，不像 SQL 中可以根据多个列分组。没有该域的文档将被分到一个单独的组里面
+- groupSort：组间排序方式，用来指定如何对不同的分组进行排序，而不是组内的文档排序，默认值是`Sort.RELEVANCE`
+- topNGroups：保留多少组，例如10只取前十个分组
+- groupOffset：指定组偏移量，比如当topNGroups的值是10的时候，groupOffset为3，则意思是返回7个分组，跳过前面3个，在分页时候很有用
+- withinGroupSort：组内排序方式，默认值是`Sort.RELEVANCE`，注意和groupSort的区别，不要求和groupSort使用一样的排序方式
+- maxDocsPerGroup：表示一个组内最多保留多少个文档
+- withinGroupOffset：每组显示的文档的偏移量
+
+分组通常有两个阶段，第一阶段用`FirstPassGroupingCollector`收集不同的分组，第二阶段用`SecondPassGroupingCollector`收集这些分组内的文档，如果分组很耗时，建议用`CachingCollector`类，可以缓存 hits 并在第二阶段快速返回。这种方式让你相当于只运行了一次 query，但是付出的代价是用 RAM 持有所有的 hits。返回的结果集是TopGroups的实例。
+
+Groups是由GroupSelector（抽象类）的实现来定义的，目前支持两种实现方式
+- TermGroupSelector 基于 SortedDocValues 域进行分组
+- ValueSourceGroupSelector 基于 ValueSource 值进行分组
+
+通常不建议直接使用 FirstPassGroupingCollector 和 SecondPassGroupingCollector 来进行分组操作，因为Lucene提供了一个非常简便的封装类 GroupingSearch，目前分组操作还不支持 Sharding。
+
+网上有许多讲解 Lucene 分组的文章，但是讲的都非常浅显，一般都是取 Top N 个分组，这个 N 是一个确定的值，试问如果我要对全部的结果集进行分组统计，而分组数量超过 Top N 的话，那么这种方式统计的结果显然是不准确的，因为它并没有统计全部的数据。还有的是直接把 `maxDoc()` 函数的值作为 `groupLimit` 的值，然后对某个分组内的全部文档进行迭代，无法实现组内分页的问题。
+
+所以本文就针对这个问题，不仅解决了组内分页的问题，还解决了组间分页的问题，可以迭代完全的结果集。
+
+另外一个需要注意的问题就是 `maxDoc()` 可能返回的是 `Integer` 型的上限，而将其直接作为 groupLimit 传入的话，是会报错的，错误如下
+
+组内大小和组间大小如果设置为Integer.MAX_VALUE报
+> Exception in thread "main" java.lang.NegativeArraySizeException
+
+
+组内大小和组间大小如果设置为Integer.MAX_VALUE-1报
+> Exception in thread "main" java.lang.IllegalArgumentException: maxSize must be <= 2147483630; got: 2147483646
+
+完整示例如下
+```
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.document.*;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.util.BytesRef;
+
+import java.io.IOException;
+
+/**
+ * <p>
+ * Created by wangxu on 2017/11/14 16:41.
+ * </p>
+ * <p>
+ * Description: 基于 Lucene 7.0.0
+ * </p>
+ *
+ * @author Wang Xu
+ * @version V1.0.0
+ * @since V1.0.0 <br/>
+ * WebSite: http://codepub.cn <br>
+ * Licence: Apache v2 License
+ */
+public class IndexHelper {
+    private Document document;
+    private Directory directory;
+    private IndexWriter indexWriter;
+
+    public Directory getDirectory() {
+        directory = (directory == null) ? new RAMDirectory() : directory;
+        return directory;
+    }
+
+    private IndexWriterConfig getConfig() {
+        return new IndexWriterConfig(new WhitespaceAnalyzer());
+    }
+
+    private IndexWriter getIndexWriter() {
+        try {
+            return new IndexWriter(getDirectory(), getConfig());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public IndexSearcher getIndexSearcher() throws IOException {
+        return new IndexSearcher(DirectoryReader.open(getDirectory()));
+    }
+
+    public void createIndexForGroup(int ID, String author, String content) {
+        indexWriter = getIndexWriter();
+        document = new Document();
+        //IntPoint默认是不存储的
+        document.add(new IntPoint("ID", ID));
+        //如果想要在搜索结果中获取ID的值，需要加上下面语句
+        document.add(new StoredField("ID", ID));
+        document.add(new StringField("author", author, Field.Store.YES));
+        //需要使用特定的field存储分组，需要排序及分组的话，要加上下面语句，注意默认SortedDocValuesField也是不存储的
+        document.add(new SortedDocValuesField("author", new BytesRef(author)));
+        document.add(new StringField("content", content, Field.Store.YES));
+        try {
+            indexWriter.addDocument(document);
+            indexWriter.commit();
+            indexWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+```java
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.*;
+import org.apache.lucene.search.grouping.GroupDocs;
+import org.apache.lucene.search.grouping.GroupingSearch;
+import org.apache.lucene.search.grouping.TopGroups;
+import org.apache.lucene.util.BytesRef;
+
+import java.io.IOException;
+
+/**
+ * <p>
+ * Created by wangxu on 2017/11/14 16:21.
+ * </p>
+ * <p>
+ * Description: 基于 Lucene 7.0.0 开发
+ * </p>
+ *
+ * @author Wang Xu
+ * @version V1.0.0
+ * @since V1.0.0 <br/>
+ * WebSite: http://codepub.cn <br>
+ * Licence: Apache v2 License
+ */
+public class GroupingDemo {
+
+    public static void main(String[] args) throws Exception {
+        IndexHelper indexHelper = new IndexHelper();
+        indexHelper.createIndexForGroup(1, "Java", "一周精通Java");
+        indexHelper.createIndexForGroup(2, "Java", "一周精通MyBatis");
+        indexHelper.createIndexForGroup(3, "Java", "一周精通Struts");
+        indexHelper.createIndexForGroup(4, "Java", "一周精通Spring");
+        indexHelper.createIndexForGroup(5, "Java", "一周精通Spring Cloud");
+        indexHelper.createIndexForGroup(6, "Java", "一周精通Hibernate");
+        indexHelper.createIndexForGroup(7, "Java", "一周精通JVM");
+        indexHelper.createIndexForGroup(8, "C", "一周精通C");
+        indexHelper.createIndexForGroup(9, "C", "C语言详解");
+        indexHelper.createIndexForGroup(10, "C", "C语言调优");
+        indexHelper.createIndexForGroup(11, "C++", "一周精通C++");
+        indexHelper.createIndexForGroup(12, "C++", "C++语言详解");
+        indexHelper.createIndexForGroup(13, "C++", "C++语言调优");
+
+        IndexSearcher indexSearcher = indexHelper.getIndexSearcher();
+        GroupingDemo groupingDemo = new GroupingDemo();
+        //把所有的文档都查出来，由添加的数据可以知道，一共有三组，Java组有7个文档，C和C++组分别都有3个文档
+        BooleanQuery query = new BooleanQuery.Builder().add(new TermQuery(new Term("author", "Java")), BooleanClause.Occur.SHOULD).add(new TermQuery(new Term
+                        ("author", "C")),
+                BooleanClause.Occur.SHOULD).add(new TermQuery(new Term("author", "C++")), BooleanClause.Occur.SHOULD).build();
+        //groupLimit必须要设为1，因为如果每次取多个组，可能会出现跨不同类别组的情况，而不同类别组其组内数量可能是不同的
+        //例如A类别组就一个组，B类别组两个组，那么如果设为2的话，可能返回A类别一个组B类别一个组，共返回两个组
+        int groupLimit = 1;
+        int groupDocsOffset = 0;
+        int groupDocsLimitBegin = 2;
+        int groupOffset = 0;//从第一个组开始
+        int groupDocsLimit = groupDocsLimitBegin;
+        //为了排除干扰因素，全部使用默认的排序方式
+        TopGroups<BytesRef> topGroups = groupingDemo.group(indexSearcher, query, "author", groupDocsOffset, groupDocsLimit, groupOffset, groupLimit);
+        Integer totalGroupCount = topGroups.totalGroupCount;//命中的不同类别的分组数
+        int count = 0;
+        while (groupOffset + groupLimit <= totalGroupCount) {//说明还有不同的分组
+            long totalHits = iterGroupDocs(indexSearcher, topGroups);
+            while (groupDocsOffset + groupDocsLimit < totalHits) {
+                //说明，返回的组后面还有数据，需要分页了，此时需要更新组内偏移量
+                groupDocsOffset += groupDocsLimit;
+                topGroups = groupingDemo.group(indexSearcher, query, "author", groupDocsOffset, groupDocsLimit, groupOffset, groupLimit);
+                totalHits = iterGroupDocs(indexSearcher, topGroups);
+            }
+            //表示一个类别的组迭代完毕
+            System.out.println("\n第" + (++count) + "种类别组迭代完毕！");
+            groupDocsOffset = 0;//偏移量归零
+            groupDocsLimit = groupDocsLimitBegin;//组内上限恢复初始值
+            groupOffset += groupLimit;
+            topGroups = groupingDemo.group(indexSearcher, query, "author", groupDocsOffset, groupDocsLimit, groupOffset, groupLimit);
+        }
+    }
+
+    private static long iterGroupDocs(IndexSearcher indexSearcher, TopGroups<BytesRef> topGroups) throws IOException {
+        long totalHits = 0;
+        for (GroupDocs<BytesRef> groupDocs : topGroups.groups) {
+            totalHits = groupDocs.totalHits;
+            System.out.println("分组名称：" + groupDocs.groupValue.utf8ToString());
+            ScoreDoc[] scoreDocs = groupDocs.scoreDocs;
+            for (ScoreDoc scoreDoc : scoreDocs) {
+                System.out.println("\t组内记录：" + indexSearcher.doc(scoreDoc.doc));
+            }
+        }
+        return totalHits;
+    }
+
+    public TopGroups<BytesRef> group(IndexSearcher indexSearcher, Query query, String groupField,
+                                     int groupDocsOffset, int groupDocsLimit, int groupOffset, int groupLimit) throws Exception {
+        return group(indexSearcher, query, Sort.RELEVANCE, Sort.RELEVANCE, groupField, groupDocsOffset, groupDocsLimit, groupOffset, groupLimit);
+    }
+
+    public TopGroups<BytesRef> group(IndexSearcher indexSearcher, Query query, Sort groupSort, Sort withinGroupSort, String groupField,
+                                     int groupDocsOffset, int groupDocsLimit, int groupOffset, int groupLimit) throws Exception {
+        //实例化GroupingSearch实例，传入分组域
+        GroupingSearch groupingSearch = new GroupingSearch(groupField);
+        //设置组间排序方式
+        groupingSearch.setGroupSort(groupSort);
+        //设置组内排序方式
+        groupingSearch.setSortWithinGroup(withinGroupSort);
+        //是否要填充每个返回的group和groups docs的排序field
+        groupingSearch.setFillSortFields(true);
+        //设置用来缓存第二阶段搜索的最大内存，单位MB，第二个参数表示是否缓存评分
+        groupingSearch.setCachingInMB(64.0, true);
+        //是否计算符合查询条件的所有组
+        groupingSearch.setAllGroups(true);
+        groupingSearch.setAllGroupHeads(true);
+        //设置一个分组内的上限
+        groupingSearch.setGroupDocsLimit(groupDocsLimit);
+        //设置一个分组内的偏移
+        groupingSearch.setGroupDocsOffset(groupDocsOffset);
+        TopGroups<BytesRef> result = groupingSearch.search(indexSearcher, query, groupOffset, groupLimit);
+        return result;
+    }
+}
+```
+例如组内分页，每页显示两条记录，输出结果如下
+```text
+分组名称：C
+    组内记录：Document<stored<ID:8> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通C>>
+    组内记录：Document<stored<ID:9> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C语言详解>>
+分组名称：C
+    组内记录：Document<stored<ID:10> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C语言调优>>
+
+第1种类别组迭代完毕！
+分组名称：C++
+    组内记录：Document<stored<ID:11> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通C++>>
+    组内记录：Document<stored<ID:12> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C++语言详解>>
+分组名称：C++
+    组内记录：Document<stored<ID:13> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C++语言调优>>
+
+第2种类别组迭代完毕！
+分组名称：Java
+    组内记录：Document<stored<ID:5> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Spring Cloud>>
+    组内记录：Document<stored<ID:6> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Hibernate>>
+分组名称：Java
+    组内记录：Document<stored<ID:2> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通MyBatis>>
+    组内记录：Document<stored<ID:3> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Struts>>
+分组名称：Java
+    组内记录：Document<stored<ID:4> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Spring>>
+    组内记录：Document<stored<ID:1> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Java>>
+分组名称：Java
+    组内记录：Document<stored<ID:7> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通JVM>>
+
+第3种类别组迭代完毕！
+```
+例如组内分页，每页显示三条记录，输出结果如下
+```text
+分组名称：C
+    组内记录：Document<stored<ID:8> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通C>>
+    组内记录：Document<stored<ID:9> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C语言详解>>
+    组内记录：Document<stored<ID:10> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C语言调优>>
+
+第1种类别组迭代完毕！
+分组名称：C++
+    组内记录：Document<stored<ID:11> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通C++>>
+    组内记录：Document<stored<ID:12> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C++语言详解>>
+    组内记录：Document<stored<ID:13> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C++语言调优>>
+
+第2种类别组迭代完毕！
+分组名称：Java
+    组内记录：Document<stored<ID:5> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Spring Cloud>>
+    组内记录：Document<stored<ID:6> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Hibernate>>
+    组内记录：Document<stored<ID:2> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通MyBatis>>
+分组名称：Java
+    组内记录：Document<stored<ID:3> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Struts>>
+    组内记录：Document<stored<ID:4> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Spring>>
+    组内记录：Document<stored<ID:1> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Java>>
+分组名称：Java
+    组内记录：Document<stored<ID:7> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通JVM>>
+
+第3种类别组迭代完毕！
+```
