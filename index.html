@@ -324,6 +324,216 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.codepub.cn/2017/11/15/lucene-group-statistics-detailed/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Xu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IT草根">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/15/lucene-group-statistics-detailed/" itemprop="url">Lucene 分组统计详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-15T22:43:43+08:00">
+                2017-11-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-15T22:44:56+08:00">
+                2017-11-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/15/lucene-group-statistics-detailed/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/11/15/lucene-group-statistics-detailed/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,193
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  15
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          抛出问题在 RDBMS 中，我们可以使用 GROUP BY 来对检索的数据进行分组，同样地，想要在 Lucene 中实现分组要如何做呢？首先思考如下几个问题
+
+Lucene 是如何实现分组的？
+用来分组的字段（域）或者说 Field 如何添加？
+组的大小如何设置？
+组内大小如何设置？
+如何实现组的分页？
+如果结果集超过了组内大小，可以通过分页解决，那么如果结果集超过了组大小的上限，如何解决？
+如何
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/11/15/lucene-group-statistics-detailed/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.codepub.cn/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -371,8 +581,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:01+08:00">
+                2017-11-14
               </time>
             
           </span>
@@ -575,8 +785,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:02+08:00">
+                2017-11-14
               </time>
             
           </span>
@@ -777,8 +987,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:02+08:00">
+                2017-11-14
               </time>
             
           </span>
@@ -979,8 +1189,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:02+08:00">
+                2017-11-14
               </time>
             
           </span>
@@ -1181,8 +1391,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:01+08:00">
+                2017-11-14
               </time>
             
           </span>
@@ -1383,8 +1593,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:02+08:00">
+                2017-11-14
               </time>
             
           </span>
@@ -1585,8 +1795,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:02+08:00">
+                2017-11-14
               </time>
             
           </span>
@@ -1787,7 +1997,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:01+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T08:01:07+08:00">
                 2017-11-14
               </time>
             
@@ -1848,7 +2058,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,491
+                  2,401
                 </span>
               
 
@@ -1864,7 +2074,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  11
+                  10
                 </span>
               
             </div>
@@ -1990,8 +2200,8 @@ RAMDirectory是基于内存实现的，具有较高的存储速度，但是受�
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:02+08:00">
+                2017-11-14
               </time>
             
           </span>
@@ -2192,8 +2402,8 @@ RAMDirectory是基于内存实现的，具有较高的存储速度，但是受�
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:01+08:00">
+                2017-11-14
               </time>
             
           </span>
@@ -2395,8 +2605,8 @@ RAMDirectory是基于内存实现的，具有较高的存储速度，但是受�
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:01+08:00">
+                2017-11-14
               </time>
             
           </span>
@@ -2598,8 +2808,8 @@ FieldCache另一种提高检索性能的方案是使用F
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:02+08:00">
+                2017-11-14
               </time>
             
           </span>
@@ -2801,8 +3011,8 @@ FieldCache另一种提高检索性能的方案是使用F
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:01+08:00">
+                2017-11-14
               </time>
             
           </span>
@@ -3003,8 +3213,8 @@ FieldCache另一种提高检索性能的方案是使用F
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-14T07:55:01+08:00">
+                2017-11-14
               </time>
             
           </span>
@@ -3145,208 +3355,6 @@ FieldCache另一种提高检索性能的方案是使用F
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.codepub.cn/2017/05/06/The-name-of-the-people/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wang Xu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="IT草根">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/05/06/The-name-of-the-people/" itemprop="url">人民的名义</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-06T22:28:03+08:00">
-                2017-05-06
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-04T11:55:11+08:00">
-                2017-11-04
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life-Talk/" itemprop="url" rel="index">
-                    <span itemprop="name">Life-Talk</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/06/The-name-of-the-people/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/05/06/The-name-of-the-people/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  2,546
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  9
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          一不小心，追了一个剧《人民的名义》，随着剧情一点一点地推进，突然开始很心疼，心疼的不是别人，也不是剧中的人物，因为那毕竟是虚构的，不是真实的人生，而是我们自己，这才是真真实实的生活与生命。看了剧中的情节，真是大开眼界，不论是祁同伟的一人得道，鸡犬升天，还是赵瑞龙的草菅人命亦或是丁义珍在饭局上左右逢源，逢场作戏，近似人生赢家。甚至一个处级干部赵德汉，都能狂贪几个亿，要知道，除了国家级领导人，下面就是
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/06/The-name-of-the-people/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3401,7 +3409,7 @@ FieldCache另一种提高检索性能的方案是使用F
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">115</span>
+                  <span class="site-state-item-count">116</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -3527,7 +3535,7 @@ FieldCache另一种提高检索性能的方案是使用F
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">270.8k</span>
+    <span title="Site words total count">273.4k</span>
   
 </div>
 
