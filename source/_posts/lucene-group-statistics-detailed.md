@@ -176,47 +176,63 @@ public class GroupingDemo {
         IndexSearcher indexSearcher = indexHelper.getIndexSearcher();
         GroupingDemo groupingDemo = new GroupingDemo();
         //把所有的文档都查出来，由添加的数据可以知道，一共有三组，Java组有7个文档，C和C++组分别都有3个文档
+        //当然了如果做全匹配的话，还可以用new MatchAllDocsQuery()
         BooleanQuery query = new BooleanQuery.Builder().add(new TermQuery(new Term("author", "Java")), BooleanClause.Occur.SHOULD).add(new TermQuery(new Term
                         ("author", "C")),
                 BooleanClause.Occur.SHOULD).add(new TermQuery(new Term("author", "C++")), BooleanClause.Occur.SHOULD).build();
-        //groupLimit必须要设为1，因为如果每次取多个组，可能会出现跨不同类别组的情况，而不同类别组其组内数量可能是不同的
-        //例如A类别组就一个组，B类别组两个组，那么如果设为2的话，可能返回A类别一个组B类别一个组，共返回两个组
-        int groupLimit = 1;
-        int groupDocsOffset = 0;
-        int groupDocsLimitBegin = 2;
-        int groupOffset = 0;//从第一个组开始
-        int groupDocsLimit = groupDocsLimitBegin;
-        //为了排除干扰因素，全部使用默认的排序方式
-        TopGroups<BytesRef> topGroups = groupingDemo.group(indexSearcher, query, "author", groupDocsOffset, groupDocsLimit, groupOffset, groupLimit);
-        Integer totalGroupCount = topGroups.totalGroupCount;//命中的不同类别的分组数
-        int count = 0;
-        while (groupOffset + groupLimit <= totalGroupCount) {//说明还有不同的分组
-            long totalHits = iterGroupDocs(indexSearcher, topGroups);
-            while (groupDocsOffset + groupDocsLimit < totalHits) {
-                //说明，返回的组后面还有数据，需要分页了，此时需要更新组内偏移量
-                groupDocsOffset += groupDocsLimit;
-                topGroups = groupingDemo.group(indexSearcher, query, "author", groupDocsOffset, groupDocsLimit, groupOffset, groupLimit);
-                totalHits = iterGroupDocs(indexSearcher, topGroups);
-            }
-            //表示一个类别的组迭代完毕
-            System.out.println("\n第" + (++count) + "种类别组迭代完毕！");
-            groupDocsOffset = 0;//偏移量归零
-            groupDocsLimit = groupDocsLimitBegin;//组内上限恢复初始值
-            groupOffset += groupLimit;
+        //控制每次返回几组
+        int groupLimit = 2;
+        //控制每一页的组内文档数
+        int groupDocsLimit = 2;
+        //控制组的偏移
+        int groupOffset = 0;
+        //为了排除干扰因素，全部使用默认的排序方式，当然你还可以使用自己喜欢的排序方式
+        //初始值为命中的所有文档数，即最坏情况下，一个文档分成一组，那么文档数就是分组的总数
+        int totalGroupCount = indexSearcher.count(query);
+        TopGroups<BytesRef> topGroups;
+        System.out.println("#### 组的分页大小为：" + groupLimit);
+        System.out.println("#### 组内分页大小为：" + groupDocsLimit);
+        while (groupOffset < totalGroupCount) {//说明还有不同的分组
+            //控制组内偏移，每次开始遍历一个新的分组时候，需要将其归零
+            int groupDocsOffset = 0;
+            System.out.println("#### 开始组的分页");
             topGroups = groupingDemo.group(indexSearcher, query, "author", groupDocsOffset, groupDocsLimit, groupOffset, groupLimit);
+            //具体搜了一次之后，就知道到底有多少组了，更新totalGroupCount为正确的值
+            totalGroupCount = topGroups.totalGroupCount;
+            GroupDocs<BytesRef>[] groups = topGroups.groups;
+            //开始对组进行遍历
+            for (int i = 0; i < groups.length; i++) {
+                long totalHits = iterGroupDocs(indexSearcher, groups[i]);//获得这个组内一共多少doc
+                //处理完一次分页，groupDocsOffset要更新
+                groupDocsOffset += groupDocsLimit;
+                //如果组内还有数据，即模拟组内分页的情况，那么应该继续遍历组内剩下的doc
+                while (groupDocsOffset < totalHits) {
+                    topGroups = groupingDemo.group(indexSearcher, query, "author", groupDocsOffset, groupDocsLimit, groupOffset, groupLimit);
+                    //这里面的组一定要和外层for循环正在处理的组保持一致，其实这里面浪费了搜索数据，为什么？
+                    //因为Lucene是对多个组同时进行组内向后翻页，而我只是一个组一个组的处理，其它不处理的组相当于是浪费的
+                    //所以从这种角度来说，设置groupLimit为1比较合理，即每次处理一个组，而每次只将一个组的组内文档向后翻页
+                    GroupDocs<BytesRef> group = topGroups.groups[i];
+                    totalHits = iterGroupDocs(indexSearcher, group);
+                    //此时需要更新组内偏移量
+                    groupDocsOffset += groupDocsLimit;
+                }
+                //至此，一个组内的doc全部遍历完毕，开始下一组
+                groupDocsOffset = 0;
+            }
+            groupOffset += groupLimit;
+            System.out.println("#### 结束组的分页");
         }
     }
 
-    private static long iterGroupDocs(IndexSearcher indexSearcher, TopGroups<BytesRef> topGroups) throws IOException {
-        long totalHits = 0;
-        for (GroupDocs<BytesRef> groupDocs : topGroups.groups) {
-            totalHits = groupDocs.totalHits;
-            System.out.println("分组名称：" + groupDocs.groupValue.utf8ToString());
-            ScoreDoc[] scoreDocs = groupDocs.scoreDocs;
-            for (ScoreDoc scoreDoc : scoreDocs) {
-                System.out.println("\t组内记录：" + indexSearcher.doc(scoreDoc.doc));
-            }
+    private static long iterGroupDocs(IndexSearcher indexSearcher, GroupDocs<BytesRef> groupDocs) throws IOException {
+        long totalHits = groupDocs.totalHits;
+        System.out.println("\t#### 开始组内分页");
+        System.out.println("\t分组名称：" + groupDocs.groupValue.utf8ToString());
+        ScoreDoc[] scoreDocs = groupDocs.scoreDocs;
+        for (ScoreDoc scoreDoc : scoreDocs) {
+            System.out.println("\t\t组内记录：" + indexSearcher.doc(scoreDoc.doc));
         }
+        System.out.println("\t#### 结束组内分页");
         return totalHits;
     }
 
@@ -249,60 +265,88 @@ public class GroupingDemo {
     }
 }
 ```
-例如组内分页，每页显示两条记录，输出结果如下
+例如组的分页大小是2，组内分页大小是2，结果如下：
 ```text
-分组名称：C
-    组内记录：Document<stored<ID:8> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通C>>
-    组内记录：Document<stored<ID:9> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C语言详解>>
-分组名称：C
-    组内记录：Document<stored<ID:10> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C语言调优>>
-
-第1种类别组迭代完毕！
-分组名称：C++
-    组内记录：Document<stored<ID:11> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通C++>>
-    组内记录：Document<stored<ID:12> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C++语言详解>>
-分组名称：C++
-    组内记录：Document<stored<ID:13> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C++语言调优>>
-
-第2种类别组迭代完毕！
-分组名称：Java
-    组内记录：Document<stored<ID:5> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Spring Cloud>>
-    组内记录：Document<stored<ID:6> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Hibernate>>
-分组名称：Java
-    组内记录：Document<stored<ID:2> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通MyBatis>>
-    组内记录：Document<stored<ID:3> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Struts>>
-分组名称：Java
-    组内记录：Document<stored<ID:4> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Spring>>
-    组内记录：Document<stored<ID:1> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Java>>
-分组名称：Java
-    组内记录：Document<stored<ID:7> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通JVM>>
-
-第3种类别组迭代完毕！
+#### 组的分页大小为：2
+#### 组内分页大小为：2
+#### 开始组的分页
+    #### 开始组内分页
+    分组名称：C
+        组内记录：Document<stored<ID:8> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通C>>
+        组内记录：Document<stored<ID:9> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C语言详解>>
+    #### 结束组内分页
+    #### 开始组内分页
+    分组名称：C
+        组内记录：Document<stored<ID:10> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C语言调优>>
+    #### 结束组内分页
+    #### 开始组内分页
+    分组名称：C++
+        组内记录：Document<stored<ID:11> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通C++>>
+        组内记录：Document<stored<ID:12> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C++语言详解>>
+    #### 结束组内分页
+    #### 开始组内分页
+    分组名称：C++
+        组内记录：Document<stored<ID:13> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C++语言调优>>
+    #### 结束组内分页
+#### 结束组的分页
+#### 开始组的分页
+    #### 开始组内分页
+    分组名称：Java
+        组内记录：Document<stored<ID:5> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Spring Cloud>>
+        组内记录：Document<stored<ID:6> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Hibernate>>
+    #### 结束组内分页
+    #### 开始组内分页
+    分组名称：Java
+        组内记录：Document<stored<ID:2> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通MyBatis>>
+        组内记录：Document<stored<ID:3> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Struts>>
+    #### 结束组内分页
+    #### 开始组内分页
+    分组名称：Java
+        组内记录：Document<stored<ID:4> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Spring>>
+        组内记录：Document<stored<ID:1> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Java>>
+    #### 结束组内分页
+    #### 开始组内分页
+    分组名称：Java
+        组内记录：Document<stored<ID:7> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通JVM>>
+    #### 结束组内分页
+#### 结束组的分页
 ```
-例如组内分页，每页显示三条记录，输出结果如下
+例如组的分页大小是1，组内分页大小是3，结果如下
 ```text
-分组名称：C
-    组内记录：Document<stored<ID:8> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通C>>
-    组内记录：Document<stored<ID:9> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C语言详解>>
-    组内记录：Document<stored<ID:10> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C语言调优>>
-
-第1种类别组迭代完毕！
-分组名称：C++
-    组内记录：Document<stored<ID:11> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通C++>>
-    组内记录：Document<stored<ID:12> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C++语言详解>>
-    组内记录：Document<stored<ID:13> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C++语言调优>>
-
-第2种类别组迭代完毕！
-分组名称：Java
-    组内记录：Document<stored<ID:5> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Spring Cloud>>
-    组内记录：Document<stored<ID:6> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Hibernate>>
-    组内记录：Document<stored<ID:2> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通MyBatis>>
-分组名称：Java
-    组内记录：Document<stored<ID:3> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Struts>>
-    组内记录：Document<stored<ID:4> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Spring>>
-    组内记录：Document<stored<ID:1> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Java>>
-分组名称：Java
-    组内记录：Document<stored<ID:7> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通JVM>>
-
-第3种类别组迭代完毕！
+#### 组的分页大小为：1
+#### 组内分页大小为：3
+#### 开始组的分页
+    #### 开始组内分页
+    分组名称：C
+        组内记录：Document<stored<ID:8> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通C>>
+        组内记录：Document<stored<ID:9> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C语言详解>>
+        组内记录：Document<stored<ID:10> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C语言调优>>
+    #### 结束组内分页
+#### 结束组的分页
+#### 开始组的分页
+    #### 开始组内分页
+    分组名称：C++
+        组内记录：Document<stored<ID:11> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通C++>>
+        组内记录：Document<stored<ID:12> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C++语言详解>>
+        组内记录：Document<stored<ID:13> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:C++> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:C++语言调优>>
+    #### 结束组内分页
+#### 结束组的分页
+#### 开始组的分页
+    #### 开始组内分页
+    分组名称：Java
+        组内记录：Document<stored<ID:5> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Spring Cloud>>
+        组内记录：Document<stored<ID:6> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Hibernate>>
+        组内记录：Document<stored<ID:2> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通MyBatis>>
+    #### 结束组内分页
+    #### 开始组内分页
+    分组名称：Java
+        组内记录：Document<stored<ID:3> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Struts>>
+        组内记录：Document<stored<ID:4> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Spring>>
+        组内记录：Document<stored<ID:1> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通Java>>
+    #### 结束组内分页
+    #### 开始组内分页
+    分组名称：Java
+        组内记录：Document<stored<ID:7> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<author:Java> stored,indexed,tokenized,omitNorms,indexOptions=DOCS<content:一周精通JVM>>
+    #### 结束组内分页
+#### 结束组的分页
 ```

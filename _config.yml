@@ -79,8 +79,14 @@ feed:
 #SiteMap
 sitemap:
  path: sitemap.xml
+
 baidusitemap:
 path: baidusitemap.xml
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
