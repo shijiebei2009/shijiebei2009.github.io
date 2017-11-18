@@ -6,10 +6,12 @@
     "version": "3.3.5"
   },
   "dependencies": {
+    "es5-ext": "^0.10.35",
+    "exec-buffer": "^0.1.1",
     "hexo": "^3.2.0",
     "hexo-deployer-git": "^0.3.0",
     "hexo-generator-archive": "^0.1.4",
-    "hexo-generator-baidu-sitemap": "^0.1.1",
+    "hexo-generator-baidu-sitemap": "^0.1.2",
     "hexo-generator-category": "^0.1.3",
     "hexo-generator-feed": "^1.2.0",
     "hexo-generator-index": "^0.2.1",
@@ -23,7 +25,5 @@
     "hexo-util": "^0.6.1",
     "hexo-wordcount": "^3.0.2"
   },
-  "devDependencies": {
-    "hexo-generator-baidu-sitemap": "^0.1.2"
-  }
+  "devDependencies": {}
 }
