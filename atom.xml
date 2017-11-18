@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.codepub.cn/"/>
-  <updated>2017-11-16T13:14:57.545Z</updated>
+  <updated>2017-11-16T13:52:28.235Z</updated>
   <id>http://www.codepub.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.codepub.cn/2017/11/15/lucene-group-statistics-detailed/"/>
     <id>http://www.codepub.cn/2017/11/15/lucene-group-statistics-detailed/</id>
     <published>2017-11-15T14:43:43.000Z</published>
-    <updated>2017-11-16T13:14:57.545Z</updated>
+    <updated>2017-11-16T13:52:28.235Z</updated>
     
     <content type="html"><![CDATA[<h3 id="抛出问题"><a href="#抛出问题" class="headerlink" title="抛出问题"></a>抛出问题</h3><p>在 RDBMS 中，我们可以使用 GROUP BY 来对检索的数据进行分组，同样地，想要在 Lucene 中实现分组要如何做呢？首先思考如下几个问题</p>
 <ul>
@@ -784,7 +784,7 @@
     <link href="http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/"/>
     <id>http://www.codepub.cn/2017/06/28/Use-RAMDirectory-to-do-the-cache-to-improve-lucene-s-performance/</id>
     <published>2017-06-28T14:02:21.000Z</published>
-    <updated>2017-11-15T14:53:46.604Z</updated>
+    <updated>2017-11-16T13:52:47.004Z</updated>
     
     <content type="html"><![CDATA[<p>RAMDirectory和FSDirectory都继承自BaseDirectory，而BaseDirectory继承自Directory，Directory是Lucene中设计的一个顶层抽象类，可以将其看做本地文件系统的一个目录。</p>
 <p>RAMDirectory是基于内存实现的，具有较高的存储速度，但是受到内存大小的限制，而FSDirectory是基于文件系统实现的，针对不同的操作系统有不同的具体实现类，这些实现类无需用户操心，只需要调用FSDirectory.open(Path path)方法，它就会帮助我们选择最适合的子类，FSDirectory的瓶颈在于磁盘I/O。</p>
