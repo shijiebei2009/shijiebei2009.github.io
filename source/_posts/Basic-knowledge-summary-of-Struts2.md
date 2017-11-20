@@ -6,7 +6,6 @@ categories: Programming Notes
 
 ---
 
-**力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员**
 [![logo](http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png "logo")](http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png "logo")
 ### Struts2简介
 Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。

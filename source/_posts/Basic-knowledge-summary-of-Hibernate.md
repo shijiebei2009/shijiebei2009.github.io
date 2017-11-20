@@ -6,8 +6,6 @@ categories: Programming Notes
 
 ---
 
-**力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员**
-
 [![logo](http://7xig3q.com1.z0.glb.clouddn.com/hibernate-logo.gif "logo")](http://7xig3q.com1.z0.glb.clouddn.com/hibernate-logo.gif "logo")
 
 ### ORM简介
