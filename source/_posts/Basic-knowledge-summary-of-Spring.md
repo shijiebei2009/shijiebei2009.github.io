@@ -6,8 +6,6 @@ categories: Programming Notes
 
 ---
 
-**力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员**
-
 [![logo](http://7xig3q.com1.z0.glb.clouddn.com/spring-logo.png "logo")](http://7xig3q.com1.z0.glb.clouddn.com/spring-logo.png "logo")
 ### Spring简介
 Spring框架由Rod Johnson开发，[Rod Johnson's twitter](https://twitter.com/springrod)，[Rod Johnson's 百度百科](http://baike.baidu.com/view/2192255.htm)，2004年发布了Spring框架的第一版。Spring是一个从实际开发中抽取出来的框架，因此它完成了大量开发中的通用步骤，留给开发者的仅仅是与特定应用相关的部分，从而大大提高了企业应用的开发效率。
