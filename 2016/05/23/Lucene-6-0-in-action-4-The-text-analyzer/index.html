@@ -88,7 +88,7 @@
 <meta property="og:url" content="http://www.codepub.cn/2016/05/23/Lucene-6-0-in-action-4-The-text-analyzer/index.html">
 <meta property="og:site_name" content="IT草根">
 <meta property="og:description" content="Analyzer简介在Lucene的org.apache.lucene.analysis模块中提供了顶层的抽象类Analyzer，Analyzer主要是用来构建TokenStreams，如果想实现自定义的Analyzer，必须覆写createComponents(String)方法，并定义自己的TokenStreamComponents。 为什么要有Analyzer呢？对于Lucene而言，不管是">
-<meta property="og:updated_time" content="2017-11-16T13:52:46.968Z">
+<meta property="og:updated_time" content="2017-11-20T14:18:34.043Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lucene 6.0 实战（4）-文本分析器">
 <meta name="twitter:description" content="Analyzer简介在Lucene的org.apache.lucene.analysis模块中提供了顶层的抽象类Analyzer，Analyzer主要是用来构建TokenStreams，如果想实现自定义的Analyzer，必须覆写createComponents(String)方法，并定义自己的TokenStreamComponents。 为什么要有Analyzer呢？对于Lucene而言，不管是">
@@ -373,8 +373,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-16T21:52:46+08:00">
-                2017-11-16
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
+                2017-11-20
               </time>
             
           </span>
@@ -439,7 +439,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3,411
+                  3,413
                 </span>
               
 
@@ -510,11 +510,11 @@
 </tr>
 <tr>
 <td>SmartChineseAnalyzer</td>
-<td>SmartChineseAnalyzer是一个智能中文分词模块，能够利用概率对汉语句子进行最优切分，并内嵌英文tokenizer，能有效处理中英文混合的文本内容。它的原理基于自然语言处理领域的隐马尔科夫模型（HMM），利用大量语料库的训练来统计汉语词汇的词频和跳转概率，从而根据这些统计结果对整个汉语句子计算最似然（likelihood）的切分。因为智能分词需要词典来保存词汇的统计值，SmartChineseAnalyzer的运行需要指定词典位置，如何指定词典位置请参考org.apache.lucene.analysis.cn.smart.AnalyzerProfile。SmartChineseAnalyzer的算法和语料库词典来自于<a href="http://ictclas.nlpir.org/downloads" target="_blank" rel="external">ICTCLAS</a></td>
+<td>SmartChineseAnalyzer 是一个智能中文分词模块，能够利用概率对汉语句子进行最优切分，并内嵌英文 tokenizer，能有效处理中英文混合的文本内容。它的原理基于自然语言处理领域的隐马尔科夫模型（HMM），利用大量语料库的训练来统计汉语词汇的词频和跳转概率，从而根据这些统计结果对整个汉语句子计算最似然（likelihood）的切分。因为智能分词需要词典来保存词汇的统计值，SmartChineseAnalyzer 的运行需要指定词典位置，如何指定词典位置请参考org.apache.lucene.analysis.cn.smart.AnalyzerProfile。SmartChineseAnalyzer 的算法和语料库词典来自于<a href="http://ictclas.nlpir.org/downloads" target="_blank" rel="external">ICTCLAS</a></td>
 </tr>
 <tr>
 <td>CJKAnalyzer</td>
-<td>CJK表示中日韩，目的是要把分别来自中文、日文、韩文、越文中，本质、意义相同、形状一样或稍异的表意文字（主要为汉字，但也有仿汉字如日本国字、韩国独有汉字、越南的喃字）在ISO 10646及Unicode标准内赋予相同编码。对于中文是交叉双字分割，二元分词法</td>
+<td>CJK表示中日韩，目的是要把分别来自中文、日文、韩文、越文中，本质、意义相同、形状一样或稍异的表意文字（主要为汉字，但也有仿汉字如日本国字、韩国独有汉字、越南的喃字）在ISO 10646 及 Unicode 标准内赋予相同编码。对于中文是交叉双字分割，二元分词法</td>
 </tr>
 </tbody>
 </table>
@@ -932,7 +932,7 @@ var jiathis_config={
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">273.9k</span>
+    <span title="Site words total count">274.4k</span>
   
 </div>
 
