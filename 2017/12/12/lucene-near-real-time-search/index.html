@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/favicon-16x16.ico?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Lucene," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="IT草根" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Lucene 事务有过数据库经验的人都知道ACID特性，原子性（atomicity，或称不可分割性）、一致性（consistency）、隔离性（isolation，又称独立性）、持久性（durability）。由于隔离性的存在，对于新的变更包括添加、修改、删除，如果不进行 commit 的话，那么在读端是无法看到数据的变化的，在这里简单的介绍下 Lucene 中的事务，即ACID。 原子性当你在一">
+<meta name="keywords" content="Lucene">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lucene 近实时搜索">
+<meta property="og:url" content="http://www.codepub.cn/2017/12/12/lucene-near-real-time-search/index.html">
+<meta property="og:site_name" content="IT草根">
+<meta property="og:description" content="Lucene 事务有过数据库经验的人都知道ACID特性，原子性（atomicity，或称不可分割性）、一致性（consistency）、隔离性（isolation，又称独立性）、持久性（durability）。由于隔离性的存在，对于新的变更包括添加、修改、删除，如果不进行 commit 的话，那么在读端是无法看到数据的变化的，在这里简单的介绍下 Lucene 中的事务，即ACID。 原子性当你在一">
+<meta property="og:updated_time" content="2017-12-12T14:36:49.957Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lucene 近实时搜索">
+<meta name="twitter:description" content="Lucene 事务有过数据库经验的人都知道ACID特性，原子性（atomicity，或称不可分割性）、一致性（consistency）、隔离性（isolation，又称独立性）、持久性（durability）。由于隔离性的存在，对于新的变更包括添加、修改、删除，如果不进行 commit 的话，那么在读端是无法看到数据的变化的，在这里简单的介绍下 Lucene 中的事务，即ACID。 原子性当你在一">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.codepub.cn/2017/12/12/lucene-near-real-time-search/"/>
+
+
+
+
+
+  <title>Lucene 近实时搜索 | IT草根</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2c61418f187553bcc869b755930233ab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IT草根</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">WangXu's 代码馆 BLOG</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-简历">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-友链">
+          <a href="/links" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-link"></i> <br />
+            
+            友链
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.codepub.cn/2017/12/12/lucene-near-real-time-search/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Xu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IT草根">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Lucene 近实时搜索</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-12T22:35:56+08:00">
+                2017-12-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-12-12T22:36:49+08:00">
+                2017-12-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Programming Notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/12/lucene-near-real-time-search/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/12/12/lucene-near-real-time-search/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4,349
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  20
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Lucene-事务"><a href="#Lucene-事务" class="headerlink" title="Lucene 事务"></a>Lucene 事务</h3><p>有过数据库经验的人都知道ACID特性，原子性（atomicity，或称不可分割性）、一致性（consistency）、隔离性（isolation，又称独立性）、持久性（durability）。由于隔离性的存在，对于新的变更包括添加、修改、删除，如果不进行 commit 的话，那么在读端是无法看到数据的变化的，在这里简单的介绍下 Lucene 中的事务，即ACID。</p>
+<h4 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h4><p>当你在一次 IndexWriter 的 session 中做操作（增加，删除文档），然后 commit，要么你的所有的操作修改都是可见的（commit 成功），要么所有的操作修改都不可见（commit 失败），绝不会处于某种中间状态。有些方法有它自身的原子操作：如果你调用 updateDocument 方法，其内在实现是先删除后添加文档，即使你打开了一个近实时（NRT）reader 或者使用另一个线程做 commit，绝不会出现只有删除而没有添加的情况。与此类似，如果使用 addDocuments 方法添加一组文档，对于任何 reader 而言，要么所有的文档可见，要么所有文档不可见。</p>
+<h4 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h4><p>如果计算机或者 OS 崩溃，或者 JVM 挂掉或被杀死，亦或是电源被拔掉了，你的索引都会保持完好。注意，像 RAM 故障，CPU 位翻转或者文件系统损坏之类的问题，还是容易造成索引破坏的。</p>
+<h4 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h4><p>当 IndexWriter 正在做更改的时候，所有更改都不会对当前搜索该索引的 IndexReader 可见，直到你 commit 或者打开了一个新的 NRT reader。一次只能有一个 IndexWriter 实例对索引进行更改。</p>
+<h4 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h4><p>一旦 commit 操作返回，所有变更都会被写入到持久化存储。如果计算机或者 OS 崩溃，或者 JVM 挂掉或被杀死，亦或是电源被拔掉了，所有的变更都已在索引中保存。</p>
+<h3 id="Lucene-近实时搜索"><a href="#Lucene-近实时搜索" class="headerlink" title="Lucene 近实时搜索"></a>Lucene 近实时搜索</h3><p>如果对数据没有实时性的要求，那么完全不用关心 Lucene 的近实时搜索。但是由于隔离性的存在，我们知道，对于新的数据，如果写端不 commit 的话，那么搜索端则是不可见的；还有另外一种情况，就是在搜索端可以持有 IndexWriter 的情况下，利用 IndexWriter 打开 reader，则可以保证 reader 能够看到最新的数据，包括还未提交的数据。同样一旦 reader 打开索引之后，对于写端新的未提交数据同样不可见。</p>
+<p>除此之外 Lucene 与数据库还稍有不同，就是 Lucene 使用 IndexReader 打开索引的时候，相当于是对当前索引做了一次快照（Snapshot），即便写端进行了 commit 操作，如果 IndexReader 不重新打开的话，新提交的内容对搜索端依然是不可见的。那么要实现 Lucene 的近实时搜索，关键有两个方面，一是写端定期进行 commit 操作，二是搜索端定期进行 reopen 操作。</p>
+<h4 id="搜索端持有-IndexWriter"><a href="#搜索端持有-IndexWriter" class="headerlink" title="搜索端持有 IndexWriter"></a>搜索端持有 IndexWriter</h4><p>对于大规模的搜索应用，一般都是读写分离的，而且由于 Lucene 在同一时刻，仅允许有一个写端存在，但可以有多个读端同时存在，所以这种架构在生产环境其实很少使用，因为所有的读端基本上都是和写端隔离甚至分别部署在不同的应用之中，不过这个知识在某些场景依然很有用，同时了解这个知识可以帮助你更加深入的理解 Lucene。</p>
+<h5 id="由自己负责重新打开"><a href="#由自己负责重新打开" class="headerlink" title="由自己负责重新打开"></a>由自己负责重新打开</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.standard.StandardAnalyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Field;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.IntPoint;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.TextField;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.DirectoryReader;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.IndexSearcher;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.MatchAllDocsQuery;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.ScoreDoc;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.TopDocs;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NearRealTimeSearchDemo</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">        Document document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> TextField(<span class="string">"title"</span>, <span class="string">"Doc1"</span>, Field.Store.YES));</div><div class="line">        document.add(<span class="keyword">new</span> IntPoint(<span class="string">"ID"</span>, <span class="number">1</span>));</div><div class="line">        IndexWriter indexWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> StandardAnalyzer()));</div><div class="line">        indexWriter.addDocument(document);</div><div class="line">        IndexSearcher indexSearcher = <span class="keyword">new</span> IndexSearcher(DirectoryReader.open(indexWriter));</div><div class="line">        <span class="keyword">int</span> count = indexSearcher.count(<span class="keyword">new</span> MatchAllDocsQuery());</div><div class="line">        <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">            TopDocs topDocs = indexSearcher.search(<span class="keyword">new</span> MatchAllDocsQuery(), count);</div><div class="line">            <span class="keyword">for</span> (ScoreDoc scoreDoc : topDocs.scoreDocs) &#123;</div><div class="line">                <span class="comment">//即便没有commit，依然能看到Doc1</span></div><div class="line">                System.out.println(indexSearcher.doc(scoreDoc.doc));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="string">"================================="</span>);</div><div class="line">        document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> TextField(<span class="string">"title"</span>, <span class="string">"Doc2"</span>, Field.Store.YES));</div><div class="line">        document.add(<span class="keyword">new</span> IntPoint(<span class="string">"ID"</span>, <span class="number">2</span>));</div><div class="line">        indexWriter.addDocument(document);</div><div class="line">        indexWriter.commit();</div><div class="line">        count = indexSearcher.count(<span class="keyword">new</span> MatchAllDocsQuery());</div><div class="line">        TopDocs topDocs = indexSearcher.search(<span class="keyword">new</span> MatchAllDocsQuery(), count);</div><div class="line">        <span class="keyword">for</span> (ScoreDoc scoreDoc : topDocs.scoreDocs) &#123;</div><div class="line">            <span class="comment">//即便后来commit了，依然无法看到Doc2，因为没有重新打开IndexSearcher</span></div><div class="line">            System.out.println(indexSearcher.doc(scoreDoc.doc));</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="string">"================================="</span>);</div><div class="line">        indexSearcher.getIndexReader().close();</div><div class="line">        indexSearcher = <span class="keyword">new</span> IndexSearcher(DirectoryReader.open(indexWriter));</div><div class="line">        count = indexSearcher.count(<span class="keyword">new</span> MatchAllDocsQuery());</div><div class="line">        topDocs = indexSearcher.search(<span class="keyword">new</span> MatchAllDocsQuery(), count);</div><div class="line">        <span class="keyword">for</span> (ScoreDoc scoreDoc : topDocs.scoreDocs) &#123;</div><div class="line">            <span class="comment">//重新打开IndexSearcher，可以看到Doc1和Doc2</span></div><div class="line">            System.out.println(indexSearcher.doc(scoreDoc.doc));</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="string">"================================="</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc1&gt;&gt;</div><div class="line">=================================</div><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc1&gt;&gt;</div><div class="line">=================================</div><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc1&gt;&gt;</div><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc2&gt;&gt;</div><div class="line">=================================</div></pre></td></tr></table></figure></p>
+<h5 id="使用ControlledRealTimeReopenThread定时重新打开"><a href="#使用ControlledRealTimeReopenThread定时重新打开" class="headerlink" title="使用ControlledRealTimeReopenThread定时重新打开"></a>使用ControlledRealTimeReopenThread定时重新打开</h5><p>Lucene 提供了 ControlledRealTimeReopenThread 线程工具类来负责周期性的打开 ReferenceManager（调用ReferenceManager.maybeRefresh）。该线程类控制打开间隔比较灵活，当有外部用户在等待指定的 generation 时就按最小时间间隔等待，如果没有用户着急获取最新的Searcher，则等待最大时间间隔后再打开。其构造函数如下：</p>
+<p>ControlledRealTimeReopenThread(TrackingIndexWriter writer, ReferenceManager<t> manager,<br>double targetMaxStaleSec, double targetMinStaleSec)//单位秒</t></p>
+<p>如何判断是否有人等待？</p>
+<p>在调用 addDocument 的时候，IndexWriter 为每次更新索引的操作赋予一个标记（generation，代数），递增变化。用户使用 ControlledRealTimeReopenThread.waitForGeneration 告诉其期望获得更新代数，ControlledRealTimeReopenThread 记录了当前已打开的代数，当期望更新代数大于已打开代数时，就表示有用户期望获得最新的 Searcher。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.standard.StandardAnalyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Field;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.IntPoint;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.TextField;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.*;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NearRealTimeSearchDemo</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">        Document document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> TextField(<span class="string">"title"</span>, <span class="string">"Doc1"</span>, Field.Store.YES));</div><div class="line">        document.add(<span class="keyword">new</span> IntPoint(<span class="string">"ID"</span>, <span class="number">1</span>));</div><div class="line">        IndexWriter indexWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> StandardAnalyzer()));</div><div class="line">        indexWriter.addDocument(document);</div><div class="line">        indexWriter.commit();</div><div class="line">        SearcherManager searcherManager = <span class="keyword">new</span> SearcherManager(indexWriter, <span class="keyword">null</span>);</div><div class="line">        <span class="comment">//当没有调用者等待指定的generation的时候，必须要重新打开时间间隔5s，言外之意，如果有调用者在等待指定的generation，则只需等0.25s</span></div><div class="line">        <span class="comment">//防止不断的重新打开，严重消耗系统性能，设置最小重新打开时间间隔0.25s</span></div><div class="line">        ControlledRealTimeReopenThread&lt;IndexSearcher&gt; controlledRealTimeReopenThread = <span class="keyword">new</span> ControlledRealTimeReopenThread&lt;&gt;(indexWriter,</div><div class="line">                searcherManager, <span class="number">5</span>, <span class="number">0.25</span>);</div><div class="line">        <span class="comment">//设置为后台线程</span></div><div class="line">        controlledRealTimeReopenThread.setDaemon(<span class="keyword">true</span>);</div><div class="line">        controlledRealTimeReopenThread.setName(<span class="string">"controlled reopen thread"</span>);</div><div class="line">        controlledRealTimeReopenThread.start();</div><div class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line">        IndexSearcher indexSearcher = searcherManager.acquire();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//只能看到Doc1</span></div><div class="line">            count = indexSearcher.count(<span class="keyword">new</span> MatchAllDocsQuery());</div><div class="line">            <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">                TopDocs topDocs = indexSearcher.search(<span class="keyword">new</span> MatchAllDocsQuery(), count);</div><div class="line">                <span class="keyword">for</span> (ScoreDoc scoreDoc : topDocs.scoreDocs) &#123;</div><div class="line">                    System.out.println(indexSearcher.doc(scoreDoc.doc));</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            System.out.println(<span class="string">"================================="</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            searcherManager.release(indexSearcher);</div><div class="line">        &#125;</div><div class="line">        document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> TextField(<span class="string">"title"</span>, <span class="string">"Doc2"</span>, Field.Store.YES));</div><div class="line">        document.add(<span class="keyword">new</span> IntPoint(<span class="string">"ID"</span>, <span class="number">2</span>));</div><div class="line">        indexWriter.addDocument(document);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            TimeUnit.SECONDS.sleep(<span class="number">6</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//休息6s之后，即使没有commit，依然可以搜索到Doc2，因为ControlledRealTimeReopenThread会刷新SearchManager</span></div><div class="line">        indexSearcher = searcherManager.acquire();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            count = indexSearcher.count(<span class="keyword">new</span> MatchAllDocsQuery());</div><div class="line">            <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">                TopDocs topDocs = indexSearcher.search(<span class="keyword">new</span> MatchAllDocsQuery(), count);</div><div class="line">                <span class="keyword">for</span> (ScoreDoc scoreDoc : topDocs.scoreDocs) &#123;</div><div class="line">                    System.out.println(indexSearcher.doc(scoreDoc.doc));</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            System.out.println(<span class="string">"================================="</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            searcherManager.release(indexSearcher);</div><div class="line">        &#125;</div><div class="line">        document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> TextField(<span class="string">"title"</span>, <span class="string">"Doc3"</span>, Field.Store.YES));</div><div class="line">        document.add(<span class="keyword">new</span> IntPoint(<span class="string">"ID"</span>, <span class="number">3</span>));</div><div class="line">        <span class="keyword">long</span> generation = indexWriter.addDocument(document);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//当有调用者等待某个generation的时候，只需要0.25s即可重新打开</span></div><div class="line">            controlledRealTimeReopenThread.waitForGeneration(generation);</div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        indexSearcher = searcherManager.acquire();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            count = indexSearcher.count(<span class="keyword">new</span> MatchAllDocsQuery());</div><div class="line">            <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">                TopDocs topDocs = indexSearcher.search(<span class="keyword">new</span> MatchAllDocsQuery(), count);</div><div class="line">                <span class="keyword">for</span> (ScoreDoc scoreDoc : topDocs.scoreDocs) &#123;</div><div class="line">                    System.out.println(indexSearcher.doc(scoreDoc.doc));</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            System.out.println(<span class="string">"================================="</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            searcherManager.release(indexSearcher);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc1&gt;&gt;</div><div class="line">=================================</div><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc1&gt;&gt;</div><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc2&gt;&gt;</div><div class="line">=================================</div><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc1&gt;&gt;</div><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc2&gt;&gt;</div><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc3&gt;&gt;</div><div class="line">=================================</div></pre></td></tr></table></figure></p>
+<h4 id="搜索端不持有-IndexWriter"><a href="#搜索端不持有-IndexWriter" class="headerlink" title="搜索端不持有 IndexWriter"></a>搜索端不持有 IndexWriter</h4><p>在实际的工作中，这种模式才是最常见的现象，由于索引可以有多个用户同时搜索，那么只要每一个搜索端都不持有 IndexWriter，就可以实现一个简单的分布式搜索服务。由前面所知，这种情况下，只有当写端进行 commit 操作之后，搜索端重新打开 reader 才能搜索到最新的数据。</p>
+<h5 id="使用DirectoryReader刷新"><a href="#使用DirectoryReader刷新" class="headerlink" title="使用DirectoryReader刷新"></a>使用DirectoryReader刷新</h5><p>在示例代码中虽然 IndexWriter 和 IndexSearcher 写在同一个类中，但是我们并不从 IndexWriter 打开索引，而是通过 Directory 打开索引，这里仅是简单示例，所以实际开发中，这个类中完全没有 IndexWriter 也是可以的。</p>
+<p>想要看到新的结果就需要重新打开一个 IndexReader，DirectoryReader 提供了 openIfChanged(DirectoryReader oldReader) 函数，只有索引有变化时才返回新的 reader（不是完全打开一个 new reader，会复用 old reader 的一些资源，并入新索引，降低一些开销）， 否则返回 null。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.standard.StandardAnalyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Field;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.IntPoint;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.TextField;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.DirectoryReader;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.IndexSearcher;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.MatchAllDocsQuery;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.ScoreDoc;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.TopDocs;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NearRealTimeSearchDemo</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">        Document document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> TextField(<span class="string">"title"</span>, <span class="string">"Doc1"</span>, Field.Store.YES));</div><div class="line">        document.add(<span class="keyword">new</span> IntPoint(<span class="string">"ID"</span>, <span class="number">1</span>));</div><div class="line">        IndexWriter indexWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> StandardAnalyzer()));</div><div class="line">        indexWriter.addDocument(document);</div><div class="line">        indexWriter.commit();</div><div class="line">        DirectoryReader directoryReader = DirectoryReader.open(ramDirectory);</div><div class="line">        IndexSearcher indexSearcher = <span class="keyword">new</span> IndexSearcher(directoryReader);</div><div class="line">        document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> TextField(<span class="string">"title"</span>, <span class="string">"Doc2"</span>, Field.Store.YES));</div><div class="line">        document.add(<span class="keyword">new</span> IntPoint(<span class="string">"ID"</span>, <span class="number">2</span>));</div><div class="line">        indexWriter.addDocument(document);</div><div class="line">        <span class="comment">//即使commit，搜索依然不可见，需要重新打开reader</span></div><div class="line">        indexWriter.commit();</div><div class="line">        <span class="comment">//只能看到Doc1</span></div><div class="line">        <span class="keyword">int</span> count = indexSearcher.count(<span class="keyword">new</span> MatchAllDocsQuery());</div><div class="line">        <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">            TopDocs topDocs = indexSearcher.search(<span class="keyword">new</span> MatchAllDocsQuery(), count);</div><div class="line">            <span class="keyword">for</span> (ScoreDoc scoreDoc : topDocs.scoreDocs) &#123;</div><div class="line">                System.out.println(indexSearcher.doc(scoreDoc.doc));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="string">"================================="</span>);</div><div class="line">        <span class="comment">//如果发现有新数据更新，则会返回一个新的reader</span></div><div class="line">        DirectoryReader newReader = DirectoryReader.openIfChanged(directoryReader);</div><div class="line">        <span class="keyword">if</span> (newReader != <span class="keyword">null</span>) &#123;</div><div class="line">            indexSearcher = <span class="keyword">new</span> IndexSearcher(newReader);</div><div class="line">            directoryReader.close();</div><div class="line">        &#125;</div><div class="line">        count = indexSearcher.count(<span class="keyword">new</span> MatchAllDocsQuery());</div><div class="line">        <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">            TopDocs topDocs = indexSearcher.search(<span class="keyword">new</span> MatchAllDocsQuery(), count);</div><div class="line">            <span class="keyword">for</span> (ScoreDoc scoreDoc : topDocs.scoreDocs) &#123;</div><div class="line">                System.out.println(indexSearcher.doc(scoreDoc.doc));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="string">"================================="</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc1&gt;&gt;</div><div class="line">=================================</div><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc1&gt;&gt;</div><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc2&gt;&gt;</div><div class="line">=================================</div></pre></td></tr></table></figure></p>
+<h5 id="使用SearcherManager刷新"><a href="#使用SearcherManager刷新" class="headerlink" title="使用SearcherManager刷新"></a>使用SearcherManager刷新</h5><p>在实际应用中，会并行的进行搜索、建索引、打开新 reader、关闭老 reader，操作比较复杂还有线程安全问题。为了简化使用流程，Lucene 提供了 SearcherManager extends ReferenceManager<indexsearcher> 管理 IndexReader 的重建和关闭，保证了线程安全，封装了 IndexSearcher 的生成。</indexsearcher></p>
+<p>SearcherManager的主要职责如下，主要提供如下三个接口</p>
+<ul>
+<li>acquire：获取当前已打开的最新 IndexSearcher，同时将对应的 IndexReader 引用计数加1</li>
+<li>release：释放之前通过 acquire 方法获取的引用，本质调的是 <code>IndexSearcher.getIndexReader().decRef();</code>，当一个 IndexReader 的引用计数为0时，会将之关闭同时释放其持有的资源</li>
+<li>maybeRefresh：尝试打开新的 IndexReader，本质调用的是 DirectoryReader.openIfChanged() 方法，如果多个线程同时调用该方法，那么只有第一个线程会去尝试刷新，后来的或者说随后的线程看到有其它线程在处理刷新，那么会立即返回；注意这意味着，如果有一个线程在处理刷新操作，那么后续的线程会立即返回而不是等待它刷新完成，所以后续调用该方法的线程可能是已经刷新了的或者是没有任何改变的（没有任何改变意味着通过 acquire 获取的 IndexSearcher 无法搜索到最新的数据）</li>
+<li>maybeRefreshBlocking：功能同 maybeRefresh()，但是不像 maybeRefresh()，如果有一个线程正在刷新，后续的线程将阻塞，直到前面的线程刷新完成，然后后续的线程再继续刷新；这非常有用对于想要保证下一次 acquire() 的调用将返回一个刷新的实例，否则考虑使用 maybeRefresh()</li>
+</ul>
+<p>SearcherManager 的一个注意点是，如果调用了 acquire，那么一定要调用 release，在该方法内部会通过 IndexSearcher 获取IndexReader，然后将 IndexReader 的引用计数减1，当这个引用计数为0的时候，这个 IndexReader 就会被关闭，从而可以释放资源。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.standard.StandardAnalyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Field;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.IntPoint;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.TextField;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.*;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NearRealTimeSearchDemo</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">        Document document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> TextField(<span class="string">"title"</span>, <span class="string">"Doc1"</span>, Field.Store.YES));</div><div class="line">        document.add(<span class="keyword">new</span> IntPoint(<span class="string">"ID"</span>, <span class="number">1</span>));</div><div class="line">        IndexWriter indexWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> StandardAnalyzer()));</div><div class="line">        indexWriter.addDocument(document);</div><div class="line">        indexWriter.commit();</div><div class="line">        SearcherManager searcherManager = <span class="keyword">new</span> SearcherManager(ramDirectory, <span class="keyword">null</span>);</div><div class="line">        document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> TextField(<span class="string">"title"</span>, <span class="string">"Doc2"</span>, Field.Store.YES));</div><div class="line">        document.add(<span class="keyword">new</span> IntPoint(<span class="string">"ID"</span>, <span class="number">2</span>));</div><div class="line">        indexWriter.addDocument(document);</div><div class="line">        <span class="comment">//即使commit，搜索依然不可见，需要重新打开reader</span></div><div class="line">        indexWriter.commit();</div><div class="line">        <span class="comment">//只能看到Doc1</span></div><div class="line">        IndexSearcher indexSearcher = searcherManager.acquire();</div><div class="line">        <span class="keyword">int</span> count = indexSearcher.count(<span class="keyword">new</span> MatchAllDocsQuery());</div><div class="line">        <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">            TopDocs topDocs = indexSearcher.search(<span class="keyword">new</span> MatchAllDocsQuery(), count);</div><div class="line">            <span class="keyword">for</span> (ScoreDoc scoreDoc : topDocs.scoreDocs) &#123;</div><div class="line">                System.out.println(indexSearcher.doc(scoreDoc.doc));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="string">"================================="</span>);</div><div class="line">        <span class="comment">//最好放到finally语句块中</span></div><div class="line">        searcherManager.release(indexSearcher);</div><div class="line">        <span class="keyword">if</span> (!searcherManager.isSearcherCurrent()) &#123;</div><div class="line">            <span class="comment">//说明有新数据，需要刷新</span></div><div class="line">            searcherManager.maybeRefresh();</div><div class="line">        &#125;</div><div class="line">        indexSearcher = searcherManager.acquire();</div><div class="line">        count = indexSearcher.count(<span class="keyword">new</span> MatchAllDocsQuery());</div><div class="line">        <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">            TopDocs topDocs = indexSearcher.search(<span class="keyword">new</span> MatchAllDocsQuery(), count);</div><div class="line">            <span class="keyword">for</span> (ScoreDoc scoreDoc : topDocs.scoreDocs) &#123;</div><div class="line">                System.out.println(indexSearcher.doc(scoreDoc.doc));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="string">"================================="</span>);</div><div class="line">        searcherManager.release(indexSearcher);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc1&gt;&gt;</div><div class="line">=================================</div><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc1&gt;&gt;</div><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc2&gt;&gt;</div><div class="line">=================================</div></pre></td></tr></table></figure></p>
+<h5 id="使用定时线程执行刷新"><a href="#使用定时线程执行刷新" class="headerlink" title="使用定时线程执行刷新"></a>使用定时线程执行刷新</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.standard.StandardAnalyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Field;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.IntPoint;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.TextField;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.*;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.ScheduledExecutorService;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NearRealTimeSearchDemo</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> SearcherManager searcherManager;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();</div><div class="line">        executorService.scheduleWithFixedDelay(<span class="keyword">new</span> RefreshThread(), <span class="number">1</span>, <span class="number">1</span>, TimeUnit.SECONDS);</div><div class="line">        RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">        Document document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> TextField(<span class="string">"title"</span>, <span class="string">"Doc1"</span>, Field.Store.YES));</div><div class="line">        document.add(<span class="keyword">new</span> IntPoint(<span class="string">"ID"</span>, <span class="number">1</span>));</div><div class="line">        IndexWriter indexWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> StandardAnalyzer()));</div><div class="line">        indexWriter.addDocument(document);</div><div class="line">        indexWriter.commit();</div><div class="line">        searcherManager = <span class="keyword">new</span> SearcherManager(ramDirectory, <span class="keyword">null</span>);</div><div class="line">        document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> TextField(<span class="string">"title"</span>, <span class="string">"Doc2"</span>, Field.Store.YES));</div><div class="line">        document.add(<span class="keyword">new</span> IntPoint(<span class="string">"ID"</span>, <span class="number">2</span>));</div><div class="line">        indexWriter.addDocument(document);</div><div class="line">        <span class="comment">//即使commit，搜索依然不可见，需要重新打开reader</span></div><div class="line">        indexWriter.commit();</div><div class="line">        <span class="comment">//只能看到Doc1</span></div><div class="line">        IndexSearcher indexSearcher = searcherManager.acquire();</div><div class="line">        <span class="keyword">int</span> count = indexSearcher.count(<span class="keyword">new</span> MatchAllDocsQuery());</div><div class="line">        <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">            TopDocs topDocs = indexSearcher.search(<span class="keyword">new</span> MatchAllDocsQuery(), count);</div><div class="line">            <span class="keyword">for</span> (ScoreDoc scoreDoc : topDocs.scoreDocs) &#123;</div><div class="line">                System.out.println(indexSearcher.doc(scoreDoc.doc));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="string">"================================="</span>);</div><div class="line">        <span class="comment">//最好放到finally语句块中</span></div><div class="line">        searcherManager.release(indexSearcher);</div><div class="line">        <span class="comment">//休息2s中，定时线程应该已经刷新了</span></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            TimeUnit.SECONDS.sleep(<span class="number">2</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        indexSearcher = searcherManager.acquire();</div><div class="line">        count = indexSearcher.count(<span class="keyword">new</span> MatchAllDocsQuery());</div><div class="line">        <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">            TopDocs topDocs = indexSearcher.search(<span class="keyword">new</span> MatchAllDocsQuery(), count);</div><div class="line">            <span class="keyword">for</span> (ScoreDoc scoreDoc : topDocs.scoreDocs) &#123;</div><div class="line">                System.out.println(indexSearcher.doc(scoreDoc.doc));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="string">"================================="</span>);</div><div class="line">        searcherManager.release(indexSearcher);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">RefreshThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                searcherManager.maybeRefresh();</div><div class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc1&gt;&gt;</div><div class="line">=================================</div><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc1&gt;&gt;</div><div class="line">Document&lt;stored,indexed,tokenized&lt;title:Doc2&gt;&gt;</div><div class="line">=================================</div></pre></td></tr></table></figure>
+<h3 id="SearcherLifetimeManager管理Search-Session"><a href="#SearcherLifetimeManager管理Search-Session" class="headerlink" title="SearcherLifetimeManager管理Search Session"></a>SearcherLifetimeManager管理Search Session</h3><p>管理 IndexSearcher 的生命周期主要是用在分页的时候，例如如果不进行管理的话，那么在用户提交了更改到索引中，正好此时后台线程开始刷新 IndexSearcher，如果提交的内容和用户的搜索不相关的话还好，如果提交的内容是和用户搜索结果相关的，那么新增加的内容可能会影响结果排序，从而在分页的时候可能会使用户点击翻页却看到相同的内容。</p>
+<p>为了保证一个良好的用户体验，需要对用户在一个搜索会话期间分页的时候使用同样一个 IndexSearcher，这样在分页期间，可以保证搜索结果的排序是稳定不变的，从而用户也不会再次看到同样的内容。SearcherLifetimeManager 主要有如下几个方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> IndexSearcher <span class="title">acquire</span><span class="params">(<span class="keyword">long</span> version)</span> <span class="comment">//根据version获取之前记录的IndexSearcher，引用计数加1</span></span></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">release</span><span class="params">(IndexSearcher s)</span> <span class="comment">//释放之前通过acquire获取的IndexSearcher，引用计数减1</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">record</span><span class="params">(IndexSearcher searcher)</span> <span class="comment">//把当前正在使用的IndexSearcher放入内部的ConcurrentHashMap，并返回一个token，之后可以通过该token再次获取该IndexSearcher</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">prune</span><span class="params">(Pruner pruner)</span> <span class="comment">//按指示的age关闭IndexSearcher，并将它们从ConcurrentHashMap中移除</span></div></pre></td></tr></table></figure>
+<p>使用示例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.lucene.analysis.standard.StandardAnalyzer;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Document;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.Field;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.IntPoint;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.document.TextField;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.DirectoryReader;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriter;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.index.IndexWriterConfig;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.IndexSearcher;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.search.SearcherLifetimeManager;</div><div class="line"><span class="keyword">import</span> org.apache.lucene.store.RAMDirectory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SearcherLifetimeManagerDemo</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        SearcherLifetimeManager searcherLifetimeManager = <span class="keyword">new</span> SearcherLifetimeManager();</div><div class="line">        RAMDirectory ramDirectory = <span class="keyword">new</span> RAMDirectory();</div><div class="line">        Document document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> TextField(<span class="string">"title"</span>, <span class="string">"Doc1"</span>, Field.Store.YES));</div><div class="line">        document.add(<span class="keyword">new</span> IntPoint(<span class="string">"ID"</span>, <span class="number">1</span>));</div><div class="line">        IndexWriter indexWriter = <span class="keyword">new</span> IndexWriter(ramDirectory, <span class="keyword">new</span> IndexWriterConfig(<span class="keyword">new</span> StandardAnalyzer()));</div><div class="line">        indexWriter.addDocument(document);</div><div class="line">        indexWriter.commit();</div><div class="line">        document = <span class="keyword">new</span> Document();</div><div class="line">        document.add(<span class="keyword">new</span> TextField(<span class="string">"title"</span>, <span class="string">"Doc2"</span>, Field.Store.YES));</div><div class="line">        document.add(<span class="keyword">new</span> IntPoint(<span class="string">"ID"</span>, <span class="number">2</span>));</div><div class="line">        indexWriter.addDocument(document);</div><div class="line">        indexWriter.commit();</div><div class="line">        IndexSearcher indexSearcher = <span class="keyword">new</span> IndexSearcher(DirectoryReader.open(ramDirectory));</div><div class="line">        <span class="comment">//记录当前的searcher，保存token，当有后续的搜索请求到来，例如用户翻页，那么用这个token去获取对应的那个searcher</span></div><div class="line">        <span class="keyword">long</span> record = searcherLifetimeManager.record(indexSearcher);</div><div class="line">        indexSearcher = searcherLifetimeManager.acquire(record);</div><div class="line">        <span class="keyword">if</span> (indexSearcher != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="comment">// Searcher is still here</span></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="comment">// do searching...</span></div><div class="line">            &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                searcherLifetimeManager.release(indexSearcher);</div><div class="line">                <span class="comment">// Do not use searcher after this!</span></div><div class="line">                indexSearcher = <span class="keyword">null</span>;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">// Searcher was pruned -- notify user session timed out, or, pull fresh searcher again</span></div><div class="line">        &#125;</div><div class="line">        <span class="comment">//由于保留许多的searcher是非常耗系统资源的，包括打开发files和RAM，所以最好在一个单独的线程中，定期的重新打开searcher和定时的去清理旧的searcher</span></div><div class="line">        <span class="comment">//丢弃所有比指定的时间都老的searcher</span></div><div class="line">        searcherLifetimeManager.prune(<span class="keyword">new</span> SearcherLifetimeManager.PruneByAge(<span class="number">600.0</span>));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>Notes</strong>：本文代码基于 Lucene 7.0.0 开发</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png" alt="Wang Xu 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png" alt="Wang Xu 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Wang Xu
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.codepub.cn/2017/12/12/lucene-near-real-time-search/" title="Lucene 近实时搜索">http://www.codepub.cn/2017/12/12/lucene-near-real-time-search/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow" target="_blank">CC BY-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Lucene/" rel="tag"># Lucene</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/15/lucene-group-statistics-detailed/" rel="next" title="Lucene 分组统计详解">
+                <i class="fa fa-chevron-left"></i> Lucene 分组统计详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2067139" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Wang Xu" />
+            
+              <p class="site-author-name" itemprop="name">Wang Xu</p>
+              <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">116</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/shijiebei2009" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.linkedin.com/in/codepub" target="_blank" title="Linkedin">
+                    
+                      <i class="fa fa-fw fa-linkedin-square"></i>Linkedin</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank" title="Stackoverflow">
+                    
+                      <i class="fa fa-fw fa-stack-overflow"></i>Stackoverflow</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/codepub.cn" target="_blank" title="ZhiHu">
+                    
+                      <i class="fa fa-fw fa-thumbs-up"></i>ZhiHu</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.douban.com/people/shijiebei2009/" target="_blank" title="DouBan">
+                    
+                      <i class="fa fa-fw fa-graduation-cap"></i>DouBan</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1779238484" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+            <div class="cc-license motion-element" itemprop="license">
+              <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="cc-opacity" target="_blank">
+                <img src="/images/cc-by-sa.svg" alt="Creative Commons" />
+              </a>
+            </div>
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lucene-事务"><span class="nav-number">1.</span> <span class="nav-text">Lucene 事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原子性"><span class="nav-number">1.1.</span> <span class="nav-text">原子性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一致性"><span class="nav-number">1.2.</span> <span class="nav-text">一致性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#隔离性"><span class="nav-number">1.3.</span> <span class="nav-text">隔离性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#持久性"><span class="nav-number">1.4.</span> <span class="nav-text">持久性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lucene-近实时搜索"><span class="nav-number">2.</span> <span class="nav-text">Lucene 近实时搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#搜索端持有-IndexWriter"><span class="nav-number">2.1.</span> <span class="nav-text">搜索端持有 IndexWriter</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#由自己负责重新打开"><span class="nav-number">2.1.1.</span> <span class="nav-text">由自己负责重新打开</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用ControlledRealTimeReopenThread定时重新打开"><span class="nav-number">2.1.2.</span> <span class="nav-text">使用ControlledRealTimeReopenThread定时重新打开</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#搜索端不持有-IndexWriter"><span class="nav-number">2.2.</span> <span class="nav-text">搜索端不持有 IndexWriter</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用DirectoryReader刷新"><span class="nav-number">2.2.1.</span> <span class="nav-text">使用DirectoryReader刷新</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用SearcherManager刷新"><span class="nav-number">2.2.2.</span> <span class="nav-text">使用SearcherManager刷新</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用定时线程执行刷新"><span class="nav-number">2.2.3.</span> <span class="nav-text">使用定时线程执行刷新</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SearcherLifetimeManager管理Search-Session"><span class="nav-number">3.</span> <span class="nav-text">SearcherLifetimeManager管理Search Session</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wang Xu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">277.6k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+  <div class="footer-custom">Hosted by <a target="_blank" href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>&nbsp;&nbsp;&nbsp;<a href="http://tongji.baidu.com/web/welcome/ico?s=2c61418f187553bcc869b755930233ab" target="_blank">百度统计</a></div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1254721753&web_id=1254721753" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://codepubcn.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.codepub.cn/2017/12/12/lucene-near-real-time-search/';
+          this.page.identifier = '2017/12/12/lucene-near-real-time-search/';
+          this.page.title = 'Lucene 近实时搜索';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codepubcn.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
