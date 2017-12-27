@@ -4,8 +4,28 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2017/12/27/read-the-dictator-s-handbook/</loc>
+    <lastmod>2017-12-27T14:27:54.525Z</lastmod>
+    <data>
+        <display>
+        <title>读《独裁者手册》</title>
+        <pubTime>2017-12-27T14:11:12.000Z</pubTime>
+        
+        <tag>Thinking</tag>
+         
+         
+           
+             
+              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2017/12/12/lucene-near-real-time-search/</loc>
-    <lastmod>2017-12-12T14:36:49.957Z</lastmod>
+    <lastmod>2017-12-12T15:07:20.806Z</lastmod>
     <data>
         <display>
         <title>Lucene 近实时搜索</title>
@@ -1599,9 +1619,9 @@
         <title>IntelliJ IDEA使用maven-javadoc-plugin生成Java Doc控制台乱码</title>
         <pubTime>2016-05-06T09:26:59.000Z</pubTime>
         
-        <tag>IntelliJ</tag>
-         
         <tag>Maven</tag>
+         
+        <tag>IntelliJ</tag>
          
          
            
