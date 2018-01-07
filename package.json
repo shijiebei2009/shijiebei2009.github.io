@@ -25,5 +25,7 @@
     "hexo-symbols-count-time": "^0.2.0",
     "hexo-util": "^0.6.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "hexo-generator-baidu-sitemap": "^0.1.2"
+  }
 }
