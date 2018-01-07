@@ -38,10 +38,6 @@
 
 
 
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
 
 
 
@@ -50,19 +46,19 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.0.0" rel="stylesheet" type="text/css" />
 
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-16x16.ico?v=5.1.3">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-16x16.ico?v=6.0.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-16x16.ico?v=5.1.3">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-16x16.ico?v=6.0.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico?v=5.1.3">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.ico?v=6.0.0">
 
 
-  <link rel="mask-icon" href="/images/favicon-16x16.ico?v=5.1.3" color="#222">
+  <link rel="mask-icon" href="/images/favicon-16x16.ico?v=6.0.0" color="#222">
 
 
 
@@ -81,16 +77,17 @@
 
 
 
-<meta name="description" content="志不强者智不达，言不信者行不果">
+<meta name="description" content="宝贝，公益404带你们回家">
 <meta name="keywords" content="IT草根, 代码馆, http:&#x2F;&#x2F;codepub.cn&#x2F;">
 <meta property="og:type" content="website">
 <meta property="og:title" content="IT草根">
-<meta property="og:url" content="http://www.codepub.cn/page/6/index.html">
+<meta property="og:url" content="http://www.codepub.cn/404.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="志不强者智不达，言不信者行不果">
+<meta property="og:description" content="宝贝，公益404带你们回家">
+<meta property="og:updated_time" content="2017-05-06T14:42:47.589Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IT草根">
-<meta name="twitter:description" content="志不强者智不达，言不信者行不果">
+<meta name="twitter:description" content="宝贝，公益404带你们回家">
 
 
 
@@ -99,9 +96,11 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    version: '5.1.3',
+    version: '6.0.0',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
@@ -120,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://www.codepub.cn/page/6/"/>
+  <link rel="canonical" href="http://www.codepub.cn/404.html"/>
 
 
 
@@ -160,7 +159,7 @@
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
+      <div class="header-inner"> <div class="site-brand-wrapper">
   <div class="site-meta ">
     
 
@@ -195,9 +194,11 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+
             
-            首页
+              首页
+            
+
           </a>
         </li>
       
@@ -205,9 +206,11 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+
             
-            归档
+              归档
+            
+
           </a>
         </li>
       
@@ -215,9 +218,11 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+
             
-            分类
+              分类
+            
+
           </a>
         </li>
       
@@ -225,9 +230,11 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+
             
-            标签
+              标签
+            
+
           </a>
         </li>
       
@@ -235,9 +242,11 @@
         <li class="menu-item menu-item-简历">
           <a href="/resume" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+
             
-            简历
+              简历
+            
+
           </a>
         </li>
       
@@ -245,9 +254,11 @@
         <li class="menu-item menu-item-about">
           <a href="/about" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+
             
-            关于
+              关于
+            
+
           </a>
         </li>
       
@@ -255,9 +266,11 @@
         <li class="menu-item menu-item-友链">
           <a href="/links" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-link"></i> <br />
+
             
-            友链
+              友链
+            
+
           </a>
         </li>
       
@@ -267,8 +280,6 @@
           
             <a href="javascript:;" class="popup-trigger">
           
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
             
             搜索
           </a>
@@ -323,6 +334,8 @@
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -359,9 +372,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-26T22:11:30+08:00">
-                2016-02-26
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-26T22:11:30+08:00">2016-02-26</time>
             
 
             
@@ -375,9 +386,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">2017-11-20</time>
             
           </span>
 
@@ -425,37 +434,6 @@
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  5,448
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  26
-                </span>
-              
-            </div>
           
 
           
@@ -530,6 +508,8 @@
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -566,9 +546,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-01T22:16:59+08:00">
-                2016-02-01
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-01T22:16:59+08:00">2016-02-01</time>
             
 
             
@@ -582,9 +560,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">2017-11-20</time>
             
           </span>
 
@@ -632,37 +608,6 @@
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  2,777
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  12
-                </span>
-              
-            </div>
           
 
           
@@ -734,6 +679,8 @@
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -770,9 +717,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-01T22:16:14+08:00">
-                2016-02-01
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-01T22:16:14+08:00">2016-02-01</time>
             
 
             
@@ -786,9 +731,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">2017-11-20</time>
             
           </span>
 
@@ -836,37 +779,6 @@
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  2,198
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  8
-                </span>
-              
-            </div>
           
 
           
@@ -943,6 +855,8 @@ Java-NIO的优势
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -979,9 +893,7 @@ Java-NIO的优势
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-31T20:36:42+08:00">
-                2015-12-31
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-31T20:36:42+08:00">2015-12-31</time>
             
 
             
@@ -995,9 +907,7 @@ Java-NIO的优势
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">2017-11-20</time>
             
           </span>
 
@@ -1045,37 +955,6 @@ Java-NIO的优势
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  3,189
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  11
-                </span>
-              
-            </div>
           
 
           
@@ -1147,6 +1026,8 @@ Java-NIO的优势
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -1183,9 +1064,7 @@ Java-NIO的优势
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-21T23:27:52+08:00">
-                2015-12-21
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-21T23:27:52+08:00">2015-12-21</time>
             
 
             
@@ -1199,9 +1078,7 @@ Java-NIO的优势
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">2017-11-20</time>
             
           </span>
 
@@ -1249,37 +1126,6 @@ Java-NIO的优势
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,764
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  9
-                </span>
-              
-            </div>
           
 
           
@@ -1349,6 +1195,8 @@ Java-NIO的优势
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -1385,9 +1233,7 @@ Java-NIO的优势
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-09T22:21:33+08:00">
-                2015-12-09
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-09T22:21:33+08:00">2015-12-09</time>
             
 
             
@@ -1401,9 +1247,7 @@ Java-NIO的优势
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">2017-11-20</time>
             
           </span>
 
@@ -1451,37 +1295,6 @@ Java-NIO的优势
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,956
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  8
-                </span>
-              
-            </div>
           
 
           
@@ -1553,6 +1366,8 @@ Java-NIO的优势
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -1589,9 +1404,7 @@ Java-NIO的优势
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-30T18:41:50+08:00">
-                2015-11-30
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-30T18:41:50+08:00">2015-11-30</time>
             
 
             
@@ -1605,9 +1418,7 @@ Java-NIO的优势
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">2017-11-20</time>
             
           </span>
 
@@ -1655,37 +1466,6 @@ Java-NIO的优势
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  2,806
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  9
-                </span>
-              
-            </div>
           
 
           
@@ -1759,6 +1539,8 @@ Java-NIO的优势
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -1795,9 +1577,7 @@ Java-NIO的优势
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-29T17:03:48+08:00">
-                2015-11-29
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-29T17:03:48+08:00">2015-11-29</time>
             
 
             
@@ -1811,9 +1591,7 @@ Java-NIO的优势
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">2017-11-20</time>
             
           </span>
 
@@ -1861,37 +1639,6 @@ Java-NIO的优势
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,636
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  9
-                </span>
-              
-            </div>
           
 
           
@@ -1961,6 +1708,8 @@ Java-NIO的优势
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -1997,9 +1746,7 @@ Java-NIO的优势
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-27T22:58:34+08:00">
-                2015-11-27
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-27T22:58:34+08:00">2015-11-27</time>
             
 
             
@@ -2013,9 +1760,7 @@ Java-NIO的优势
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">2017-11-20</time>
             
           </span>
 
@@ -2063,37 +1808,6 @@ Java-NIO的优势
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,481
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  8
-                </span>
-              
-            </div>
           
 
           
@@ -2166,6 +1880,8 @@ Java-NIO的优势
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -2202,9 +1918,7 @@ Java-NIO的优势
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-24T23:26:47+08:00">
-                2015-10-24
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-24T23:26:47+08:00">2015-10-24</time>
             
 
             
@@ -2218,9 +1932,7 @@ Java-NIO的优势
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">2017-11-20</time>
             
           </span>
 
@@ -2268,37 +1980,6 @@ Java-NIO的优势
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  789
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  4
-                </span>
-              
-            </div>
           
 
           
@@ -2375,6 +2056,8 @@ Point2D是一个抽象类，但是在该类内部定义了静态的Double类，�
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -2411,9 +2094,7 @@ Point2D是一个抽象类，但是在该类内部定义了静态的Double类，�
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-08T12:01:00+08:00">
-                2015-10-08
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-08T12:01:00+08:00">2015-10-08</time>
             
 
             
@@ -2427,9 +2108,7 @@ Point2D是一个抽象类，但是在该类内部定义了静态的Double类，�
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">2017-11-20</time>
             
           </span>
 
@@ -2477,37 +2156,6 @@ Point2D是一个抽象类，但是在该类内部定义了静态的Double类，�
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,688
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  8
-                </span>
-              
-            </div>
           
 
           
@@ -2578,6 +2226,8 @@ Point2D是一个抽象类，但是在该类内部定义了静态的Double类，�
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -2614,9 +2264,7 @@ Point2D是一个抽象类，但是在该类内部定义了静态的Double类，�
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-07T14:40:32+08:00">
-                2015-10-07
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-07T14:40:32+08:00">2015-10-07</time>
             
 
             
@@ -2630,9 +2278,7 @@ Point2D是一个抽象类，但是在该类内部定义了静态的Double类，�
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">2017-11-20</time>
             
           </span>
 
@@ -2680,37 +2326,6 @@ Point2D是一个抽象类，但是在该类内部定义了静态的Double类，�
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  3,862
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  14
-                </span>
-              
-            </div>
           
 
           
@@ -2782,6 +2397,8 @@ Listary：是一款用于 Windows 的文件名定位/搜索辅助软件。它为
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -2818,9 +2435,7 @@ Listary：是一款用于 Windows 的文件名定位/搜索辅助软件。它为
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-29T19:20:41+08:00">
-                2015-09-29
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-29T19:20:41+08:00">2015-09-29</time>
             
 
             
@@ -2834,9 +2449,7 @@ Listary：是一款用于 Windows 的文件名定位/搜索辅助软件。它为
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">2017-11-20</time>
             
           </span>
 
@@ -2884,37 +2497,6 @@ Listary：是一款用于 Windows 的文件名定位/搜索辅助软件。它为
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,928
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  9
-                </span>
-              
-            </div>
           
 
           
@@ -2988,6 +2570,8 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -3024,9 +2608,7 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-26T21:34:28+08:00">
-                2015-09-26
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-26T21:34:28+08:00">2015-09-26</time>
             
 
             
@@ -3040,9 +2622,7 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:33+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:33+08:00">2017-11-20</time>
             
           </span>
 
@@ -3090,37 +2670,6 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  2,487
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  9
-                </span>
-              
-            </div>
           
 
           
@@ -3191,6 +2740,8 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -3227,9 +2778,7 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-23T22:56:30+08:00">
-                2015-09-23
-              </time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-23T22:56:30+08:00">2015-09-23</time>
             
 
             
@@ -3243,9 +2792,7 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">
-                2017-11-20
-              </time>
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-20T22:18:34+08:00">2017-11-20</time>
             
           </span>
 
@@ -3293,37 +2840,6 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
 
           
 
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,256
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  6
-                </span>
-              
-            </div>
           
 
           
@@ -3438,42 +2954,42 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
               <p class="site-description motion-element" itemprop="description">志不强者智不达，言不信者行不果</p>
           </div>
 
-          <nav class="site-state motion-element">
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">117</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
 
-            
-              <div class="site-state-item site-state-posts">
               
-                <a href="/archives/">
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
               
-                  <span class="site-state-item-count">117</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
 
-            
               
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
               
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">35</span>
-                  <span class="site-state-item-name">标签</span>
-                </a>
-              </div>
-            
-
-          </nav>
+            </nav>
+          
 
           
             <div class="feed-link motion-element">
@@ -3484,47 +3000,47 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
             </div>
           
 
-          <div class="links-of-author motion-element">
-            
-              
-                <span class="links-of-author-item">
-                  <a href="https://github.com/shijiebei2009" target="_blank" title="GitHub">
-                    
-                      <i class="fa fa-fw fa-github"></i>GitHub</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="https://www.linkedin.com/in/codepub" target="_blank" title="Linkedin">
-                    
-                      <i class="fa fa-fw fa-linkedin-square"></i>Linkedin</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank" title="Stackoverflow">
-                    
-                      <i class="fa fa-fw fa-stack-overflow"></i>Stackoverflow</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="https://www.zhihu.com/people/codepub.cn" target="_blank" title="ZhiHu">
-                    
-                      <i class="fa fa-fw fa-thumbs-up"></i>ZhiHu</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="https://www.douban.com/people/shijiebei2009/" target="_blank" title="DouBan">
-                    
-                      <i class="fa fa-fw fa-graduation-cap"></i>DouBan</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="http://weibo.com/u/1779238484" target="_blank" title="Weibo">
-                    
-                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
-                </span>
-              
-            
-          </div>
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/shijiebei2009" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.linkedin.com/in/codepub" target="_blank" title="Linkedin">
+                      
+                        <i class="fa fa-fw fa-linkedin-square"></i>Linkedin</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://stackoverflow.com/users/4204922/eric-wang" target="_blank" title="Stackoverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i>Stackoverflow</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/codepub.cn" target="_blank" title="ZhiHu">
+                      
+                        <i class="fa fa-fw fa-thumbs-up"></i>ZhiHu</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.douban.com/people/shijiebei2009/" target="_blank" title="DouBan">
+                      
+                        <i class="fa fa-fw fa-graduation-cap"></i>DouBan</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/u/1779238484" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  </span>
+                
+            </div>
+          
 
           
           
@@ -3557,21 +3073,14 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Wang Xu</span>
 
   
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-area-chart"></i>
-    </span>
-    
-      <span class="post-meta-item-text">Site words total count&#58;</span>
-    
-    <span title="Site words total count">283.0k</span>
+
   
 </div>
 
@@ -3584,7 +3093,7 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.0.0</div>
 
 
 
@@ -3656,7 +3165,11 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
 
 
 
-  
+
+
+
+
+
 
 
 
@@ -3676,16 +3189,6 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
 
   
   
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
     <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   
 
@@ -3694,18 +3197,13 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
     <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
   
 
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
 
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.0"></script>
 
 
 
@@ -3717,7 +3215,7 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.0"></script>
 
 
 
@@ -4080,6 +3578,8 @@ $$X=a_n*(n-1)!+a_{n-1}*(n-2)!+\cdot\cdot\cdot+a_i*(i-1)!+\cdot\cdot\cdot+a_2*(2-
 
 
 
+
+  
 
   
 
