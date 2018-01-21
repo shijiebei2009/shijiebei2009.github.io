@@ -1,5 +1,5 @@
 ---
-title: Linux下使用java -jar运行可执行jar包的正确方式
+title: Linux 下使用 java jar 运行可执行 jar 包的正确方式
 date: 2016-05-11 20:38:26
 tags: [Java]
 categories: Programming Notes
