@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
+    <lastmod>2018-01-21T14:05:18.787Z</lastmod>
+    <data>
+        <display>
+        <title>Linux 下使用 java jar 运行可执行 jar 包的正确方式</title>
+        <pubTime>2016-05-11T12:38:26.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2017/12/27/read-the-dictator-s-handbook/</loc>
     <lastmod>2017-12-27T14:35:18.646Z</lastmod>
     <data>
@@ -2302,26 +2322,6 @@
         <pubTime>2015-08-29T13:39:00.000Z</pubTime>
         
         <tag>Selenium</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
-    <lastmod>2017-11-20T14:18:33.973Z</lastmod>
-    <data>
-        <display>
-        <title>Linux下使用java -jar运行可执行jar包的正确方式</title>
-        <pubTime>2016-05-11T12:38:26.000Z</pubTime>
-        
-        <tag>Java</tag>
          
          
            

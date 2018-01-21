@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
+    
+    <lastmod>2018-01-21T14:05:18.787Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.codepub.cn/2017/12/27/read-the-dictator-s-handbook/</loc>
     
     <lastmod>2017-12-27T14:35:18.646Z</lastmod>
@@ -803,13 +810,6 @@
     <loc>http://www.codepub.cn/2015/08/29/Selenium-simulated-user-login-alipay-account-query-transaction-details/</loc>
     
     <lastmod>2017-11-20T14:18:33.979Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
-    
-    <lastmod>2017-11-20T14:18:33.973Z</lastmod>
     
   </url>
   
