@@ -101,3 +101,26 @@ deploy:
   #repo: git@github.com:shijiebei2009/shijiebei2009.github.io.git
   #branch: master
   #message: github successfully push done!
+symbols_count_time:
+  symbols: true
+  time: true
+  total_symbols: true
+  total_time: true
+filter_optimize:
+  enable: true
+  # remove static resource query string
+  #   - like `?v=1.0.0`
+  remove_query_string: true
+  css:
+    enable: true
+    # use a script block to load css elements dynamically
+    delivery: true
+    # make specific css content inline into the html page
+    #   - only support the full path
+    #   - default is ['css/main.css']
+    inlines:
+    excludes:
+  js:
+    # bundle loaded js file into the one
+    bundle: true
+    excludes:
