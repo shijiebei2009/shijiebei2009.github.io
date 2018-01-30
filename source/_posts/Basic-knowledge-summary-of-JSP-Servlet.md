@@ -6,8 +6,6 @@ categories: Programming Notes
 
 ---
 
-**力求用最简洁的文字表述最全面的知识，本Blog不适合零基础人员**
-
 ### JSP与Servlet
 所有的JSP页面最终都会被编译成Servlet执行，而在Servlet类中主要有三个方法，分别是
 * init(): 初始化JSP/Servlet的方法
@@ -77,7 +75,7 @@ getProperty语法
 * response: javax.servlet.http.HttpServletResponse的实例，代表服务器对客户端的响应，通常很少使用该对象直接响应，而是使用out对象，除非需要生成非字符响应
 * session: javax.servlet.http.HttpSession的实例，该对象代表一次会话。当客户端浏览器与站点建立连接时，会话开始；当客户端关闭浏览器时，会话结束
 
-***Note***
+***Notes***
 1. 由于JSP内置对象都是在_jspService()方法中完成初始化的，因此只能在JSP脚本、JSP输出表达式中使用这些内置对象。千万不要在JSP声明中使用它们！否则，会提示找不到变量。
 2. 所有使用out的地方，都可使用输出表达式来代替，而且使用输出表达式更加简洁，`<%=...%>`表达式的本质就是`out.write();`。
 3. pageContext可以访问page/request/session/application范围的变量，方法是取得指定范围的name属性，并指定其scope，如下所示

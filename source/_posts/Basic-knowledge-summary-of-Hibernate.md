@@ -102,9 +102,9 @@ ORM框架是面向对象程序设计语言与关系数据库发展不同步时�
 * `CascadeType.ALL`: 指定Hibernate将所所有的持久化操作都级联到关联实体
 * `CascadeType.MERGE`: 指定Hibernate将merge操作级联到关联实体
 * `CascadeType.PERSIST`: 指定Hibernate将persist操作级联到关联实体
-* `CascadeType.REFRESH`: 指定Hibernate将refresh操作及镰刀关联实体
+* `CascadeType.REFRESH`: 指定Hibernate将refresh操作级联到关联实体
 * `CascadeType.REMOVE`: 指定Hibernate将remove操作级联到关联实体
-如果程序希望某个操作能被级联传播到关联实体，则可以在配置`@OneToMany、@OneToOne、@ManyToMany`时通过cascade属性来指定。*注意级联风格是可组合的。*
+如果程序希望某个操作能被级联传播到关联实体，则可以在配置`@OneToMany`、`@OneToOne`、`@ManyToMany`时通过cascade属性来指定。*注意级联风格是可组合的。*
 
 ### 事务控制
 #### Session与事务
