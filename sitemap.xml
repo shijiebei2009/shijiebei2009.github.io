@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.codepub.cn/2015/06/17/Basic-knowledge-summary-of-JSP-Servlet/</loc>
+    
+    <lastmod>2018-01-30T13:24:21.566Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.codepub.cn/2015/06/19/Basic-knowledge-summary-of-Hibernate/</loc>
+    
+    <lastmod>2018-01-30T13:23:59.551Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
     
     <lastmod>2018-01-21T14:08:01.072Z</lastmod>
@@ -40,13 +54,6 @@
     <loc>http://www.codepub.cn/2015/06/21/Basic-knowledge-summary-of-Spring/</loc>
     
     <lastmod>2017-11-20T14:19:15.234Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2015/06/19/Basic-knowledge-summary-of-Hibernate/</loc>
-    
-    <lastmod>2017-11-20T14:19:15.231Z</lastmod>
     
   </url>
   
@@ -628,13 +635,6 @@
     <loc>http://www.codepub.cn/2015/11/29/Google-Guava-use-guide/</loc>
     
     <lastmod>2017-11-20T14:18:34.034Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2015/06/17/Basic-knowledge-summary-of-JSP-Servlet/</loc>
-    
-    <lastmod>2017-11-20T14:18:34.032Z</lastmod>
     
   </url>
   
