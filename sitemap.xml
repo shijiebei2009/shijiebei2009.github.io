@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.codepub.cn/resume/index.html</loc>
+    
+    <lastmod>2018-04-10T14:45:04.406Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.codepub.cn/2015/06/17/Basic-knowledge-summary-of-JSP-Servlet/</loc>
     
-    <lastmod>2018-01-30T13:24:21.566Z</lastmod>
+    <lastmod>2018-01-30T13:51:48.844Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.codepub.cn/2015/06/19/Basic-knowledge-summary-of-Hibernate/</loc>
     
-    <lastmod>2018-01-30T13:23:59.551Z</lastmod>
+    <lastmod>2018-01-30T13:51:48.843Z</lastmod>
     
   </url>
   
@@ -824,13 +831,6 @@
     <loc>http://www.codepub.cn/links/index.html</loc>
     
     <lastmod>2017-10-19T14:37:05.908Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/resume/index.html</loc>
-    
-    <lastmod>2017-09-29T14:20:19.358Z</lastmod>
     
   </url>
   
