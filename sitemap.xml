@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
+    
+    <lastmod>2018-05-21T13:26:39.446Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.codepub.cn/2018/04/17/read-bitcoin/</loc>
     
     <lastmod>2018-04-17T14:00:37.201Z</lastmod>
@@ -26,13 +33,6 @@
     <loc>http://www.codepub.cn/resume/index.html</loc>
     
     <lastmod>2018-04-15T10:28:06.819Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
-    
-    <lastmod>2018-01-21T14:08:01.072Z</lastmod>
     
   </url>
   
