@@ -6,23 +6,25 @@ categories: Programming Notes
 
 ---
 #### 问题来源
-一般来说，一个大型的项目都会有一些依赖的**JAR**包（Java归档，英语：**J**ava **AR**chive），而在将项目部署到服务器的过程中，如果没有持续集成环境的话，也就是说服务器不支持在线编译及打包，那么需要自己上传依赖的**JAR**包，然而可能服务器上已经存在了该项目所依赖的**JAR**包（比如项目修复BUG，重新打包上传，而依赖不变或者版本升级，修改方法等），无需再次上传所依赖的**JAR**包，此时只需将该项目单独打包，在运行的时候指定**CLASSPATH**即可。
+一般来说，一个大型的项目都会有一些依赖的**JAR**包（Java归档，英语：**J**ava **AR**chive），而在将项目部署到服务器的过程中，如果没有持续集成环境的话，也就是说服务器不支持在线编译及打包，那么需要自己上传依赖的**JAR**包，然而可能服务器上已经存在了该项目所依赖的**JAR**包（比如项目修复BUG，重新打包上传，而依赖不变或者版本升级，修改类中的方法，方法参数等），无需再次上传所依赖的**JAR**包，此时只需将该项目单独打包，在运行的时候指定**CLASSPATH**即可。
 
-在将**JAR**包部署到服务器上之后，设置**CLASSPATH**环境变量，运行`java -jar ...`命令出现**ClassNotFoundException**异常。之后又试用了诸多其它参数设置CLASSPATH，例如下面几个命令，同样都是报找不到类异常。
-```
+在将**JAR**包部署到服务器上之后，设置**CLASSPATH**环境变量，运行`java -jar ...`命令出现**ClassNotFoundException**异常。之后又试用了诸多其它参数设置**CLASSPATH**，例如下面几个命令，同样都是报找不到类异常。
+```bash
 set CLASSPATH = classpath1;classpath2...
-java -classpath ".;D:\mylib\*" -jar jar包 #Windows设置
+java -classpath ".;D:/mylib/*" -jar jar包 #Windows设置
 java -classpath ".:/data/home/mylib/*" -jar jar包 #Linux设置
 java -cp ...
 java -cp /lib/*
 ```
-关于在**CLASSPATH**参数中使用通配符需要注意
-正确方式（冒号代表是Linux，Windows使用分号）
+关于在**CLASSPATH**参数中使用通配符需要注意，正确使用方式如下，它们都是等效的（在Linux下用冒号作为分隔符，在Windows下用分号作为分隔符）
+```bash
+java -classpath "lib/*:." my.package.Program #其中MyApplication.jar放在lib目录下
+java -cp "lib/*:." my.package.Program #其中MyApplication.jar放在lib目录下
+java -classpath "MyApplication.jar:lib/*:." my.package.Program
+java -cp "MyApplication.jar:lib/*:." my.package.Program
 ```
-java -classpath "lib/*:." my.package.Program
-```
-不正确方式
-```
+以下为不正确方式
+```bash
 java -classpath "lib/a*.jar:." my.package.Program
 java -classpath "lib/a*:."     my.package.Program
 java -classpath "lib/*.jar:."  my.package.Program
@@ -30,16 +32,13 @@ java -classpath  lib/*:.       my.package.Program
 ```
 
 #### JAR的分类
-首先你需要知道**JAR**分为可执行**JAR**和非可执行**JAR**，一个可执行的**JAR**文件是一个自包含的**Java**应用程序，它存储在特别配置的**JAR**文件中，可以由**JVM**直接执行它而无需事先提取文件或者设置类路径。可执行的**JAR**文件中的MANIFEST.MF文件用代码`Main-Class: myPrograms.MyClass`指定了入口类，同时这个入口类的入口方法一定是Main方法，而不能是其它方法，注意要指明该类的全路径（另外-cp参数将被忽略，-cp 是 -classpath的缩写）。有些操作系统可以在点击后直接运行可执行**JAR**文件。而更典型的调用则是通过命令行执行`java -jar [/data/home/java/]foo.jar`。
+首先你需要知道**JAR**分为可执行**JAR**和非可执行**JAR**，一个可执行的**JAR**文件是一个自包含的**Java**应用程序，它存储在特别配置的**JAR**文件中，可以由**JVM**直接执行它而无需事先提取文件或者设置类路径。可执行的**JAR**文件中的`MANIFEST.MF`文件用代码`Main-Class: myPrograms.MyClass`指定了入口类，同时这个入口类的入口方法一定是`Main`方法，而不能是其它方法，注意要指明该类的全路径（另外`-cp`参数将被忽略，`-cp` 是 `-classpath`的缩写）。有些操作系统可以在点击后直接运行可执行**JAR**文件。而更典型的调用则是通过命令行执行`java -jar [/data/home/java/]foo.jar`。
 
-
-运行存储在非可执行的**JAR**中的应用程序，不需要配置MANIFEST.MF文件，只要将它加入到您的类路径中，并用包名.类名这种全路径的方式指定应用程序的主类，而这个主类的入口方法也必须是Main方法，不能是其它方法。但是使用可执行的**JAR**文件，我们可以不用提取它或者知道主要入口点就可以运行一个应用程序。可执行**JAR**有助于方便发布和执行**Java**应用程序。典型的调用非可执行**JAR**包的命令是`java -cp [/data/home/java/]foo.jar [多个JAR之间用;分隔] packageName.ClassName`。
+运行存储在非可执行的**JAR**中的应用程序，不需要配置`MANIFEST.MF`文件，只要将它加入到您的类路径中，并用`包名.类名`这种全路径的方式指定应用程序的主类，而这个主类的入口方法也必须是`Main`方法，不能是其它方法。但是使用可执行的**JAR**文件，我们可以不用提取它或者知道主要入口点就可以运行一个应用程序。可执行**JAR**有助于方便发布和执行**Java**应用程序。典型的调用非可执行**JAR**包的命令是`java -cp [/data/home/java/]foo.jar [多个JAR之间用;(Windows)或者:(Linux)分隔] packageName.ClassName`。
 
 注意点：对于可执行**JAR**，在运行**java -jar**选项的时候，那么环境变量**CLASSPATH**和在命令行中指定的所有类路径都将被**JVM**忽略，也就是说，对于一个可执行**JAR**，使用**java -classpath**或者**java -cp**或者**set classpath=lib/commons-io-2.4.jar**等等命令指定**CLASSPATH**都是无效的。
 
-
 #### 正确姿势
-
 对于一个可执行的**JAR**必须通过**MANIFEST.MF**文件的头引用它所需要的所有其他从属**JAR**，引用方式如下
 ```xml
 Class-Path: lib/commons-io-2.4.jar lib/commons-lang3-3.4.jar
@@ -55,11 +54,10 @@ Created-By: Apache Maven 3.3.3
 Build-Jdk: 1.8.0_45
 Main-Class: com.yuewen.statistics.report.service.Main
 Class-Path: lib/commons-io-2.4.jar lib/commons-lang3-3.4.jar lib/guava-18.0.jar lib/junit-4.10.jar lib/log4j-api-2.0.jar lib/log4j-core-2.0.jar lib/lombok-1.16.4.jar lib/lucene-analyzers-common-5.5.0.jar lib/lucene-analyzers-smartcn-5.5.0.jar lib/lucene-core-5.5.0.jar lib/lucene-grouping-5.5.0.jar lib/lucene-queries-5.5.0.jar lib/lucene-queryparser-5.5.0.jar lib/mysql-connector-java-5.1.38-bin.jar
-
 ```
 其中**Manifest-Version**表示版本号，一般由**IDE**工具自动生成，在编写**MANIFEST**文件的过程中，有如下注意点
-- Main-Class是JAR文件的主类，程序的入口
-- Class-Path指定需要依赖的JAR，多个JAR必须要在一行上，多个JAR之间以空格隔开，如果依赖的JAR在当前目录的子目录下，windows下使用`\`来分割，linux下用`/`分割
+- **Main-Class**是**JAR**文件的主类，程序的入口
+- **Class-Path**指定需要依赖的**JAR**，多个**JAR**必须要在一行上，多个**JAR**之间以空格隔开，如果依赖的**JAR**在当前目录的子目录下，windows下使用"\"来分割，linux下用"/"分割
 - 文件的冒号后面必须要空一个空格，否则会出错
 - 文件的最后一行必须是一个回车换行符，否则也会出错
 
