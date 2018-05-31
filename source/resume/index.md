@@ -1,7 +1,7 @@
 # 联系方式
 
 - 手机：183021182**
-- Email：wangx89@126.com
+- Email：wangx89艾特126.com
 - 微信号：wangxu_89
 
 # 个人信息
@@ -19,9 +19,10 @@
 - 期望城市：上海、杭州、南京
 
 # 工作/项目经历
-## [阅文集团](http://join.yuewen.com/)(2015/12 ~ Now)
-
-## [大众点评网](http://www.dianping.com/)(2015/6/24 ~ 2015/10/8)
+- 2018.06 ~ 至今 [阿里口碑](https://www.koubei.com/)，技术部
+- 2016.04 ~ 2018.06 [阅文集团](http://join.yuewen.com/)，技术部内容中心
+- 2015.12 ~ 2016.04 [阅文集团](http://join.yuewen.com/)，技术部内容中心，intern
+- 2015.06 ~ 2015.10 [大众点评网](http://www.dianping.com/)，POI与基础内容，intern
 
 ## 技能清单
 
