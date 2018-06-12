@@ -18,7 +18,7 @@ categories: Programming Notes
 
 IDEA 默认配置文件存放位置
 ```
-Windows 保存在 '%HOMEPATH%\.<product><version>\config' 例如'C:/Users/JohnS/.IntelliJIdea2018.1/config'
+Windows 保存在 '%HOMEPATH%/.<product><version>/config' 例如'C:/Users/JohnS/.IntelliJIdea2018.1/config'
 Unix/Linux 保存在 '~/.<product><version>/config' 例如 '~/.IntelliJIdea2018.1/config'
 Mac 保存在 '~/Library/Preferences/<product><version>' 例如 '~/Library/Preferences/IntelliJIdea2018.1'
 ```
@@ -34,6 +34,6 @@ E:/jianguoyun/PHPStorm/config    #PHPStorm的配置文件路径
 # custom IntelliJ IDEA properties
 idea.config.path=/Users/mulai.wx/Nutstore Files/jianguoyun/IDEA/config-mac
 ```
-如果有不清楚的地方，可以直接参考IDEA的官方文档：https://www.jetbrains.com/help/idea/tuning-the-ide.html#default-dirs
+如果有不清楚的地方，可以直接参考IDEA的官方文档 [**Default IDE directories**](https://www.jetbrains.com/help/idea/tuning-the-ide.html#default-dirs)。
 
-第二天到公司直接修改idea.properties即可，前提是同样安装了坚果云客户端哦。
+那么在公司直接安装坚果云，将IDEA的配置文件夹同步到本地，然后修改`idea.properties`中的值指向坚果云中正确的配置文件夹路径即可。
