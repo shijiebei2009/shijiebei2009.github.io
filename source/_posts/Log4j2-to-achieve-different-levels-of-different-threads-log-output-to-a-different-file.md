@@ -11,11 +11,11 @@ categories: Programming Notes
 
 在官方的测试中，下图比较了`Sync`、`Async Appenders`和`Loggers all async`三者的性能。其中`Loggers all async`表现最为出色，而且线程数越多，`Loggers all async`性能越好。
 
-![](http://7xig3q.com1.z0.glb.clouddn.com/log4j2-async-vs-sync-throughput.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/log4j2_async_vs_sync_throughput.png)
 
 除了对Log4j2自身的不同模式做对比以外，官方还做了**Log4j2/Log4j1/Logback**的对比，如下图所示
 
-![](http://7xig3q.com1.z0.glb.clouddn.com/log4j-async-throughput-comparison.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/log4j_async_throughput_comparison.png)
 
 其中，`Loggers all async`是基于[LMAX Disruptor](http://lmax-exchange.github.com/disruptor/)实现的。
 

@@ -27,7 +27,7 @@ date: 2015-04-05 17:47:58
 <center>
 欢迎您捐赠本站，您的支持是我最大的动力！
 
-![支付宝扫一扫](http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png)&nbsp;&nbsp;![微信扫一扫](http://7xig3q.com1.z0.glb.clouddn.com/weixin-donate.png)
+![支付宝扫一扫](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/alipay_donate.png)  ![微信扫一扫](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/weixin_donate.png)
 </center>
 </div>
 

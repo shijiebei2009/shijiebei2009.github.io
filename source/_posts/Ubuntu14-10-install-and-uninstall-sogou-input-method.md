@@ -153,20 +153,20 @@ drwxr-xr-x 18 eric eric     4096 11月 27 21:34 ../
 eric@eric-VirtualBox:~/Desktop$
 ```
 输入`sudo dpkg -i sogoupinyin_2.0.0.0068_amd64.deb`命令开始安装输入法，可使用`tab`键自动补全命令，安装完成之后使用如下命令启用`sudo im-config -s fcitx -z default`，完成之后别忘记重启系统。重启之后点击右上角的那个软件盘即可看到搜狗输入法安装成功，点击即可输入汉字了。
-![](http://7xig3q.com1.z0.glb.clouddn.com/ubuntu-sogou-input-method-success.jpg)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/ubuntu_sogou_input_method_success.jpg)
 
 ### 卸载搜狗输入法
 
 - 首先使用命令查看下安装的搜狗拼音输入法`sudo dpkg -l so*`，然后先卸载搜狗拼音`sudo apt-get purge sogoupinyin`
 
-![](http://7xig3q.com1.z0.glb.clouddn.com/ubuntu-uninstall-sogou-input-method1.jpg)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/ubuntu_uninstall_sogou_input_method1.jpg)
 
 - 卸载fcitx，`sudo apt-get purge fcitx`
 
-![](http://7xig3q.com1.z0.glb.clouddn.com/ubuntu-uninstall-sogou-input-method2.jpg)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/ubuntu_uninstall_sogou_input_method2.jpg)
 
 - 彻底卸载fcitx及相关配置，`sudo apt-get autoremove`
 
-![](http://7xig3q.com1.z0.glb.clouddn.com/ubuntu-uninstall-sogou-input-method3.jpg)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/ubuntu_uninstall_sogou_input_method3.jpg)
 
 - 最后别忘注销或者重启系统，如果注销按钮不能使用，可以使用命令`sudo pkill Xorg`，当再次登录系统之后，可以看到搜狗输入法已经完全被卸载干净了。

@@ -15,13 +15,13 @@ Resource:groupping
 ```
 由StackOverflow上的回答可知，Java facet的版本总是需要和Java编译器的版本一致，所以最好的方式是通过Project Facets Properties面板进行修改。
 1. 查看Problems面板信息
-[![](http://7xig3q.com1.z0.glb.clouddn.com/eclipse-problems-panel.png)](http://7xig3q.com1.z0.glb.clouddn.com/eclipse-problems-panel.png)
+[![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/eclipse_problems_panel.png)](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/eclipse_problems_panel.png)
 2. 打开Project Facets Properties面板
-[![](http://7xig3q.com1.z0.glb.clouddn.com/eclipse-project-facets-configuration.png)](http://7xig3q.com1.z0.glb.clouddn.com/eclipse-project-facets-configuration.png)
+[![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/eclipse_project_facets_configuration.png)](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/eclipse_project_facets_configuration.png)
 3. 修改configuration信息
-[![](http://7xig3q.com1.z0.glb.clouddn.com/project-facets-properties.png)](http://7xig3q.com1.z0.glb.clouddn.com/project-facets-properties.png)
+[![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/project_facets_properties.png)](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/project_facets_properties.png)
 4. 调整到和Java编译器版本相匹配
-[![](http://7xig3q.com1.z0.glb.clouddn.com/matching-java-compiler-compliance-level.png)](http://7xig3q.com1.z0.glb.clouddn.com/matching-java-compiler-compliance-level.png)
+[![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/matching_java_compiler_compliance_level.png)](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/matching_java_compiler_compliance_level.png)
 
 **参考文献**
 [1] http://javahonk.com/project-facet-java-is-not-supported-by-target-runtime/

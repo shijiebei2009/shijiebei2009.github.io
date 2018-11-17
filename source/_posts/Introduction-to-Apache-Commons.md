@@ -15,8 +15,8 @@ Apache Commons提供了全方位可重用的Java组件，在我们日常开发�
 ![][1]
 ![Apache commons][2]
 
-[1]: http://7xig3q.com1.z0.glb.clouddn.com/commons-a.png
-[2]: http://7xig3q.com1.z0.glb.clouddn.com/commons-b.png
+[1]: https://raw.githubusercontent.com/shijiebei2009/img/master/blog/commons_a.png
+[2]: https://raw.githubusercontent.com/shijiebei2009/img/master/blog/commons_b.png
   
   
 以最常用的Commons包封装的方法为例，介绍一些简单的使用示例

@@ -107,4 +107,4 @@ categories: Skill
 - 一个性能吊炸天MacBook Pro
 
 最后附上Mac OS X常用快捷键一览
-![](http://7xig3q.com1.z0.glb.clouddn.com/Mac_OSX_hot_key.jpg)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/mac_osx_hot_key.jpg)

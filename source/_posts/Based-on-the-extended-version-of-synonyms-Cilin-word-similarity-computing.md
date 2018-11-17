@@ -21,8 +21,8 @@ Cb30A02# 该地 该镇 该乡 该站 该区 该市 该村
 Cb30A03@ 这方
 
 分层及编码表如下所示
-![](http://7xig3q.com1.z0.glb.clouddn.com/tongyici-cilin-structure.jpg)
-![](http://7xig3q.com1.z0.glb.clouddn.com/tongyici-cilin-encode.jpg)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/tongyici_cilin_structure.jpg)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/tongyici_cilin_encode.jpg)
 
 由于第5级有的行是同义词，有的行是相关词，有的行只有一个词，分类结果需要特别说明，可以分出具体的3种情况。使用特殊符号对这3种情况进行区别对待，所以第8位的标记有3种，分别是“=”代表“相等”、“同义”；“#”代表“不等”、“同类”，属于相关词语；“@”代表“自我封闭”、“独立”，它在词典中既没有同义词，也没有相关词。
 

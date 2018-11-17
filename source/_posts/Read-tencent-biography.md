@@ -12,7 +12,7 @@ categories: Life-Talk
 
 **作者简介：**吴晓波：著名财经作家，“吴晓波频道”、蓝狮子出版创始人，常年从事中国企业史和公司案例研究。著有《大败局》I和II、《激荡三十年》《跌荡一百年》《浩荡两千年》《历代经济变革得失》等广具影响力的财经书籍，著作两次入选《亚洲周刊》年度最佳图书。
 
-![](http://7xig3q.com1.z0.glb.clouddn.com/QQ_reading_welfare.jpg)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/qq_reading_welfare.jpg)
 
 - 在马化腾14岁生日的时候，他向家里索要一台专业级、80mm口径的天文望远镜，那要花他父亲将近4个月的工资。虽然父母刚开始不同意，最终还是满足了他的愿望。为了培养儿子的科学兴趣，马家在马化腾很小的时候就订阅了《我们爱科学》等科普杂志。
 

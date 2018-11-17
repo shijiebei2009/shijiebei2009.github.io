@@ -6,7 +6,7 @@ categories: Programming Notes
 
 ---
 
-[![logo](http://7xig3q.com1.z0.glb.clouddn.com/hibernate-logo.gif "logo")](http://7xig3q.com1.z0.glb.clouddn.com/hibernate-logo.gif "logo")
+[![logo](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/hibernate_logo.gif "logo")](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/hibernate_logo.gif "logo")
 
 ### ORM简介
 ORM（Object/Relation Mapping），对象关系映射，ORM是一种规范，主要完成面向对象的编程语言到关系数据库的映射。
@@ -18,7 +18,7 @@ ORM框架是面向对象程序设计语言与关系数据库发展不同步时�
 ### Hibernate体系结构
 **Hibernate的体系架构如下所示**
 
-[![architecture](http://7xig3q.com1.z0.glb.clouddn.com/hibernate-architecture.png "architecture")](http://7xig3q.com1.z0.glb.clouddn.com/hibernate-architecture.png "architecture")
+[![architecture](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/hibernate_architecture.png "architecture")](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/hibernate_architecture.png "architecture")
 
 下面对上图中各对象逐一解释
 * SessionFactory: 这是Hibernate的关键对象，它是单个数据库映射关系经过编译后的内存镜像，也是线程安全的。它是生成Session的工厂，本身需要依赖于ConnectionProvider。该对象可以在进程或集群的级别上，为那些事务之间可以重用的数据提供可选的二级缓存
@@ -39,7 +39,7 @@ ORM框架是面向对象程序设计语言与关系数据库发展不同步时�
 
 #### 持久化类对象的状态
 
-[![life-cycle](http://7xig3q.com1.z0.glb.clouddn.com/Hibernate-life-cycle.gif "life-cycle")](http://7xig3q.com1.z0.glb.clouddn.com/Hibernate-life-cycle.gif "life-cycle")
+[![life-cycle](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/hibernate_life_cycle.gif "life-cycle")](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/hibernate_life_cycle.gif "life-cycle")
 
 在Hibernate中，PO（Persistent Object）有如下三种状态
 * 瞬态: 如果PO实例从未与Session关联过，该PO实例处于瞬态状态，瞬态对象不会被持久化到数据库中，也不会被赋予持久化标识
@@ -102,9 +102,9 @@ ORM框架是面向对象程序设计语言与关系数据库发展不同步时�
 * `CascadeType.ALL`: 指定Hibernate将所所有的持久化操作都级联到关联实体
 * `CascadeType.MERGE`: 指定Hibernate将merge操作级联到关联实体
 * `CascadeType.PERSIST`: 指定Hibernate将persist操作级联到关联实体
-* `CascadeType.REFRESH`: 指定Hibernate将refresh操作及镰刀关联实体
+* `CascadeType.REFRESH`: 指定Hibernate将refresh操作级联到关联实体
 * `CascadeType.REMOVE`: 指定Hibernate将remove操作级联到关联实体
-如果程序希望某个操作能被级联传播到关联实体，则可以在配置`@OneToMany、@OneToOne、@ManyToMany`时通过cascade属性来指定。*注意级联风格是可组合的。*
+如果程序希望某个操作能被级联传播到关联实体，则可以在配置`@OneToMany`、`@OneToOne`、`@ManyToMany`时通过cascade属性来指定。*注意级联风格是可组合的。*
 
 ### 事务控制
 #### Session与事务
