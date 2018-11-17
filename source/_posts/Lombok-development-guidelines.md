@@ -15,7 +15,7 @@ Lombok官网地址：https://projectlombok.org/ 里面还提供了一个简短�
 ### Eclipse安装Lombok
 #### 双击Jar安装
 首先下载Jar包，下载地址：http://projectlombok.org/download.html
-![](http://7xig3q.com1.z0.glb.clouddn.com/eclipse-lombok.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/eclipse_lombok.png)
 注意如果eclipse没有安装到默认目录，那么需要点击Specify选择eclipse.exe所在的路径，然后Install即可完成安装。
 
 在新建项目之后，使用Lombok如果程序还报错，那么点击eclipse菜单的Project选项的clean，清理一下即可。
@@ -38,10 +38,10 @@ Lombok官网地址：https://projectlombok.org/ 里面还提供了一个简短�
 
 ### IntelliJ安装Lombok
 #### 通过IntelliJ的插件中心安装
-![](http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-plugin-lombok.png)
-![](http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-lombok.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/intellij_plugin_lombok.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/intellij_lombok.png)
 注意一点，在IntelliJ中如果创建的是Maven项目，那么在pom.xml文件中添加依赖后，需要设置Maven为自动导入。
-![](http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-maven-auto-import.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/intellij_maven_auto_import.png)
 
 #### IntelliJ手动安装Lombok
 如果不想通过IntelliJ的插件中心安装的话，也可以手动安装，详细步骤参见Github上的说明：https://github.com/mplushnikov/lombok-intellij-plugin
@@ -196,7 +196,7 @@ public class Menu {
 }
 ```
   在IntelliJ中按下Ctrl+F12就可以看到Lombok已经为我们自动生成了一系列的方法。
-  ![](http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ-lombok-java-demo.jpg)
+  ![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/intellij_lombok_java_demo.jpg)
 - @Value示例
 ```java
 @Value

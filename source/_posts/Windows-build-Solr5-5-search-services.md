@@ -67,7 +67,7 @@ The service 'tomcat8' has been removed
 7. 将**solr-5.5.0/dist**目录下的`solr-dataimporthandler-5.5.0.jar`和`solr-dataimporthandler-extras-5.5.0.jar`复制到**tomcat/webapps/solr/WEB-INF/lib/**下，这个是为了以后导入数据库表数据。
 配置完成之后，**Solr**环境搭建完毕，重启**Tomcat**，在浏览器中输入http://localhost:8080/solr/index.html#/ 就可以看到**Solr**的控制台了
 8. 在**tomcat/solrhome/**目录下创建**core**(自定义)，在其目录下创建**data**文件夹，并将**D:/apache-tomcat-8.0.32/bin/solr/configsets/basic_configs/**目录下的**conf**文件夹复制到**core**下。然后在**solr**控制台点击**Add Core**即可完成创建。
-![](http://7xig3q.com1.z0.glb.clouddn.com/Solr_add_core_config.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/solr_add_core_config.png)
 
 #### Jetty启动Solr
 **Solr**自带**Jetty**服务器，并且提供了可运行的**jar**包，该**jar**包存在于`D:/solr-5.5.0/server`目录中，但是不能直接双击该**jar**包运行，需要在命令行中进行启动。打开**cmd**命令行，按照网上提示，输入启动命令

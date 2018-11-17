@@ -45,7 +45,7 @@ public class Main {
 
 #### 消除类游戏
 **题目说明**：
-![](http://7xig3q.com1.z0.glb.clouddn.com/CCF_CSP_Elimination_Game.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/ccf_csp_elimination_game.png)
 **解答**：
 ```java
 import java.util.Scanner;
@@ -163,8 +163,8 @@ public class Main {
 
 #### 画图
 **题目说明**：
-![](http://7xig3q.com1.z0.glb.clouddn.com/CCF_CSP_Paint_1.png)
-![](http://7xig3q.com1.z0.glb.clouddn.com/CCF_CSP_Paint_2.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/ccf_csp_paint_1.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/ccf_csp_paint_2.png)
 **解答**：
 ```java
 import java.util.Scanner;
@@ -335,7 +335,7 @@ N行街道
 2 4
 **样例输出：**
 -1
-![](http://7xig3q.com1.z0.glb.clouddn.com/CCF_CSP_Delivery.jpg)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/ccf_csp_delivery.jpg)
 **解答**：
 ```java
 待补充

@@ -25,11 +25,11 @@ categories: Programming Notes
 众所周知，由于伟大的中国防火墙，所以在使用IDEA下载Maven仓库索引的时候，要么无法访问，要么就是速度极慢，这对开发人员带来了极大的不便，所以一般公司都用Nexus搭建一个公司内部的私服。同时利用私服更有利于对公司内部开发人员依赖的Jar包版本进行控制。
 
 也许你会问，中央仓库带有索引，为什么本地的IDEA也需要下载索引呢？那么直接看下图你就明白了，如果本地没有下载索引的话，在`pom.xml`文件中添加依赖是得不到任何提示的。
-![](http://7xig3q.com1.z0.glb.clouddn.com/maven_after_update_maven_index_add_dependence%20.gif)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/maven_after_update_maven_index_add_dependence.gif)
 
 #### IntelliJ IDEA中Maven插件配置
 IntelliJ已经内置了对Maven插件的支持，当然你也可以配置自己的Maven，只需要进入`Settings->Maven->Maven home directory|User settings file|Local repository`配置即可。注意如果使用自己配置的Maven，那么一定要勾选`Override`，否则配置不生效。
-![](http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ_plugin_maven_config.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/intellij_plugin_maven_config.png)
 
 #### IntelliJ14.1更新索引失败原因
 在使用14.1.X版本的IntelliJ时，更新Maven索引出现如下错误[Indexed Maven Repositories - type remore - Error - Idea 14.1.5](https://devnet.jetbrains.com/message/5560886;jsessionid=565FE35134A3F90A560B993435EAC7EF#5560886)，根据该链接内所述原因为：这是IntelliJ14.1.X版本中的一个BUG，并且会在下一个发布版本中进行修复，推荐将IntelliJ升级到版本15。
@@ -102,9 +102,9 @@ IntelliJ已经内置了对Maven插件的支持，当然你也可以配置自己�
 
 #### 下载Maven仓库的索引
 在配置完成之后就可以下载仓库索引了，注意这是一个非常耗时的过程，建议利用晚上或者出去午饭时间下载。下载过程及下载完成之后状态如下图所示。本次下载整体耗时在一个小时左右。
-![](http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ_maven_download_local_index.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/intellij_maven_download_local_index.png)
 另外我在思考既然下载一次这么麻烦，那么下载下来的索引存放在哪里呢？我能否将其拷贝到其他机器重复利用呢？于是经过一番搜索我发现了索引的存放位置，并且将其打包拷贝到其他机器的同样位置，但未做测试，不知能否重复利用，如有网友测试完毕，可以告诉我，感谢之。
-![](http://7xig3q.com1.z0.glb.clouddn.com/IntelliJ_maven_index_location_detailed.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/intellij_maven_index_location_detailed.png)
 
 #### 利用本地Tomcat作为索引下载服务器
 - 首先下载如下两个文件：

@@ -33,7 +33,7 @@ categories: Algorithms
 事件本体是以**“事件”**为认知单元，研究事件的组成以及事件之间的关系，并对事件进行归纳和概括，形成事件类，进而构建事件本体模型。研究本体，必然要先构建语料库，所以在互联网上选取了突发事件语料来进行语料的事件标注，突发事件的分类体系，包括三个层次：一级4个大类（自然灾害类N、事故灾难类A、公共卫生事件P、社会安全事件S），二级33个子类，三级94个小类。我们标注的CEC语料库主要包括五类：地震、火灾、交通事故、恐怖袭击、食物中毒。合计332篇。
 
 #### CEC标注标签规范
-![](http://7xig3q.com1.z0.glb.clouddn.com/xml-schema-of-cec-annotation.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/xml_schema_of_cec_annotation.png)
 
 #### CEC标注样例
 ```xml
@@ -68,7 +68,7 @@ categories: Algorithms
 
 语言技术平台的总体结构如下所示
 
-![](http://7xig3q.com1.z0.glb.clouddn.com/ltp_framework.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/ltp_framework.png)
 
 若想进一步了解，请[点我](http://www.ltp-cloud.com/intro/)进入LTP官网进行查看。
 ### 我的工作-用机器进行标注
@@ -76,7 +76,7 @@ categories: Algorithms
 
 **效果图**
 
-![](http://7xig3q.com1.z0.glb.clouddn.com/automatic-annotation.gif)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/automatic_annotation.gif)
 
 ### 如何实现
 #### 挖掘事件要素规则

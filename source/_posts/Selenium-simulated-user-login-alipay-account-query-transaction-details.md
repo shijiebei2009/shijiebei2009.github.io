@@ -219,7 +219,7 @@ public class SeleniumAlipay {
 ```
 
 ### 效果图
-![](http://7xig3q.com1.z0.glb.clouddn.com/automatic-query-alipay-treasure-transaction-information.gif)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/automatic_query_alipay_treasure_transaction_information.gif)
 
 
 **参考文献**

@@ -181,8 +181,8 @@ index:
 ```
 
 #### 使用图床
-使用[七牛云存储](http://www.qiniu.com/)
-或者采用开源的图床，使用新浪SAE平台，但是鉴于不知道能否持久，自己掂量办，[在线图床](http://qiniupicbed.sinaapp.com/)
+千万不要使用国内公司的图床，极其不靠谱，说关就关，说挂就挂，推荐使用GitHub作为原生的图床。
+
 #### markdown工具
 Windows在线markdown工具：https://www.zybuluo.com/mdeditor
 Windows本地markdown工具：[markdownpad](http://markdownpad.com/)
@@ -201,7 +201,7 @@ Windows本地markdown工具：[markdownpad](http://markdownpad.com/)
     <input name="payAmount" type="hidden" value="默认捐赠金额(元)" />
     <input id="title" name="title" type="hidden" value="博主，打赏你的！" />
     <input name="memo" type="hidden" value="你Y加油，继续写博客！" />
-    <input name="pay" type="image" value="转账" src="http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate-website.png" />
+    <input name="pay" type="image" value="转账" src="https://raw.githubusercontent.com/shijiebei2009/img/master/blog/alipay_donate.png" />
 </form>
 </div>
 ```
@@ -224,7 +224,7 @@ widgets:
 <center>
 欢迎您捐赠本站，您的支持是我最大的动力！
 ![][1]
-[1]: http://7xig3q.com1.z0.glb.clouddn.com/alipay-donate.png
+[1]: https://raw.githubusercontent.com/shijiebei2009/img/master/blog/alipay_donate.png
 </center>
 <br/>
 ```

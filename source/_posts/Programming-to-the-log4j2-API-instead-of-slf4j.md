@@ -53,7 +53,7 @@ categories: Programming Notes
 而且就目前来说，对于**log4j2**中的诸多特性，**slf4j**并不支持（See [10 Log4j2 API features not available in SLF4J](http://stackoverflow.com/questions/41633278/can-we-use-all-features-of-log4j2-if-we-use-it-along-with-slf4j-api/41635246#41635246) for more details），最重要的是**log4j2**包含了一个`log4j-to-slf4j`模块，该模块可以在任何时候将任何面向**log4j2** API编程的代码转向任何具体的**slf4j**的实现框架，其调用流程简单描述如下：
 
 <div align=center>
-![](http://7xig3q.com1.z0.glb.clouddn.com/log4j2_API_slf4j.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/log4j2_api_slf4j.png)
 </div>
 
 

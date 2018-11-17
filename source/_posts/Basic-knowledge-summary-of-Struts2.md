@@ -6,10 +6,10 @@ categories: Programming Notes
 
 ---
 
-[![logo](http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png "logo")](http://7xig3q.com1.z0.glb.clouddn.com/struts2-logo.png "logo")
+[![logo](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/struts2_logo.png "logo")](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/struts2_logo.png "logo")
 ### Struts2简介
 Struts2是由传统的Struts1、WebWork两个经典的MVC框架发展起来，如下图所示，无论从Struts2设计的角度还是在实际项目中的易用性来看，Struts2都是一个非常优秀的MVC框架，当然目前还有另外一个非常优秀的MVC框架——SpringMVC，以后再对它进行介绍。
-[![Struts2](http://7xig3q.com1.z0.glb.clouddn.com/webwork+struts=struts2.png "Struts2")](http://7xig3q.com1.z0.glb.clouddn.com/webwork+struts=struts2.png "Struts2")
+[![Struts2](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/webwork_struts2.png "Struts2")](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/webwork_struts2.png "Struts2")
 
 ### 实现Action
 Struts2的Action类是一个普通的POJO（通常应该包含一个无参数的execute方法），Struts2直接使用Action来封装HTTP请求参数，因此，Action类里还应该包含与请求参数对应的实例变量，并且为这些实例变量提供对应的setter和getter方法。注意其实实例变量是可以省略的，因为Struts2是通过对应的setter和getter方法来处理请求参数的，而不是通过实例变量名来处理请求参数的。

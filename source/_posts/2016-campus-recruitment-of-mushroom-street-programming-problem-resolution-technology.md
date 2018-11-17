@@ -8,7 +8,7 @@ categories: Algorithms
 
 #### 回文串
 
-![NO1](http://7xig3q.com1.z0.glb.clouddn.com/palindrome-mogujie-1.png "NO1")
+![NO1](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/palindrome_mogujie_1.png "NO1")
 
 解题思路：既然通过添加一个字母可以变为回文串，那么通过删除与添加的字母相对位置的字符，应该亦为回文串。
 
@@ -80,7 +80,7 @@ public class Main {
 
 #### 聊天
 
-![NO2](http://7xig3q.com1.z0.glb.clouddn.com/chat-mogujie-2.png "NO2")
+![NO2](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/chat_mogujie_2.png "NO2")
 
 解题思路：
 1. 小蘑的时间假设为`[a，b]`，小菇的时间假设是`[c+t，d+t]`，小菇起床的时间是`t∈[l，r]`
@@ -180,9 +180,9 @@ public class Main2 {
 
 #### 搬圆桌
 
-![NO3](http://7xig3q.com1.z0.glb.clouddn.com/move-table-mogujie-3.png "NO3")
+![NO3](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/move_table_mogujie_3.png "NO3")
 
-![](http://7xig3q.com1.z0.glb.clouddn.com/move-table-mogujie-3-analysis.jpg)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/move_table_mogujie_3_analysis.jpg)
 
 解题思路：
 1. `length = sqrt((x1-x2)^2+(y1-y2)^2)`先计算两个圆心点之间的距离

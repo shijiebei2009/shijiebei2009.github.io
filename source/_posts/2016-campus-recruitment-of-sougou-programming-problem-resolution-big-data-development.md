@@ -8,7 +8,7 @@ date: 2015-10-24 23:26:47
 ---
 
 ### 最近邻居
-![](http://7xig3q.com1.z0.glb.clouddn.com/nearest_neighbor_sougou_examination_1.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/nearest_neighbor_sougou_examination_1.png)
 
 **解题思路**：
 1. 使用JDK中的Point2D类，该类定义了坐标系空间中的一个点
@@ -90,7 +90,7 @@ public class Main {
 
 ### 混乱还原
 
-![](http://7xig3q.com1.z0.glb.clouddn.com/chaos_reduction_sougou_examination_2.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/chaos_reduction_sougou_examination_2.png)
 
 **解题思路**：
 1. 利用伪随机特性，只要时间种子一样且上限一样，其实随机数每次都会产生相同的数

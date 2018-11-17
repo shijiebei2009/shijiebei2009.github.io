@@ -8,7 +8,7 @@ date: 2015-09-29 19:20:41
 ---
 
 ### 比大小
-![](http://7xig3q.com1.z0.glb.clouddn.com/compare_sizes_baidu_examination_1.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/compare_sizes_baidu_examination_1.png)
 
 **解题思路**：解此题需要使用到**[康托展开](http://baike.baidu.com/link?url=Xx0gZYn3QJ1ykJdRvLp9HxOUBLs-J57DqebWUtjSNnoWj78xEhZeWKnCfXkhYgGMEdJ5Xz7QEwwUrIqLE7KX6a)**，康托展开的公式如下
 
@@ -119,7 +119,7 @@ public class Main {
 ```
 
 ### 拓展一下-求其逆过程
-![](http://7xig3q.com1.z0.glb.clouddn.com/compare_sizes_baidu_examination_1_expand.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/compare_sizes_baidu_examination_1_expand.png)
 
 **解题思路**：使用康托逆展开，辗转相除得到的值为这个字符是第几大，这样取出对应位置的字符，然后利用后面的字符覆盖该字符即可，防止取到重复的字符。取模得到余数之后，重复上述过程。
 例如：已知`S=["a","b","c","d"]`，那么当输入10的时候，或者说X(S1)=9的时候能否推出`S1=["b","c","d","a"]`呢？
@@ -208,7 +208,7 @@ public class MainExpand {
 
 ### 判断字符串是否出现
 
-![](http://7xig3q.com1.z0.glb.clouddn.com/character_appear_or_not_baidu_examination_2.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/character_appear_or_not_baidu_examination_2.png)
 **解题思路**：
 1. 将字符串a存储在一个map集合中，以每个字符的ASCII码作为key，以其出现的次数作为value，记为aMap
 2. 遍历字符串b，对于b中的每一个字符，如果aMap的key中含有该字符的ASCII码，如果该key对应的value>1，那么将value值减1
@@ -289,7 +289,7 @@ public class Main {
 
 ### 组合概率
 
-![](http://7xig3q.com1.z0.glb.clouddn.com/combinative_probability_baidu_examination_3.png)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/combinative_probability_baidu_examination_3.png)
 **解题思路**：
 需要递推公式，然后用动态规划求解。
 

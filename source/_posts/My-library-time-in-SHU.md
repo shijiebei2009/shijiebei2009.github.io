@@ -11,19 +11,19 @@ tags: [Thinking]
 
 #### 一、入馆记录
 2013年—2016年4月，一共到馆205次，第一次走进宝山校区图书馆是在2013年9月6日10时21分22秒。
-![](http://7xig3q.com1.z0.glb.clouddn.com/my_library_time_1.jpg)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/my_library_time_1.jpg)
 13级硕士生平均入馆138.52次，我的次数是205次，我的入馆次数是平均次数的1.48倍。
 
 #### 二、选座记录
 2013年—2013年10月，一共预约座位4次，第一次预约的是本部图书馆的二楼综合阅览（东区）的141号座位，时间在2013年9月6日10时23分1秒。
-![](http://7xig3q.com1.z0.glb.clouddn.com/my_library_time_2.jpg)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/my_library_time_2.jpg)
 
 #### 三、上机记录
 您无上机记录。
 
 #### 四、借还记录
 2013年—2015年10月，一共借还图书69本，我第一次借还的书籍是《语义Web技术基础》，借阅时间是2013年11月11日，我最后一次借还的书籍是《文明之光.:第三册》，借阅时间是2015年10月18日，我的借阅偏好是：专业技术。
-![](http://7xig3q.com1.z0.glb.clouddn.com/my_library_time_3.jpg)
+![](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/my_library_time_3.jpg)
 13级硕士生人均借还30.76册，我借还图书69册，我的借阅量是平均量的2.24倍。
 
 #### 五、我的借还清单

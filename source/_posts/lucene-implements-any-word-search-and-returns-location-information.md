@@ -193,7 +193,7 @@ token:[。], offset:[6]
 #### 任意词搜索命中并返回positions信息
 下面再来解决在不存储Field、不存储TermVectors的情况下，如何实现任意词搜索命中并返回positions信息，同时还可以设置slop的值。要实现这些功能就需要用到SpanQuery及其一系列的子类，先来看一张继承关系图，这些都是即将要使用到的类。
 <div align=center>
-[![SpanQuery And Subclasses](http://7xig3q.com1.z0.glb.clouddn.com/spanquery_and_subclasses.jpg "SpanQuery And Subclasses")](http://7xig3q.com1.z0.glb.clouddn.com/spanquery_and_subclasses.jpg "SpanQuery And Subclasses")
+[![SpanQuery And Subclasses](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/spanquery_and_subclasses.jpg "SpanQuery And Subclasses")](https://raw.githubusercontent.com/shijiebei2009/img/master/blog/spanquery_and_subclasses.jpg "SpanQuery And Subclasses")
 </div>
 
 SpanQuery的doc注释很简单，就一句话“Base class for span-based queries”，基于跨度查询的基类。而真正具有实际作用的是其各个子类。
