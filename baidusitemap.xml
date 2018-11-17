@@ -4,14 +4,98 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2016/08/09/Use-nuts-cloud-sync-IntelliJ-IDEA-configuration-files/</loc>
-    <lastmod>2018-06-12T22:58:54.478Z</lastmod>
+    <loc>http://www.codepub.cn/2015/04/06/Github-Pages-personal-blog-from-Octopress-to-Hexo/</loc>
+    <lastmod>2018-11-17T13:34:45.330Z</lastmod>
     <data>
         <display>
-        <title>使用坚果云同步IntelliJ IDEA的配置文件</title>
-        <pubTime>2016-08-09T13:50:39.000Z</pubTime>
+        <title>Github Pages个人博客，从Octopress转向Hexo</title>
+        <pubTime>2015-04-06T08:03:13.000Z</pubTime>
         
-        <tag>IntelliJ</tag>
+        <tag>Hexo</tag>
+         
+        <tag>Github</tag>
+         
+        <tag>Octopress</tag>
+         
+         
+           
+             
+              <breadCrumb title="Git/GitHub" url="http://www.codepub.cn/categories/Git-GitHub/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/10/07/programmer-essential-toolbox/</loc>
+    <lastmod>2018-11-17T13:31:15.127Z</lastmod>
+    <data>
+        <display>
+        <title>程序员必备工具箱</title>
+        <pubTime>2015-10-07T06:40:32.000Z</pubTime>
+        
+        <tag>Tools</tag>
+         
+         
+           
+             
+              <breadCrumb title="Skill" url="http://www.codepub.cn/categories/Skill/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2016/12/24/Read-the-willpower-instinct/</loc>
+    <lastmod>2018-11-17T13:29:58.528Z</lastmod>
+    <data>
+        <display>
+        <title>读《自控力》</title>
+        <pubTime>2016-12-24T08:08:10.000Z</pubTime>
+        
+        <tag>Thinking</tag>
+         
+         
+           
+             
+              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2016/12/21/Read-tencent-biography/</loc>
+    <lastmod>2018-11-17T13:28:54.389Z</lastmod>
+    <data>
+        <display>
+        <title>读《腾讯传》</title>
+        <pubTime>2016-12-21T13:18:41.000Z</pubTime>
+        
+        <tag>Thinking</tag>
+         
+         
+           
+             
+              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/</loc>
+    <lastmod>2018-11-17T13:26:57.905Z</lastmod>
+    <data>
+        <display>
+        <title>Lucene 实现任意词搜索命中并返回位置信息</title>
+        <pubTime>2017-10-13T14:29:56.000Z</pubTime>
+        
+        <tag>Lucene</tag>
          
          
            
@@ -24,8 +108,169 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2015/06/21/Basic-knowledge-summary-of-Spring/</loc>
+    <lastmod>2018-11-17T13:25:14.305Z</lastmod>
+    <data>
+        <display>
+        <title>Spring基础知识汇总</title>
+        <pubTime>2015-06-21T03:57:22.000Z</pubTime>
+        
+        <tag>Spring</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/08/29/Selenium-simulated-user-login-alipay-account-query-transaction-details/</loc>
+    <lastmod>2018-11-17T13:23:36.810Z</lastmod>
+    <data>
+        <display>
+        <title>使用Selenium模拟用户登录支付宝账户查询交易详情</title>
+        <pubTime>2015-08-29T13:39:00.000Z</pubTime>
+        
+        <tag>Selenium</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2016/12/18/Log4j2-to-achieve-different-levels-of-different-threads-log-output-to-a-different-file/</loc>
+    <lastmod>2018-11-17T13:21:45.337Z</lastmod>
+    <data>
+        <display>
+        <title>Log4j2实现不同线程不同级别日志输出到不同的文件中</title>
+        <pubTime>2016-12-18T12:00:16.000Z</pubTime>
+        
+        <tag>Log4j2</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2016/03/21/Windows-build-Solr5-5-search-services/</loc>
+    <lastmod>2018-11-17T13:20:23.944Z</lastmod>
+    <data>
+        <display>
+        <title>Windows下搭建Solr5.5搜索服务</title>
+        <pubTime>2016-03-21T14:29:04.000Z</pubTime>
+        
+        <tag>Solr</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2017/03/08/Programming-to-the-log4j2-API-instead-of-slf4j/</loc>
+    <lastmod>2018-11-17T13:15:23.035Z</lastmod>
+    <data>
+        <display>
+        <title>面向log4j2 API编程而不是slf4j</title>
+        <pubTime>2017-03-08T14:18:55.000Z</pubTime>
+        
+        <tag>Log4j2</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/08/04/Based-on-the-extended-version-of-synonyms-Cilin-word-similarity-computing/</loc>
+    <lastmod>2018-11-17T13:14:09.712Z</lastmod>
+    <data>
+        <display>
+        <title>基于同义词词林扩展版的词语相似度计算</title>
+        <pubTime>2015-08-04T14:06:36.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+         
+           
+             
+              <breadCrumb title="Algorithms" url="http://www.codepub.cn/categories/Algorithms/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2017/05/23/my-library-time-in-SHU/</loc>
+    <lastmod>2018-11-17T13:12:48.097Z</lastmod>
+    <data>
+        <display>
+        <title>我的图书馆时光</title>
+        <pubTime>2017-05-23T00:30:19.000Z</pubTime>
+        
+        <tag>Thinking</tag>
+         
+         
+           
+             
+              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/09/26/An-Automatic-Annotation-Method-for-Emergency-Text-Corpus/</loc>
+    <lastmod>2018-11-17T13:10:44.226Z</lastmod>
+    <data>
+        <display>
+        <title>一种面向突发事件的文本语料自动标注方法</title>
+        <pubTime>2015-09-26T13:34:28.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+         
+           
+             
+              <breadCrumb title="Algorithms" url="http://www.codepub.cn/categories/Algorithms/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
     <loc>http://www.codepub.cn/2015/06/19/Basic-knowledge-summary-of-Hibernate/</loc>
-    <lastmod>2018-06-01T00:06:45.402Z</lastmod>
+    <lastmod>2018-11-17T13:07:26.267Z</lastmod>
     <data>
         <display>
         <title>Hibernate基础知识汇总</title>
@@ -44,8 +289,270 @@
 
     
   <url>
+    <loc>http://www.codepub.cn/2015/10/24/2016-campus-recruitment-of-sougou-programming-problem-resolution-big-data-development/</loc>
+    <lastmod>2018-11-17T13:03:32.653Z</lastmod>
+    <data>
+        <display>
+        <title>搜狗2016校园招聘之编程题解析-大数据开发</title>
+        <pubTime>2015-10-24T15:26:47.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+         
+           
+             
+              <breadCrumb title="Algorithms" url="http://www.codepub.cn/categories/Algorithms/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/06/18/Basic-knowledge-summary-of-Struts2/</loc>
+    <lastmod>2018-11-17T13:02:15.734Z</lastmod>
+    <data>
+        <display>
+        <title>Struts2基础知识汇总</title>
+        <pubTime>2015-06-18T07:41:01.000Z</pubTime>
+        
+        <tag>Struts2</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/04/19/Introduction-to-Apache-Commons/</loc>
+    <lastmod>2018-11-17T13:00:33.092Z</lastmod>
+    <data>
+        <display>
+        <title>Apache Commons入门</title>
+        <pubTime>2015-04-19T12:29:21.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/12/09/IntelliJ-IDEA-in-Maven-plugin-could-not-update-the-index-of-the-solution/</loc>
+    <lastmod>2018-11-17T12:59:24.003Z</lastmod>
+    <data>
+        <display>
+        <title>IntelliJ IDEA中Maven插件无法更新索引之解决办法</title>
+        <pubTime>2015-12-09T14:21:33.000Z</pubTime>
+        
+        <tag>IntelliJ</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/12/21/CCF-sixth-CSP-certification-exams-Solutions/</loc>
+    <lastmod>2018-11-17T12:56:58.144Z</lastmod>
+    <data>
+        <display>
+        <title>CCF第六次CSP认证考试题解</title>
+        <pubTime>2015-12-21T15:27:52.000Z</pubTime>
+        
+        <tag>CCF</tag>
+         
+         
+           
+             
+              <breadCrumb title="Algorithms" url="http://www.codepub.cn/categories/Algorithms/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/09/29/2016-campus-recruitment-of-baidu-programming-problem-resolution-software-development/</loc>
+    <lastmod>2018-11-17T12:54:32.422Z</lastmod>
+    <data>
+        <display>
+        <title>百度2016校园招聘之编程题解析-软件研发</title>
+        <pubTime>2015-09-29T11:20:41.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+         
+           
+             
+              <breadCrumb title="Algorithms" url="http://www.codepub.cn/categories/Algorithms/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/11/27/Ubuntu14-10-install-and-uninstall-sogou-input-method/</loc>
+    <lastmod>2018-11-17T12:51:16.935Z</lastmod>
+    <data>
+        <display>
+        <title>Ubuntu 14.10安装和卸载搜狗拼音输入法</title>
+        <pubTime>2015-11-27T14:58:34.000Z</pubTime>
+        
+        <tag>Ubuntu</tag>
+         
+         
+           
+             
+              <breadCrumb title="Operating System" url="http://www.codepub.cn/categories/Operating-System/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/09/23/2016-campus-recruitment-of-mushroom-street-programming-problem-resolution-technology/</loc>
+    <lastmod>2018-11-17T12:47:49.006Z</lastmod>
+    <data>
+        <display>
+        <title>蘑菇街2016校园招聘之编程题解析-技术类</title>
+        <pubTime>2015-09-23T14:56:30.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+         
+           
+             
+              <breadCrumb title="Algorithms" url="http://www.codepub.cn/categories/Algorithms/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/07/30/Lombok-development-guidelines/</loc>
+    <lastmod>2018-11-17T12:44:33.927Z</lastmod>
+    <data>
+        <display>
+        <title>Lombok开发指南</title>
+        <pubTime>2015-07-30T13:33:11.000Z</pubTime>
+        
+        <tag>Lombok</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/06/02/Faceted-Project-Problem-Java-Version-Mismatch-Error-Message/</loc>
+    <lastmod>2018-11-17T12:38:33.709Z</lastmod>
+    <data>
+        <display>
+        <title>Faceted Project Problem (Java Version Mismatch) Error Message</title>
+        <pubTime>2015-06-02T08:38:58.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+        <tag>Eclipse</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/05/07/Compile-the-Language-Technology-Platform(C++)-and-LTP4J(Java)source-code/</loc>
+    <lastmod>2018-11-17T12:34:18.861Z</lastmod>
+    <data>
+        <display>
+        <title>编译哈工大语言技术平台云LTP（C++）源码及LTP4J（Java）源码</title>
+        <pubTime>2015-05-07T14:13:15.000Z</pubTime>
+        
+        <tag>LTP</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2015/06/17/Basic-knowledge-summary-of-JSP-Servlet/</loc>
+    <lastmod>2018-06-12T23:07:42.446Z</lastmod>
+    <data>
+        <display>
+        <title>JSP/Servlet基础知识汇总</title>
+        <pubTime>2015-06-17T10:25:37.000Z</pubTime>
+        
+        <tag>JSP</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.codepub.cn/2016/08/09/Use-nuts-cloud-sync-IntelliJ-IDEA-configuration-files/</loc>
+    <lastmod>2018-06-12T23:06:59.109Z</lastmod>
+    <data>
+        <display>
+        <title>使用坚果云同步IntelliJ IDEA的配置文件</title>
+        <pubTime>2016-08-09T13:50:39.000Z</pubTime>
+        
+        <tag>IntelliJ</tag>
+         
+         
+           
+             
+              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.codepub.cn/2018/05/31/read-stanford-university-start-up-class/</loc>
-    <lastmod>2018-06-01T00:06:11.603Z</lastmod>
+    <lastmod>2018-06-01T00:10:16.040Z</lastmod>
     <data>
         <display>
         <title>读《斯坦福大学创业成长课》</title>
@@ -63,26 +570,6 @@
     </url>
 
     
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/06/17/Basic-knowledge-summary-of-JSP-Servlet/</loc>
-    <lastmod>2018-05-21T13:40:59.167Z</lastmod>
-    <data>
-        <display>
-        <title>JSP/Servlet基础知识汇总</title>
-        <pubTime>2015-06-17T10:25:37.000Z</pubTime>
-        
-        <tag>JSP</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
     
   <url>
     <loc>http://www.codepub.cn/2016/05/11/The-correct-way-to-use-java-jar-run-an-executable-jar-package-under-Linux/</loc>
@@ -185,46 +672,6 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2015/06/18/Basic-knowledge-summary-of-Struts2/</loc>
-    <lastmod>2017-11-20T14:19:15.237Z</lastmod>
-    <data>
-        <display>
-        <title>Struts2基础知识汇总</title>
-        <pubTime>2015-06-18T07:41:01.000Z</pubTime>
-        
-        <tag>Struts2</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/06/21/Basic-knowledge-summary-of-Spring/</loc>
-    <lastmod>2017-11-20T14:19:15.234Z</lastmod>
-    <data>
-        <display>
-        <title>Spring基础知识汇总</title>
-        <pubTime>2015-06-21T03:57:22.000Z</pubTime>
-        
-        <tag>Spring</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.codepub.cn/2015/05/12/Recommended-processing-method-of-text-with-bom-in-Java/</loc>
     <lastmod>2017-11-20T14:18:34.177Z</lastmod>
     <data>
@@ -298,26 +745,6 @@
            
              
               <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2016/03/21/Windows-build-Solr5-5-search-services/</loc>
-    <lastmod>2017-11-20T14:18:34.170Z</lastmod>
-    <data>
-        <display>
-        <title>Windows下搭建Solr5.5搜索服务</title>
-        <pubTime>2016-03-21T14:29:04.000Z</pubTime>
-        
-        <tag>Solr</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
           
         </display>
     </data>
@@ -465,50 +892,6 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2016/12/18/Log4j2-to-achieve-different-levels-of-different-threads-log-output-to-a-different-file/</loc>
-    <lastmod>2017-11-20T14:18:34.155Z</lastmod>
-    <data>
-        <display>
-        <title>Log4j2实现不同线程不同级别日志输出到不同的文件中</title>
-        <pubTime>2016-12-18T12:00:16.000Z</pubTime>
-        
-        <tag>Log4j2</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/04/06/Github-Pages-personal-blog-from-Octopress-to-Hexo/</loc>
-    <lastmod>2017-11-20T14:18:34.153Z</lastmod>
-    <data>
-        <display>
-        <title>Github Pages个人博客，从Octopress转向Hexo</title>
-        <pubTime>2015-04-06T08:03:13.000Z</pubTime>
-        
-        <tag>Hexo</tag>
-         
-        <tag>Github</tag>
-         
-        <tag>Octopress</tag>
-         
-         
-           
-             
-              <breadCrumb title="Git/GitHub" url="http://www.codepub.cn/categories/Git-GitHub/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.codepub.cn/2017/10/10/several-ways-to-get-the-field-values-that-are-not-stored-in-lucene/</loc>
     <lastmod>2017-11-20T14:18:34.150Z</lastmod>
     <data>
@@ -542,46 +925,6 @@
            
              
               <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2017/05/23/my-library-time-in-SHU/</loc>
-    <lastmod>2017-11-20T14:18:34.147Z</lastmod>
-    <data>
-        <display>
-        <title>我的图书馆时光</title>
-        <pubTime>2017-05-23T00:30:19.000Z</pubTime>
-        
-        <tag>Thinking</tag>
-         
-         
-           
-             
-              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/04/19/Introduction-to-Apache-Commons/</loc>
-    <lastmod>2017-11-20T14:18:34.145Z</lastmod>
-    <data>
-        <display>
-        <title>Apache Commons入门</title>
-        <pubTime>2015-04-19T12:29:21.000Z</pubTime>
-        
-        <tag>Java</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
           
         </display>
     </data>
@@ -811,26 +1154,6 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2015/10/24/2016-campus-recruitment-of-sougou-programming-problem-resolution-big-data-development/</loc>
-    <lastmod>2017-11-20T14:18:34.112Z</lastmod>
-    <data>
-        <display>
-        <title>搜狗2016校园招聘之编程题解析-大数据开发</title>
-        <pubTime>2015-10-24T15:26:47.000Z</pubTime>
-        
-        <tag>Java</tag>
-         
-         
-           
-             
-              <breadCrumb title="Algorithms" url="http://www.codepub.cn/categories/Algorithms/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.codepub.cn/2016/09/27/Lucene-6-0-directory-structure-and-functional-module/</loc>
     <lastmod>2017-11-20T14:18:34.111Z</lastmod>
     <data>
@@ -944,26 +1267,6 @@
            
              
               <breadCrumb title="Database" url="http://www.codepub.cn/categories/Database/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/05/07/Compile-the-Language-Technology-Platform(C++)-and-LTP4J(Java)source-code/</loc>
-    <lastmod>2017-11-20T14:18:34.102Z</lastmod>
-    <data>
-        <display>
-        <title>编译哈工大语言技术平台云LTP（C++）源码及LTP4J（Java）源码</title>
-        <pubTime>2015-05-07T14:13:15.000Z</pubTime>
-        
-        <tag>LTP</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
           
         </display>
     </data>
@@ -1131,26 +1434,6 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2015/09/23/2016-campus-recruitment-of-mushroom-street-programming-problem-resolution-technology/</loc>
-    <lastmod>2017-11-20T14:18:34.088Z</lastmod>
-    <data>
-        <display>
-        <title>蘑菇街2016校园招聘之编程题解析-技术类</title>
-        <pubTime>2015-09-23T14:56:30.000Z</pubTime>
-        
-        <tag>Java</tag>
-         
-         
-           
-             
-              <breadCrumb title="Algorithms" url="http://www.codepub.cn/categories/Algorithms/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.codepub.cn/2016/11/19/Windows-installs-the-redis-service/</loc>
     <lastmod>2017-11-20T14:18:34.087Z</lastmod>
     <data>
@@ -1159,28 +1442,6 @@
         <pubTime>2016-11-19T00:52:32.000Z</pubTime>
         
         <tag>Redis</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/06/02/Faceted-Project-Problem-Java-Version-Mismatch-Error-Message/</loc>
-    <lastmod>2017-11-20T14:18:34.083Z</lastmod>
-    <data>
-        <display>
-        <title>Faceted Project Problem (Java Version Mismatch) Error Message</title>
-        <pubTime>2015-06-02T08:38:58.000Z</pubTime>
-        
-        <tag>Java</tag>
-         
-        <tag>Eclipse</tag>
          
          
            
@@ -1333,26 +1594,6 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2015/11/27/Ubuntu14-10-install-and-uninstall-sogou-input-method/</loc>
-    <lastmod>2017-11-20T14:18:34.072Z</lastmod>
-    <data>
-        <display>
-        <title>Ubuntu 14.10安装和卸载搜狗拼音输入法</title>
-        <pubTime>2015-11-27T14:58:34.000Z</pubTime>
-        
-        <tag>Ubuntu</tag>
-         
-         
-           
-             
-              <breadCrumb title="Operating System" url="http://www.codepub.cn/categories/Operating-System/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.codepub.cn/2016/10/10/Read-outliers-the-story-of-success/</loc>
     <lastmod>2017-11-20T14:18:34.070Z</lastmod>
     <data>
@@ -1426,26 +1667,6 @@
            
              
               <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2017/10/13/lucene-implements-any-word-search-and-returns-location-information/</loc>
-    <lastmod>2017-11-20T14:18:34.064Z</lastmod>
-    <data>
-        <display>
-        <title>Lucene 实现任意词搜索命中并返回位置信息</title>
-        <pubTime>2017-10-13T14:29:56.000Z</pubTime>
-        
-        <tag>Lucene</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
           
         </display>
     </data>
@@ -1553,46 +1774,6 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2015/12/21/CCF-sixth-CSP-certification-exams-Solutions/</loc>
-    <lastmod>2017-11-20T14:18:34.056Z</lastmod>
-    <data>
-        <display>
-        <title>CCF第六次CSP认证考试题解</title>
-        <pubTime>2015-12-21T15:27:52.000Z</pubTime>
-        
-        <tag>CCF</tag>
-         
-         
-           
-             
-              <breadCrumb title="Algorithms" url="http://www.codepub.cn/categories/Algorithms/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2016/12/21/Read-tencent-biography/</loc>
-    <lastmod>2017-11-20T14:18:34.054Z</lastmod>
-    <data>
-        <display>
-        <title>读《腾讯传》</title>
-        <pubTime>2016-12-21T13:18:41.000Z</pubTime>
-        
-        <tag>Thinking</tag>
-         
-         
-           
-             
-              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.codepub.cn/2017/05/12/MySQL-pull-the-massive-data-out-of-memory-error/</loc>
     <lastmod>2017-11-20T14:18:34.053Z</lastmod>
     <data>
@@ -1653,26 +1834,6 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2015/07/30/Lombok-development-guidelines/</loc>
-    <lastmod>2017-11-20T14:18:34.049Z</lastmod>
-    <data>
-        <display>
-        <title>Lombok开发指南</title>
-        <pubTime>2015-07-30T13:33:11.000Z</pubTime>
-        
-        <tag>Lombok</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.codepub.cn/2016/11/23/Lucene-index-file-lock-principle/</loc>
     <lastmod>2017-11-20T14:18:34.047Z</lastmod>
     <data>
@@ -1700,9 +1861,9 @@
         <title>IntelliJ IDEA使用maven-javadoc-plugin生成Java Doc控制台乱码</title>
         <pubTime>2016-05-06T09:26:59.000Z</pubTime>
         
-        <tag>Maven</tag>
-         
         <tag>IntelliJ</tag>
+         
+        <tag>Maven</tag>
          
          
            
@@ -1915,26 +2076,6 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2017/03/08/Programming-to-the-log4j2-API-instead-of-slf4j/</loc>
-    <lastmod>2017-11-20T14:18:34.027Z</lastmod>
-    <data>
-        <display>
-        <title>面向log4j2 API编程而不是slf4j</title>
-        <pubTime>2017-03-08T14:18:55.000Z</pubTime>
-        
-        <tag>Log4j2</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.codepub.cn/2016/11/19/Read-scarcity-why-having-too-little-means-so-much/</loc>
     <lastmod>2017-11-20T14:18:34.025Z</lastmod>
     <data>
@@ -1948,46 +2089,6 @@
            
              
               <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/10/07/programmer-essential-toolbox/</loc>
-    <lastmod>2017-11-20T14:18:34.023Z</lastmod>
-    <data>
-        <display>
-        <title>程序员必备工具箱</title>
-        <pubTime>2015-10-07T06:40:32.000Z</pubTime>
-        
-        <tag>Tools</tag>
-         
-         
-           
-             
-              <breadCrumb title="Skill" url="http://www.codepub.cn/categories/Skill/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/12/09/IntelliJ-IDEA-in-Maven-plugin-could-not-update-the-index-of-the-solution/</loc>
-    <lastmod>2017-11-20T14:18:34.021Z</lastmod>
-    <data>
-        <display>
-        <title>IntelliJ IDEA中Maven插件无法更新索引之解决办法</title>
-        <pubTime>2015-12-09T14:21:33.000Z</pubTime>
-        
-        <tag>IntelliJ</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
           
         </display>
     </data>
@@ -2048,26 +2149,6 @@
            
              
               <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/09/29/2016-campus-recruitment-of-baidu-programming-problem-resolution-software-development/</loc>
-    <lastmod>2017-11-20T14:18:34.013Z</lastmod>
-    <data>
-        <display>
-        <title>百度2016校园招聘之编程题解析-软件研发</title>
-        <pubTime>2015-09-29T11:20:41.000Z</pubTime>
-        
-        <tag>Java</tag>
-         
-         
-           
-             
-              <breadCrumb title="Algorithms" url="http://www.codepub.cn/categories/Algorithms/"/>
           
         </display>
     </data>
@@ -2215,26 +2296,6 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2015/09/26/An-Automatic-Annotation-Method-for-Emergency-Text-Corpus/</loc>
-    <lastmod>2017-11-20T14:18:33.996Z</lastmod>
-    <data>
-        <display>
-        <title>一种面向突发事件的文本语料自动标注方法</title>
-        <pubTime>2015-09-26T13:34:28.000Z</pubTime>
-        
-        <tag>Java</tag>
-         
-         
-           
-             
-              <breadCrumb title="Algorithms" url="http://www.codepub.cn/categories/Algorithms/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.codepub.cn/2016/11/04/Read-the-great-stagnation/</loc>
     <lastmod>2017-11-20T14:18:33.994Z</lastmod>
     <data>
@@ -2315,66 +2376,6 @@
 
     
   <url>
-    <loc>http://www.codepub.cn/2016/12/24/Read-the-willpower-instinct/</loc>
-    <lastmod>2017-11-20T14:18:33.986Z</lastmod>
-    <data>
-        <display>
-        <title>读《自控力》</title>
-        <pubTime>2016-12-24T08:08:10.000Z</pubTime>
-        
-        <tag>Thinking</tag>
-         
-         
-           
-             
-              <breadCrumb title="Life-Talk" url="http://www.codepub.cn/categories/Life-Talk/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/08/04/Based-on-the-extended-version-of-synonyms-Cilin-word-similarity-computing/</loc>
-    <lastmod>2017-11-20T14:18:33.982Z</lastmod>
-    <data>
-        <display>
-        <title>基于同义词词林扩展版的词语相似度计算</title>
-        <pubTime>2015-08-04T14:06:36.000Z</pubTime>
-        
-        <tag>Java</tag>
-         
-         
-           
-             
-              <breadCrumb title="Algorithms" url="http://www.codepub.cn/categories/Algorithms/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.codepub.cn/2015/08/29/Selenium-simulated-user-login-alipay-account-query-transaction-details/</loc>
-    <lastmod>2017-11-20T14:18:33.979Z</lastmod>
-    <data>
-        <display>
-        <title>使用Selenium模拟用户登录支付宝账户查询交易详情</title>
-        <pubTime>2015-08-29T13:39:00.000Z</pubTime>
-        
-        <tag>Selenium</tag>
-         
-         
-           
-             
-              <breadCrumb title="Programming Notes" url="http://www.codepub.cn/categories/Programming-Notes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.codepub.cn/2016/06/24/Lucene-6-0-in-action-the-index-of-hot-backup-and-recovery/</loc>
     <lastmod>2017-11-20T14:18:33.972Z</lastmod>
     <data>
@@ -2393,7 +2394,6 @@
     </data>
     </url>
 
-    
     
     
     
