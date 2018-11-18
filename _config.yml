@@ -5,11 +5,11 @@
 # Site
 title: IT草根
 subtitle: WangXu's 代码馆 BLOG
-keywords: IT草根, 代码馆, http://codepub.cn/
+keywords: IT草根, 代码馆, http://codepub.cn/, http://www.codepub.cn/
 description: 志不强者智不达，言不信者行不果
 author: Wang Xu
 email: wangx89@126.com
-language: zh-Hans
+language: zh-CN
 timezone:
 
 # URL
@@ -43,6 +43,7 @@ future: true
 highlight:
   enable: true
   line_number: true
+  auto_detect: false
   tab_replace:
 
 # Category & Tag
@@ -111,8 +112,12 @@ filter_optimize:
   # remove static resource query string
   #   - like `?v=1.0.0`
   remove_query_string: true
+  # remove the surrounding comments in each of the bundled files
+  remove_comments: false
   css:
     enable: true
+    # bundle loaded css file into the one
+    bundle: true
     # use a script block to load css elements dynamically
     delivery: true
     # make specific css content inline into the html page
@@ -124,3 +129,6 @@ filter_optimize:
     # bundle loaded js file into the one
     bundle: true
     excludes:
+  # set the priority of this plugin,
+  # lower means it will be executed first, default is 10
+  priority: 12
