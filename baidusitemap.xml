@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://www.codepub.cn/2018/12/02/read-chinese-chives-self-improvement/</loc>
+    <lastmod>2018-12-02T15:18:45.937Z</lastmod>
+  </url>  <url>
     <loc>http://www.codepub.cn/2015/06/17/Basic-knowledge-summary-of-JSP-Servlet/</loc>
-    <lastmod>2018-11-17T14:00:53.306Z</lastmod>
+    <lastmod>2018-11-18T14:00:31.056Z</lastmod>
   </url>  <url>
     <loc>http://www.codepub.cn/2015/06/19/Basic-knowledge-summary-of-Hibernate/</loc>
-    <lastmod>2018-11-17T14:00:53.266Z</lastmod>
+    <lastmod>2018-11-18T14:00:31.039Z</lastmod>
   </url>  <url>
     <loc>http://www.codepub.cn/2015/10/07/programmer-essential-toolbox/</loc>
     <lastmod>2018-11-17T13:59:13.757Z</lastmod>
