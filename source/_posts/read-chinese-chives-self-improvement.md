@@ -1,3 +1,11 @@
+---
+title: 读《韭菜的自我修养》
+date: 2018-12-02 23:40:41
+tags: [Thinking]
+categories: Life-Talk
+
+---
+
 <blockquote  class="blockquote-center">
 **思考带来决策，决策带来行动，行动改变命运。
 ——李笑来**
