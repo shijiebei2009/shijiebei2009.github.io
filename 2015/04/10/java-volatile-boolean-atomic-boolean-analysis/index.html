@@ -106,16 +106,17 @@
 
 
 
-  <meta name="description" content="志不强者智不达，言不信者行不果">
-<meta name="keywords" content="IT草根, 代码馆, http://codepub.cn/, http://www.codepub.cn/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="IT草根">
-<meta property="og:url" content="http://www.codepub.cn/tags/Ubuntu/index.html">
+  <meta name="description" content="volatile概述volatile关键字是一个类型修饰符，被设计用来修饰被不同线程访问和修改的变量，在JVM1.2之前，Java的内存模型实现总是从主存读取变量，是不需要进行特别的注意的。而随着JVM的成熟和优化，现在在多线程环境下volatile关键字的使用变得非常重要。 在当前的Java内存模型下，线程可以把变量保存在本地内存（比如机器的寄存器）中，而不是直接在主存中进行读写。这就可能造成一">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java之volatile boolean，AtomicBoolean分析">
+<meta property="og:url" content="http://www.codepub.cn/2015/04/10/java-volatile-boolean-atomic-boolean-analysis/index.html">
 <meta property="og:site_name" content="IT草根">
-<meta property="og:description" content="志不强者智不达，言不信者行不果">
+<meta property="og:description" content="volatile概述volatile关键字是一个类型修饰符，被设计用来修饰被不同线程访问和修改的变量，在JVM1.2之前，Java的内存模型实现总是从主存读取变量，是不需要进行特别的注意的。而随着JVM的成熟和优化，现在在多线程环境下volatile关键字的使用变得非常重要。 在当前的Java内存模型下，线程可以把变量保存在本地内存（比如机器的寄存器）中，而不是直接在主存中进行读写。这就可能造成一">
+<meta property="og:updated_time" content="2018-12-06T15:41:48.287Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="IT草根">
-<meta name="twitter:description" content="志不强者智不达，言不信者行不果">
+<meta name="twitter:title" content="Java之volatile boolean，AtomicBoolean分析">
+<meta name="twitter:description" content="volatile概述volatile关键字是一个类型修饰符，被设计用来修饰被不同线程访问和修改的变量，在JVM1.2之前，Java的内存模型实现总是从主存读取变量，是不需要进行特别的注意的。而随着JVM的成熟和优化，现在在多线程环境下volatile关键字的使用变得非常重要。 在当前的Java内存模型下，线程可以把变量保存在本地内存（比如机器的寄存器）中，而不是直接在主存中进行读写。这就可能造成一">
 
 
 
@@ -124,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://www.codepub.cn/tags/Ubuntu/">
+  <link rel="canonical" href="http://www.codepub.cn/2015/04/10/java-volatile-boolean-atomic-boolean-analysis/">
 
 
 
 
 
-  <title>标签: Ubuntu | IT草根</title>
+  <title>Java之volatile boolean，AtomicBoolean分析 | IT草根</title>
   
 
 
@@ -182,7 +183,7 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -247,7 +248,7 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
         
         
           
-          <li class="menu-item menu-item-tags menu-item-active">
+          <li class="menu-item menu-item-tags">
     <a href="/tags" rel="section">
       <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
   </li>
@@ -291,34 +292,6 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 
   
     
-
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
 
   
 
@@ -365,56 +338,302 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Ubuntu<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
+
+  
+    <div class="reading-progress-bar"></div>
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.codepub.cn/2015/04/10/java-volatile-boolean-atomic-boolean-analysis/">
 
-      <h2 class="post-title">
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Xu">
+      <meta itemprop="description" content="志不强者智不达，言不信者行不果">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IT草根">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2015/11/27/Ubuntu14-10-install-and-uninstall-sogou-input-method/" itemprop="url">
-              
-                <span itemprop="name">Ubuntu 14.10安装和卸载搜狗拼音输入法</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Java之volatile boolean，AtomicBoolean分析
+              
+            
+          </h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2015-11-27T22:58:34+08:00" content="2015-11-27">
-          11-27
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
 
-    </header>
-  </article>
+            
+            
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-04-10 17:42:13" itemprop="dateCreated datePublished" datetime="2015-04-10T17:42:13+08:00">2015-04-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-06 23:41:48" itemprop="dateModified" datetime="2018-12-06T23:41:48+08:00">2018-12-06</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Programming-Notes/" itemprop="url" rel="index"><span itemprop="name">Programming Notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/04/10/java-volatile-boolean-atomic-boolean-analysis/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/04/10/java-volatile-boolean-atomic-boolean-analysis/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">3k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 ≈</span>
+                
+                <span title="阅读时长">0:03</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="volatile概述"><a href="#volatile概述" class="headerlink" title="volatile概述"></a>volatile概述</h3><p>volatile关键字是一个类型修饰符，被设计用来修饰被不同线程访问和修改的变量，在JVM1.2之前，Java的内存模型实现总是从主存读取变量，是不需要进行特别的注意的。而随着JVM的成熟和优化，现在在多线程环境下volatile关键字的使用变得非常重要。</p>
+<p>在当前的Java内存模型下，线程可以把变量保存在本地内存（比如机器的寄存器）中，而不是直接在主存中进行读写。这就可能造成一个线程在主存中修改了一个变量的值，而另外一个线程还继续使用它在寄存器中的变量值的拷贝，造成数据的不一致。</p>
+<p>要解决这个问题，需要把变量声明为volatile（不稳定的），以后用到该变量都会到主存中进行存取，一般多任务环境下各任务间共享的标志都应该加volatile修饰。volatile修饰的成员变量在每次被线程访问时，都强迫从共享内存中重读该成员变量的值，而且当成员变量发生变化时，强迫线程将变化值回写到共享内存。</p>
+<p>Java语言中的volatile变量可以被看作是一种“程度较轻的synchronized”；与synchronized块相比，volatile变量所需的编码较少，并且运行时开销也较少，但是它所能实现的功能也仅是synchronized的一部分。Volatile变量具有synchronized的可见性特性，但是不具备原子特性。volatile仅仅用来保证该变量对所有线程的可见性，但不保证原子性。</p>
+<h3 id="volatile是线程不安全的"><a href="#volatile是线程不安全的" class="headerlink" title="volatile是线程不安全的"></a>volatile是线程不安全的</h3><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">20</span>; j++) {</div><div class="line">            Thread t = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Test());</div><div class="line">            t.start();</div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{</div><div class="line">        <span class="keyword">if</span> (flag) {</div><div class="line">            System.out.println(<span class="string">"我成功了！"</span>);</div><div class="line">            flag = <span class="keyword">false</span>;</div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></tbody></table></figure>
+<p>输出结果</p>
+<blockquote>
+<p>我成功了！<br>我成功了！<br>我成功了！<br>我成功了！</p>
+</blockquote>
+<p>注意：不要将volatile用在getAndOperate场合，仅仅set或者get的场景是适合volatile的。</p>
+<p>由以上测试用例可以看出，volatile boolean是无法保证线程安全的，在一个线程占用flag变量的时候，<br>其他线程也可以占用flag变量，所以多个线程均可以打印出消息。</p>
+<h3 id="Atomic概述"><a href="#Atomic概述" class="headerlink" title="Atomic概述"></a>Atomic概述</h3><p>java.util.concurrent.atomic是在JDK1.5之后引入的包，在JDK中的说明如下</p>
+<blockquote>
+<p>A small toolkit of classes that support lock-free thread-safe programming on single variables. In essence, the classes in this package extend the notion of volatile values, fields, and array elements to those that also provide an atomic conditional update operation of the form:</p>
+</blockquote>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">compareAndSet</span><span class="params">(expectedValue, updateValue)</span></span>;</div></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>This method (which varies in argument types across different classes) atomically sets a variable to the updateValue if it currently holds the expectedValue, reporting true on success. The classes in this package also contain methods to get and unconditionally set values, as well as a weaker conditional atomic update operation weakCompareAndSet described below.</p>
+</blockquote>
+<p>该包提供了一组原子类，在多线程环境下，当有多个线程同时执行这些类的实例包含的方法时，具有排他性，即当某个线程进入方法，执行其中的指令时，不会被其他线程打断，而别的线程就像自旋锁一样，一直等到该方法执行完成，才由JVM从等待队列中选择另一个线程进入。</p>
+<h3 id="Atomic是线程安全的"><a href="#Atomic是线程安全的" class="headerlink" title="Atomic是线程安全的"></a>Atomic是线程安全的</h3><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicBoolean;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">volatile</span> AtomicBoolean flag = <span class="keyword">new</span> AtomicBoolean(<span class="keyword">true</span>);</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">20</span>; j++) {</div><div class="line">            Thread t = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Test());</div><div class="line">            t.start();</div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{</div><div class="line">        <span class="keyword">if</span> (flag.compareAndSet(<span class="keyword">true</span>, <span class="keyword">false</span>)) {</div><div class="line">            System.out.println(<span class="string">"我成功了！"</span>);</div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></tbody></table></figure>
+<p>输出结果</p>
+<blockquote>
+<p>我成功了！</p>
+</blockquote>
+<p>Atomic类不仅仅提供了对数据操作的线程安全保证，而且提供了一系列的语义清晰的方法，如incrementAndGet() 、getAndIncrement() 等，使用方便，Atomic的内部实现使用的是更加高效的CAS（compareand swap）+volatile，从而避免了synchronized的高开销，执行效率大幅提升，出于性能考虑强烈建议使用Atomic，而不是synchronized关键字。</p>
+<hr>
+<p><strong>参考文献</strong><br>[1] <a href="http://www.blogjava.net/aoxj/archive/2012/06/16/380926.html" target="_blank" rel="external">http://www.blogjava.net/aoxj/archive/2012/06/16/380926.html</a><br>[2] <a href="http://blog.csdn.net/xieyuooo/article/details/8594713" target="_blank" rel="external">http://blog.csdn.net/xieyuooo/article/details/8594713</a></p>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Wang Xu</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.codepub.cn/2015/04/10/java-volatile-boolean-atomic-boolean-analysis/" title="Java之volatile boolean，AtomicBoolean分析">http://www.codepub.cn/2015/04/10/java-volatile-boolean-atomic-boolean-analysis/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="external nofollow" target="_blank">CC BY-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/04/06/Github-Pages-personal-blog-from-Octopress-to-Hexo/" rel="next" title="Github Pages个人博客，从Octopress转向Hexo">
+                <i class="fa fa-chevron-left"></i> Github Pages个人博客，从Octopress转向Hexo
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/04/19/Introduction-to-Apache-Commons/" rel="prev" title="Apache Commons入门">
+                Apache Commons入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -435,8 +654,17 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -636,6 +864,22 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#volatile概述"><span class="nav-number">1.</span> <span class="nav-text">volatile概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#volatile是线程不安全的"><span class="nav-number">2.</span> <span class="nav-text">volatile是线程不安全的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Atomic概述"><span class="nav-number">3.</span> <span class="nav-text">Atomic概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Atomic是线程安全的"><span class="nav-number">4.</span> <span class="nav-text">Atomic是线程安全的</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -831,6 +1075,10 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
   
 
   
+  
+
+
+
 
   
 
@@ -845,6 +1093,8 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
     <script id="dsq-count-scr" src="https://codepubcn.disqus.com/count.js" async=""></script>
   
 
+  
+    
   
 
 
@@ -981,6 +1231,22 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
     window.Promise = null;
   }
 ;
+
+      var disqus_config = function () {
+        this.page.url = 'http://www.codepub.cn/2015/04/10/java-volatile-boolean-atomic-boolean-analysis/';
+        this.page.identifier = '2015/04/10/java-volatile-boolean-atomic-boolean-analysis/';
+        this.page.title = 'Java之volatile boolean，AtomicBoolean分析';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codepubcn.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    ;
 
     // Popup Window;
     var isfetched = false;
@@ -1316,7 +1582,7 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 ;
 
   
-    bookmark.loadBookmark();
+    bookmark.scrollToMark('auto', "#更多");
   
   ;
 

@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://www.codepub.cn/2018/12/02/read-chinese-chives-self-improvement/</loc>
-    <lastmod>2018-12-03T01:01:47.703Z</lastmod>
+    <loc>http://www.codepub.cn/2015/04/10/java-volatile-boolean-atomic-boolean-analysis/</loc>
+    <lastmod>2018-12-06T15:41:48.287Z</lastmod>
   </url>  <url>
     <loc>http://www.codepub.cn/2015/06/17/Basic-knowledge-summary-of-JSP-Servlet/</loc>
-    <lastmod>2018-11-18T14:00:31.056Z</lastmod>
+    <lastmod>2018-12-03T01:17:12.017Z</lastmod>
   </url>  <url>
     <loc>http://www.codepub.cn/2015/06/19/Basic-knowledge-summary-of-Hibernate/</loc>
-    <lastmod>2018-11-18T14:00:31.039Z</lastmod>
+    <lastmod>2018-12-03T01:17:11.995Z</lastmod>
+  </url>  <url>
+    <loc>http://www.codepub.cn/2018/12/02/read-chinese-chives-self-improvement/</loc>
+    <lastmod>2018-12-03T01:16:52.529Z</lastmod>
   </url>  <url>
     <loc>http://www.codepub.cn/2015/10/07/programmer-essential-toolbox/</loc>
     <lastmod>2018-11-17T13:59:13.757Z</lastmod>
@@ -171,9 +174,6 @@
   </url>  <url>
     <loc>http://www.codepub.cn/2017/04/16/Reservoir-forum-elite-realtor-ouchengxiao/</loc>
     <lastmod>2017-11-20T14:18:34.115Z</lastmod>
-  </url>  <url>
-    <loc>http://www.codepub.cn/2015/04/10/Java's-volatile-boolean-AutomaticBoolean-analysis/</loc>
-    <lastmod>2017-11-20T14:18:34.113Z</lastmod>
   </url>  <url>
     <loc>http://www.codepub.cn/2016/09/27/Lucene-6-0-directory-structure-and-functional-module/</loc>
     <lastmod>2017-11-20T14:18:34.111Z</lastmod>
